@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0B18C8C1AA3043F1BCB65B3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47598134FC4338B1A545FC /* libPods.a */; };
+		15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812C190D510F00C15419 /* MessageEntryBackground.png */; };
+		15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */; };
+		15278136190D511000C15419 /* MessageEntryInputField.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812E190D510F00C15419 /* MessageEntryInputField.png */; };
+		15278137190D511000C15419 /* MessageEntryInputField@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812F190D510F00C15419 /* MessageEntryInputField@2x.png */; };
+		15278138190D511000C15419 /* MessageEntrySendButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278130190D510F00C15419 /* MessageEntrySendButton.png */; };
+		15278139190D511000C15419 /* MessageEntrySendButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278131190D510F00C15419 /* MessageEntrySendButton@2x.png */; };
+		1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278132190D510F00C15419 /* MessageEntrySendButtonPressed.png */; };
+		1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
 		1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF89190B9C5400E6B543 /* CoreGraphics.framework */; };
 		1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF8B190B9C5400E6B543 /* UIKit.framework */; };
@@ -78,6 +86,14 @@
 
 /* Begin PBXFileReference section */
 		039441761BD14D36B95936E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1527812C190D510F00C15419 /* MessageEntryBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryBackground.png; sourceTree = "<group>"; };
+		1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntryBackground@2x.png"; sourceTree = "<group>"; };
+		1527812E190D510F00C15419 /* MessageEntryInputField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryInputField.png; sourceTree = "<group>"; };
+		1527812F190D510F00C15419 /* MessageEntryInputField@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntryInputField@2x.png"; sourceTree = "<group>"; };
+		15278130190D510F00C15419 /* MessageEntrySendButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntrySendButton.png; sourceTree = "<group>"; };
+		15278131190D510F00C15419 /* MessageEntrySendButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntrySendButton@2x.png"; sourceTree = "<group>"; };
+		15278132190D510F00C15419 /* MessageEntrySendButtonPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntrySendButtonPressed.png; sourceTree = "<group>"; };
+		15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntrySendButtonPressed@2x.png"; sourceTree = "<group>"; };
 		1558CF84190B9C5400E6B543 /* JiaMian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JiaMian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558CF87190B9C5400E6B543 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1558CF89190B9C5400E6B543 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -403,6 +419,14 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1527812C190D510F00C15419 /* MessageEntryBackground.png */,
+				1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */,
+				1527812E190D510F00C15419 /* MessageEntryInputField.png */,
+				1527812F190D510F00C15419 /* MessageEntryInputField@2x.png */,
+				15278130190D510F00C15419 /* MessageEntrySendButton.png */,
+				15278131190D510F00C15419 /* MessageEntrySendButton@2x.png */,
+				15278132190D510F00C15419 /* MessageEntrySendButtonPressed.png */,
+				15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */,
 				155AC492190C836400A8F252 /* ico-to-do-list.png */,
 				155AC493190C836400A8F252 /* ico-to-do-list@2x.png */,
 			);
@@ -487,8 +511,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
+				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
+				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				1558D021190BF34300E6B543 /* whiteArrow.png in Resources */,
 				155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */,
 				1558D01C190BF34300E6B543 /* blackArrow@2x.png in Resources */,
@@ -497,9 +524,14 @@
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
 				1558D020190BF34300E6B543 /* grayArrow@2x.png in Resources */,
 				1558D01D190BF34300E6B543 /* blueArrow.png in Resources */,
+				15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */,
+				15278139190D511000C15419 /* MessageEntrySendButton@2x.png in Resources */,
+				15278137190D511000C15419 /* MessageEntryInputField@2x.png in Resources */,
 				1558CF92190B9C5400E6B543 /* InfoPlist.strings in Resources */,
 				155AC494190C836400A8F252 /* ico-to-do-list.png in Resources */,
+				15278138190D511000C15419 /* MessageEntrySendButton.png in Resources */,
 				1558CF9B190B9C5400E6B543 /* Main.storyboard in Resources */,
+				1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */,
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
 				1558CFCD190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1558CFC7190BA94100E6B543 /* WeiboSDK.bundle in Resources */,

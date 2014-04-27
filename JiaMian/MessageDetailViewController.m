@@ -8,12 +8,12 @@
 
 #import "MessageDetailViewController.h"
 #import "TableHeaderView.h"
-@interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
+@interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, HPGrowingTextViewDelegate>
 {
     CGFloat headerViewHeight;
     NSMutableArray* commentArr;
     
-    UITextField* textField;
+    HPGrowingTextView *textView;
     UIButton*    sendButton;  //发送按钮
 }
 
@@ -128,56 +128,133 @@
 
 - (void)configureToolBar
 {
-    textField = [[UITextField alloc] initWithFrame:CGRectMake(5, 7, 275, 30)];
-    textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    textField.borderStyle = UITextBorderStyleRoundedRect;
-    textField.delegate = self;
-    textField.font = [UIFont systemFontOfSize:13.0f];
-    textField.backgroundColor = [UIColor whiteColor];
-    textField.returnKeyType = UIReturnKeySend;
-    [self.toolBar addSubview:textField];
+    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
+    textView.isScrollable = NO;
+    textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     
-    sendButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [sendButton setFrame:CGRectMake(280, 7, 40, 30)];
-    [sendButton setTitle:@"发送" forState:UIControlStateNormal];
-    [sendButton addTarget:self action:@selector(sendCommentMessage:) forControlEvents:UIControlEventTouchUpInside];
-    [self.toolBar addSubview:sendButton];
+	textView.minNumberOfLines = 1;
+	textView.maxNumberOfLines = 6;
+    // you can also set the maximum height in points with maxHeight
+    // textView.maxHeight = 200.0f;
+	textView.returnKeyType = UIReturnKeyGo; //just as an example
+	textView.font = [UIFont systemFontOfSize:15.0f];
+	textView.delegate = self;
+    textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
+    textView.backgroundColor = [UIColor whiteColor];
+    textView.placeholder = @"Type to see the textView grow!";
+    
+    UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
+    UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
+    UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
+    entryImageView.frame = CGRectMake(5, 0, 248, 40);
+    entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    UIImage *rawBackground = [UIImage imageNamed:@"MessageEntryBackground.png"];
+    UIImage *background = [rawBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:background];
+    imageView.frame = CGRectMake(0, 0, self.toolBar.frame.size.width, self.toolBar.frame.size.height);
+    imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    // view hierachy
+    [self.toolBar addSubview:imageView];
+    [self.toolBar addSubview:textView];
+    [self.toolBar addSubview:entryImageView];
+    
+    UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
+    UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
+    
+	UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 8, 63, 27);
+    sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+	[sendBtn setTitle:@"Send" forState:UIControlStateNormal];
+    
+    [sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
+    sendBtn.titleLabel.shadowOffset = CGSizeMake (0.0, -1.0);
+    sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    
+    [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [sendBtn setBackgroundImage:sendBtnBackground forState:UIControlStateNormal];
+    [sendBtn setBackgroundImage:selectedSendBtnBackground forState:UIControlStateSelected];
+	[self.toolBar addSubview:sendBtn];
+    self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillShow:)
+                                             selector:@selector(keyboardWillShow:)
                                                  name:UIKeyboardWillShowNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(inputKeyboardWillHide:)
+                                             selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
 }
 #pragma mark 监听键盘的显示与隐藏
-- (void)inputKeyboardWillShow:(NSNotification *)notification
+//Code from Brett Schumann
+- (void)keyboardWillShow:(NSNotification *)note
 {
-    NSLog(@"call: %s", __FUNCTION__);
-    CGRect keyBoardFrame = [[notification.userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    // get keyboard size and loctaion
+	CGRect keyboardBounds;
+    [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
-    //键盘显示，设置toolbar的frame跟随键盘的frame
-    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    [UIView animateWithDuration:animationTime animations:^{
-        [self.toolBar setFrame:CGRectMake(0, keyBoardFrame.origin.y - 44 - 40 - 20, 320, 44)];
-    }];
+    // Need to translate the bounds to account for rotation.
+    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
+    
+	// get a rect for the textView frame
+	CGRect containerFrame = self.toolBar.frame;
+    containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + containerFrame.size.height);
+	// animations settings
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+	
+	// set views with new info
+	self.toolBar.frame = containerFrame;
+    
+	// commit animations
+	[UIView commitAnimations];
 }
 
-- (void)inputKeyboardWillHide:(NSNotification *)notification
+- (void)keyboardWillHide:(NSNotification *)note
+{
+    NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+	
+	// get a rect for the textView frame
+	CGRect containerFrame = self.toolBar.frame;
+    containerFrame.origin.y = self.view.bounds.size.height - containerFrame.size.height;
+	
+	// animations settings
+	[UIView beginAnimations:nil context:NULL];
+	[UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:[duration doubleValue]];
+    [UIView setAnimationCurve:[curve intValue]];
+    
+	// set views with new info
+	self.toolBar.frame = containerFrame;
+	
+	// commit animations
+	[UIView commitAnimations];
+}
+
+- (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
+{
+    float diff = (growingTextView.frame.size.height - height);
+    
+	CGRect r = self.toolBar.frame;
+    r.size.height -= diff;
+    r.origin.y += diff;
+	self.toolBar.frame = r;
+}
+- (void)sendBtnPressed:(id)sender
 {
     NSLog(@"call: %s", __FUNCTION__);
-    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    [UIView animateWithDuration:animationTime animations:^{
-        [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44 - 40 - 20, SCREEN_WIDTH, TOOLBAR_HEIGHT)];
-    }];
-}
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    NSLog(@"call: %@", NSStringFromSelector(_cmd));
-    return TRUE;
+	[textView resignFirstResponder];
 }
 - (void)sendCommentMessage:(id)sender
 {

@@ -23,4 +23,5 @@
     #import "ASIFormDataRequest.h"
     #import "SAMTextView.h"
     #import "NSString+Extenions.h"
+    #import "HPGrowingTextView.h"
 #endif

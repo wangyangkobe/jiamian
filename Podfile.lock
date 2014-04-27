@@ -1,15 +1,18 @@
 PODS:
   - BBBadgeBarButtonItem (1.0)
+  - HPGrowingTextView (1.1)
   - JSONModel (0.13.0)
   - SAMTextView (0.2.1)
 
 DEPENDENCIES:
   - BBBadgeBarButtonItem
+  - HPGrowingTextView
   - JSONModel
   - SAMTextView
 
 SPEC CHECKSUMS:
   BBBadgeBarButtonItem: 3a48a650fc1abf16f1a008a26b696353c0ac5aa2
+  HPGrowingTextView: 4318f557b33c19def1c53ec275d6e2a2d6589cd0
   JSONModel: 1ce27c7d59de0ada0048e64f20006ce02e9ce73d
   SAMTextView: f0dae9662a7cc45e890eb2b24aa1769148ea2933
 

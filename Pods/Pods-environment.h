@@ -12,6 +12,12 @@
 #define COCOAPODS_VERSION_MINOR_BBBadgeBarButtonItem 0
 #define COCOAPODS_VERSION_PATCH_BBBadgeBarButtonItem 0
 
+// HPGrowingTextView
+#define COCOAPODS_POD_AVAILABLE_HPGrowingTextView
+#define COCOAPODS_VERSION_MAJOR_HPGrowingTextView 1
+#define COCOAPODS_VERSION_MINOR_HPGrowingTextView 1
+#define COCOAPODS_VERSION_PATCH_HPGrowingTextView 0
+
 // JSONModel
 #define COCOAPODS_POD_AVAILABLE_JSONModel
 #define COCOAPODS_VERSION_MAJOR_JSONModel 0
