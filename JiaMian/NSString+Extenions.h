@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (Extenions)
-
++ (CGFloat)textHeight:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size;
 @end

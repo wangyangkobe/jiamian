@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TableHeaderView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *textLabel;
+@property (weak, nonatomic) IBOutlet UILabel *commentNumLabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *areaLabel;
 @end

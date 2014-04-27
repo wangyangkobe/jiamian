@@ -10,4 +10,6 @@
 
 @interface PublishMsgViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet SAMTextView *textView;
+
 @end

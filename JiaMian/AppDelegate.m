@@ -7,15 +7,55 @@
 //
 
 #import "AppDelegate.h"
+#import "LogInViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+//    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+//    LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+//    [self.window setRootViewController:logInVC];
+    
+    [WeiboSDK enableDebugMode:YES];
+    [WeiboSDK registerApp:kSinaAppKey];
+    
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    NSLog(@"url = %@, sourceApplication = %@", url, sourceApplication);
+    
+    if ([sourceApplication isEqualToString:@"com.sina.weibo"])
+        return [WeiboSDK handleOpenURL:url delegate:self];
+    else  //com.tencent.mqq
+        return [TencentOAuth HandleOpenURL:url];
+}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    if ( [TencentOAuth CanHandleOpenURL:url] )
+        return [TencentOAuth HandleOpenURL:url];
+    else
+        return YES;
+}
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
+{
+}
+
+- (void)didReceiveWeiboResponse:(WBBaseResponse *)response
+{
+    
+    if ([response isKindOfClass:WBAuthorizeResponse.class])
+    {
+        NSString* wbToken = [(WBAuthorizeResponse *)response accessToken];
+        NSString* userID = [(WBAuthorizeResponse*)response userID];
+        NSLog(@"wbToken = %@, userID = %@", wbToken, userID);
+    }
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -24,7 +64,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

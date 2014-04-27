@@ -7,7 +7,14 @@
 //
 
 #import "NSString+Extenions.h"
+#import "CommonMarco.h"
 
 @implementation NSString (Extenions)
 
++ (CGFloat)textHeight:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size
+{
+    CGSize textSize = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    return textSize.height;
+    
+}
 @end

@@ -13,4 +13,14 @@
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
+
+    #import "WeiboSDK.h"
+    #import "CommonMarco.h"
+    #import <TencentOpenAPI/TencentOAuth.h>
+    #import "PullTableView.h"
+    #import "KxMenu.h"
+    #import "ASIHTTPRequest.h"
+    #import "ASIFormDataRequest.h"
+    #import "SAMTextView.h"
+    #import "NSString+Extenions.h"
 #endif

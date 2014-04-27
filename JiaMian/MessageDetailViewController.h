@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MessageDetailViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
+@property (copy, nonatomic) NSString* msgText;
 @end
