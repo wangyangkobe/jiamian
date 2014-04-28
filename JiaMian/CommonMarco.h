@@ -9,16 +9,17 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
+#define HOME_PAGE @""
 //Sina WeiBo
-#define kSinaAppKey         @"4192641502"
+#define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"
 
 //Tencen QQ
-#define kTencentQQAppKey        @"101073013"
+#define kTencentQQAppKey        @"101072460"
 #define kTencentQQRedirectURI   @"www.qq.com"
 
 //友盟
-#define kUMengAppKey    @"535e1ba156240b17720f2060"
+#define kUMengAppKey    @"535e5f0256240baa89078c7f"
 
 
 #define IOS_NEWER_OR_EQUAL_TO_7 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 7.0 )

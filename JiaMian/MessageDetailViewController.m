@@ -51,6 +51,12 @@
 - (void)shareMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:kUMengAppKey
+                                      shareText:@"你要分享的文字"
+                                     shareImage:nil
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToQzone,nil]
+                                       delegate:nil];
 }
 - (void)didReceiveMemoryWarning
 {

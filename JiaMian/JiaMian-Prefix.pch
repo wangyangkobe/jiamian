@@ -24,4 +24,6 @@
     #import "SAMTextView.h"
     #import "NSString+Extenions.h"
     #import "HPGrowingTextView.h"
+    #import "NetWorkConnect.h"
+    #import "UMSocial.h"
 #endif

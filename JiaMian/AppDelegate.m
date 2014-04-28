@@ -14,12 +14,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-//    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-//    LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-//    [self.window setRootViewController:logInVC];
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+    [self.window setRootViewController:logInVC];
     
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
+    [UMSocialData setAppKey:kUMengAppKey];
     
     return YES;
 }

@@ -33,19 +33,23 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>tencentopenapi</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>tencent101073013</string>
+				<string>tencent101072460</string>
 			</array>
 		</dict>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLName</key>
 			<string>com.weibo</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wb4192641502</string>
+				<string>wb862234629</string>
 			</array>
 		</dict>
 	</array>

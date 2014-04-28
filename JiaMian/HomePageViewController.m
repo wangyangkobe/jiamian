@@ -10,10 +10,11 @@
 #import "BBBadgeBarButtonItem.h"
 #import "PublishMsgViewController.h"
 #import "MessageDetailViewController.h"
+#import "UnReadMsgViewController.h"
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
-    NSMutableArray* messageArr;
+    NSMutableArray* messageArray;
 }
 
 @end
@@ -37,11 +38,14 @@
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
     
+    //  int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
+    
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
     [customButton setImage:[UIImage imageNamed:@"ico-to-do-list"] forState:UIControlStateNormal];
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
-    unReadMsgBarButton.badgeValue = @"2";
+    unReadMsgBarButton.shouldHideBadgeAtZero = YES;
+    //    unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
     unReadMsgBarButton.badgeOriginX = 13;
     unReadMsgBarButton.badgeOriginY = -9;
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
@@ -51,11 +55,20 @@
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
     
     
-    messageArr = [NSMutableArray array];
-    [messageArr addObject:@"李克强总理近日主持召开国务院常务会议，确定进一步落实企业投资自主权的政策措施，决定在基础设施等领域推出一批鼓励社会资本参与的项目，部署促进市场公平竞争维护市场正常秩序工作。这些重大举措引起舆论广泛关注和热评。"];
-    [messageArr addObject:@"the issue that's occurring is that the height of the label has empty space at its top and bottom, and that the longer the string inside it is, the larger that empty space is."];
-    [messageArr addObject:@"Fuck You!"];
-    [messageArr addObject:@"2006年的第一场雪，一群爱音乐的人在杭州的一家小咖啡屋开始了他们的追梦旅程。从一开始，他们就知道，这条路并不平坦，但是他们却为之血脉贲张。"];
+    messageArray = [NSMutableArray array];
+    [messageArray addObject:@"李克强总理近日主持召开国务院常务会议，确定进一步落实企业投资自主权的政策措施，决定在基础设施等领域推出一批鼓励社会资本参与的项目，部署促进市场公平竞争维护市场正常秩序工作。这些重大举措引起舆论广泛关注和热评。"];
+    [messageArray addObject:@"the issue that's occurring is that the height of the label has empty space at its top and bottom, and that the longer the string inside it is, the larger that empty space is."];
+    [messageArray addObject:@"Fuck You!"];
+    [messageArray addObject:@"2006年的第一场雪，一群爱音乐的人在杭州的一家小咖啡屋开始了他们的追梦旅程。从一开始，他们就知道，这条路并不平坦，但是他们却为之血脉贲张。"];
+    
+//    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+//        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0 sinceId:0 maxId:INT_MAX count:20 trimArea:NO filterType:0];
+//        [messageArray addObjectsFromArray:requestRes];
+//        
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            //  [self.pullTableView reloadData];
+//        });
+//    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -71,7 +84,7 @@
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"退出登录" image:nil target:self action:@selector(menuItemPressed:)],
-     ];
+      ];
     
     for (KxMenuItem* item in menuItems)
         item.alignment = NSTextAlignmentCenter;
@@ -90,16 +103,19 @@
     BBBadgeBarButtonItem *barButton = (BBBadgeBarButtonItem *)self.navigationItem.rightBarButtonItems[1];
     barButton.badgeValue = @"0";
     barButton.shouldHideBadgeAtZero = YES;
+    
+    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
+    [self.navigationController pushViewController:unReadMsgVC animated:YES];
 }
 #pragma mark - UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [messageArr count];
+    return [messageArray count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int row = indexPath.row;
-    NSString* text = (NSString*)[messageArr objectAtIndex:row];
+    NSString* text = (NSString*)[messageArray objectAtIndex:row];
     CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:17] constrainedToSize:CGSizeMake(240,9999)];
     NSLog(@"%s, %lf", __FUNCTION__, textHeight);
     return textHeight + 15 + 50;
@@ -115,7 +131,7 @@
     UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
     
-    textLabel.text = (NSString*)[messageArr objectAtIndex:indexPath.row];
+    textLabel.text = (NSString*)[messageArray objectAtIndex:indexPath.row];
     areaLabel.text = @"华东理工";
     commentNumLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
     return cell;
@@ -125,7 +141,7 @@
     NSLog(@"%s", __FUNCTION__);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    msgDetailVC.msgText = (NSString*)[messageArr objectAtIndex:indexPath.row];
+    msgDetailVC.msgText = (NSString*)[messageArray objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:msgDetailVC animated:YES];
 }
 #pragma mark - PullTableViewDelegate
@@ -142,13 +158,58 @@
 #pragma mark - Refresh and load more methods
 - (void)refreshTable
 {
-    self.pullTableView.pullLastRefreshDate = [NSDate date];//保存最后刷新时间
+    if (0 == [messageArray count])
+        return;
     self.pullTableView.pullTableIsRefreshing = YES;
+    long sinceId = ((MessageModel*)messageArray[0]).message_id;
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
+                                                                    sinceId:sinceId
+                                                                      maxId:0
+                                                                      count:20
+                                                                   trimArea:NO
+                                                                 filterType:0];
+        for (MessageModel* message in [newMessages reverseObjectEnumerator]){
+            [messageArray insertObject:message atIndex:0];
+        }
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if (_pullTableView.pullTableIsRefreshing == YES) {
+                _pullTableView.pullTableIsRefreshing = NO;
+                [_pullTableView reloadData];
+            }
+        });
+    });
 }
 
 - (void)loadMoreDataToTable
 {
-    self.pullTableView.pullTableIsLoadingMore = NO;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        MessageModel* lastMessage = [messageArray lastObject];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
+                                                                    sinceId:0
+                                                                      maxId:lastMessage.message_id
+                                                                      count:20
+                                                                   trimArea:NO
+                                                                 filterType:0];
+        __block NSInteger fromIndex = [messageArray count];
+        [messageArray addObjectsFromArray:loadMoreRes];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+            
+            for(NSDictionary *result __unused in loadMoreRes){
+                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
+                fromIndex++;
+            }
+            
+            [_pullTableView beginUpdates];
+            [_pullTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
+            [_pullTableView endUpdates];
+            // [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            self.pullTableView.pullTableIsLoadingMore = NO;
+        });
+    });
 }
 
 - (IBAction)publishMessage:(id)sender

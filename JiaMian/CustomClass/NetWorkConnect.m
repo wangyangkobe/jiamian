@@ -1,4 +1,4 @@
-#import "NetWorkConnection.h"
+#import "NetWorkConnect.h"
 
 @implementation NetWorkConnect
 
@@ -11,7 +11,7 @@ static ASIDownloadCache* myCache;
     dispatch_once(&once, ^{
         sharedInstance = [[self alloc] init];
         myCache = [[ASIDownloadCache alloc] init];
-
+        
         //设置缓存路径
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentDirectory = [paths objectAtIndex:0];
@@ -26,15 +26,15 @@ static ASIDownloadCache* myCache;
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/login", HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-
+    
     [request setRequestMethod:@"POST"];
     [request setPostValue:AccessToken forKey:@"access_token"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
-
-//    [request setDownloadCache:myCache];
-//    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    
+    //    [request setDownloadCache:myCache];
+    //    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( [request error] ) {  // [request responseStatusCode] != 200
         return nil;
     } else {
@@ -50,11 +50,10 @@ static ASIDownloadCache* myCache;
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/logout", HOME_PAGE];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request startSynchronous];
-    NSString* responseString = [request responseString];
     NSLog(@"user logout:%@", [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return YES;
-    eles
+    else
         return NO;
 }
 
@@ -63,20 +62,20 @@ static ASIDownloadCache* myCache;
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/register", HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-
+    
     [request setRequestMethod:@"POST"];
     [request setPostValue:UserName forKey:@"user_name"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
     [request setPostValue:[NSNumber numberWithInt:Gender] forKey:@"gender"];
     if (HeadImg)
-         [request setPostValue:HeadImg forKey:@"head_image"];
+        [request setPostValue:HeadImg forKey:@"head_image"];
     if (Description)
         [request setPostValue:Description forKey:@"description"];
-
-     [request startSynchronous];
-    if ( 200 == [request responseStatusCode] ) 
+    
+    [request startSynchronous];
+    if ( 200 == [request responseStatusCode] )
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
-    eles
+    else
         return nil;
 }
 
@@ -90,11 +89,11 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     NSLog(@"userShowById: %@", [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
-    eles
+    else
         return nil;
 }
 
@@ -106,35 +105,35 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     NSLog(@"userMessageLimit: %@", [request responseString]);
     if ( 200 == [request responseStatusCode] )
     {
         NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
         return [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     }
-    eles
+    else
         return nil;
 }
 
 //////////////////////////////////////////////////////////////////
 - (NSArray*)messageList:(int)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/list?area_id=%d&count=d", HOME_PAGE, AreaId, Count];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/list?area_id=%d&count=%d", HOME_PAGE, AreaId, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
     if (MaxId != INT_MAX)
         requestUrl = [requestUrl stringByAppendingFormat:@"&max_id=%ld", MaxId];
     if ( (FilterType == 0) || (FilterType == 1) )
         requestUrl = [requestUrl stringByAppendingFormat:@"&filter_type=%d", FilterType];
-
+    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
-    NSLog(@"URL = %@", requestURL);
-
+    
+    NSLog(@"URL = %@", requestUrl);
+    
     NSMutableArray* result = [NSMutableArray array];
     if (200 == [request responseStatusCode])
     {
@@ -149,7 +148,7 @@ static ASIDownloadCache* myCache;
     }
     else
         return [NSArray array];
- }
+}
 
 //////////////////////////////////////////////////////////////////
 - (MessageModel*)messageShowByMsgId:(long)MsgId
@@ -159,12 +158,12 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( 200 == [request responseStatusCode] )
     {
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     }
-    eles
+    else
         return nil;
 }
 
@@ -179,17 +178,17 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithInt:AreaId]   forKey:@"area_id"];
     [request setPostValue:[NSNumber numberWithDouble:Lat]   forKey:@"lat"];
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
-
+    
     [request startSynchronous];
-
-    if ( 200 == [request responseStatusCode] ) 
+    
+    if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
-    eles
+    else
         return nil;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)commentShowByMsgId:(long)MsgId sinceId:(Long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)commentShowByMsgId:(long)MsgId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/comments/show?message_id=%ld&count=%d", HOME_PAGE, MsgId, Count];
     if (SinceId != 0)
@@ -199,12 +198,12 @@ static ASIDownloadCache* myCache;
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
-
+    
     [request startSynchronous];
     NSMutableArray* result = [NSMutableArray array];
     if ( 200 == [request responseStatusCode] )
     {
-       NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
+        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
         for (id entry in jsonArray)
         {
             CommentModel* comment = [[CommentModel alloc] initWithDictionary:entry error:nil];
@@ -213,8 +212,8 @@ static ASIDownloadCache* myCache;
         }
         return result;
     }
-    eles
-        return nil;
+    else
+        return result;
 }
 //////////////////////////////////////////////////////////////////
 - (CommentModel*)commentCreate:(long)MsgId text:(NSString*)Text
@@ -224,35 +223,43 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithLong:MsgId]  forKey:@"message_id"];
-
+    
     [request startSynchronous];
-
-    if ( 200 == [request responseStatusCode] ) 
+    
+    if ( 200 == [request responseStatusCode] )
         return [[CommentModel alloc] initWithString:[request responseString] error:nil];
-    eles
+    else
         return nil;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NotificationModel*)notificationShow:(long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)notificationShow:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/notifications/show?count=%d", HOME_PAGE, Count]; 
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/notifications/show?count=%d", HOME_PAGE, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
     if (MaxId != INT_MAX)
         requestUrl = [requestUrl stringByAppendingFormat:@"&max_id=%ld", MaxId];
-
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
+    NSMutableArray* result = [NSMutableArray array];
     if ( 200 == [request responseStatusCode] )
     {
-        return [[NotificationModel alloc] initWithString:[request responseString] error:nil];
+        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
+        for (id entry in jsonArray)
+        {
+            NotificationModel* notification = [[NotificationModel alloc] initWithDictionary:entry error:nil];
+            if (notification)
+                [result addObject:notification];
+        }
+        return result;
     }
-    eles
+    else
         return nil;
-
 }
 
 //////////////////////////////////////////////////////////////////
@@ -263,14 +270,14 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( 200 == [request responseStatusCode] )
     {
         NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary* dict =  [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-        retrun [dict objectForKey:@"unread_count"];
+        return [[dict objectForKey:@"unread_count"] integerValue];
     }
-    eles
+    else
         return 0;
 }
 @end
