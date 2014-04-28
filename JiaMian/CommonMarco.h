@@ -33,4 +33,29 @@
 //键盘高度
 #define KEYBOARD_HEIGHT 216
 
+typedef NS_ENUM(NSInteger, MessageType)
+{
+	MessageTypeText  = 1,
+	MessageTypeVoice = 2,
+};
+
+typedef NS_ENUM(NSInteger, GenderType)
+{
+	GenderTypeNone = 0,
+	GenderTypeBoy  = 1,
+	GenderTypeGirl = 2,
+};
+
+typedef NS_ENUM(NSInteger, UserType)
+{
+	UserTypeQQ    = 1,
+	UserTypeWeiBo = 2,
+};
+
+typedef NS_ENUM(NSInteger, BackGroundType)
+{
+	BackGroundTypeNum = 1,  //序号
+	BackGroundTypeUrl = 2,  //图片URL
+};
+
 #endif
