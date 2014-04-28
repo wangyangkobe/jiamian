@@ -9,4 +9,10 @@
 
 @implementation MessageModel
 
++ (BOOL)propertyIsOptional:(NSString*)propertyName
+{
+   if ([propertyName isEqualToString: @"background_no"]) return YES;
+  	return NO;
+}
+
 @end

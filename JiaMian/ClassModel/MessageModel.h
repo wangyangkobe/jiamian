@@ -18,7 +18,7 @@
 @property(nonatomic, assign) int                 comments_count;  //评论数目
 @property(nonatomic, assign) int                 likes_count;     //点赞数目
 @property(nonatomic, assign) int                 background_type; //背景图片类型，1-序号，2-图片URL
-@property(nonatomic, assign) int<Optional>       background_no;   //背景图片序号（仅当type为1有效，否则null）
+@property(nonatomic, assign) int                 background_no;   //背景图片序号（仅当type为1有效，否则null）
 @property(nonatomic, strong) NSString<Optional>* background_url;  //背景图片序号（仅当type为2有效，否则null）
 @property(nonatomic, strong) AreaModel*          area;
 @property(nonatomic, strong) UserModel*          user;
