@@ -11,6 +11,7 @@
 #import "PublishMsgViewController.h"
 #import "MessageDetailViewController.h"
 #import "UnReadMsgViewController.h"
+#import "LogInViewController.h"
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
@@ -61,18 +62,18 @@
     [messageArray addObject:@"Fuck You!"];
     [messageArray addObject:@"2006年的第一场雪，一群爱音乐的人在杭州的一家小咖啡屋开始了他们的追梦旅程。从一开始，他们就知道，这条路并不平坦，但是他们却为之血脉贲张。"];
     
-//    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-//        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0 sinceId:0 maxId:INT_MAX count:20 trimArea:NO filterType:0];
-//        [messageArray addObjectsFromArray:requestRes];
-//        
-//        dispatch_sync(dispatch_get_main_queue(), ^{
-//            //  [self.pullTableView reloadData];
-//        });
-//    });
-
+    //    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    //        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0 sinceId:0 maxId:INT_MAX count:20 trimArea:NO filterType:0];
+    //        [messageArray addObjectsFromArray:requestRes];
+    //
+    //        dispatch_sync(dispatch_get_main_queue(), ^{
+    //            //  [self.pullTableView reloadData];
+    //        });
+    //    });
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                            selector:@selector(refreshTable)
-                                                name:@"publishMessageSuccess"
+                                             selector:@selector(refreshTable)
+                                                 name:@"publishMessageSuccess"
                                                object:nil];
 }
 
@@ -105,16 +106,16 @@
     if ([menuItem.title isEqualToString:@"邀请朋友"]) {
         NSLog(@"邀请朋友");
     }else if([menuItem.title isEqualToString:@"意见反馈"]){
-
+        
     }else if([menuItem.title isEqualToString:@"检查更新"]){
- 
+        
     }else{
-        BOOL result = [[NetWorkConnect sharedInstance] logOut];
+        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
         if (result) {
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] synchronize];
             LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-            [self.window setRootViewController:logInVC];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
         }
     }
 }

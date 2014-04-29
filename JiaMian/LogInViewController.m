@@ -62,7 +62,7 @@
         NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken,
               _tencentOAuth.openId,
               _tencentOAuth.expirationDate);
-
+        
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken userType:UserTypeQQ];
         if (userSelf) //login successful
         {
@@ -71,7 +71,7 @@
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
             UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-            [self.window setRootViewController:mainTableVC];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:mainTableVC];
         }
     } else {
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");

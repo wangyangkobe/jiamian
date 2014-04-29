@@ -47,16 +47,16 @@
     
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
-
-//    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-//        long msgId = self.selectedMsg.message_id;
-//        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
-//        [commentArr addObjectsFromArray:requestRes];
-//        
-//        dispatch_sync(dispatch_get_main_queue(), ^{
-//            //  [self.tableView reloadData];
-//        });
-//    });
+    
+    //    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+    //        long msgId = self.selectedMsg.message_id;
+    //        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
+    //        [commentArr addObjectsFromArray:requestRes];
+    //
+    //        dispatch_sync(dispatch_get_main_queue(), ^{
+    //            //  [self.tableView reloadData];
+    //        });
+    //    });
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
@@ -75,7 +75,7 @@
 }
 - (UIView*)configureTableHeaderView
 {
-    NSString* text = self.selectedMsg.text;
+    //  NSString* text = self.selectedMsg.text;
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
                                                               options:nil] objectAtIndex:0];
@@ -274,7 +274,7 @@
         return NO;
     else
         return YES;
-
+    
 }
 - (void)sendBtnPressed:(id)sender
 {

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LogInViewController.h"
+#import "HomePageViewController.h"
 
 @implementation AppDelegate
 
@@ -64,8 +65,8 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
-            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-            [self.window setRootViewController:mainTableVC];
+            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            [self.window setRootViewController:homeVC];
         }
     }
 }

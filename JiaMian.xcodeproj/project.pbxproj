@@ -95,6 +95,8 @@
 		155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */; };
 		155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155AC4A3190CDD0F00A8F252 /* HeaderView.xib */; };
 		155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A6190CE07200A8F252 /* TableHeaderView.m */; };
+		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
+		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +248,8 @@
 		155AC4A3190CDD0F00A8F252 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		155AC4A5190CE07200A8F252 /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
 		155AC4A6190CE07200A8F252 /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableHeaderView.m; sourceTree = "<group>"; };
+		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
+		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -561,6 +565,8 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15FB3431190FC9D600EBD9DF /* qq_login.png */,
+				15FB3432190FC9D600EBD9DF /* sina_login.png */,
 				15596726190E763C00FB760A /* Default-568h@2x.png */,
 				15278142190D554100C15419 /* Default~iphone.png */,
 				15278143190D554100C15419 /* Default@2x.png */,
@@ -668,6 +674,7 @@
 				15278140190D544400C15419 /* Icon.png in Resources */,
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
+				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
 				15596727190E763C00FB760A /* Default-568h@2x.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				15596746190E894100FB760A /* UMSCommentInputController.xib in Resources */,
@@ -695,6 +702,7 @@
 				1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */,
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
 				1559674A190E894100FB760A /* UMSLoginViewController.xib in Resources */,
+				15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */,
 				1558CFCD190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1558CFC7190BA94100E6B543 /* WeiboSDK.bundle in Resources */,
 				15278144190D554100C15419 /* Default~iphone.png in Resources */,
