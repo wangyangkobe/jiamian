@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
-    _tencentOAuth.redirectURI = kTencentQQRedirectURI;
+    //_tencentOAuth.redirectURI = kTencentQQRedirectURI;
     _permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
 }
 
@@ -57,12 +57,22 @@
 }
 
 - (void)tencentDidLogin{
-    if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length])){
+    if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length])) {
         // 记录登录用户的OpenID、Token以及过期时间
         NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken,
               _tencentOAuth.openId,
               _tencentOAuth.expirationDate);
-        
+
+        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken userType:UserTypeQQ];
+        if (userSelf) //login successful
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+            [self.window setRootViewController:mainTableVC];
+        }
     } else {
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }

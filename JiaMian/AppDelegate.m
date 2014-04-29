@@ -14,10 +14,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-    [self.window setRootViewController:logInVC];
-    
+    BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
+    if (NO == isLogIn) {
+        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+        [self.window setRootViewController:logInVC];        
+    }
+
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
     [UMSocialData setAppKey:kUMengAppKey];
@@ -53,6 +56,17 @@
         NSString* wbToken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userID = [(WBAuthorizeResponse*)response userID];
         NSLog(@"wbToken = %@, userID = %@", wbToken, userID);
+
+        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo];
+        if (userSelf) //login successful
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+            [self.window setRootViewController:mainTableVC];
+        }
     }
 }
 

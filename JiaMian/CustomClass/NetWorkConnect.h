@@ -30,7 +30,7 @@
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
 
-//MsgType: 1; lat: 0.0; lom: 0.0
+//MsgType: 1; AreaId: 1; lat: 0.0; lom: 0.0
 - (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(int)AreaId lat:(double)Lat lon:(double)Long;
 
 //SinceId: 0; MaxId: INT_MAX; Count: 20

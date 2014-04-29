@@ -53,16 +53,13 @@
 - (void)sendMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text msgType:MessageTypeText areaId:1 lat:0.0 lon:0.0];
+    if (message)
+    {
+        //通知父视图获取最新数据
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+        [self.navigationController popViewControllerAnimated:YES ];
+    }
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

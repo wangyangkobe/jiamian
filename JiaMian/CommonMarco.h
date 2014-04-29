@@ -9,7 +9,8 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE @""
+#define HOME_PAGE  @""
+#define kUserLogIn @"kUserLogIn"
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"

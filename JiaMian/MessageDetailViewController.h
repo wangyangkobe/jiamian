@@ -13,4 +13,5 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 
 @property (copy, nonatomic) NSString* msgText;
+@property (strong, nonatomic) MessageModel* selectedMsg;
 @end

@@ -47,6 +47,16 @@
     
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
+
+//    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
+//        long msgId = self.selectedMsg.message_id;
+//        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
+//        [commentArr addObjectsFromArray:requestRes];
+//        
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            //  [self.tableView reloadData];
+//        });
+//    });
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
@@ -65,6 +75,7 @@
 }
 - (UIView*)configureTableHeaderView
 {
+    NSString* text = self.selectedMsg.text;
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
                                                               options:nil] objectAtIndex:0];
@@ -199,7 +210,7 @@
 }
 #pragma mark 监听键盘的显示与隐藏
 //Code from Brett Schumann
-- (void)keyboardWillShow:(NSNotification *)note
+- (void)keyboardWillShow:(NSNotification*)note
 {
     // get keyboard size and loctaion
 	CGRect keyboardBounds;
@@ -256,6 +267,14 @@
     r.size.height -= diff;
     r.origin.y += diff;
 	self.toolBar.frame = r;
+}
+- (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if ( [text isEqualToString:@"\n"] || (range.location >= 1000) )  //控制输入文本的长度
+        return NO;
+    else
+        return YES;
+
 }
 - (void)sendBtnPressed:(id)sender
 {

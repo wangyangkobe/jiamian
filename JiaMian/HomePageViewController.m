@@ -69,6 +69,11 @@
 //            //  [self.pullTableView reloadData];
 //        });
 //    });
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                            selector:@selector(refreshTable)
+                                                name:@"publishMessageSuccess"
+                                               object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,6 +101,22 @@
 - (void)menuItemPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    KxMenuItem* menuItem = (KxMenuItem*)sender;
+    if ([menuItem.title isEqualToString:@"邀请朋友"]) {
+        NSLog(@"邀请朋友");
+    }else if([menuItem.title isEqualToString:@"意见反馈"]){
+
+    }else if([menuItem.title isEqualToString:@"检查更新"]){
+ 
+    }else{
+        BOOL result = [[NetWorkConnect sharedInstance] logOut];
+        if (result) {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+            [self.window setRootViewController:logInVC];
+        }
+    }
 }
 -(void)unReadMessagePressed:(id)sender
 {
