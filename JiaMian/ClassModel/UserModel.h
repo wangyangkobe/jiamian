@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 
-@interface UserModel : JSONModel
+@interface UserModel : JSONModel <NSCopying, NSCoding>
 
-@property(nonatomic, strong) NSString*           user_id;
+@property(nonatomic, assign) long                user_id;
 @property(nonatomic, strong) NSString*           user_name;
 @property(nonatomic, assign) int                 gender;         // 0-未知，1-男，2-女
 @property(nonatomic, strong) NSString<Optional>* head_image;
