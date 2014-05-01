@@ -11,6 +11,8 @@
 
 #define HOME_PAGE  @""
 #define kUserLogIn @"kUserLogIn"
+#define kSelfUserModel @"kSelfUserModel"
+
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"
