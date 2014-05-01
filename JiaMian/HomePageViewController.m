@@ -108,7 +108,7 @@
     }else if([menuItem.title isEqualToString:@"意见反馈"]){
         
     }else if([menuItem.title isEqualToString:@"检查更新"]){
-        
+         [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
     }else{
         BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
         if (result) {
