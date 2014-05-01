@@ -28,7 +28,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    self.textView.placeholder = @"匿名发表心中所想吧";
+    NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
+    [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
+    [hoderText addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0, [hoderText length])];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
+   // self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 50, 0, 50)];
+    self.textView.attributedPlaceholder = hoderText;
     [self.textView becomeFirstResponder];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
@@ -61,5 +70,8 @@
         [self.navigationController popViewControllerAnimated:YES ];
     }
 }
-
+- (void)dealloc
+{
+    [self.textView removeObserver:self forKeyPath:@"contentSize"];
+}
 @end
