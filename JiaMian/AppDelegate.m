@@ -15,17 +15,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
-    if (NO == isLogIn) {
-        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-        LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-        [self.window setRootViewController:logInVC];        
-    }
-
+//    BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
+//    if (NO == isLogIn) {
+//        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+//        LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+//        [self.window setRootViewController:logInVC];
+//    }
+    
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
-    [UMSocialData setAppKey:kUMengAppKey];
     
+    [MobClick setAppVersion:XcodeAppVersion];
+    [UMSocialData setAppKey:kUMengAppKey];
+    //[MobClick checkUpdate];
+    [MobClick startWithAppkey:kUMengAppKey reportPolicy:SEND_INTERVAL channelId:nil];
+    [MobClick updateOnlineConfig];  //在线参数配置
     return YES;
 }
 
@@ -57,7 +61,7 @@
         NSString* wbToken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userID = [(WBAuthorizeResponse*)response userID];
         NSLog(@"wbToken = %@, userID = %@", wbToken, userID);
-
+        
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo];
         if (userSelf) //login successful
         {
