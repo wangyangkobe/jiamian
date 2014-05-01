@@ -18,4 +18,6 @@
 @property(nonatomic, assign) int                 user_type;      // 1-QQ，2-Weibo
 @property(nonatomic, strong) NSString*           description;
 
++ (void)saveUserModelObject:(UserModel*) object key:(NSString*)key;
++ (UserModel*)loadUserModelObjectWithKey:(NSString*)key;
 @end

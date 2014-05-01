@@ -21,7 +21,7 @@
 {
 	if (self = [super init])
 	{
-		_user_id     = [aDecoder decodeLongForKey:@"user_id"];
+		_user_id     = [aDecoder decodeInt32ForKey:@"user_id"];
 		_user_name   = [aDecoder decodeObjectForKey:@"user_name"];
 		_gender      = [aDecoder decodeIntForKey:@"gender"];
 		_head_image  = [aDecoder decodeObjectForKey:@"head_image"];
@@ -33,7 +33,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeLong:_user_id       forKey:@"user_id"];
+    [aCoder encodeInt32:_user_id      forKey:@"user_id"];
     [aCoder encodeObject:_user_name   forKey:@"user_name"];
     [aCoder encodeInt:_gender         forKey:@"gender"];
     [aCoder encodeObject:_head_image  forKey:@"head_image"];
@@ -49,11 +49,25 @@
     copy.user_id   = self.user_id;
     copy.gender    = self.gender;
     copy.user_type = self.user_type;
-
+    
     copy.user_name   = [self.user_name copyWithZone:zone];
     copy.head_image  = [self.head_image copyWithZone:zone];
     copy.description = [self.description copyWithZone:zone];
     return copy;
 }
 
++ (void)saveUserModelObject:(UserModel *)object key:(NSString *)key
+{
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:key];
+    [defaults synchronize];
+}
++ (UserModel*)loadUserModelObjectWithKey:(NSString*)key
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:key];
+    UserModel *object = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    return object;
+}
 @end
