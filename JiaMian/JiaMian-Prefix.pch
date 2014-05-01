@@ -26,4 +26,5 @@
     #import "HPGrowingTextView.h"
     #import "NetWorkConnect.h"
     #import "UMSocial.h"
+    #import "MobClick.h"
 #endif
