@@ -57,7 +57,8 @@
 }
 
 - (void)tencentDidLogin{
-    if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length])) {
+    if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length]))
+    {
         // 记录登录用户的OpenID、Token以及过期时间
         NSLog(@"accessToken = %@, openId = %@, expireDate = %@", _tencentOAuth.accessToken,
               _tencentOAuth.openId,
@@ -77,7 +78,13 @@
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
         }
-    } else {
+        else
+        {
+            AlertContent([error.userInfo valueForKey:@"err_msg"]);
+        }
+    }
+    else
+    {
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }
 }

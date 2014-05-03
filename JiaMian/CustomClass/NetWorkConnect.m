@@ -60,11 +60,7 @@ static ASIDownloadCache* myCache;
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setRequestMethod:@"POST"];
     [request startSynchronous];
-    NSLog(@"user logout:%@ %d", [request responseString], request.responseStatusCode);
-    if ( 204 == [request responseStatusCode] )
-        return YES;
-    else
-        return NO;
+    return YES;
 }
 
 //////////////////////////////////////////////////////////////////

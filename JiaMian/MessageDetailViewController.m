@@ -8,6 +8,10 @@
 
 #import "MessageDetailViewController.h"
 #import "TableHeaderView.h"
+
+#define kCommentCellHeadImage  6000
+#define kCommentCellTextLabel  6001
+#define kCommentCellTimeLabel  6002
 @interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, HPGrowingTextViewDelegate>
 {
     CGFloat headerViewHeight;
@@ -16,7 +20,6 @@
     HPGrowingTextView *textView;
     UIButton*    sendButton;  //发送按钮
 }
-
 @end
 
 @implementation MessageDetailViewController
@@ -155,16 +158,29 @@
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CommentModel* currentComment = (CommentModel*)[commentArr objectAtIndex:indexPath.row];
     static NSString* CellIdentifier = @"CommentCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
     }
-    cell.textLabel.text = @"我的朋友是极品....";
-    cell.detailTextLabel.text = @"1楼，5小时前";
+    UIImageView* headImageView = (UIImageView*)[cell.contentView viewWithTag:kCommentCellHeadImage];
+    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTextLabel];
+    UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
+    textLabel.text = currentComment.text;
+    timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
     return cell;
 }
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CommentModel* currentComment = [commentArr objectAtIndex:indexPath.row];
+    float textHight = [NSString textHeight:currentComment.text
+                              sizeWithFont:[UIFont systemFontOfSize:17]
+                         constrainedToSize:CGSizeMake(260,9999)];
+    
+    NSLog(@"%s, %f", __FUNCTION__, textHight);
+    return textHight + 35;
+}
 - (void)configureToolBar
 {
     textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
@@ -180,7 +196,7 @@
 	textView.delegate = self;
     textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
     textView.backgroundColor = [UIColor whiteColor];
-    textView.placeholder = @"Type to see the textView grow!";
+    textView.placeholder = @"匿名发表评论";
     
     UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
     UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
@@ -302,6 +318,16 @@
 {
     NSLog(@"call: %s", __FUNCTION__);
 	[textView resignFirstResponder];
+    if ([textView.text length] > 0)
+    {
+        CommentModel* comment = [[NetWorkConnect sharedInstance] commentCreate:self.selectedMsg.message_id text:textView.text];
+        if (comment)
+        {
+            [commentArr addObject:comment];
+            [textView setText:@""];
+            [self.tableView reloadData];
+        }
+    }
 }
 - (void)sendCommentMessage:(id)sender
 {

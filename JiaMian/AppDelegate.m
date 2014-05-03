@@ -78,6 +78,10 @@
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [self.window setRootViewController:homeVC];
         }
+        else
+        {
+            AlertContent([error.userInfo valueForKey:@"err_msg"]);
+        }
     }
 }
 

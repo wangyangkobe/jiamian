@@ -10,4 +10,5 @@
 
 @interface NSString (Extenions)
 + (CGFloat)textHeight:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size;
++ (NSString*)convertTimeFormat:(NSString*)timeStr;
 @end
