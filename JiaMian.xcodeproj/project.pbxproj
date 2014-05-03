@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0B18C8C1AA3043F1BCB65B3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47598134FC4338B1A545FC /* libPods.a */; };
+		150ED9D619149EE500175728 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFF7190BF34300E6B543 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D719149F0200175728 /* CFNetwork.framework */; };
+		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
 		15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812C190D510F00C15419 /* MessageEntryBackground.png */; };
 		15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */; };
 		15278136190D511000C15419 /* MessageEntryInputField.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812E190D510F00C15419 /* MessageEntryInputField.png */; };
@@ -55,7 +58,6 @@
 		1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFEE190BF34300E6B543 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D014190BF34300E6B543 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFF2190BF34300E6B543 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFF4190BF34300E6B543 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		1558D016190BF34300E6B543 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFF7190BF34300E6B543 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D017190BF34300E6B543 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFFB190BF34300E6B543 /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D018190BF34300E6B543 /* LoadMoreTableFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFFD190BF34300E6B543 /* LoadMoreTableFooterView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFFF190BF34300E6B543 /* MessageInterceptor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -95,6 +97,14 @@
 		155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */; };
 		155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155AC4A3190CDD0F00A8F252 /* HeaderView.xib */; };
 		155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A6190CE07200A8F252 /* TableHeaderView.m */; };
+		1569854A19134A0C00923E85 /* loginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854919134A0C00923E85 /* loginbg.png */; };
+		1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854B19134A1700923E85 /* qq_login_pressed.png */; };
+		1569854E19134A1700923E85 /* sina_login_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854C19134A1700923E85 /* sina_login_pressed.png */; };
+		156985501913522000923E85 /* login_word.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854F1913522000923E85 /* login_word.png */; };
+		15698552191355C800923E85 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15698551191355C800923E85 /* Default~iphone.png */; };
+		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
+		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
+		1569855919139B9900923E85 /* ErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1569855819139B9900923E85 /* ErrorModel.m */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
@@ -112,6 +122,8 @@
 
 /* Begin PBXFileReference section */
 		039441761BD14D36B95936E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		150ED9D719149F0200175728 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		1527812C190D510F00C15419 /* MessageEntryBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryBackground.png; sourceTree = "<group>"; };
 		1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntryBackground@2x.png"; sourceTree = "<group>"; };
 		1527812E190D510F00C15419 /* MessageEntryInputField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryInputField.png; sourceTree = "<group>"; };
@@ -249,6 +261,15 @@
 		155AC4A3190CDD0F00A8F252 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		155AC4A5190CE07200A8F252 /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
 		155AC4A6190CE07200A8F252 /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableHeaderView.m; sourceTree = "<group>"; };
+		1569854919134A0C00923E85 /* loginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbg.png; sourceTree = "<group>"; };
+		1569854B19134A1700923E85 /* qq_login_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login_pressed.png; sourceTree = "<group>"; };
+		1569854C19134A1700923E85 /* sina_login_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login_pressed.png; sourceTree = "<group>"; };
+		1569854F1913522000923E85 /* login_word.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_word.png; sourceTree = "<group>"; };
+		15698551191355C800923E85 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		156985531913631B00923E85 /* comment_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_grey.png; sourceTree = "<group>"; };
+		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
+		1569855719139B9900923E85 /* ErrorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorModel.h; sourceTree = "<group>"; };
+		1569855819139B9900923E85 /* ErrorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorModel.m; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
@@ -261,6 +282,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */,
+				150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */,
 				1558CFDC190BBBF400E6B543 /* libz.dylib in Frameworks */,
 				15596744190E894100FB760A /* libUMSocial_Sdk_3.3.7.a in Frameworks */,
 				1558CFDA190BBBED00E6B543 /* libstdc++.dylib in Frameworks */,
@@ -320,6 +343,8 @@
 		1558CF86190B9C5400E6B543 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				150ED9D919149F1000175728 /* MobileCoreServices.framework */,
+				150ED9D719149F0200175728 /* CFNetwork.framework */,
 				1558CFDB190BBBF400E6B543 /* libz.dylib */,
 				1558CFD9190BBBED00E6B543 /* libstdc++.dylib */,
 				1558CFD7190BBBE300E6B543 /* CoreTelephony.framework */,
@@ -508,6 +533,8 @@
 				15596710190E71BE00FB760A /* NotificationModel.m */,
 				15596711190E71BE00FB760A /* UserModel.h */,
 				15596712190E71BE00FB760A /* UserModel.m */,
+				1569855719139B9900923E85 /* ErrorModel.h */,
+				1569855819139B9900923E85 /* ErrorModel.m */,
 			);
 			path = ClassModel;
 			sourceTree = "<group>";
@@ -571,6 +598,13 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				156985551913816200923E85 /* comment_white.png */,
+				156985531913631B00923E85 /* comment_grey.png */,
+				15698551191355C800923E85 /* Default~iphone.png */,
+				1569854F1913522000923E85 /* login_word.png */,
+				1569854B19134A1700923E85 /* qq_login_pressed.png */,
+				1569854C19134A1700923E85 /* sina_login_pressed.png */,
+				1569854919134A0C00923E85 /* loginbg.png */,
 				15FB3431190FC9D600EBD9DF /* qq_login.png */,
 				15FB3432190FC9D600EBD9DF /* sina_login.png */,
 				15596726190E763C00FB760A /* Default-568h@2x.png */,
@@ -671,7 +705,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				156985501913522000923E85 /* login_word.png in Resources */,
 				15596748190E894100FB760A /* UMShareEditViewController.xib in Resources */,
+				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				15596745190E894100FB760A /* UMSCommentDetailController.xib in Resources */,
@@ -681,19 +717,23 @@
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
 				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
+				1569854A19134A0C00923E85 /* loginbg.png in Resources */,
 				15596727190E763C00FB760A /* Default-568h@2x.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				15596746190E894100FB760A /* UMSCommentInputController.xib in Resources */,
 				1559674D190E894100FB760A /* UMSocialSDKResourcesNew.bundle in Resources */,
+				15698552191355C800923E85 /* Default~iphone.png in Resources */,
 				1558D021190BF34300E6B543 /* whiteArrow.png in Resources */,
 				1559674C190E894100FB760A /* UMSShareListController.xib in Resources */,
 				155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */,
 				1559674B190E894100FB760A /* UMSnsAccountViewController.xib in Resources */,
 				1558D01C190BF34300E6B543 /* blackArrow@2x.png in Resources */,
+				156985561913816200923E85 /* comment_white.png in Resources */,
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
 				1558D01F190BF34300E6B543 /* grayArrow.png in Resources */,
 				15278145190D554100C15419 /* Default@2x.png in Resources */,
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
+				1569854E19134A1700923E85 /* sina_login_pressed.png in Resources */,
 				1558D020190BF34300E6B543 /* grayArrow@2x.png in Resources */,
 				15596749190E894100FB760A /* UMShareEditViewControlleriPad.xib in Resources */,
 				1558D01D190BF34300E6B543 /* blueArrow.png in Resources */,
@@ -712,6 +752,7 @@
 				1558CFCD190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1558CFC7190BA94100E6B543 /* WeiboSDK.bundle in Resources */,
 				15278144190D554100C15419 /* Default~iphone.png in Resources */,
+				156985541913631B00923E85 /* comment_grey.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +804,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				150ED9D619149EE500175728 /* Reachability.m in Sources */,
 				1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
 				15596717190E71BE00FB760A /* UserModel.m in Sources */,
@@ -778,6 +820,7 @@
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
 				1558D012190BF34300E6B543 /* ASIFormDataRequest.m in Sources */,
+				1569855919139B9900923E85 /* ErrorModel.m in Sources */,
 				1558D011190BF34300E6B543 /* ASIDownloadCache.m in Sources */,
 				1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */,
 				1558D014190BF34300E6B543 /* ASIInputStream.m in Sources */,
@@ -785,7 +828,6 @@
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
-				1558D016190BF34300E6B543 /* Reachability.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
 				1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */,
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
