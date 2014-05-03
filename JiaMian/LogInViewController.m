@@ -7,7 +7,7 @@
 //
 
 #import "LogInViewController.h"
-
+#import "HomePageViewController.h"
 @interface LogInViewController () <TencentSessionDelegate>
 
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
@@ -63,15 +63,19 @@
               _tencentOAuth.openId,
               _tencentOAuth.expirationDate);
         
-        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken userType:UserTypeQQ];
+        NSError* error;
+        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken
+                                                                     userIdentify:_tencentOAuth.openId
+                                                                         userType:UserTypeQQ
+                                                                            error:&error];
         if (userSelf) //login successful
         {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
-            UITabBarController* mainTableVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-            [[UIApplication sharedApplication].keyWindow setRootViewController:mainTableVC];
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
         }
     } else {
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");

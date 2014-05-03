@@ -15,12 +15,13 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-//    BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
-//    if (NO == isLogIn) {
-//        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-//        LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-//        [self.window setRootViewController:logInVC];
-//    }
+    BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
+    if ( NO == isLogIn )
+    {
+        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+        [self.window setRootViewController:logInVC];
+    }
     
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
@@ -62,13 +63,18 @@
         NSString* userID = [(WBAuthorizeResponse*)response userID];
         NSLog(@"wbToken = %@, userID = %@", wbToken, userID);
         
-        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo];
+        NSError* error;
+        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken
+                                                                     userIdentify:userID
+                                                                         userType:UserTypeWeiBo
+                                                                            error:&error];
         if (userSelf) //login successful
         {
+            NSLog(@"user sina log in successful!");
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle: nil];
+            UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [self.window setRootViewController:homeVC];
         }

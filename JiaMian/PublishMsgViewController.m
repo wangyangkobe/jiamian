@@ -65,6 +65,7 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text msgType:MessageTypeText areaId:1 lat:0.0 lon:0.0];
     if (message)
     {
+        NSLog(@"========================");
         //通知父视图获取最新数据
         [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
         [self.navigationController popViewControllerAnimated:YES ];

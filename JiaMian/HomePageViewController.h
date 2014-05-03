@@ -12,5 +12,4 @@
 
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;
 - (IBAction)publishMessage:(id)sender;
-
 @end

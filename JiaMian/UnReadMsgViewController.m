@@ -59,7 +59,7 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     CGFloat textHeight = [NSString textHeight:notification.message.text
                                  sizeWithFont:[UIFont systemFontOfSize:17]
-                            constrainedToSize:CGSizeMake(240,9999)];
+                            constrainedToSize:CGSizeMake(240, 9999)];
     return textHeight;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -42,21 +42,20 @@
     self.navigationItem.rightBarButtonItem = shareMessageBarBtn;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    commentArr = [NSMutableArray array];
-    
-    
+  
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
     
-    //    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-    //        long msgId = self.selectedMsg.message_id;
-    //        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
-    //        [commentArr addObjectsFromArray:requestRes];
-    //
-    //        dispatch_sync(dispatch_get_main_queue(), ^{
-    //            //  [self.tableView reloadData];
-    //        });
-    //    });
+    commentArr = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        long msgId = self.selectedMsg.message_id;
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
+        [commentArr addObjectsFromArray:requestRes];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
@@ -79,16 +78,38 @@
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
                                                               options:nil] objectAtIndex:0];
-    CGFloat textHeight = [NSString textHeight:self.msgText
-                                 sizeWithFont:[UIFont systemFontOfSize:17]
-                            constrainedToSize:CGSizeMake(240, 9999)];
-    headerViewHeight = textHeight + 15 + 50;
+    CGFloat textHeight = [NSString textHeight:self.selectedMsg.text
+                                 sizeWithFont:[UIFont systemFontOfSize:18]
+                            constrainedToSize:CGSizeMake(260, 9999)];
+    //    CGRect labelRect = myHeader.textLabel.frame;
+    //    [myHeader.textLabel setFrame:CGRectMake(labelRect.origin.x, labelRect.origin.y, 260, textHeight)];
+    
+    headerViewHeight = textHeight + 60 + 60;
     CGRect headerFrame = myHeader.frame;
     headerFrame.size.height = headerViewHeight;
     myHeader.frame = headerFrame;
-    myHeader.textLabel.text = self.msgText;
-    myHeader.areaLabel.text = @"华东理工";
-    myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", 1];
+    myHeader.textLabel.text = self.selectedMsg.text;
+    myHeader.areaLabel.text = self.selectedMsg.area.area_name;
+    myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
+    
+    int bgImageNo = self.selectedMsg.background_no;
+    if ( (1 == bgImageNo) || (2 == bgImageNo) )
+    {
+        [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_grey"]];
+        [myHeader.areaLabel setTextColor:UIColorFromRGB(0x969696)];
+        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+        [myHeader.textLabel setTextColor:UIColorFromRGB(0x000000)];
+        [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+    }
+    else
+    {
+        [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
+        [myHeader.areaLabel setTextColor:UIColorFromRGB(0x000000)];
+        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x000000)];
+        [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+    }
+    
     return myHeader;
 }
 #pragma mark UITableViewDelgate
@@ -129,7 +150,8 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    NSLog(@"%s, cout = %d", __FUNCTION__, commentArr.count);
+    return [commentArr count];
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

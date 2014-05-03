@@ -13,6 +13,11 @@
 #import "UnReadMsgViewController.h"
 #import "LogInViewController.h"
 
+#define kTextLabel    8000
+#define kAreaLabel    8001
+#define kCommentLabel 8002
+#define kCommentImage 8003
+
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray* messageArray;
@@ -38,7 +43,7 @@
     self.title = @"假面校园";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
-    
+    self.pullTableView.pullDelegate = self;
     //  int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
     
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -46,31 +51,33 @@
     [customButton setImage:[UIImage imageNamed:@"ico-to-do-list"] forState:UIControlStateNormal];
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
     unReadMsgBarButton.shouldHideBadgeAtZero = YES;
-    //    unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
-    unReadMsgBarButton.badgeOriginX = 13;
+    //unReadMsgBarButton.badgeValue = @"2";
+    // unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
+    unReadMsgBarButton.badgeOriginX = 5;
     unReadMsgBarButton.badgeOriginY = -9;
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
                                                                          style:UIBarButtonItemStylePlain
                                                                         target:self
                                                                         action:@selector(settingBtnPressed:)];;
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
-    
-    
+    [[NetWorkConnect sharedInstance] userLogInWithToken:@"2.00VXrxUD0Jcq2w15144954fa0HHnmy"
+                                           userIdentify:@"3205955737"
+                                               userType:UserTypeWeiBo
+                                                  error:nil];
     messageArray = [NSMutableArray array];
-    [messageArray addObject:@"李克强总理近日主持召开国务院常务会议，确定进一步落实企业投资自主权的政策措施，决定在基础设施等领域推出一批鼓励社会资本参与的项目，部署促进市场公平竞争维护市场正常秩序工作。这些重大举措引起舆论广泛关注和热评。"];
-    [messageArray addObject:@"the issue that's occurring is that the height of the label has empty space at its top and bottom, and that the longer the string inside it is, the larger that empty space is."];
-    [messageArray addObject:@"Fuck You!"];
-    [messageArray addObject:@"2006年的第一场雪，一群爱音乐的人在杭州的一家小咖啡屋开始了他们的追梦旅程。从一开始，他们就知道，这条路并不平坦，但是他们却为之血脉贲张。"];
-    
-    //    dispatch_sync(dispatch_get_global_queue(0, 0), ^{
-    //        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0 sinceId:0 maxId:INT_MAX count:20 trimArea:NO filterType:0];
-    //        [messageArray addObjectsFromArray:requestRes];
-    //
-    //        dispatch_sync(dispatch_get_main_queue(), ^{
-    //            //  [self.pullTableView reloadData];
-    //        });
-    //    });
-    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
+                                                                   sinceId:0
+                                                                     maxId:INT_MAX
+                                                                     count:20
+                                                                  trimArea:NO
+                                                                filterType:0];
+        [messageArray addObjectsFromArray:requestRes];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.pullTableView reloadData];
+        });
+    });
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable)
                                                  name:@"publishMessageSuccess"
@@ -89,7 +96,7 @@
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"退出登录" image:nil target:self action:@selector(menuItemPressed:)],
+      [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
     
     for (KxMenuItem* item in menuItems)
@@ -103,15 +110,24 @@
 {
     NSLog(@"%s", __FUNCTION__);
     KxMenuItem* menuItem = (KxMenuItem*)sender;
-    if ([menuItem.title isEqualToString:@"邀请朋友"]) {
+    if ([menuItem.title isEqualToString:@"邀请朋友"])
+    {
         NSLog(@"邀请朋友");
-    }else if([menuItem.title isEqualToString:@"意见反馈"]){
+    }
+    else if([menuItem.title isEqualToString:@"意见反馈"])
+    {
         
-    }else if([menuItem.title isEqualToString:@"检查更新"]){
-         [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
-    }else{
+    }
+    else if([menuItem.title isEqualToString:@"检查更新"])
+    {
+        [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
+    }
+    else
+    {
         BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-        if (result) {
+        NSLog(@"userlog = %d", result);
+        if (result)
+        {
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] synchronize];
             LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
@@ -132,15 +148,16 @@
 #pragma mark - UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"%s %d", __FUNCTION__, messageArray.count);
     return [messageArray count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int row = indexPath.row;
-    NSString* text = (NSString*)[messageArray objectAtIndex:row];
-    CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:17] constrainedToSize:CGSizeMake(240,9999)];
+    NSString* text = [(MessageModel*)[messageArray objectAtIndex:row] text];
+    CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(260,9999)];
     NSLog(@"%s, %lf", __FUNCTION__, textHeight);
-    return textHeight + 15 + 50;
+    return textHeight + 60 + 60;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -152,10 +169,31 @@
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
     UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
+    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
     
-    textLabel.text = (NSString*)[messageArray objectAtIndex:indexPath.row];
-    areaLabel.text = @"华东理工";
-    commentNumLabel.text = [NSString stringWithFormat:@"%d", indexPath.row];
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    textLabel.text = currentMsg.text;
+    areaLabel.text = currentMsg.area.area_name;
+    commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+    
+    int bgImageNo = currentMsg.background_no;
+    if ( (1 == bgImageNo) || (2 == bgImageNo) )
+    {
+        [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
+        [areaLabel setTextColor:UIColorFromRGB(0x969696)];
+        [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+        [textLabel setTextColor:UIColorFromRGB(0x000000)];
+        [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+    }
+    else
+    {
+        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+        [areaLabel setTextColor:UIColorFromRGB(0x000000)];
+        [commentNumLabel setTextColor:UIColorFromRGB(0x000000)];
+        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+    }
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -163,7 +201,7 @@
     NSLog(@"%s", __FUNCTION__);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    msgDetailVC.msgText = (NSString*)[messageArray objectAtIndex:indexPath.row];
+    msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     [self.navigationController pushViewController:msgDetailVC animated:YES];
 }
 #pragma mark - PullTableViewDelegate
@@ -180,6 +218,7 @@
 #pragma mark - Refresh and load more methods
 - (void)refreshTable
 {
+    NSLog(@"call: %s", __FUNCTION__);
     if (0 == [messageArray count])
         return;
     self.pullTableView.pullTableIsRefreshing = YES;
@@ -188,7 +227,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:sinceId
-                                                                      maxId:0
+                                                                      maxId:INT_MAX
                                                                       count:20
                                                                    trimArea:NO
                                                                  filterType:0];
@@ -196,7 +235,8 @@
             [messageArray insertObject:message atIndex:0];
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if (_pullTableView.pullTableIsRefreshing == YES) {
+            if (_pullTableView.pullTableIsRefreshing == YES)
+            {
                 _pullTableView.pullTableIsRefreshing = NO;
                 [_pullTableView reloadData];
             }
@@ -217,7 +257,7 @@
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
             NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
             
             for(NSDictionary *result __unused in loadMoreRes){
@@ -236,7 +276,6 @@
 
 - (IBAction)publishMessage:(id)sender
 {
-    NSLog(@"%s", __FUNCTION__);
     PublishMsgViewController* publisMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
     [self.navigationController pushViewController:publisMsgVC animated:YES];
 }

@@ -11,6 +11,7 @@
 @interface TableHeaderView : UIView
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UILabel *commentNumLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *commentImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *areaLabel;
 @end
