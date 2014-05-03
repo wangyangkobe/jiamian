@@ -10,3 +10,6 @@
 @implementation CommentModel
 
 @end
+
+@implementation Comments
+@end

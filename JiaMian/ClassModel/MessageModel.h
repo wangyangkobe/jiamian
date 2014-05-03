@@ -9,6 +9,9 @@
 #import "AreaModel.h"
 #import "UserModel.h"
 
+@protocol MessageModel
+@end
+
 @interface MessageModel : JSONModel
 
 @property(nonatomic, strong) NSString*           create_at;
@@ -21,6 +24,13 @@
 @property(nonatomic, assign) int                 background_no;   //背景图片序号（仅当type为1有效，否则null）
 @property(nonatomic, strong) NSString<Optional>* background_url;  //背景图片序号（仅当type为2有效，否则null）
 @property(nonatomic, strong) AreaModel*          area;
-@property(nonatomic, strong) UserModel*          user;
+//@property(nonatomic, strong) UserModel*          user;
+@property(nonatomic, assign) BOOL                is_official;
+
+@end
+
+@interface Messages : JSONModel
+
+@property(strong, nonatomic) NSArray<MessageModel>* messages;
 
 @end

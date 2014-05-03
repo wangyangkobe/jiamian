@@ -8,6 +8,7 @@
 
 #import "UserModel.h"
 
+
 @implementation UserModel
 
 @synthesize user_id     = _user_id;
@@ -27,6 +28,7 @@
 		_head_image  = [aDecoder decodeObjectForKey:@"head_image"];
 		_user_type   = [aDecoder decodeIntForKey:@"user_type"];
 		_description = [aDecoder decodeObjectForKey:@"description"];
+        _area        = [aDecoder decodeObjectForKey:@"area"];
 	}
 	return self;
 }
@@ -39,6 +41,7 @@
     [aCoder encodeObject:_head_image  forKey:@"head_image"];
     [aCoder encodeInt:_user_type      forKey:@"user_type"];
     [aCoder encodeObject:_description forKey:@"description"];
+    [aCoder encodeObject:_area        forKey:@"area"];
 }
 
 #pragma mark NSCopying
@@ -53,6 +56,7 @@
     copy.user_name   = [self.user_name copyWithZone:zone];
     copy.head_image  = [self.head_image copyWithZone:zone];
     copy.description = [self.description copyWithZone:zone];
+    copy.area        = [self.description copyWithZone:zone];
     return copy;
 }
 

@@ -1,4 +1,5 @@
 #import "NetWorkConnect.h"
+#define CustomErrorDomain @"com.jiamiantech"
 
 @implementation NetWorkConnect
 
@@ -22,24 +23,32 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type
+- (UserModel*)userLogInWithToken:(NSString*)AccessToken userIdentify:(NSString*)Identity userType:(int)Type error:(NSError**)Error
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/login", HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-    
     [request setRequestMethod:@"POST"];
     [request setPostValue:AccessToken forKey:@"access_token"];
+    [request setPostValue:Identity forKey:@"user_identity"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
     
-    //    [request setDownloadCache:myCache];
-    //    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    if ( [request error] ) {  // [request responseStatusCode] != 200
+    NSLog(@"%@ responseString=%d", requestUrl, request.responseStatusCode);
+    if ( [request responseStatusCode] != 200 )
+    {
+        //{"err_code":"10001","err_msg":"Test Login Error"}
+        NSDictionary *userInfo = [NSJSONSerialization JSONObjectWithData:request.responseData
+                                                                 options: NSJSONReadingMutableContainers
+                                                                   error: nil];
+        *Error = [NSError errorWithDomain:CustomErrorDomain code:0 userInfo:userInfo];
         return nil;
-    } else {
+    }
+    else
+    {
         NSError* error;
         UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:&error];
+        NSLog(@"%s, error = %@", __FUNCTION__, error.description);
         return userInfo;
     }
 }
@@ -48,10 +57,11 @@ static ASIDownloadCache* myCache;
 - (BOOL)userLogOut
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/logout", HOME_PAGE];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
     [request startSynchronous];
-    NSLog(@"user logout:%@", [request responseString]);
-    if ( 200 == [request responseStatusCode] )
+    NSLog(@"user logout:%@ %d", [request responseString], request.responseStatusCode);
+    if ( 204 == [request responseStatusCode] )
         return YES;
     else
         return NO;
@@ -132,19 +142,17 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"URL = %@", requestUrl);
-    
-    NSMutableArray* result = [NSMutableArray array];
+    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
     if (200 == [request responseStatusCode])
     {
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
-        for (id entry in jsonArray)
-        {
-            MessageModel* message = [[MessageModel alloc] initWithDictionary:entry error:nil];
-            if (message)
-                [result addObject:message];
+        NSError* error;
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
+        if (result) {
+            return [result.messages copy];
+        }else{
+            NSLog(@"error = %@", [error description]);
+            return [NSArray array];
         }
-        return result;
     }
     else
         return [NSArray array];
@@ -180,7 +188,7 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     
     [request startSynchronous];
-    
+    NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     else
@@ -200,20 +208,22 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     
     [request startSynchronous];
+    
     NSMutableArray* result = [NSMutableArray array];
+    NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
     if ( 200 == [request responseStatusCode] )
     {
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
+        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
+                                                             options:NSJSONReadingMutableContainers
+                                                               error:nil];
         for (id entry in jsonArray)
         {
             CommentModel* comment = [[CommentModel alloc] initWithDictionary:entry error:nil];
             if (comment)
                 [result addObject:comment];
         }
-        return result;
     }
-    else
-        return result;
+    return result;
 }
 //////////////////////////////////////////////////////////////////
 - (CommentModel*)commentCreate:(long)MsgId text:(NSString*)Text
