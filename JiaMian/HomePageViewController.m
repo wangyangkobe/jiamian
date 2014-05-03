@@ -125,7 +125,6 @@
     else
     {
         BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-        NSLog(@"userlog = %d", result);
         if (result)
         {
             [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
