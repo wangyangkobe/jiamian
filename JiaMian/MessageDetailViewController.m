@@ -122,7 +122,10 @@
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
-    
+    if (3 == bgImageNo) {
+        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+    }
     return myHeader;
 }
 #pragma mark UITableViewDelgate

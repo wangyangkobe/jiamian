@@ -22,7 +22,16 @@
         LogInViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
         [self.window setRootViewController:logInVC];
     }
-    
+    else
+    {
+        NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
+        NSString* identity  = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInIdentify];
+        NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
+        [[NetWorkConnect sharedInstance] userLogInWithToken:token
+                                               userIdentify:identity
+                                                   userType:logInType
+                                                      error:nil];
+    }
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
     

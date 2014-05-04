@@ -104,7 +104,6 @@
 		15698552191355C800923E85 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15698551191355C800923E85 /* Default~iphone.png */; };
 		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
 		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
-		1569855919139B9900923E85 /* ErrorModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1569855819139B9900923E85 /* ErrorModel.m */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
@@ -267,8 +266,6 @@
 		15698551191355C800923E85 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		156985531913631B00923E85 /* comment_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_grey.png; sourceTree = "<group>"; };
 		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
-		1569855719139B9900923E85 /* ErrorModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorModel.h; sourceTree = "<group>"; };
-		1569855819139B9900923E85 /* ErrorModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorModel.m; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
@@ -530,8 +527,6 @@
 				15596710190E71BE00FB760A /* NotificationModel.m */,
 				15596711190E71BE00FB760A /* UserModel.h */,
 				15596712190E71BE00FB760A /* UserModel.m */,
-				1569855719139B9900923E85 /* ErrorModel.h */,
-				1569855819139B9900923E85 /* ErrorModel.m */,
 			);
 			path = ClassModel;
 			sourceTree = "<group>";
@@ -818,7 +813,6 @@
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
 				1558D012190BF34300E6B543 /* ASIFormDataRequest.m in Sources */,
-				1569855919139B9900923E85 /* ErrorModel.m in Sources */,
 				1558D011190BF34300E6B543 /* ASIDownloadCache.m in Sources */,
 				1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */,
 				1558D014190BF34300E6B543 /* ASIInputStream.m in Sources */,

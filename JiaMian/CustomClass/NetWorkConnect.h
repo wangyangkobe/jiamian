@@ -6,7 +6,7 @@
 #import "MessageModel.h"
 #import "CommentModel.h"
 #import "NotificationModel.h"
-#import "ErrorModel.h"
+
 #import "CommonMarco.h"
 
 

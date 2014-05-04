@@ -2,7 +2,15 @@
 #import "Reachability.h"
 
 #define CustomErrorDomain @"com.jiamiantech"
-#define ErrorAlerView [[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"服务器罢工了,请稍侯再试试吧" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show];
+#define ErrorAlertView     dispatch_async(dispatch_get_main_queue(), ^{ \
+[[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"服务器罢工了,请稍侯再试试吧" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]; \
+}); \
+
+#define NoNetWorkAlertView dispatch_async(dispatch_get_main_queue(), ^{ \
+[[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"您还没有连接网络哦" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]; \
+}); \
+
+
 
 
 @implementation NetWorkConnect
@@ -31,11 +39,7 @@ static ASIDownloadCache* myCache;
     Reachability *myNetwork = [Reachability reachabilityWithHostName:@"baidu.com"];
     NetworkStatus myStatus = [myNetwork currentReachabilityStatus];
     if (NotReachable == myStatus) {
-        [[[UIAlertView alloc] initWithTitle:@"系统提示"
-                                    message:@"您还没有连接网络哦"
-                                   delegate:nil
-                          cancelButtonTitle:@"知道了"
-                          otherButtonTitles:nil] show];
+        NoNetWorkAlertView;
         return NO;
     }else{
         return YES;
@@ -60,7 +64,7 @@ static ASIDownloadCache* myCache;
     if ( [request responseStatusCode] != 200 )
     {
         //{"err_code":"10001","err_msg":"Test Login Error"}
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
     else
@@ -113,7 +117,7 @@ static ASIDownloadCache* myCache;
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
@@ -121,9 +125,6 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (UserModel*)userShowById:(int)UserId
 {
-    if (NO == [self checkNetworkStatus])
-        return nil;
-    
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/show", HOME_PAGE];
     if (0 != UserId)
         requestUrl = [requestUrl stringByAppendingFormat:@"?user_id=%d", UserId];
@@ -137,7 +138,7 @@ static ASIDownloadCache* myCache;
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
@@ -161,7 +162,7 @@ static ASIDownloadCache* myCache;
     }
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
@@ -169,9 +170,6 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)messageList:(int)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType
 {
-    if (NO == [self checkNetworkStatus])
-        return [NSArray array];
-    
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/list?area_id=%d&count=%d", HOME_PAGE, AreaId, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
@@ -199,7 +197,7 @@ static ASIDownloadCache* myCache;
     }
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return [NSArray array];
     }
 }
@@ -207,9 +205,6 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (MessageModel*)messageShowByMsgId:(long)MsgId
 {
-    if (NO == [self checkNetworkStatus])
-        return nil;
-    
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/show?message_id=%ld", HOME_PAGE, MsgId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
@@ -222,7 +217,7 @@ static ASIDownloadCache* myCache;
     }
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
@@ -248,7 +243,7 @@ static ASIDownloadCache* myCache;
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
@@ -256,9 +251,6 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)commentShowByMsgId:(long)MsgId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
-    if (NO == [self checkNetworkStatus])
-        return [NSArray array];
-    
     NSString* requestUrl = [NSString stringWithFormat:@"%@/comments/show?message_id=%ld&count=%d", HOME_PAGE, MsgId, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
@@ -270,7 +262,7 @@ static ASIDownloadCache* myCache;
     
     [request startSynchronous];
     
-    NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
+    NSLog(@"url = %@, comment = %d", requestUrl, request.responseStatusCode);
     if (200 == [request responseStatusCode])
     {
         NSError* error;
@@ -278,13 +270,13 @@ static ASIDownloadCache* myCache;
         if (result) {
             return [result.comments copy];
         }else{
-            NSLog(@"error = %@", [error description]);
+            ErrorAlertView;
             return [NSArray array];
         }
     }
     else
     {
-        ErrorAlerView;
+        NoNetWorkAlertView;
         return [NSArray array];
     }
 }
@@ -306,17 +298,14 @@ static ASIDownloadCache* myCache;
         return [[CommentModel alloc] initWithString:[request responseString] error:nil];
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return nil;
     }
 }
 
 //////////////////////////////////////////////////////////////////
 - (NSArray*)notificationShow:(long)SinceId maxId:(long)MaxId count:(int)Count
-{
-    if (NO == [self checkNetworkStatus])
-        return [NSArray array];
-    
+{    
     NSString* requestUrl = [NSString stringWithFormat:@"%@/notifications/show?count=%d", HOME_PAGE, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
@@ -345,7 +334,7 @@ static ASIDownloadCache* myCache;
     }
     else
     {
-        ErrorAlerView;
+        ErrorAlertView;
         return result;
     }
 }

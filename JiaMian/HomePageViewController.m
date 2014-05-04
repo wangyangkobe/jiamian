@@ -41,13 +41,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
-    NSString* identity  = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInIdentify];
-    NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
-    [[NetWorkConnect sharedInstance] userLogInWithToken:token
-                                           userIdentify:identity
-                                               userType:logInType
-                                                  error:nil];
     self.title = @"假面校园";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
@@ -197,9 +190,10 @@
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
-    
-    if (3 == bgImageNo) {
+    if (3 == bgImageNo)
+    {
         [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
     return cell;
 }
@@ -257,7 +251,7 @@
         MessageModel* lastMessage = [messageArray lastObject];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
-                                                                      maxId:lastMessage.message_id - 1
+                                                                      maxId:lastMessage.message_id
                                                                       count:20
                                                                    trimArea:NO
                                                                  filterType:0];
@@ -267,7 +261,8 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
             
-            for(NSDictionary *result __unused in loadMoreRes){
+            for(id result __unused in loadMoreRes)
+            {
                 [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
                 fromIndex++;
             }
@@ -275,7 +270,8 @@
             [_pullTableView beginUpdates];
             [_pullTableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
             [_pullTableView endUpdates];
-            // [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            if (indexPaths.count > 0)
+                [_pullTableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
             self.pullTableView.pullTableIsLoadingMore = NO;
         });
     });
