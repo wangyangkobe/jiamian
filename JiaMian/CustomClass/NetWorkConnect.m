@@ -270,24 +270,23 @@ static ASIDownloadCache* myCache;
     
     [request startSynchronous];
     
-    NSMutableArray* result = [NSMutableArray array];
     NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
-    if ( 200 == [request responseStatusCode] )
+    if (200 == [request responseStatusCode])
     {
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData]
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:nil];
-        for (id entry in jsonArray)
-        {
-            CommentModel* comment = [[CommentModel alloc] initWithDictionary:entry error:nil];
-            if (comment)
-                [result addObject:comment];
+        NSError* error;
+        Comments* result = [[Comments alloc] initWithString:[request responseString] error:&error];
+        if (result) {
+            return [result.comments copy];
+        }else{
+            NSLog(@"error = %@", [error description]);
+            return [NSArray array];
         }
     }
     else
+    {
         ErrorAlerView;
-    
-    return result;
+        return [NSArray array];
+    }
 }
 //////////////////////////////////////////////////////////////////
 - (CommentModel*)commentCreate:(long)MsgId text:(NSString*)Text
@@ -329,13 +328,16 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
+    NSLog(@"%@", request.responseString);
     NSMutableArray* result = [NSMutableArray array];
     if ( 200 == [request responseStatusCode] )
     {
         NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
         for (id entry in jsonArray)
         {
-            NotificationModel* notification = [[NotificationModel alloc] initWithDictionary:entry error:nil];
+            NSError* error;
+            NotificationModel* notification = [[NotificationModel alloc] initWithDictionary:entry error:&error];
+            NSLog(@"error = %@", error.description);
             if (notification)
                 [result addObject:notification];
         }

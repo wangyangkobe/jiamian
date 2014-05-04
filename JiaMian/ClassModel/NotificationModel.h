@@ -16,9 +16,9 @@
 
 @property(nonatomic, copy) NSString*       create_at;
 @property(nonatomic, assign) long          notification_id;
+@property(nonatomic, assign) long          comment_id;
 @property(nonatomic, assign) long          status;         //1-未读，2-已读
 @property(nonatomic, copy) MessageModel*   message;
-@property(nonatomic, copy) AreaModel*      area;
-@property(nonatomic, copy) UserModel*      user;
+//@property(nonatomic, copy) AreaModel*      area;
 
 @end

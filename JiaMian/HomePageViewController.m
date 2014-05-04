@@ -66,10 +66,10 @@
                                                                         target:self
                                                                         action:@selector(settingBtnPressed:)];;
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
-
+    
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    //  int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
+        int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                    sinceId:0
                                                                      maxId:INT_MAX
@@ -79,7 +79,7 @@
         [messageArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-        // unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
+            unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
             [self.pullTableView reloadData];
         });
     });
@@ -198,6 +198,9 @@
         [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
     
+    if (3 == bgImageNo) {
+        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+    }
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -254,7 +257,7 @@
         MessageModel* lastMessage = [messageArray lastObject];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
-                                                                      maxId:lastMessage.message_id
+                                                                      maxId:lastMessage.message_id - 1
                                                                       count:20
                                                                    trimArea:NO
                                                                  filterType:0];

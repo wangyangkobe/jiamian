@@ -9,7 +9,9 @@
 #import "PublishMsgViewController.h"
 
 @interface PublishMsgViewController ()
-
+{
+    UIActivityIndicatorView* indicatorView;
+}
 @end
 
 @implementation PublishMsgViewController
@@ -45,6 +47,11 @@
                                                                          target:self
                                                                          action:@selector(sendMsgBtnPressed:)];
     self.navigationItem.rightBarButtonItem = sendMessageBarBtn;
+    
+    
+    indicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [indicatorView setFrame:CGRectMake(260, 100, 50, 50)];
+    indicatorView.hidesWhenStopped = YES;
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -62,9 +69,11 @@
 - (void)sendMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    [indicatorView startAnimating];
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text msgType:MessageTypeText areaId:1 lat:0.0 lon:0.0];
     if (message)
     {
+        [indicatorView stopAnimating];
         //通知父视图获取最新数据
         [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
         [self.navigationController popViewControllerAnimated:YES ];

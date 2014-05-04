@@ -32,12 +32,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
     unReadMsgArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:30];
         [unReadMsgArr addObjectsFromArray:requestRes];
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
     });
@@ -60,7 +63,7 @@
     CGFloat textHeight = [NSString textHeight:notification.message.text
                                  sizeWithFont:[UIFont systemFontOfSize:17]
                             constrainedToSize:CGSizeMake(240, 9999)];
-    return textHeight;
+    return textHeight + 40;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -70,7 +73,9 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+    UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
+    [titleLabel setText:@"有同学回复了"];
     [contentLabel setText:notification.message.text];
     return cell;
 }
