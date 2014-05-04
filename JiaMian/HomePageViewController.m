@@ -40,11 +40,17 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSString* token     = [USER_DEFAULT stringForKey:kLogInToken];
+    NSString* identity  = [USER_DEFAULT stringForKey:kLogInIdentify];
+    int logInType       = [USER_DEFAULT integerForKey:kLogInType];
+    [[NetWorkConnect sharedInstance] userLogInWithToken:token
+                                           userIdentify:identity
+                                               userType:logInType
+                                                  error:nil];
     self.title = @"假面校园";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
-    //  int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
     
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -52,7 +58,6 @@
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
     unReadMsgBarButton.shouldHideBadgeAtZero = YES;
     //unReadMsgBarButton.badgeValue = @"2";
-    // unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
     unReadMsgBarButton.badgeOriginX = 5;
     unReadMsgBarButton.badgeOriginY = -9;
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
@@ -60,12 +65,10 @@
                                                                         target:self
                                                                         action:@selector(settingBtnPressed:)];;
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
-    [[NetWorkConnect sharedInstance] userLogInWithToken:@"2.00VXrxUD0Jcq2w15144954fa0HHnmy"
-                                           userIdentify:@"3205955737"
-                                               userType:UserTypeWeiBo
-                                                  error:nil];
+
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    //  int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                    sinceId:0
                                                                      maxId:INT_MAX
@@ -75,6 +78,7 @@
         [messageArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+        // unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
             [self.pullTableView reloadData];
         });
     });

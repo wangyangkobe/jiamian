@@ -10,9 +10,13 @@
 #define JiaMian_CommonMarco_h
 
 #define HOME_PAGE  @"http://appsrv.jiamiantech.com:8082/MaskTech"
-#define kUserLogIn @"kUserLogIn"
-#define kSelfUserModel @"kSelfUserModel"
 
+#define kUserLogIn     @"kUserLogIn"
+#define kLogInToken    @"kLogInToken"
+#define kLogInIdentify @"kLogInIdentity"
+#define kLogInType     @"KLogInType"
+
+#define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @" http://appsrv.jiamiantech.com:8082/MaskTech"
@@ -69,7 +73,7 @@ typedef NS_ENUM(NSInteger, BackGroundType)
 static NSInteger COLOR_ARR[] = {0, 0xf1f1f1, 0xffff66, 0x000000, 0x24b1ce, 0xff9999, 0x99CC66, 0xCC3399, 0xfe4a4a, 0xCC3333};
 
 #define FONT(x) [UIFont systemFontOfSize:x]
-
+#define USER_DEFAULT [NSUserDefaults standardUserDefaults];
 
 
 #define AlertContent(content) \

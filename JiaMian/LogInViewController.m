@@ -71,8 +71,11 @@
                                                                             error:&error];
         if (userSelf) //login successful
         {
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+            [USER_DEFAULT setBool:YES       forKey:kUserLogIn];
+            [USER_DEFAULT setObject:wbToken forKey:kLogInToken];
+            [USER_DEFAULT setObject:userID  forKey:kLogInIdentify];
+            [USER_DEFAULT setInteger:userID forKey:kLogInType];
+            [USER_DEFAULT synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
