@@ -19,7 +19,7 @@
 #define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
-#define kSinaRedirectURI    @" http://appsrv.jiamiantech.com:8082/MaskTech"
+#define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"
 
 //Tencen QQ
 #define kTencentQQAppKey        @"101072460"
