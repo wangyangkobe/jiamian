@@ -2,7 +2,6 @@
 #import "ASIHTTPRequest.h"
 #import "ASIFormDataRequest.h"
 #import "ASIDownloadCache.h"
-
 #import "UserModel.h"
 #import "MessageModel.h"
 #import "CommentModel.h"
@@ -14,7 +13,7 @@
 @interface NetWorkConnect : NSObject
 
 +(id)sharedInstance;
-- (UserModel*)userLogInWithToken:(NSString*)access_token userIdentify:(NSString*)Identity userType:(int)Type error:(NSError **)Error;
+- (UserModel*)userLogInWithToken:(NSString*)access_token userIdentify:(NSString*)Identity userType:(int)Type error:(NSError**)Error;
 - (BOOL)userLogOut;
 
 //Gender: 1; HeadImg: nil; Description: nil

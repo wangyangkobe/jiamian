@@ -34,7 +34,7 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
     [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
-   // self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
+    // self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
     if (IOS_NEWER_OR_EQUAL_TO_7)
         [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 50, 0, 50)];
     self.textView.attributedPlaceholder = hoderText;
@@ -65,7 +65,6 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text msgType:MessageTypeText areaId:1 lat:0.0 lon:0.0];
     if (message)
     {
-        NSLog(@"========================");
         //通知父视图获取最新数据
         [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
         [self.navigationController popViewControllerAnimated:YES ];

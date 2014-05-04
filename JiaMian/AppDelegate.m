@@ -71,11 +71,11 @@
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!");
-            [USER_DEFAULT setBool:YES       forKey:kUserLogIn];
-            [USER_DEFAULT setObject:wbToken forKey:kLogInToken];
-            [USER_DEFAULT setObject:userID  forKey:kLogInIdentify];
-            [USER_DEFAULT setInteger:userID forKey:kLogInType];
-            [USER_DEFAULT synchronize];
+            [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
+            [[NSUserDefaults standardUserDefaults] setObject:wbToken forKey:kLogInToken];
+            [[NSUserDefaults standardUserDefaults] setObject:userID  forKey:kLogInIdentify];
+            [[NSUserDefaults standardUserDefaults] setInteger:UserTypeWeiBo forKey:kLogInType];
+            [[NSUserDefaults standardUserDefaults] synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];

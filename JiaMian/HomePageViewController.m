@@ -12,6 +12,7 @@
 #import "MessageDetailViewController.h"
 #import "UnReadMsgViewController.h"
 #import "LogInViewController.h"
+#import "CommonMarco.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -40,9 +41,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    NSString* token     = [USER_DEFAULT stringForKey:kLogInToken];
-    NSString* identity  = [USER_DEFAULT stringForKey:kLogInIdentify];
-    int logInType       = [USER_DEFAULT integerForKey:kLogInType];
+    NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
+    NSString* identity  = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInIdentify];
+    NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
     [[NetWorkConnect sharedInstance] userLogInWithToken:token
                                            userIdentify:identity
                                                userType:logInType
