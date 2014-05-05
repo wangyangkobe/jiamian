@@ -182,8 +182,10 @@
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTextLabel];
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
     textLabel.text = currentComment.text;
+    [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
     timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
-    [headImageView setImageWithURL:[NSURL URLWithString:currentComment.head_image] placeholderImage:nil];
+    [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
+    [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -194,7 +196,7 @@
                          constrainedToSize:CGSizeMake(260,9999)];
     
     NSLog(@"%s, %f", __FUNCTION__, textHight);
-    return textHight + 35;
+    return textHight + 23;
 }
 - (void)configureToolBar
 {
