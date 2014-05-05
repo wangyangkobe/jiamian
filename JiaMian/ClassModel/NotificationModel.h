@@ -12,6 +12,9 @@
 #import "AreaModel.h"
 #import "UserModel.h"
 
+@protocol NotificationModel
+@end
+
 @interface NotificationModel : JSONModel
 
 @property(nonatomic, copy) NSString*       create_at;
@@ -20,5 +23,11 @@
 @property(nonatomic, assign) long          status;         //1-未读，2-已读
 @property(nonatomic, copy) MessageModel*   message;
 //@property(nonatomic, copy) AreaModel*      area;
+
+@end
+
+@interface Notifications : JSONModel
+
+@property(strong, nonatomic) NSArray<NotificationModel>* notifications;
 
 @end

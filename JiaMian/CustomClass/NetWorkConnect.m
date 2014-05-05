@@ -328,26 +328,17 @@ static ASIDownloadCache* myCache;
     [request startSynchronous];
     
     NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
-    NSMutableArray* result = [NSMutableArray array];
-    if ( 200 == [request responseStatusCode] )
+    NSError* error;
+    Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
+    if (result)
     {
-        NSArray* jsonArray = [NSJSONSerialization JSONObjectWithData:[request responseData] options:NSJSONReadingMutableContainers error:nil];
-        for (id entry in jsonArray)
-        {
-            NSError* error;
-            NotificationModel* notification = [[NotificationModel alloc] initWithDictionary:entry error:&error];
-            NSLog(@"error = %@", error.description);
-            if (notification)
-                [result addObject:notification];
-        }
-        return result;
+        return [result.notifications copy];
     }
     else
     {
         ErrorAlertView;
-        return result;
-    }
-}
+        return [NSArray array];
+    }}
 
 //////////////////////////////////////////////////////////////////
 - (int)notificationUnreadCount
