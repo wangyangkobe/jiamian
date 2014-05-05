@@ -24,6 +24,7 @@
 		15278141190D544400C15419 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813F190D544400C15419 /* Icon@2x.png */; };
 		15278144190D554100C15419 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278142190D554100C15419 /* Default~iphone.png */; };
 		15278145190D554100C15419 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278143190D554100C15419 /* Default@2x.png */; };
+		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
 		1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF89190B9C5400E6B543 /* CoreGraphics.framework */; };
 		1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF8B190B9C5400E6B543 /* UIKit.framework */; };
@@ -136,6 +137,7 @@
 		1527813F190D544400C15419 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		15278142190D554100C15419 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		15278143190D554100C15419 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		1558CF84190B9C5400E6B543 /* JiaMian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JiaMian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558CF87190B9C5400E6B543 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1558CF89190B9C5400E6B543 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -278,6 +280,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */,
 				150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */,
 				150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */,
 				1558CFDC190BBBF400E6B543 /* libz.dylib in Frameworks */,
@@ -339,6 +342,7 @@
 		1558CF86190B9C5400E6B543 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				153DCA711917C8D200072F4F /* ImageIO.framework */,
 				150ED9D919149F1000175728 /* MobileCoreServices.framework */,
 				150ED9D719149F0200175728 /* CFNetwork.framework */,
 				1558CFDB190BBBF400E6B543 /* libz.dylib */,

@@ -38,16 +38,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //    UIBarButtonItem* shareMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享"
-    //                                                                           style:UIBarButtonItemStylePlain
-    //                                                                          target:self
-    //                                                                          action:@selector(shareMsgBtnPressed:)];
-    UIImage *shareImage = [UIImage imageNamed:@"ic_share"];
-    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    shareBtn.bounds = CGRectMake( 0, 0 , 44, 44 );
-    [shareBtn setImage:shareImage forState:UIControlStateNormal];
-    [shareBtn addTarget:self action:@selector(shareMsgBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *shareMessageBarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
+    UIBarButtonItem* shareMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享"
+                                                                           style:UIBarButtonItemStylePlain
+                                                                        target:self
+                                                                        action:@selector(shareMsgBtnPressed:)];
+//    UIImage *shareImage = [UIImage imageNamed:@"ic_share"];
+//    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    shareBtn.bounds = CGRectMake( 0, 0 , 44, 44 );
+//    [shareBtn setImage:shareImage forState:UIControlStateNormal];
+//    [shareBtn addTarget:self action:@selector(shareMsgBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *shareMessageBarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
     
     self.navigationItem.rightBarButtonItem = shareMessageBarBtn;
     self.tableView.dataSource = self;
@@ -122,7 +122,8 @@
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
-    if (3 == bgImageNo) {
+    if (3 == bgImageNo)
+    {
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
@@ -182,6 +183,7 @@
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
     textLabel.text = currentComment.text;
     timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+    [headImageView setImageWithURL:[NSURL URLWithString:currentComment.head_image] placeholderImage:nil];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

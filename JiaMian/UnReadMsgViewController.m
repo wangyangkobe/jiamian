@@ -75,6 +75,8 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
+    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
+  //  [headImage setImageWithURL:[NSURL URLWithString:notification.] placeholderImage:<#(UIImage *)#>]
     [titleLabel setText:@"有同学回复了"];
     [contentLabel setText:notification.message.text];
     return cell;

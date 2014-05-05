@@ -27,4 +27,5 @@
     #import "NetWorkConnect.h"
     #import "UMSocial.h"
     #import "MobClick.h"
+    #import <SDWebImage/UIImageView+WebCache.h>
 #endif
