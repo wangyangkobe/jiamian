@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B18C8C1AA3043F1BCB65B3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47598134FC4338B1A545FC /* libPods.a */; };
+		1505E4A119184A250037A671 /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505E4A019184A250037A671 /* Icon-120.png */; };
 		150ED9D619149EE500175728 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFF7190BF34300E6B543 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D719149F0200175728 /* CFNetwork.framework */; };
 		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
@@ -25,6 +26,7 @@
 		15278144190D554100C15419 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278142190D554100C15419 /* Default~iphone.png */; };
 		15278145190D554100C15419 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278143190D554100C15419 /* Default@2x.png */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
+		153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 153DCA741917DD8100072F4F /* UILabel+Extensions.m */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
 		1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF89190B9C5400E6B543 /* CoreGraphics.framework */; };
 		1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF8B190B9C5400E6B543 /* UIKit.framework */; };
@@ -122,6 +124,7 @@
 
 /* Begin PBXFileReference section */
 		039441761BD14D36B95936E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		1505E4A019184A250037A671 /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120.png"; sourceTree = "<group>"; };
 		150ED9D719149F0200175728 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		150ED9DB19150B9C00175728 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 		15278142190D554100C15419 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		15278143190D554100C15419 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		153DCA731917DD8100072F4F /* UILabel+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
+		153DCA741917DD8100072F4F /* UILabel+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
 		1558CF84190B9C5400E6B543 /* JiaMian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JiaMian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558CF87190B9C5400E6B543 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1558CF89190B9C5400E6B543 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -542,6 +547,8 @@
 				155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */,
 				15596719190E71C700FB760A /* NetWorkConnect.h */,
 				1559671A190E71C700FB760A /* NetWorkConnect.m */,
+				153DCA731917DD8100072F4F /* UILabel+Extensions.h */,
+				153DCA741917DD8100072F4F /* UILabel+Extensions.m */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -594,6 +601,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1505E4A019184A250037A671 /* Icon-120.png */,
 				150ED9DB19150B9C00175728 /* ic_share.png */,
 				156985551913816200923E85 /* comment_white.png */,
 				156985531913631B00923E85 /* comment_grey.png */,
@@ -730,6 +738,7 @@
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
 				1558D01F190BF34300E6B543 /* grayArrow.png in Resources */,
 				15278145190D554100C15419 /* Default@2x.png in Resources */,
+				1505E4A119184A250037A671 /* Icon-120.png in Resources */,
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
 				1569854E19134A1700923E85 /* sina_login_pressed.png in Resources */,
 				1558D020190BF34300E6B543 /* grayArrow@2x.png in Resources */,
@@ -829,6 +838,7 @@
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
 				15596714190E71BE00FB760A /* CommentModel.m in Sources */,
 				1558D017190BF34300E6B543 /* EGORefreshTableHeaderView.m in Sources */,
+				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,
 			);

@@ -17,7 +17,7 @@
 @property(nonatomic, copy) NSString*      create_at;
 @property(nonatomic, assign) long         comment_id;
 @property(nonatomic, assign) long         message_id;
-@property(nonatomic, copy) NSString<Optional>*      head_image;
+@property(nonatomic, copy) NSString<Optional>*      user_head;
 @property(nonatomic, copy) NSString*      text;
 @property (assign, nonatomic) BOOL        is_starter;
 @property(nonatomic, strong) UserModel*   user;

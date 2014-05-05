@@ -10,3 +10,7 @@
 @implementation NotificationModel
 
 @end
+
+@implementation Notifications
+
+@end
