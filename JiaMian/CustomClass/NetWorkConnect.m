@@ -146,8 +146,6 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSDictionary*)userMessageLimit
 {
-    if (NO == [self checkNetworkStatus])
-        return nil;
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/messageLimit", HOME_PAGE];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
@@ -162,7 +160,6 @@ static ASIDownloadCache* myCache;
     }
     else
     {
-        ErrorAlertView;
         return nil;
     }
 }
@@ -184,7 +181,19 @@ static ASIDownloadCache* myCache;
     [request startSynchronous];
     
     NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
-    if (200 == [request responseStatusCode])
+
+    NSError* error;
+    Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
+    if (result)
+    {
+        return [result.messages copy];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
+ /* if (200 == [request responseStatusCode])
     {
         NSError* error;
         Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
@@ -200,6 +209,7 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return [NSArray array];
     }
+*/
 }
 
 //////////////////////////////////////////////////////////////////

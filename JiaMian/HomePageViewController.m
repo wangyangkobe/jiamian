@@ -238,6 +238,7 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             if (_pullTableView.pullTableIsRefreshing == YES)
             {
+                _pullTableView.pullLastRefreshDate = [NSDate date]; 
                 _pullTableView.pullTableIsRefreshing = NO;
                 [_pullTableView reloadData];
             }
