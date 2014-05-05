@@ -122,7 +122,8 @@
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
-    if (3 == bgImageNo) {
+    if (3 == bgImageNo)
+    {
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
@@ -182,6 +183,7 @@
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
     textLabel.text = currentComment.text;
     timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+    [headImageView setImageWithURL:[NSURL URLWithString:currentComment.head_image] placeholderImage:nil];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

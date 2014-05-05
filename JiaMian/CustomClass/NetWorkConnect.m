@@ -272,7 +272,7 @@ static ASIDownloadCache* myCache;
     
     [request startSynchronous];
     
-    NSLog(@"url = %@, comment = %d", requestUrl, request.responseStatusCode);
+    NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
     if (200 == [request responseStatusCode])
     {
         NSError* error;
@@ -327,7 +327,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"%@", request.responseString);
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     NSMutableArray* result = [NSMutableArray array];
     if ( 200 == [request responseStatusCode] )
     {
@@ -357,7 +357,7 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     if ( 200 == [request responseStatusCode] )
     {
         NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
