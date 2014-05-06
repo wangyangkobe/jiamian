@@ -8,14 +8,14 @@
 
 #import "NSString+Extenions.h"
 #import "CommonMarco.h"
-
+#define kSystemVersion ([[UIDevice currentDevice] systemVersion].intValue)
 @implementation NSString (Extenions)
 
 + (CGFloat)textHeight:(NSString*)text sizeWithFont:(UIFont*)font constrainedToSize:(CGSize)size
 {
-    CGSize textSize = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
-    return textSize.height;
-    
+    // CGSize textSize = [text sizeWithFont:font constrainedToSize:size lineBreakMode:NSLineBreakByWordWrapping];
+    // return textSize.height;
+    return [text sizeWithFont:font constrainedToSize:size].height;
 }
 + (NSString*)convertTimeFormat:(NSString*)timeStr
 {
@@ -37,5 +37,38 @@
         return [NSString stringWithFormat:@"%d分钟前", comps.minute];
     else
         return @"刚刚";
+}
+
+- (CGSize)sizeWithFont:(UIFont *)font
+{
+    return [self sizeWithFont:font constrainedToSize:(CGSize)
+            {MAXFLOAT, MAXFLOAT}];
+}
+
+- (CGSize)sizeWithFontSize:(float)fSize constrainedToSize:(CGSize)cSize
+{
+    UIFont *font = [UIFont systemFontOfSize:fSize];
+    return [self sizeWithFont:font constrainedToSize:cSize];
+}
+
+- (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)cSize
+{
+    if (kSystemVersion < 7)
+    {
+        CGSize size = [self sizeWithFont:font constrainedToSize:cSize
+                           lineBreakMode:NSLineBreakByWordWrapping];
+        return size;
+    }
+    else
+    {
+        NSDictionary *stringAttributes = @{NSFontAttributeName:font};
+        CGRect rect = [self boundingRectWithSize:cSize
+                                         options:NSStringDrawingUsesLineFragmentOrigin |
+                       NSStringDrawingUsesFontLeading
+                                      attributes:stringAttributes
+                                         context:nil];
+        
+        return rect.size;
+    }
 }
 @end
