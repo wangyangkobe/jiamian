@@ -330,6 +330,7 @@ static ASIDownloadCache* myCache;
     NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     NSError* error;
     Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
+    NSLog(@"%s, error = %@", __FUNCTION__, error.description);
     if (result)
     {
         return [result.notifications copy];

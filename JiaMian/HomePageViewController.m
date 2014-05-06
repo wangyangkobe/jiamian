@@ -114,7 +114,13 @@
     if ([menuItem.title isEqualToString:@"邀请朋友"])
     {
         NSLog(@"邀请朋友");
-    }
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMengAppKey
+                                          shareText:@"亲，来玩玩假面吧!"
+                                         shareImage:nil
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
+                                           delegate:nil];
+    }  
     else if([menuItem.title isEqualToString:@"意见反馈"])
     {
         

@@ -77,7 +77,7 @@
                                          appKey:kUMengAppKey
                                       shareText:@"你要分享的文字"
                                      shareImage:nil
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToQzone,nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
                                        delegate:nil];
 }
 - (void)didReceiveMemoryWarning
