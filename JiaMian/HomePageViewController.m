@@ -13,7 +13,7 @@
 #import "UnReadMsgViewController.h"
 #import "LogInViewController.h"
 #import "CommonMarco.h"
-
+#import "UILabel+Extensions.h"
 #define kTextLabel    8000
 #define kAreaLabel    8001
 #define kCommentLabel 8002
@@ -41,6 +41,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.title = @"假面校园";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
@@ -153,8 +156,14 @@
     int row = indexPath.row;
     NSString* text = [(MessageModel*)[messageArray objectAtIndex:row] text];
     CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(260,9999)];
+//    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
+//                           constrainedToSize:CGSizeMake(260, 42*10)
+//                               lineBreakMode:NSLineBreakByWordWrapping].height;
     NSLog(@"%s, %lf", __FUNCTION__, textHeight);
-    return textHeight + 60 + 60;
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        return textHeight + 60 + 60 + 10;
+    else
+        return textHeight + 60 + 60;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -170,6 +179,7 @@
     
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     textLabel.text = currentMsg.text;
+    
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     
