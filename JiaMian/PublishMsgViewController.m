@@ -41,7 +41,7 @@
     [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
     //self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
     if (IOS_NEWER_OR_EQUAL_TO_7)
-        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 40, 0,450)];
+        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 40, 0, 40)];
     self.textView.attributedPlaceholder = hoderText;
     [self.textView becomeFirstResponder];
     

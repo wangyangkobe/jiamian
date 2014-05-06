@@ -98,6 +98,9 @@
     //    [myHeader.textLabel setFrame:CGRectMake(labelRect.origin.x, labelRect.origin.y, 260, textHeight)];
     
     headerViewHeight = textHeight + 60 + 60;
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        headerViewHeight += 10;
+    }
     CGRect headerFrame = myHeader.frame;
     headerFrame.size.height = headerViewHeight;
     myHeader.frame = headerFrame;
@@ -193,10 +196,13 @@
     CommentModel* currentComment = [commentArr objectAtIndex:indexPath.row];
     float textHight = [NSString textHeight:currentComment.text
                               sizeWithFont:[UIFont systemFontOfSize:17]
-                         constrainedToSize:CGSizeMake(260,9999)];
+                         constrainedToSize:CGSizeMake(260, 9999)];
     
     NSLog(@"%s, %f", __FUNCTION__, textHight);
-    return textHight + 23;
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        return textHight + 23 + 7;
+    else
+        return textHight + 23;
 }
 - (void)configureToolBar
 {
