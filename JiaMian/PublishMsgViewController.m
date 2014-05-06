@@ -29,6 +29,9 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
     [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
@@ -36,9 +39,9 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
     [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
-    // self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
+    //self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
     if (IOS_NEWER_OR_EQUAL_TO_7)
-        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 50, 0, 50)];
+        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 40, 0,450)];
     self.textView.attributedPlaceholder = hoderText;
     [self.textView becomeFirstResponder];
     
