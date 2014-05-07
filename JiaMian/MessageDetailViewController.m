@@ -186,7 +186,10 @@
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
     textLabel.text = currentComment.text;
     [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
-    timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+    if(currentComment.is_starter) //楼主
+        timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
+    else
+        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
     [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
     [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
     return cell;
@@ -331,7 +334,7 @@
 }
 - (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ( [text isEqualToString:@"\n"] || (range.location >= 1000) )  //控制输入文本的长度
+    if ( [text isEqualToString:@"\n"] || (range.location >= 180) )  //控制输入文本的长度
         return NO;
     else
         return YES;

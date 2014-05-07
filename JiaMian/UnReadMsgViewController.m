@@ -7,7 +7,9 @@
 //
 
 #import "UnReadMsgViewController.h"
+#import "MessageDetailViewController.h"
 #import "UILabel+Extensions.h"
+#import "MessageModel.h"
 #define kHeadPicView     7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
@@ -84,5 +86,16 @@
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x666666)];
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    
+    MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
+    MessageModel* message = (MessageModel*)[unReadMsgArr objectAtIndex:indexPath.row];
+    messageDetailVC.selectedMsg = message;
+    [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
 @end
