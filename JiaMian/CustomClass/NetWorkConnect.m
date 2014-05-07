@@ -46,7 +46,7 @@ static ASIDownloadCache* myCache;
     }
 }
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userLogInWithToken:(NSString*)AccessToken userIdentify:(NSString*)Identity userType:(int)Type error:(NSError**)Error
+- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type error:(NSError**)Error
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -55,7 +55,6 @@ static ASIDownloadCache* myCache;
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setRequestMethod:@"POST"];
     [request setPostValue:AccessToken forKey:@"access_token"];
-    [request setPostValue:Identity forKey:@"user_identity"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
     
     [request startSynchronous];

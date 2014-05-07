@@ -25,10 +25,8 @@
     else
     {
         NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
-        NSString* identity  = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInIdentify];
         NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
         [[NetWorkConnect sharedInstance] userLogInWithToken:token
-                                               userIdentify:identity
                                                    userType:logInType
                                                       error:nil];
     }
@@ -74,7 +72,6 @@
         
         NSError* error;
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken
-                                                                     userIdentify:userID
                                                                          userType:UserTypeWeiBo
                                                                             error:&error];
         if (userSelf) //login successful
@@ -82,7 +79,6 @@
             NSLog(@"user sina log in successful!");
             [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:wbToken forKey:kLogInToken];
-            [[NSUserDefaults standardUserDefaults] setObject:userID  forKey:kLogInIdentify];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeWeiBo forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
             

@@ -66,14 +66,12 @@
         
         NSError* error;
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken
-                                                                     userIdentify:_tencentOAuth.openId
                                                                          userType:UserTypeQQ
                                                                             error:&error];
         if (userSelf) //login successful
         {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:_tencentOAuth.accessToken forKey:kLogInToken];
-            [[NSUserDefaults standardUserDefaults] setObject:_tencentOAuth.openId  forKey:kLogInIdentify];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
