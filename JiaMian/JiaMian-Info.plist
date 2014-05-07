@@ -14,6 +14,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
+				<string>Icon-80</string>
+				<string>Icon-Small</string>
 				<string>Icon-120</string>
 				<string>Icon</string>
 			</array>
@@ -51,14 +53,6 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>wb862234629</string>
-			</array>
-		</dict>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>QQ0101072460</string>
 			</array>
 		</dict>
 	</array>

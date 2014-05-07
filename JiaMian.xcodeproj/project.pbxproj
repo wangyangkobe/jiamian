@@ -108,6 +108,9 @@
 		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
 		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
+		15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D0191A4D3F00C31D39 /* Icon-80.png */; };
+		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
+		15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 /* End PBXBuildFile section */
@@ -275,6 +278,9 @@
 		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		15B035D0191A4D3F00C31D39 /* Icon-80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-80.png"; sourceTree = "<group>"; };
+		15B035D1191A4D3F00C31D39 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -601,6 +607,9 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15B035D0191A4D3F00C31D39 /* Icon-80.png */,
+				15B035D1191A4D3F00C31D39 /* Icon-Small.png */,
+				15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */,
 				1505E4A019184A250037A671 /* Icon-120.png */,
 				150ED9DB19150B9C00175728 /* ic_share.png */,
 				156985551913816200923E85 /* comment_white.png */,
@@ -724,7 +733,10 @@
 				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
 				1569854A19134A0C00923E85 /* loginbg.png in Resources */,
 				15596727190E763C00FB760A /* Default-568h@2x.png in Resources */,
+				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
+				15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */,
+				15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */,
 				15596746190E894100FB760A /* UMSCommentInputController.xib in Resources */,
 				1559674D190E894100FB760A /* UMSocialSDKResourcesNew.bundle in Resources */,
 				150ED9DC19150B9C00175728 /* ic_share.png in Resources */,
@@ -915,8 +927,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -954,8 +966,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;

@@ -13,7 +13,7 @@
 #define kHeadPicView     7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
-@interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* unReadMsgArr;
 }
@@ -34,8 +34,13 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.pullDelegate = self;
+    self.tableView.tableHeaderView = nil;
     
     unReadMsgArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -62,9 +67,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-//    CGFloat textHeight = [NSString textHeight:notification.message.text
-//                                 sizeWithFont:[UIFont systemFontOfSize:17]
-//                            constrainedToSize:CGSizeMake(260, 9999)];
+    //    CGFloat textHeight = [NSString textHeight:notification.message.text
+    //                                 sizeWithFont:[UIFont systemFontOfSize:17]
+    //                            constrainedToSize:CGSizeMake(260, 9999)];
     CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:17]
                                                constrainedToSize:CGSizeMake(260, 42)
                                                    lineBreakMode:NSLineBreakByTruncatingTail].height;
@@ -80,8 +85,8 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
-    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
-  //  [headImage setImageWithURL:[NSURL URLWithString:notification.] placeholderImage:nil];
+    //UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
+    //[headImage setImageWithURL:[NSURL URLWithString:notification.] placeholderImage:nil];
     [titleLabel setText:@"有同学回复了"];
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x666666)];
@@ -93,9 +98,53 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     
-    MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"PrivateMessageViewController"];
-    MessageModel* message = (MessageModel*)[unReadMsgArr objectAtIndex:indexPath.row];
-    messageDetailVC.selectedMsg = message;
+    MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:indexPath.row];
+    messageDetailVC.selectedMsg = notification.message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
-@end
+
+#pragma mark - PullTableViewDelegate
+- (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.1f];
+}
+
+- (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
+{
+    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:3.0f];
+}
+
+#pragma mark - Refresh and load more methods
+- (void)refreshTable
+{
+    _tableView.pullTableIsRefreshing = NO;
+}
+- (void)loadMoreDataToTable
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NotificationModel* lastNotification = [unReadMsgArr lastObject];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] notificationShow:0
+                                                                           maxId:lastNotification.notification_id
+                                                                           count:30];
+        __block NSInteger fromIndex = [unReadMsgArr count];
+        [unReadMsgArr addObjectsFromArray:loadMoreRes];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            self.tableView.pullTableIsLoadingMore = NO;
+            
+            NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+            for(id result __unused in loadMoreRes)
+            {
+                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
+                fromIndex++;
+            }
+            
+            [_tableView beginUpdates];
+            [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
+            [_tableView endUpdates];
+            
+        });
+    });
+    
+}@end

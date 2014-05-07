@@ -113,12 +113,13 @@
     KxMenuItem* menuItem = (KxMenuItem*)sender;
     if ([menuItem.title isEqualToString:@"邀请朋友"])
     {
-        NSLog(@"邀请朋友");
+        //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
+        
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
                                           shareText:@"亲，来玩玩假面吧!"
                                          shareImage:nil
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, nil]
                                            delegate:nil];
     }  
     else if([menuItem.title isEqualToString:@"意见反馈"])
@@ -154,12 +155,12 @@
 #pragma mark - UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s %d", __FUNCTION__, messageArray.count);
+    NSLog(@"%s %lu", __FUNCTION__, (unsigned long)messageArray.count);
     return [messageArray count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int row = indexPath.row;
+    NSInteger row = indexPath.row;
     NSString* text = [(MessageModel*)[messageArray objectAtIndex:row] text];
     CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(260,9999)];
 //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]

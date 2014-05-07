@@ -179,7 +179,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+   // NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
 
     NSError* error;
     Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
@@ -247,7 +247,7 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     
     [request startSynchronous];
-    NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
+    //NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     else
@@ -271,7 +271,7 @@ static ASIDownloadCache* myCache;
     
     [request startSynchronous];
     
-    NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
+    //NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
     if (200 == [request responseStatusCode])
     {
         NSError* error;
@@ -326,7 +326,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+    //NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     NSError* error;
     Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
     NSLog(@"%s, error = %@", __FUNCTION__, error.description);

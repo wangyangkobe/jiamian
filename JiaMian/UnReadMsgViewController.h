@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UnReadMsgViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet PullTableView *tableView;
 
 @end
