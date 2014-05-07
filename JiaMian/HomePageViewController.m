@@ -95,7 +95,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
+  //    [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
@@ -202,15 +202,10 @@
     else
     {
         [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-        [areaLabel setTextColor:UIColorFromRGB(0x000000)];
-        [commentNumLabel setTextColor:UIColorFromRGB(0x000000)];
+        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-    }
-    if (3 == bgImageNo)
-    {
-        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
     return cell;
 }

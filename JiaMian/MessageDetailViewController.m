@@ -121,15 +121,10 @@
     else
     {
         [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
-        [myHeader.areaLabel setTextColor:UIColorFromRGB(0x000000)];
-        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x000000)];
+        [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-    }
-    if (3 == bgImageNo)
-    {
-        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
     return myHeader;
 }

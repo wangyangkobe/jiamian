@@ -44,7 +44,7 @@
     
     unReadMsgArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:30];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
         [unReadMsgArr addObjectsFromArray:requestRes];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,7 +70,7 @@
     //    CGFloat textHeight = [NSString textHeight:notification.message.text
     //                                 sizeWithFont:[UIFont systemFontOfSize:17]
     //                            constrainedToSize:CGSizeMake(260, 9999)];
-    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:17]
+    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:14]
                                                constrainedToSize:CGSizeMake(260, 42)
                                                    lineBreakMode:NSLineBreakByTruncatingTail].height;
     return textHeight + 25;
@@ -89,7 +89,10 @@
     //[headImage setImageWithURL:[NSURL URLWithString:notification.] placeholderImage:nil];
     [titleLabel setText:@"有同学回复了"];
     [contentLabel setText:notification.message.text];
-    [contentLabel setTextColor:UIColorFromRGB(0x666666)];
+    [contentLabel setTextColor:UIColorFromRGB(0x919191)];
+    if (1 == notification.status) {
+        [cell.contentView setBackgroundColor:UIColorFromRGB(0xffffff)];
+    }
     return cell;
 }
 
@@ -126,7 +129,7 @@
         NotificationModel* lastNotification = [unReadMsgArr lastObject];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] notificationShow:0
                                                                            maxId:lastNotification.notification_id
-                                                                           count:30];
+                                                                           count:15];
         __block NSInteger fromIndex = [unReadMsgArr count];
         [unReadMsgArr addObjectsFromArray:loadMoreRes];
         
