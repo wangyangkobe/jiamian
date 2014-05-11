@@ -331,7 +331,7 @@
 }
 - (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    if ( [text isEqualToString:@"\n"] || (range.location >= 180) )  //控制输入文本的长度
+    if ( [text isEqualToString:@"\n"] )  //控制输入文本的长度
         return NO;
     else
         return YES;

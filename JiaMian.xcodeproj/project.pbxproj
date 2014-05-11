@@ -43,7 +43,6 @@
 		1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFBD190BA56700E6B543 /* LogInViewController.m */; };
 		1558CFC6190BA94100E6B543 /* libWeiboSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFC0190BA94000E6B543 /* libWeiboSDK.a */; };
 		1558CFC7190BA94100E6B543 /* WeiboSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1558CFC1190BA94000E6B543 /* WeiboSDK.bundle */; };
-		1558CFCD190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 1558CFCB190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		1558CFCE190BBAFE00E6B543 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFCC190BBAFE00E6B543 /* TencentOpenAPI.framework */; };
 		1558CFD0190BBBA200E6B543 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFCF190BBBA200E6B543 /* Security.framework */; };
 		1558CFD2190BBBB100E6B543 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFD1190BBBB100E6B543 /* libiconv.dylib */; };
@@ -175,7 +174,6 @@
 		1558CFC1190BA94000E6B543 /* WeiboSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WeiboSDK.bundle; sourceTree = "<group>"; };
 		1558CFC2190BA94000E6B543 /* WeiboSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboSDK.h; sourceTree = "<group>"; };
 		1558CFCA190BAA0F00E6B543 /* CommonMarco.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonMarco.h; sourceTree = "<group>"; };
-		1558CFCB190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
 		1558CFCC190BBAFE00E6B543 /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		1558CFCF190BBBA200E6B543 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		1558CFD1190BBBB100E6B543 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
@@ -351,7 +349,6 @@
 				157875C81911AAA300CBA513 /* libMobClickLibrary.a */,
 				157875C91911AAA300CBA513 /* MobClick.h */,
 				15596728190E894100FB760A /* UMSocial_Sdk_3.3.7 */,
-				1558CFCB190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle */,
 				1558CFBF190BA94000E6B543 /* libWeiboSDK */,
 				1558CF8D190B9C5400E6B543 /* JiaMian */,
 				1558CFAC190B9C5400E6B543 /* JiaMianTests */,
@@ -824,7 +821,6 @@
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
 				1559674A190E894100FB760A /* UMSLoginViewController.xib in Resources */,
 				15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */,
-				1558CFCD190BBAFE00E6B543 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				1558CFC7190BA94100E6B543 /* WeiboSDK.bundle in Resources */,
 				15278144190D554100C15419 /* Default~iphone.png in Resources */,
 				156985541913631B00923E85 /* comment_grey.png in Resources */,

@@ -25,8 +25,9 @@
 #define kTencentQQAppKey        @"101072460"
 #define kTencentQQRedirectURI   @"www.qq.com"
 
+//WeChat
+#define kWeChatAppId    @"wx8839986cd11a188f"
 
-#define kWeChatAppId      @"wx8839986cd11a188f"
 //友盟
 #define kUMengAppKey    @"535e5f0256240baa89078c7f"
 

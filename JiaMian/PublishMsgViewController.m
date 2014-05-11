@@ -8,7 +8,7 @@
 
 #import "PublishMsgViewController.h"
 
-@interface PublishMsgViewController ()
+@interface PublishMsgViewController () <UITextViewDelegate>
 {
     UIActivityIndicatorView* indicatorView;
 }
@@ -32,6 +32,7 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    self.textView.delegate = self;
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
     [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
@@ -69,6 +70,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSLog(@"%s, range = %@", __FUNCTION__, NSStringFromRange(range));
+    if ( (range.location > 160) || (textView.text.length > 160) )  //控制输入文本的长度
+        return NO;
+    else
+        return YES;
+}
 - (void)sendMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);

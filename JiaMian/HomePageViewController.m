@@ -116,9 +116,9 @@
         
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
-                                          shareText:@"亲，来玩玩假面吧!"
+                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
                                          shareImage:nil
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, nil]
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
                                            delegate:nil];
     }
     else if([menuItem.title isEqualToString:@"意见反馈"])
