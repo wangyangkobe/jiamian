@@ -73,12 +73,13 @@
 - (void)shareMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
+    
     //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:kUMengAppKey
-                                      shareText:@"你要分享的文字"
+                                      shareText:self.selectedMsg.text
                                      shareImage:nil
-                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, nil]
+                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
                                        delegate:nil];
 }
 - (void)didReceiveMemoryWarning

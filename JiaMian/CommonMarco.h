@@ -9,7 +9,7 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE  @"http://appsrv.jiamiantech.com:8082/MaskTech"
+#define HOME_PAGE  @"http://114.215.109.246/MaskTechDEV"
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
@@ -25,6 +25,8 @@
 #define kTencentQQAppKey        @"101072460"
 #define kTencentQQRedirectURI   @"www.qq.com"
 
+
+#define kWeChatAppId      @"wx8839986cd11a188f"
 //友盟
 #define kUMengAppKey    @"535e5f0256240baa89078c7f"
 

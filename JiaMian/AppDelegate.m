@@ -38,6 +38,8 @@
     //[MobClick checkUpdate];
     [MobClick startWithAppkey:kUMengAppKey reportPolicy:SEND_INTERVAL channelId:nil];
     [MobClick updateOnlineConfig];  //在线参数配置
+    
+    [UMSocialWechatHandler setWXAppId:kWeChatAppId url:@"http://www.umeng.com/social"];
     return YES;
 }
 
@@ -47,13 +49,19 @@
     
     if ([sourceApplication isEqualToString:@"com.sina.weibo"])
         return [WeiboSDK handleOpenURL:url delegate:self];
+    else if( [sourceApplication isEqualToString:@"com.tencent.xin"] )
+        return [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
     else  //com.tencent.mqq
         return [TencentOAuth HandleOpenURL:url];
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
+    NSLog(@"%s, url = %@", __FUNCTION__, url);
+    
     if ( [TencentOAuth CanHandleOpenURL:url] )
         return [TencentOAuth HandleOpenURL:url];
+    else if([ url.description hasPrefix:@"wechat" ])
+        return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
     else
         return YES;
 }
@@ -113,7 +121,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [UMSocialSnsService  applicationDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

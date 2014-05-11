@@ -95,7 +95,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-  //    [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
+      //    [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
@@ -109,7 +109,6 @@
 }
 - (void)menuItemPressed:(id)sender
 {
-    NSLog(@"%s", __FUNCTION__);
     KxMenuItem* menuItem = (KxMenuItem*)sender;
     if ([menuItem.title isEqualToString:@"邀请朋友"])
     {
@@ -121,7 +120,7 @@
                                          shareImage:nil
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, nil]
                                            delegate:nil];
-    }  
+    }
     else if([menuItem.title isEqualToString:@"意见反馈"])
     {
         
@@ -163,10 +162,9 @@
     NSInteger row = indexPath.row;
     NSString* text = [(MessageModel*)[messageArray objectAtIndex:row] text];
     CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(260,9999)];
-//    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
-//                           constrainedToSize:CGSizeMake(260, 42*10)
-//                               lineBreakMode:NSLineBreakByWordWrapping].height;
-    NSLog(@"%s, %lf", __FUNCTION__, textHeight);
+    //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
+    //                           constrainedToSize:CGSizeMake(260, 42*10)
+    //                               lineBreakMode:NSLineBreakByWordWrapping].height;
     if (IOS_NEWER_OR_EQUAL_TO_7)
         return textHeight + 60 + 60 + 10;
     else
@@ -182,13 +180,24 @@
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
     UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
+    
     
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     textLabel.text = currentMsg.text;
     
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+    
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    
+    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
+    UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
+    UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
+    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
     
     int bgImageNo = currentMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
@@ -207,7 +216,6 @@
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
     }
-    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -248,9 +256,9 @@
             [messageArray insertObject:message atIndex:0];
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
-            if (_pullTableView.pullTableIsRefreshing == YES)
+            if ( _pullTableView.pullTableIsRefreshing )
             {
-                _pullTableView.pullLastRefreshDate = [NSDate date]; 
+                _pullTableView.pullLastRefreshDate = [NSDate date];
                 _pullTableView.pullTableIsRefreshing = NO;
                 [_pullTableView reloadData];
             }

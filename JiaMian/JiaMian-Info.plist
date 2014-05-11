@@ -55,6 +55,16 @@
 				<string>wb862234629</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>wetchat</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>wx8839986cd11a188f</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
