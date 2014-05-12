@@ -85,28 +85,38 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
-    //UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
-    //[headImage setImageWithURL:[NSURL URLWithString:notification.] placeholderImage:nil];
+    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
+    [headImage setImage:[UIImage imageNamed:@""@"unread_head"]];
     [titleLabel setText:@"有同学回复了"];
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x919191)];
-    if (1 == notification.status) {
-        [cell.contentView setBackgroundColor:UIColorFromRGB(0xffffff)];
-    }
+    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:indexPath.row];
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
+    if (!message)
+        return;
+    
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     
     MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:indexPath.row];
-    messageDetailVC.selectedMsg = notification.message;
+    
+    messageDetailVC.selectedMsg = message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+    if (1 == notification.status)
+    {
+        [cell.contentView setBackgroundColor:UIColorFromRGB(0xddffe5)];
+    }
+}
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
 {
@@ -150,4 +160,5 @@
         });
     });
     
-}@end
+}
+@end

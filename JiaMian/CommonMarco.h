@@ -13,7 +13,7 @@
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
-#define kLogInIdentify @"kLogInIdentity"
+#define kLogInUserId   @"kLogInUserId"
 #define kLogInType     @"KLogInType"
 
 #define kSelfUserModel @"kSelfUserModel"

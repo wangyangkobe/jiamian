@@ -29,4 +29,5 @@
     #import "MobClick.h"
     #import <SDWebImage/UIImageView+WebCache.h>
     #import "UMSocialWechatHandler.h"
+    #import "APService.h"
 #endif

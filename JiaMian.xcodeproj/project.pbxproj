@@ -13,6 +13,10 @@
 		150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D719149F0200175728 /* CFNetwork.framework */; };
 		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
 		150ED9DC19150B9C00175728 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 150ED9DB19150B9C00175728 /* ic_share.png */; };
+		1524CE381920E52F00CAB103 /* unread_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE371920E52F00CAB103 /* unread_head.png */; };
+		1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3B1920F27100CAB103 /* libPushSDK.a */; };
+		1524CE3E1920F29400CAB103 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3D1920F29400CAB103 /* CoreFoundation.framework */; };
+		1524CE401920F3D100CAB103 /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE3F1920F3D100CAB103 /* PushConfig.plist */; };
 		15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812C190D510F00C15419 /* MessageEntryBackground.png */; };
 		15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */; };
 		15278136190D511000C15419 /* MessageEntryInputField.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527812E190D510F00C15419 /* MessageEntryInputField.png */; };
@@ -136,6 +140,11 @@
 		150ED9D719149F0200175728 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		150ED9DB19150B9C00175728 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
+		1524CE371920E52F00CAB103 /* unread_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread_head.png; sourceTree = "<group>"; };
+		1524CE3A1920F27100CAB103 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
+		1524CE3B1920F27100CAB103 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
+		1524CE3D1920F29400CAB103 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		1524CE3F1920F3D100CAB103 /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		1527812C190D510F00C15419 /* MessageEntryBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryBackground.png; sourceTree = "<group>"; };
 		1527812D190D510F00C15419 /* MessageEntryBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntryBackground@2x.png"; sourceTree = "<group>"; };
 		1527812E190D510F00C15419 /* MessageEntryInputField.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MessageEntryInputField.png; sourceTree = "<group>"; };
@@ -305,6 +314,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1558CFD0190BBBA200E6B543 /* Security.framework in Frameworks */,
+				1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */,
+				1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */,
+				1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */,
+				1558CFD4190BBBC000E6B543 /* SystemConfiguration.framework in Frameworks */,
+				1558CFD8190BBBE300E6B543 /* CoreTelephony.framework in Frameworks */,
+				1524CE3E1920F29400CAB103 /* CoreFoundation.framework in Frameworks */,
 				153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */,
 				150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */,
 				150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */,
@@ -312,20 +328,15 @@
 				15596744190E894100FB760A /* libUMSocial_Sdk_3.3.7.a in Frameworks */,
 				15D862AC191FB73900D2D736 /* TencentOpenAPI.framework in Frameworks */,
 				1558CFDA190BBBED00E6B543 /* libstdc++.dylib in Frameworks */,
-				1558CFD8190BBBE300E6B543 /* CoreTelephony.framework in Frameworks */,
 				1558CFD6190BBBD900E6B543 /* libsqlite3.dylib in Frameworks */,
-				1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */,
-				1558CFD4190BBBC000E6B543 /* SystemConfiguration.framework in Frameworks */,
 				1558CFD2190BBBB100E6B543 /* libiconv.dylib in Frameworks */,
 				15D862AB191FB73800D2D736 /* libSocialQQ.a in Frameworks */,
 				15D862AE191FB73900D2D736 /* libSocialWechat.a in Frameworks */,
-				1558CFD0190BBBA200E6B543 /* Security.framework in Frameworks */,
 				157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */,
 				15D862AF191FB73900D2D736 /* libWeChatSDK.a in Frameworks */,
 				1558CFCE190BBAFE00E6B543 /* TencentOpenAPI.framework in Frameworks */,
-				1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */,
-				1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */,
 				1558CFC6190BA94100E6B543 /* libWeiboSDK.a in Frameworks */,
+				1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */,
 				0B18C8C1AA3043F1BCB65B3E /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,9 +354,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1524CE391920F27100CAB103 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				1524CE3A1920F27100CAB103 /* APService.h */,
+				1524CE3B1920F27100CAB103 /* libPushSDK.a */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		1558CF7B190B9C5300E6B543 = {
 			isa = PBXGroup;
 			children = (
+				1524CE391920F27100CAB103 /* lib */,
 				157875C81911AAA300CBA513 /* libMobClickLibrary.a */,
 				157875C91911AAA300CBA513 /* MobClick.h */,
 				15596728190E894100FB760A /* UMSocial_Sdk_3.3.7 */,
@@ -370,6 +391,7 @@
 		1558CF86190B9C5400E6B543 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1524CE3D1920F29400CAB103 /* CoreFoundation.framework */,
 				153DCA711917C8D200072F4F /* ImageIO.framework */,
 				150ED9D919149F1000175728 /* MobileCoreServices.framework */,
 				150ED9D719149F0200175728 /* CFNetwork.framework */,
@@ -423,6 +445,7 @@
 		1558CF8E190B9C5400E6B543 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1524CE3F1920F3D100CAB103 /* PushConfig.plist */,
 				1558CF8F190B9C5400E6B543 /* JiaMian-Info.plist */,
 				1558CF90190B9C5400E6B543 /* InfoPlist.strings */,
 				1558CF93190B9C5400E6B543 /* main.m */,
@@ -625,6 +648,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1524CE371920E52F00CAB103 /* unread_head.png */,
 				15B035D6191A7AC700C31D39 /* food.png */,
 				15B035D0191A4D3F00C31D39 /* Icon-80.png */,
 				15B035D1191A4D3F00C31D39 /* Icon-Small.png */,
@@ -786,6 +810,7 @@
 				15596727190E763C00FB760A /* Default-568h@2x.png in Resources */,
 				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
+				1524CE401920F3D100CAB103 /* PushConfig.plist in Resources */,
 				15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */,
 				15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */,
 				15D862AD191FB73900D2D736 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -803,6 +828,7 @@
 				15B035D7191A7AC700C31D39 /* food.png in Resources */,
 				1558D01F190BF34300E6B543 /* grayArrow.png in Resources */,
 				15278145190D554100C15419 /* Default@2x.png in Resources */,
+				1524CE381920E52F00CAB103 /* unread_head.png in Resources */,
 				1505E4A119184A250037A671 /* Icon-120.png in Resources */,
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
 				1569854E19134A1700923E85 /* sina_login_pressed.png in Resources */,
@@ -979,8 +1005,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1019,8 +1045,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1059,6 +1085,8 @@
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/lib",
+					"$(SRCROOT)/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1091,6 +1119,8 @@
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/lib",
+					"$(SRCROOT)/lib",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

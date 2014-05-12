@@ -40,9 +40,19 @@
     [MobClick updateOnlineConfig];  //在线参数配置
     
     [UMSocialWechatHandler setWXAppId:kWeChatAppId url:@"http://www.umeng.com/social"];
+    
+    // Required
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                   UIRemoteNotificationTypeAlert)];
+    // Required
+    [APService setupWithOption:launchOptions];
+    
     return YES;
 }
-
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
+}
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     NSLog(@"url = %@, sourceApplication = %@", url, sourceApplication);
@@ -75,8 +85,8 @@
     if ([response isKindOfClass:WBAuthorizeResponse.class])
     {
         NSString* wbToken = [(WBAuthorizeResponse *)response accessToken];
-        NSString* userID = [(WBAuthorizeResponse*)response userID];
-        NSLog(@"wbToken = %@, userID = %@", wbToken, userID);
+        NSString* userId = [(WBAuthorizeResponse*)response userID];
+        NSLog(@"wbToken = %@, userID = %@", wbToken, userId);
         
         NSError* error;
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken
@@ -85,6 +95,12 @@
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!");
+            
+            [APService setTags:[NSSet setWithObjects:@"online", @"1", nil]
+                         alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
+              callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                        target:self];
+            
             [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:wbToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeWeiBo forKey:kLogInType];
@@ -101,7 +117,20 @@
     }
 }
 
-
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"%s, token = %@", __FUNCTION__, deviceToken.description);
+    [APService registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"===============%@", userInfo);
+    [APService handleRemoteNotification:userInfo];
+}
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error
+{
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

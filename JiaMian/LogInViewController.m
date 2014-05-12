@@ -75,6 +75,11 @@
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
+            [APService setTags:[NSSet setWithObjects:@"online", @"1", nil]
+                         alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
+              callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                        target:self];
+            
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
@@ -89,8 +94,14 @@
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }
 }
--(void)tencentDidNotLogin:(BOOL)cancelled{
+-(void)tencentDidNotLogin:(BOOL)cancelled
+{
 }
--(void)tencentDidNotNetWork{
+-(void)tencentDidNotNetWork
+{
+}
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 @end

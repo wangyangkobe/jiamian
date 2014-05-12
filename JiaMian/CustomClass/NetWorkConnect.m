@@ -179,8 +179,8 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-   // NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
-
+    // NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+    
     NSError* error;
     Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
     if (result)
@@ -192,23 +192,23 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return [NSArray array];
     }
- /* if (200 == [request responseStatusCode])
-    {
-        NSError* error;
-        Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
-        if (result) {
-            return [result.messages copy];
-        }else{
-            NSLog(@"error = %@", [error description]);
-            return [NSArray array];
-        }
-    }
-    else
-    {
-        ErrorAlertView;
-        return [NSArray array];
-    }
-*/
+    /* if (200 == [request responseStatusCode])
+     {
+     NSError* error;
+     Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
+     if (result) {
+     return [result.messages copy];
+     }else{
+     NSLog(@"error = %@", [error description]);
+     return [NSArray array];
+     }
+     }
+     else
+     {
+     ErrorAlertView;
+     return [NSArray array];
+     }
+     */
 }
 
 //////////////////////////////////////////////////////////////////
@@ -314,7 +314,7 @@ static ASIDownloadCache* myCache;
 
 //////////////////////////////////////////////////////////////////
 - (NSArray*)notificationShow:(long)SinceId maxId:(long)MaxId count:(int)Count
-{    
+{
     NSString* requestUrl = [NSString stringWithFormat:@"%@/notifications/show?count=%d", HOME_PAGE, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
