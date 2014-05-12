@@ -167,7 +167,6 @@
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s, cout = %d", __FUNCTION__, commentArr.count);
     return [commentArr count];
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,10 +182,12 @@
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
     textLabel.text = currentComment.text;
     [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
+    
     if(currentComment.is_starter) //楼主
         timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
     else
         timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+    
     [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
     [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
     return cell;
@@ -349,6 +350,9 @@
             [commentArr addObject:comment];
             [textView setText:@""];
             [self.tableView reloadData];
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
+                                  atScrollPosition:UITableViewScrollPositionBottom
+                                          animated:YES];
         }
     }
 }
