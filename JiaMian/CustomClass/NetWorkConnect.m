@@ -56,7 +56,7 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:AccessToken forKey:@"access_token"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
-    
+    [request setNumberOfTimesToRetryOnTimeout:2];
     [request startSynchronous];
     
     NSLog(@"%@ responseString=%d", requestUrl, request.responseStatusCode);
