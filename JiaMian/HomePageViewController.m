@@ -14,6 +14,8 @@
 #import "LogInViewController.h"
 #import "CommonMarco.h"
 #import "UILabel+Extensions.h"
+#import "UMFeedback.h"
+
 #define kTextLabel    8000
 #define kAreaLabel    8001
 #define kCommentLabel 8002
@@ -95,7 +97,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-      //    [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
+      [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
@@ -123,7 +125,7 @@
     }
     else if([menuItem.title isEqualToString:@"意见反馈"])
     {
-        
+        [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
     }
     else if([menuItem.title isEqualToString:@"检查更新"])
     {

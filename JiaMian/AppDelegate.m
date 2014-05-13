@@ -137,21 +137,29 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    [application setApplicationIconBadgeNumber:0];
 }
-
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     [UMSocialSnsService  applicationDidBecomeActive];
 }
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+}
+
+#ifdef __IPHONE_7_0
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNoData);
+}
+#endif
+
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
