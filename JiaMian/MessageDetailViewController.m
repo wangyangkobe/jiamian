@@ -59,6 +59,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageOne"];
     commentArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         long msgId = self.selectedMsg.message_id;
@@ -70,6 +71,11 @@
         });
     });
 }
+- (void)viewWillDisappear:(BOOL)animated 
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"PageOne"];
+} 
 - (void)shareMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
