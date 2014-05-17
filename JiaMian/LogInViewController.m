@@ -95,7 +95,7 @@
         }
         else
         {
-            AlertContent([error.userInfo valueForKey:@"err_msg"]);
+           //AlertContent([error.userInfo valueForKey:@"err_msg"]);
         }
     }
     else

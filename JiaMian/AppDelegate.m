@@ -35,7 +35,10 @@
     
     [MobClick setAppVersion:XcodeAppVersion];
     [UMSocialData setAppKey:kUMengAppKey];
-    //[MobClick checkUpdate];
+    [UMSocialConfig setSupportSinaSSO:YES appRedirectUrl:@"https://api.weibo.com/oauth2/default.html"];
+    
+    [MobClick checkUpdate];
+    
     [MobClick startWithAppkey:kUMengAppKey reportPolicy:SEND_INTERVAL channelId:nil];
     [MobClick updateOnlineConfig];  //在线参数配置
     
@@ -112,7 +115,7 @@
         }
         else
         {
-            AlertContent([error.userInfo valueForKey:@"err_msg"]);
+            //AlertContent([error.userInfo valueForKey:@"err_msg"]);
         }
     }
 }
