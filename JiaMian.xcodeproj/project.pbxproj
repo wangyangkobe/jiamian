@@ -53,6 +53,7 @@
 		15278145190D554100C15419 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278143190D554100C15419 /* Default@2x.png */; };
 		15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */; };
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
+		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
 		153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 153DCA741917DD8100072F4F /* UILabel+Extensions.m */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
@@ -206,7 +207,7 @@
 		15278143190D554100C15419 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7.png"; sourceTree = "<group>"; };
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
-		15326B9219281F520008AAE1 /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		153DCA731917DD8100072F4F /* UILabel+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
 		153DCA741917DD8100072F4F /* UILabel+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
@@ -329,6 +330,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */,
 				150D5E641927870300BE24AB /* libSocialQQ.a in Frameworks */,
 				1558CFD0190BBBA200E6B543 /* Security.framework in Frameworks */,
 				150D5E6A1927870300BE24AB /* libWeChatSDK.a in Frameworks */,
@@ -485,7 +487,6 @@
 		1558CF7B190B9C5300E6B543 = {
 			isa = PBXGroup;
 			children = (
-				15326B9219281F520008AAE1 /* TencentOpenApi_IOS_Bundle.bundle */,
 				150D5E6B1927884E00BE24AB /* libWeiboSDK */,
 				150D5E2E1927866900BE24AB /* UMSocial_Sdk_3.3.7.1 */,
 				1524CE391920F27100CAB103 /* lib */,
@@ -511,6 +512,7 @@
 		1558CF86190B9C5400E6B543 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15326B95192827D10008AAE1 /* libc++abi.dylib */,
 				1524CE3D1920F29400CAB103 /* CoreFoundation.framework */,
 				153DCA711917C8D200072F4F /* ImageIO.framework */,
 				150ED9D919149F1000175728 /* MobileCoreServices.framework */,
@@ -1111,6 +1113,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(SRCROOT)/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JiaMian/JiaMian-Prefix.pch";
@@ -1146,6 +1149,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/UMSocial_Sdk_3.3.7.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(SRCROOT)/lib",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JiaMian/JiaMian-Prefix.pch";

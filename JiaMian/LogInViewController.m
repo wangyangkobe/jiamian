@@ -44,11 +44,11 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
 }
-- (void)viewWillDisappear:(BOOL)animated 
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
-} 
+}
 
 - (IBAction)sinaWBLogIn:(id)sender {
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
@@ -64,7 +64,9 @@
 - (IBAction)tencentQQLogIn:(id)sender {
     [_tencentOAuth authorize:_permissions inSafari:NO];
 }
-
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
+}
 - (void)tencentDidLogin{
     if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length]))
     {
@@ -87,7 +89,7 @@
             [APService setTags:[NSSet setWithObjects:@"online", @"1", nil]
                          alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
               callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                        target:self];
+                        target:nil];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
@@ -95,7 +97,7 @@
         }
         else
         {
-           //AlertContent([error.userInfo valueForKey:@"err_msg"]);
+            //AlertContent([error.userInfo valueForKey:@"err_msg"]);
         }
     }
     else
@@ -109,8 +111,5 @@
 -(void)tencentDidNotNetWork
 {
 }
-- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
-{
-    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
-}
+
 @end
