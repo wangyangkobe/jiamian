@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
 
+@protocol AreaModel
+@end
+
 @interface AreaModel : JSONModel <NSCopying, NSCoding>
 
 @property(nonatomic, assign) int       area_id;
@@ -17,4 +20,8 @@
 @property(nonatomic, strong) NSString* type_name;
 @property(nonatomic, strong) NSString* city;
 
+@end
+
+@interface Areas : JSONModel
+@property(strong, nonatomic) NSArray<AreaModel>* areas;
 @end

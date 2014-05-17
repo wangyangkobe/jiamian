@@ -6,7 +6,7 @@
 #import "MessageModel.h"
 #import "CommentModel.h"
 #import "NotificationModel.h"
-
+#import "AreaModel.h"
 #import "CommonMarco.h"
 
 
@@ -15,6 +15,7 @@
 +(id)sharedInstance;
 - (UserModel*)userLogInWithToken:(NSString*)access_token userType:(int)Type error:(NSError**)Error;
 - (BOOL)userLogOut;
+- (UserModel*)userChangeArea:(long)AreaId;
 
 //Gender: 1; HeadImg: nil; Description: nil
 - (UserModel*)userRegisterWithName:(NSString*)UserName userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
@@ -29,6 +30,7 @@
 - (NSArray*)messageList:(int)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType;
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
+- (MessageModel*)messageLikeByMsgId:(long)MsgId;
 
 //MsgType: 1; AreaId: 1; lat: 0.0; lom: 0.0
 - (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(int)AreaId lat:(double)Lat lon:(double)Long;
@@ -40,6 +42,9 @@
 
 //SinceId: 0; MaxId: INT_MAX; Count: 20
 - (NSArray*)notificationShow:(long)SinceId maxId:(long)MaxId count:(int)Count;
-- (int)notificationUnreadCount;
+- (NSInteger)notificationUnreadCount;
 
+//SinceId: 0 MaxId: INT_MAX; Count: 20
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count;
+- (AreaModel*)areaShowByAreaId:(long)AreaID;
 @end

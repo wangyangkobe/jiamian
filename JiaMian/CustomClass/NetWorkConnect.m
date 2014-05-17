@@ -179,7 +179,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    // NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
     
     NSError* error;
     Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
@@ -338,10 +338,11 @@ static ASIDownloadCache* myCache;
     {
         ErrorAlertView;
         return [NSArray array];
-    }}
+    }
+}
 
 //////////////////////////////////////////////////////////////////
-- (int)notificationUnreadCount
+- (NSInteger)notificationUnreadCount
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/notifications/unreadCount", HOME_PAGE];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
@@ -358,4 +359,89 @@ static ASIDownloadCache* myCache;
     else
         return 0;
 }
+
+//////////////////////////////////////////////////////////////////
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list", HOME_PAGE];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+    
+    NSError* error;
+    Areas* result = [[Areas alloc] initWithString:[request responseString] error:&error];
+    NSLog(@"%s, error = %@", __FUNCTION__, error.description);
+    if (result)
+    {
+        return [result.areas copy];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+- (AreaModel*)areaShowByAreaId:(long)AreaID
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/show?area_id=%ld", HOME_PAGE, AreaID];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+    
+    if ( 200 == [request responseStatusCode] )
+        return [[AreaModel alloc] initWithString:[request responseString] error:nil];
+    else
+    {
+        ErrorAlertView;
+        return nil;
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+- (MessageModel*)messageLikeByMsgId:(long)MsgId
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/like?message_id=%ld", HOME_PAGE, MsgId];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+    
+    if ( 200 == [request responseStatusCode] )
+        return [[MessageModel alloc] initWithString:[request responseString] error:nil];
+    else
+    {
+        ErrorAlertView;
+        return nil;
+    }
+}
+
+//////////////////////////////////////////////////////////////////
+- (UserModel*)userChangeArea:(long)AreaId
+{
+    if (NO == [self checkNetworkStatus])
+        return nil;
+    
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/users/area", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:AreaId]  forKey:@"area_id"];
+    [request startSynchronous];
+    
+    if ( 200 == [request responseStatusCode] )
+        return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    else
+    {
+        ErrorAlertView;
+        return nil;
+    }
+    
+}
+
 @end

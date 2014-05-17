@@ -53,7 +53,12 @@
     
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [customButton setImage:[UIImage imageNamed:@"ico-to-do-list"] forState:UIControlStateNormal];
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list_ios7"] forState:UIControlStateNormal];
+    } else {
+        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list"] forState:UIControlStateNormal];
+    }
+    
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
     unReadMsgBarButton.shouldHideBadgeAtZero = YES;
     //unReadMsgBarButton.badgeValue = @"2";
@@ -91,7 +96,7 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
 }
-- (void)viewWillDisappear:(BOOL)animated 
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];

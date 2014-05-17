@@ -45,6 +45,8 @@
     copy.city      = [self.city copyWithZone:zone];
     return copy;
 }
+@end
 
+@implementation Areas
 
 @end
