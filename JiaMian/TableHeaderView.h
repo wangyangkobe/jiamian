@@ -14,4 +14,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *commentImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *areaLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
+@property (weak, nonatomic) IBOutlet UILabel *likeNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel *visibleNumberLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *visibleImageView;
 @end

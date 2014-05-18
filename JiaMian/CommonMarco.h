@@ -14,7 +14,8 @@
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
 #define kLogInUserId   @"kLogInUserId"
-#define kLogInType     @"KLogInType"
+#define kLogInType     @"kLogInType"
+#define kUserAreaId    @"kUserAreaId"
 
 #define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo

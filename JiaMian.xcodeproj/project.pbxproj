@@ -55,6 +55,12 @@
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
 		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
 		15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9719282E560008AAE1 /* congruent_pentagon.png */; };
+		15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15326B9A192832A20008AAE1 /* SelectAreaViewController.m */; };
+		15326BA119289F1F0008AAE1 /* ic_eyes_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */; };
+		15326BA219289F1F0008AAE1 /* ic_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9D19289F1F0008AAE1 /* ic_eyes.png */; };
+		15326BA319289F1F0008AAE1 /* ic_like_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9E19289F1F0008AAE1 /* ic_like_grey.png */; };
+		15326BA419289F1F0008AAE1 /* ic_like.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9F19289F1F0008AAE1 /* ic_like.png */; };
+		15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326BA019289F1F0008AAE1 /* ic_liked.png */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
 		153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 153DCA741917DD8100072F4F /* UILabel+Extensions.m */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
@@ -210,6 +216,13 @@
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
 		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		15326B9719282E560008AAE1 /* congruent_pentagon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congruent_pentagon.png; sourceTree = "<group>"; };
+		15326B99192832A20008AAE1 /* SelectAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAreaViewController.h; sourceTree = "<group>"; };
+		15326B9A192832A20008AAE1 /* SelectAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAreaViewController.m; sourceTree = "<group>"; };
+		15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_eyes_grey.png; sourceTree = "<group>"; };
+		15326B9D19289F1F0008AAE1 /* ic_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_eyes.png; sourceTree = "<group>"; };
+		15326B9E19289F1F0008AAE1 /* ic_like_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_like_grey.png; sourceTree = "<group>"; };
+		15326B9F19289F1F0008AAE1 /* ic_like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_like.png; sourceTree = "<group>"; };
+		15326BA019289F1F0008AAE1 /* ic_liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_liked.png; sourceTree = "<group>"; };
 		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		153DCA731917DD8100072F4F /* UILabel+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
 		153DCA741917DD8100072F4F /* UILabel+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
@@ -547,6 +560,8 @@
 				1558CF96190B9C5400E6B543 /* AppDelegate.h */,
 				1558CF97190B9C5400E6B543 /* AppDelegate.m */,
 				1558CF99190B9C5400E6B543 /* Main.storyboard */,
+				15326B99192832A20008AAE1 /* SelectAreaViewController.h */,
+				15326B9A192832A20008AAE1 /* SelectAreaViewController.m */,
 				1559671C190E740800FB760A /* UnReadMsgViewController.h */,
 				1559671D190E740800FB760A /* UnReadMsgViewController.m */,
 				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
@@ -716,6 +731,11 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
+				15326B9D19289F1F0008AAE1 /* ic_eyes.png */,
+				15326B9E19289F1F0008AAE1 /* ic_like_grey.png */,
+				15326B9F19289F1F0008AAE1 /* ic_like.png */,
+				15326BA019289F1F0008AAE1 /* ic_liked.png */,
 				15326B9719282E560008AAE1 /* congruent_pentagon.png */,
 				15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */,
 				15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */,
@@ -845,6 +865,7 @@
 				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
 				1569854A19134A0C00923E85 /* loginbg.png in Resources */,
 				15596727190E763C00FB760A /* Default-568h@2x.png in Resources */,
+				15326BA419289F1F0008AAE1 /* ic_like.png in Resources */,
 				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				1524CE401920F3D100CAB103 /* PushConfig.plist in Resources */,
@@ -863,6 +884,7 @@
 				1558D01C190BF34300E6B543 /* blackArrow@2x.png in Resources */,
 				156985561913816200923E85 /* comment_white.png in Resources */,
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
+				15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */,
 				15B035D7191A7AC700C31D39 /* food.png in Resources */,
 				1558D01F190BF34300E6B543 /* grayArrow.png in Resources */,
 				15278145190D554100C15419 /* Default@2x.png in Resources */,
@@ -874,6 +896,8 @@
 				150D5E521927866900BE24AB /* UMSShareListController.xib in Resources */,
 				150D5E531927866900BE24AB /* UMSocialSDKResourcesNew.bundle in Resources */,
 				150D5E75192788B700BE24AB /* umFeedback.bundle in Resources */,
+				15326BA319289F1F0008AAE1 /* ic_like_grey.png in Resources */,
+				15326BA219289F1F0008AAE1 /* ic_eyes.png in Resources */,
 				1558D020190BF34300E6B543 /* grayArrow@2x.png in Resources */,
 				150D5E4F1927866900BE24AB /* UMShareEditViewControlleriPad.xib in Resources */,
 				1558D01D190BF34300E6B543 /* blueArrow.png in Resources */,
@@ -885,6 +909,7 @@
 				155AC494190C836400A8F252 /* ico-to-do-list.png in Resources */,
 				15278138190D511000C15419 /* MessageEntrySendButton.png in Resources */,
 				150D5E4D1927866900BE24AB /* UMSCommentInputControlleriPad.xib in Resources */,
+				15326BA119289F1F0008AAE1 /* ic_eyes_grey.png in Resources */,
 				1558CF9B190B9C5400E6B543 /* Main.storyboard in Resources */,
 				1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */,
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
@@ -959,6 +984,7 @@
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
+				15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */,
 				1558D012190BF34300E6B543 /* ASIFormDataRequest.m in Sources */,
 				1558D011190BF34300E6B543 /* ASIDownloadCache.m in Sources */,
 				1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */,

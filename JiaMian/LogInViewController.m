@@ -8,6 +8,7 @@
 
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
+#import "SelectAreaViewController.h"
 @interface LogInViewController () <TencentSessionDelegate>
 
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
@@ -92,8 +93,15 @@
                         target:nil];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-            [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+            NSInteger userAreaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+            if (0 == userAreaId) {
+                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+                selectAreaVC.firstSelect = YES;
+                [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
+            } else {
+                HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+                [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+            }
         }
         else
         {

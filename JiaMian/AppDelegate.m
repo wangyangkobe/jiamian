@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
+#import "SelectAreaViewController.h"
 
 @implementation AppDelegate
 
@@ -110,8 +111,16 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-            [self.window setRootViewController:homeVC];
+            
+            NSInteger userAreaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+            if (0 == userAreaId) {
+                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+                selectAreaVC.firstSelect = YES;
+                [self.window setRootViewController:selectAreaVC];
+            } else {
+                HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+                [self.window setRootViewController:homeVC];
+            }
         }
         else
         {

@@ -15,11 +15,16 @@
 #import "CommonMarco.h"
 #import "UILabel+Extensions.h"
 #import "UMFeedback.h"
+#import "SelectAreaViewController.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
 #define kCommentLabel 8002
 #define kCommentImage 8003
+#define kLikeImage    8004
+#define kLikeNumberLabel 8005
+#define kVisibleImage 8006
+#define kVisibleNumberLabel 8007
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
@@ -73,7 +78,8 @@
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
+        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:areaId
                                                                    sinceId:0
                                                                      maxId:INT_MAX
                                                                      count:20
@@ -111,6 +117,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
+      [KxMenuItem menuItem:@"社区选择" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
@@ -136,6 +143,12 @@
                                          shareImage:nil
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
                                            delegate:nil];
+    }
+    else if([menuItem.title isEqualToString:@"社区选择"])
+    {
+        SelectAreaViewController* selectAreaVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+        selectAreaVC.firstSelect = NO;
+        [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
     }
     else if([menuItem.title isEqualToString:@"意见反馈"])
     {
@@ -196,14 +209,24 @@
     UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
     UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    
+    UIImageView* likeImage = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+    UILabel* likeNumerLabel = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
+    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
     
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     textLabel.text = currentMsg.text;
     
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+    likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
+    visibleNumberLabel.text = @"100";
     
+    [likeImage setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
+    [likeImageTap setNumberOfTapsRequired:1];
+    [likeImage addGestureRecognizer:likeImageTap];
+    //likeImageTap.view.tag = indexPath.row;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -214,14 +237,23 @@
     UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
     UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
-    
+    UIImageView* likeImage = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+    UILabel* likeNumerLabel = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
+    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
+    NSLog(@"%@", visibleImage);
     int bgImageNo = currentMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
         [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
+        [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
+        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
         [areaLabel setTextColor:UIColorFromRGB(0x969696)];
         [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+        [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
+        [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
         [textLabel setTextColor:UIColorFromRGB(0x000000)];
+        
         if (2 == bgImageNo) {
             UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
             [cell.contentView setBackgroundColor:picColor];
@@ -232,8 +264,12 @@
     else
     {
         [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
         [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
         [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         if (9 == bgImageNo) {
             UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
@@ -241,6 +277,10 @@
         } else {
             [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
         }
+    }
+    NSLog(@"%d", currentMsg.likes_count);
+    if (currentMsg.likes_count != 0) {
+        //  [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -328,5 +368,13 @@
 {
     PublishMsgViewController* publisMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
     [self.navigationController pushViewController:publisMsgVC animated:YES];
+}
+- (void)likeImageTap:(UITapGestureRecognizer*)tap {
+    NSLog(@"%s", __FUNCTION__);
+    int rowIndex = tap.view.tag;
+    
+    UITableViewCell* cell = [self.pullTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
+    UIImageView* likeImageView = (UIImageView*)[cell viewWithTag:kLikeImage];
+    [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
 }
 @end
