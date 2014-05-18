@@ -54,6 +54,7 @@
 		15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */; };
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
 		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
+		15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9719282E560008AAE1 /* congruent_pentagon.png */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
 		153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 153DCA741917DD8100072F4F /* UILabel+Extensions.m */; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
@@ -208,6 +209,7 @@
 		15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7.png"; sourceTree = "<group>"; };
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
 		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
+		15326B9719282E560008AAE1 /* congruent_pentagon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congruent_pentagon.png; sourceTree = "<group>"; };
 		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		153DCA731917DD8100072F4F /* UILabel+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
 		153DCA741917DD8100072F4F /* UILabel+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
@@ -714,6 +716,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15326B9719282E560008AAE1 /* congruent_pentagon.png */,
 				15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */,
 				15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */,
 				1524CE371920E52F00CAB103 /* unread_head.png */,
@@ -849,6 +852,7 @@
 				150D5E4C1927866900BE24AB /* UMSCommentInputController.xib in Resources */,
 				150D5E511927866900BE24AB /* UMSnsAccountViewController.xib in Resources */,
 				150D5E661927870300BE24AB /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
+				15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */,
 				15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */,
 				150D5E701927884E00BE24AB /* WeiboSDK.bundle in Resources */,
 				150ED9DC19150B9C00175728 /* ic_share.png in Resources */,

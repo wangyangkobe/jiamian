@@ -222,7 +222,12 @@
         [areaLabel setTextColor:UIColorFromRGB(0x969696)];
         [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
         [textLabel setTextColor:UIColorFromRGB(0x000000)];
-        [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        if (2 == bgImageNo) {
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+            [cell.contentView setBackgroundColor:picColor];
+        } else {
+            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        }
     }
     else
     {
@@ -230,7 +235,12 @@
         [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
         [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        if (9 == bgImageNo) {
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+            [cell.contentView setBackgroundColor:picColor];
+        } else {
+            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        }
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

@@ -40,14 +40,14 @@
     
     UIBarButtonItem* shareMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享"
                                                                            style:UIBarButtonItemStylePlain
-                                                                        target:self
-                                                                        action:@selector(shareMsgBtnPressed:)];
-//    UIImage *shareImage = [UIImage imageNamed:@"ic_share"];
-//    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    shareBtn.bounds = CGRectMake( 0, 0 , 44, 44 );
-//    [shareBtn setImage:shareImage forState:UIControlStateNormal];
-//    [shareBtn addTarget:self action:@selector(shareMsgBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem *shareMessageBarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
+                                                                          target:self
+                                                                          action:@selector(shareMsgBtnPressed:)];
+    //    UIImage *shareImage = [UIImage imageNamed:@"ic_share"];
+    //    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    shareBtn.bounds = CGRectMake( 0, 0 , 44, 44 );
+    //    [shareBtn setImage:shareImage forState:UIControlStateNormal];
+    //    [shareBtn addTarget:self action:@selector(shareMsgBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    //    UIBarButtonItem *shareMessageBarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
     
     self.navigationItem.rightBarButtonItem = shareMessageBarBtn;
     self.tableView.dataSource = self;
@@ -71,11 +71,11 @@
         });
     });
 }
-- (void)viewWillDisappear:(BOOL)animated 
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
-} 
+}
 - (void)shareMsgBtnPressed:(id)sender
 {
     NSLog(@"%s", __FUNCTION__);
@@ -124,6 +124,12 @@
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
         [myHeader.textLabel setTextColor:UIColorFromRGB(0x000000)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        if (2 == bgImageNo) {
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+            [myHeader setBackgroundColor:picColor];
+        } else {
+            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        }
     }
     else
     {
@@ -132,6 +138,12 @@
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        if (9 == bgImageNo) {
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+            [myHeader setBackgroundColor:picColor];
+        } else {
+            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        }
     }
     return myHeader;
 }
