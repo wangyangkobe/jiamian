@@ -62,6 +62,12 @@
 }
 - (void)selectAreaDone:(id)sender {
     if (selcetedAreaId > 0) {
+        UserModel* user = [[NetWorkConnect sharedInstance] userChangeArea:selcetedAreaId];
+        if (user == nil)
+            return;
+        [[NSUserDefaults standardUserDefaults] setInteger:selcetedAreaId forKey:kUserAreaId];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
         HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
         [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
     } else {
@@ -108,9 +114,6 @@
     selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
     AreaModel* currentArea = (AreaModel*)[areaArray objectAtIndex:indexPath.row];
     selcetedAreaId = currentArea.area_id;
-    
-    [[NSUserDefaults standardUserDefaults] setInteger:selcetedAreaId forKey:kUserAreaId];
-    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (!self.isFirstSelect) {
         [self performSelector:@selector(selectAreaDone:) withObject:nil afterDelay:0.5];

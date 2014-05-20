@@ -24,6 +24,7 @@
 
 //Tencen QQ
 #define kTencentQQAppKey        @"101072460"
+#define kTencentQQKey           @"bda4419002858fb94d03da4db280900c"
 #define kTencentQQRedirectURI   @"www.qq.com"
 
 //WeChat

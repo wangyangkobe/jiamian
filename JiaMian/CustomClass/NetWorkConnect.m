@@ -247,7 +247,7 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     
     [request startSynchronous];
-    //NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
+    NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     else

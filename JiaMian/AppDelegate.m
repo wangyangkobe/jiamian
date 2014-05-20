@@ -10,6 +10,7 @@
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
 #import "SelectAreaViewController.h"
+#import "UMSocialQQHandler.h"
 
 @implementation AppDelegate
 
@@ -44,7 +45,9 @@
     [MobClick updateOnlineConfig];  //在线参数配置
     
     [UMSocialWechatHandler setWXAppId:kWeChatAppId url:@"http://www.umeng.com/social"];
-    
+    //qq和qq空间分享
+    [UMSocialQQHandler setQQWithAppId:kTencentQQAppKey appKey:kTencentQQKey url:@"http://www.umeng.com/social"];
+    [UMSocialQQHandler setSupportQzoneSSO:YES];
     // Required
     [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
                                                    UIRemoteNotificationTypeAlert)];
@@ -65,7 +68,7 @@
         return [WeiboSDK handleOpenURL:url delegate:self];
     else if( [sourceApplication isEqualToString:@"com.tencent.xin"] )
         return [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
-    else  //com.tencent.mqq
+    else  //com.tencent.mqq (qq和qq空间分享)
         return [TencentOAuth HandleOpenURL:url];
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
@@ -74,7 +77,7 @@
     
     if ( [TencentOAuth CanHandleOpenURL:url] )
         return [TencentOAuth HandleOpenURL:url];
-    else if([ url.description hasPrefix:@"wechat" ])
+    else if([url.description hasPrefix:@"wechat"] || [url.description hasPrefix:@"qqshare"] )
         return  [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
     else
         return YES;

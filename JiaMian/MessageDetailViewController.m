@@ -79,7 +79,7 @@
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
-    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s, %@", __FUNCTION__, sender);
     
     //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
     [UMSocialSnsService presentSnsIconSheetView:self
