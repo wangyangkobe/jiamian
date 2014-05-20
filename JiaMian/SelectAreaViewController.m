@@ -98,12 +98,12 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
     UITableViewCell* lastSelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastSelectedIndex
                                                                                             inSection:0]];
     lastSelectedCell.accessoryType = UITableViewCellAccessoryNone;
-    self.lastSelectedIndex = indexPath.row;
     
+    self.lastSelectedIndex = indexPath.row;
     UITableViewCell* selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
     AreaModel* currentArea = (AreaModel*)[areaArray objectAtIndex:indexPath.row];

@@ -56,6 +56,16 @@
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(refreshTable)
+                                                 name:@"publishMessageSuccess"
+                                               object:nil];
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageOne"];
+    
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
     if (IOS_NEWER_OR_EQUAL_TO_7) {
@@ -92,15 +102,6 @@
             [self.pullTableView reloadData];
         });
     });
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshTable)
-                                                 name:@"publishMessageSuccess"
-                                               object:nil];
-}
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageOne"];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -206,17 +207,17 @@
     if (nil == cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     };
-    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
-    UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UIImageView* likeImage = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    UILabel* likeNumerLabel = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    UILabel* textLabel          = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
+    UILabel* areaLabel          = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
+    UILabel* likeNumerLabel     = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
+    UILabel* commentNumLabel    = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
     UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
     
+    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    textLabel.text = currentMsg.text;
     
+    textLabel.text = currentMsg.text;
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
@@ -226,22 +227,23 @@
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
     [likeImage addGestureRecognizer:likeImageTap];
-    //likeImageTap.view.tag = indexPath.row;
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     
-    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
+    UILabel* textLabel       = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
+    UILabel* areaLabel       = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
     UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
-    UIImageView* likeImage = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    UILabel* likeNumerLabel = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    UILabel* likeNumerLabel  = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
     UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-    NSLog(@"%@", visibleImage);
+    
+    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
+    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    
     int bgImageNo = currentMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
@@ -278,9 +280,8 @@
             [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
         }
     }
-    NSLog(@"%d", currentMsg.likes_count);
-    if (currentMsg.likes_count != 0) {
-        //  [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
+    if (currentMsg.has_like) {
+        [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -312,7 +313,8 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
+        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:areaId
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
                                                                       count:20
@@ -336,7 +338,8 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
+        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:areaId
                                                                     sinceId:0
                                                                       maxId:lastMessage.message_id
                                                                       count:20
@@ -369,12 +372,19 @@
     PublishMsgViewController* publisMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
     [self.navigationController pushViewController:publisMsgVC animated:YES];
 }
-- (void)likeImageTap:(UITapGestureRecognizer*)tap {
-    NSLog(@"%s", __FUNCTION__);
-    int rowIndex = tap.view.tag;
+- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer{
+    CGPoint tapLocation = [gestureRecognizer locationInView:self.pullTableView];
+    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForRowAtPoint:tapLocation];
     
-    UITableViewCell* cell = [self.pullTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
-    UIImageView* likeImageView = (UIImageView*)[cell viewWithTag:kLikeImage];
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
+    
+    if (currentMsg.has_like)
+        return;
+    
+    UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
+    UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
     [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
+    likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
 }
 @end

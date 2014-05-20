@@ -11,8 +11,12 @@
 
 + (BOOL)propertyIsOptional:(NSString*)propertyName
 {
-   if ([propertyName isEqualToString: @"background_no"]) return YES;
-  	return NO;
+    if ([propertyName isEqualToString:@"background_no"])
+        return YES;
+    else if([propertyName isEqualToString:@"has_like"])
+        return YES;
+    else
+        return NO;
 }
 
 @end

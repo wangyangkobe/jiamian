@@ -26,6 +26,7 @@
 @property(nonatomic, strong) AreaModel*          area;
 @property(nonatomic, strong) UserModel<Optional>* user;
 @property(nonatomic, assign) BOOL                is_official;
+@property(nonatomic, assign) BOOL                has_like;
 
 @end
 

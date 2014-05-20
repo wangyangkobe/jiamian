@@ -42,15 +42,8 @@
     self.tableView.pullDelegate = self;
     self.tableView.tableHeaderView = nil;
     
-    unReadMsgArr = [NSMutableArray array];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        [unReadMsgArr addObjectsFromArray:requestRes];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    });
+    [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,12 +55,22 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
+    
+    unReadMsgArr = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
+        [unReadMsgArr addObjectsFromArray:requestRes];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
 }
-- (void)viewWillDisappear:(BOOL)animated 
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
-} 
+}
 #pragma mark UITableView dataSource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -76,13 +79,10 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-    //    CGFloat textHeight = [NSString textHeight:notification.message.text
-    //                                 sizeWithFont:[UIFont systemFontOfSize:17]
-    //                            constrainedToSize:CGSizeMake(260, 9999)];
-    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:14]
-                                               constrainedToSize:CGSizeMake(260, 42)
+    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
+                                               constrainedToSize:CGSizeMake(175, 48)
                                                    lineBreakMode:NSLineBreakByTruncatingTail].height;
-    return textHeight + 25;
+    return textHeight + 10;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -94,11 +94,13 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
-    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
-    [headImage setImage:[UIImage imageNamed:@""@"unread_head"]];
+    // UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
+    // [headImage setImage:[UIImage imageNamed:@""@"unread_head"]];
     [titleLabel setText:@"有同学回复了"];
+    [titleLabel setTextColor:UIColorFromRGB(0x576b95)];
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x919191)];
+    [contentLabel setBackgroundColor:UIColorFromRGB(0xefeeee)];
     
     return cell;
 }

@@ -91,7 +91,12 @@
 {
     NSLog(@"%s", __FUNCTION__);
     [indicatorView startAnimating];
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text msgType:MessageTypeText areaId:1 lat:0.0 lon:0.0];
+    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
+                                                                   msgType:MessageTypeText
+                                                                    areaId:areaId
+                                                                       lat:0.0
+                                                                       lon:0.0];
     if (message)
     {
         [indicatorView stopAnimating];

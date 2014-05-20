@@ -154,7 +154,23 @@
         [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
         [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
     }
+    if (self.selectedMsg.has_like) {
+        [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liked"]];
+    }
+    
+    [myHeader.likeImageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
+    [likeImageTap setNumberOfTapsRequired:1];
+    [myHeader.likeImageView addGestureRecognizer:likeImageTap];
+    
     return myHeader;
+}
+- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer{
+    if (self.selectedMsg.has_like)
+        return;
+    TableHeaderView* headerView = (TableHeaderView*)[gestureRecognizer.view superview];
+    [headerView.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    [headerView.likeNumberLabel setText:[NSString stringWithFormat:@"%d", self.selectedMsg.likes_count + 1]];
 }
 #pragma mark UITableViewDelgate
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section

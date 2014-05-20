@@ -326,7 +326,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    //NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     NSError* error;
     Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
     NSLog(@"%s, error = %@", __FUNCTION__, error.description);
@@ -431,7 +431,7 @@ static ASIDownloadCache* myCache;
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/area", HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setRequestMethod:@"POST"];
-    [request setPostValue:[NSNumber numberWithLong:AreaId]  forKey:@"area_id"];
+    [request setPostValue:[NSNumber numberWithLong:AreaId] forKey:@"area_id"];
     [request startSynchronous];
     
     if ( 200 == [request responseStatusCode] )
