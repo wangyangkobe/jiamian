@@ -35,6 +35,7 @@
 		150ED9D819149F0200175728 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D719149F0200175728 /* CFNetwork.framework */; };
 		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
 		150ED9DC19150B9C00175728 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 150ED9DB19150B9C00175728 /* ic_share.png */; };
+		1516F3AA192CE6BB00FF68E1 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 1516F3A9192CE6BB00FF68E1 /* new.png */; };
 		1524CE381920E52F00CAB103 /* unread_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE371920E52F00CAB103 /* unread_head.png */; };
 		1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3B1920F27100CAB103 /* libPushSDK.a */; };
 		1524CE3E1920F29400CAB103 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3D1920F29400CAB103 /* CoreFoundation.framework */; };
@@ -195,6 +196,7 @@
 		150ED9D719149F0200175728 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		150ED9DB19150B9C00175728 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
+		1516F3A9192CE6BB00FF68E1 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
 		1524CE371920E52F00CAB103 /* unread_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread_head.png; sourceTree = "<group>"; };
 		1524CE3A1920F27100CAB103 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		1524CE3B1920F27100CAB103 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
@@ -731,6 +733,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1516F3A9192CE6BB00FF68E1 /* new.png */,
 				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
 				15326B9D19289F1F0008AAE1 /* ic_eyes.png */,
 				15326B9E19289F1F0008AAE1 /* ic_like_grey.png */,
@@ -859,6 +862,7 @@
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
+				1516F3AA192CE6BB00FF68E1 /* new.png in Resources */,
 				15278140190D544400C15419 /* Icon.png in Resources */,
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,

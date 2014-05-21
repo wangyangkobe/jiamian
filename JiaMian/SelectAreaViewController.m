@@ -28,18 +28,28 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     areaArray = [NSMutableArray array];
     self.lastSelectedIndex = 0;
     
+    CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame];
+    
     //创建navbar
-    UINavigationBar* navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+    UINavigationBar* navigationBar = nil;
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, statusBarFrame.size.height, SCREEN_WIDTH, 44)];
+        [self.tableView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
+    } else {
+        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+    }
     //创建navbaritem
     UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"假面-匿名校园"];
     [navigationBar pushNavigationItem:navigationItem animated:YES];

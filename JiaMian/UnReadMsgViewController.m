@@ -10,7 +10,7 @@
 #import "MessageDetailViewController.h"
 #import "UILabel+Extensions.h"
 #import "MessageModel.h"
-#define kHeadPicView     7001
+#define kNewPicView      7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
 @interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
@@ -78,11 +78,12 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
-                                               constrainedToSize:CGSizeMake(175, 48)
-                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
-    return textHeight + 10;
+//    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+//    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
+//                                               constrainedToSize:CGSizeMake(175, 48)
+//                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
+//    return textHeight + 10;
+    return 48 + 10;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -94,8 +95,10 @@
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
-    // UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadPicView];
-    // [headImage setImage:[UIImage imageNamed:@""@"unread_head"]];
+    UIImageView* newImageView = (UIImageView*)[cell.contentView viewWithTag:kNewPicView];
+    if (notification.status == 1) {
+        [newImageView setImage:[UIImage imageNamed:@"new"]];
+    }
     [titleLabel setText:@"有同学回复了"];
     [titleLabel setTextColor:UIColorFromRGB(0x576b95)];
     [contentLabel setText:notification.message.text];
@@ -120,14 +123,14 @@
     messageDetailVC.selectedMsg = message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-    if (1 == notification.status)
-    {
-        [cell.contentView setBackgroundColor:UIColorFromRGB(0xddffe5)];
-    }
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+//    if (1 == notification.status)
+//    {
+//        [cell.contentView setBackgroundColor:UIColorFromRGB(0xddffe5)];
+//    }
+//}
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
 {
