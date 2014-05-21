@@ -40,12 +40,12 @@
     areaArray = [NSMutableArray array];
     self.lastSelectedIndex = 0;
     
-    CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame]; //height = 20
     
     //创建navbar
     UINavigationBar* navigationBar = nil;
     if (IOS_NEWER_OR_EQUAL_TO_7) {
-        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, statusBarFrame.size.height, SCREEN_WIDTH, 44)];
+        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
         [self.tableView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
     } else {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
