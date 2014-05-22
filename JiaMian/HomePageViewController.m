@@ -381,10 +381,15 @@
     if (currentMsg.has_like)
         return;
     
-    UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
-    UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
-    [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
-    UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
-    likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
+    
+    if (message) {
+        UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
+        UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
+        [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+        UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
+        likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
+        [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
+    }
 }
 @end

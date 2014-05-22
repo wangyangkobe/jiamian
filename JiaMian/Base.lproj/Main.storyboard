@@ -55,7 +55,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="umO-fQ-P5f">
-                                                    <rect key="frame" x="201" y="213" width="25" height="15"/>
+                                                    <rect key="frame" x="212" y="213" width="15" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -69,7 +69,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="8004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="fys-uF-QF6">
-                                                    <rect key="frame" x="185" y="213" width="15" height="15"/>
+                                                    <rect key="frame" x="196" y="213" width="15" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -283,7 +283,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="7001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="qnG-Dg-FoO">
-                                                    <rect key="frame" x="15" y="26" width="57" height="22"/>
+                                                    <rect key="frame" x="20" y="26" width="57" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>

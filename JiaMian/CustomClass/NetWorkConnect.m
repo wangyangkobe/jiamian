@@ -406,12 +406,11 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (MessageModel*)messageLikeByMsgId:(long)MsgId
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/like?message_id=%ld", HOME_PAGE, MsgId];
-    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
-    [request setDownloadCache:myCache];
-    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/like", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:MsgId] forKey:@"message_id"];
     [request startSynchronous];
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];

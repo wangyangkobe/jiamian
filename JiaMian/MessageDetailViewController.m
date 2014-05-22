@@ -116,7 +116,7 @@
     myHeader.textLabel.text = self.selectedMsg.text;
     myHeader.areaLabel.text = self.selectedMsg.area.area_name;
     myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
-    
+    myHeader.likeNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.likes_count];
     int bgImageNo = self.selectedMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
@@ -171,6 +171,10 @@
     TableHeaderView* headerView = (TableHeaderView*)[gestureRecognizer.view superview];
     [headerView.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     [headerView.likeNumberLabel setText:[NSString stringWithFormat:@"%d", self.selectedMsg.likes_count + 1]];
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
+    if (message) {
+        self.selectedMsg = message;
+    }
 }
 #pragma mark UITableViewDelgate
 //- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
