@@ -92,6 +92,7 @@
     NSLog(@"%s", __FUNCTION__);
     [indicatorView startAnimating];
     NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+    NSLog(@"areaid = %d", areaId);
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
                                                                     areaId:areaId

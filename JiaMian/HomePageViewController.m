@@ -118,7 +118,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"社区选择" image:nil target:self action:@selector(menuItemPressed:)],
+      [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
@@ -145,7 +145,7 @@
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
                                            delegate:nil];
     }
-    else if([menuItem.title isEqualToString:@"社区选择"])
+    else if([menuItem.title isEqualToString:@"选择校园"])
     {
         SelectAreaViewController* selectAreaVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
         selectAreaVC.firstSelect = NO;
@@ -221,7 +221,7 @@
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
-    visibleNumberLabel.text = [NSString stringWithFormat@"%d", currentMsg.visible_count];
+    visibleNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.visible_count];
     if (currentMsg.is_official){
         visibleNumberLabel.text = @"all";
         areaLabel.text = @"假面官方团队";
@@ -392,9 +392,9 @@
         [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
         UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
         likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
-        UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
+        UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
         if (message.is_official == NO){
-            visibleNumberLabel.text = [NSString stringWithFormat@"%d", message.visible_count];
+            visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }

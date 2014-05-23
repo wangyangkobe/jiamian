@@ -139,7 +139,7 @@
 
 - (void)pullTableViewDidTriggerLoadMore:(PullTableView *)pullTableView
 {
-    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:3.0f];
+    [self performSelector:@selector(loadMoreDataToTable) withObject:nil afterDelay:2.0f];
 }
 
 #pragma mark - Refresh and load more methods

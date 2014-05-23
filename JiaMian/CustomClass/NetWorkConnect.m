@@ -247,12 +247,15 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     
     [request startSynchronous];
-    NSLog(@"%s, result=%@", __FUNCTION__, [request responseString]);
+    
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
     else
     {
-        ErrorAlertView;
+        //const char *c = [request.responseString cStringUsingEncoding:NSISOLatin1StringEncoding];
+        //NSLog(@"%s, result=%@", __FUNCTION__, [[NSString alloc] initWithCString:c encoding:NSUTF8StringEncoding]);
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        AlertContent(jsonDict[@"err_msg"]);
         return nil;
     }
 }

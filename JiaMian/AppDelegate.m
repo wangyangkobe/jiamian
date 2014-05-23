@@ -115,12 +115,14 @@
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             
-            NSInteger userAreaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-            if (0 == userAreaId) {
+            if (userSelf.area == nil) {
                 SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
                 selectAreaVC.firstSelect = YES;
                 [self.window setRootViewController:selectAreaVC];
             } else {
+                [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
                 HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
                 [self.window setRootViewController:homeVC];
             }
