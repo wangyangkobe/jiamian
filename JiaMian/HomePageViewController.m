@@ -222,7 +222,10 @@
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
     visibleNumberLabel.text = [NSString stringWithFormat@"%d", currentMsg.visible_count];
-    
+    if (currentMsg.is_official){
+        visibleNumberLabel.text = @"all";
+        areaLabel.text = @"假面官方团队";
+    }
     [likeImage setUserInteractionEnabled:YES];
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
@@ -390,7 +393,9 @@
         UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
         likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
         UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-        visibleNumberLabel.text = [NSString stringWithFormat@"%d", message.visible_count];
+        if (message.is_official == NO){
+            visibleNumberLabel.text = [NSString stringWithFormat@"%d", message.visible_count];
+        }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
 }

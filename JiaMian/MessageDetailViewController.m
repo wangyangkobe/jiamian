@@ -118,7 +118,10 @@
     myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
     myHeader.likeNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.likes_count];
     myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.visible_count];
-
+    if (_selectedMsg.is_official){
+        myHeader.visibleNumberLabel.text = @"all";
+        myHeader.areaLabel.text = @"假面官方团队";
+    }
     int bgImageNo = self.selectedMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
@@ -176,7 +179,9 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
     if (message) {
         self.selectedMsg = message;
-        myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
+        if (message.is_official == NO){
+            headerView.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
+        }
     }
 }
 #pragma mark UITableViewDelgate
