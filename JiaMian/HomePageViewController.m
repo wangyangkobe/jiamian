@@ -221,7 +221,7 @@
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
-    visibleNumberLabel.text = @"100";
+    visibleNumberLabel.text = [NSString stringWithFormat@"%d", currentMsg.visible_count];
     
     [likeImage setUserInteractionEnabled:YES];
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
@@ -389,6 +389,8 @@
         [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
         UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
         likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
+        UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
+        visibleNumberLabel.text = [NSString stringWithFormat@"%d", message.visible_count];
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
 }

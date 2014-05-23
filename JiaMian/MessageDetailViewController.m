@@ -117,6 +117,8 @@
     myHeader.areaLabel.text = self.selectedMsg.area.area_name;
     myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
     myHeader.likeNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.likes_count];
+    myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.visible_count];
+
     int bgImageNo = self.selectedMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
@@ -174,6 +176,7 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
     if (message) {
         self.selectedMsg = message;
+        myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
     }
 }
 #pragma mark UITableViewDelgate
