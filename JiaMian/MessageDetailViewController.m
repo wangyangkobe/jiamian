@@ -82,9 +82,10 @@
     NSLog(@"%s, %@", __FUNCTION__, sender);
     
     //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
+    NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK", self.selectedMsg.text, self.selectedMsg.area.area_name];
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:kUMengAppKey
-                                      shareText:self.selectedMsg.text
+                                      shareText:shareText
                                      shareImage:nil
                                 shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
                                        delegate:nil];
@@ -118,7 +119,8 @@
     myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
     myHeader.likeNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.likes_count];
     myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.visible_count];
-    if (_selectedMsg.is_official){
+    if (_selectedMsg.is_official)
+    {
         myHeader.visibleNumberLabel.text = @"all";
         myHeader.areaLabel.text = @"假面官方团队";
     }
@@ -239,7 +241,10 @@
     [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
     
     if(currentComment.is_starter) //楼主
+    {
         timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
+        [textLabel setTextColor:UIColorFromRGB(0xff9000)];
+    }
     else
         timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
     

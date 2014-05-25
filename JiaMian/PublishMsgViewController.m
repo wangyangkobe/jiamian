@@ -29,7 +29,7 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
 }
-- (void)viewWillDisappear:(BOOL)animated 
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
@@ -81,7 +81,6 @@
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"%s, range = %@", __FUNCTION__, NSStringFromRange(range));
     if ( (range.location > 160) || (textView.text.length > 160) )  //控制输入文本的长度
         return NO;
     else
@@ -89,10 +88,9 @@
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    NSLog(@"%s", __FUNCTION__);
     [indicatorView startAnimating];
     NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    NSLog(@"areaid = %d", areaId);
+    NSLog(@"%s, areaId = %d", __FUNCTION__, areaId);
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
                                                                     areaId:areaId

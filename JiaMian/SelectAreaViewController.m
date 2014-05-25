@@ -42,7 +42,7 @@
     
     CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame]; //height = 20
     
-    //创建navbar
+    //创建UINavigationBar
     UINavigationBar* navigationBar = nil;
     if (IOS_NEWER_OR_EQUAL_TO_7) {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
@@ -50,8 +50,9 @@
     } else {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     }
-    //创建navbaritem
-    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"假面-匿名校园"];
+    navigationBar.delegate = self;
+    //创建UINavigationItem
+    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择学校"];
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
     
@@ -60,7 +61,12 @@
                                                                                   action:@selector(selectAreaDone:)];
     if (self.isFirstSelect) {
         navigationItem.rightBarButtonItem = rightBtnItem;
+    }else{
+        UINavigationItem* backBtnItem = [[UINavigationItem alloc] initWithTitle:@"假面校园"];
+        NSArray* items = [[NSArray alloc] initWithObjects:backBtnItem, navigationItem, nil];
+        [navigationBar setItems:items animated:NO];
     }
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
         [areaArray addObjectsFromArray:result];
@@ -70,8 +76,10 @@
         });
     });
 }
-- (void)selectAreaDone:(id)sender {
-    if (selcetedAreaId > 0) {
+- (void)selectAreaDone:(id)sender
+{
+    if (selcetedAreaId > 0)
+    {
         UserModel* user = [[NetWorkConnect sharedInstance] userChangeArea:selcetedAreaId];
         if (user == nil)
             return;
@@ -79,9 +87,12 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
         [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
-    } else {
-        AlertContent(@"同学，你还没选择社区呢");
+    }
+    else
+    {
+        AlertContent(@"同学，你还没选择学校呢");
     }
 }
 - (void)didReceiveMemoryWarning
@@ -89,7 +100,11 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item{
+    //在此处添加点击back按钮之后的操作代码
+    [self selectAreaDone:item];
+    return TRUE;
+}
 #pragma mark - UITableView DataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [areaArray count];
@@ -100,15 +115,18 @@
     AreaModel* area = (AreaModel*)[areaArray objectAtIndex:indexPath.row];
     static NSString* areaCellIdentifier = @"AreaCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:areaCellIdentifier];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:areaCellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     cell.textLabel.text = area.area_name;
     NSInteger userAreaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    if (userAreaId == indexPath.row + 1) {
+    if (userAreaId == indexPath.row + 1)
+    {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
         self.lastSelectedIndex = indexPath.row;
+        selcetedAreaId = userAreaId;
     }
     return cell;
 }
@@ -118,15 +136,14 @@
     UITableViewCell* lastSelectedCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:self.lastSelectedIndex
                                                                                             inSection:0]];
     lastSelectedCell.accessoryType = UITableViewCellAccessoryNone;
-    
     self.lastSelectedIndex = indexPath.row;
+    
     UITableViewCell* selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     selectedCell.accessoryType = UITableViewCellAccessoryCheckmark;
     AreaModel* currentArea = (AreaModel*)[areaArray objectAtIndex:indexPath.row];
     selcetedAreaId = currentArea.area_id;
     
-    if (!self.isFirstSelect) {
-        [self performSelector:@selector(selectAreaDone:) withObject:nil afterDelay:0.5];
-    }
+    [[NSUserDefaults standardUserDefaults] setInteger:selcetedAreaId forKey:kUserAreaId];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 @end

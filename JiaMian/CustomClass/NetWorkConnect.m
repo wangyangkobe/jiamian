@@ -46,7 +46,7 @@ static ASIDownloadCache* myCache;
     }
 }
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type error:(NSError**)Error
+- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -59,27 +59,28 @@ static ASIDownloadCache* myCache;
     [request setNumberOfTimesToRetryOnTimeout:2];
     [request startSynchronous];
     
-    NSLog(@"%@ responseString=%d", requestUrl, request.responseStatusCode);
-    if ( [request responseStatusCode] != 200 )
+    if (200 == request.responseStatusCode)
     {
-        //{"err_code":"10001","err_msg":"Test Login Error"}
-        ErrorAlertView;
-        return nil;
-    }
-    else
-    {
-        NSError* error;
-        UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:&error];
+        UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:nil];
         if (userInfo)
             return userInfo;
         else
         {
-            NSDictionary *errorInfo = [NSJSONSerialization JSONObjectWithData:request.responseData
-                                                                      options:NSJSONReadingMutableContainers
-                                                                        error:nil];
-            *Error = [NSError errorWithDomain:CustomErrorDomain code:0 userInfo:errorInfo];
-            return nil;
+            ErrorAlertView; return nil;
         }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
+    else
+    {
+        ErrorAlertView;
+        return nil;
     }
 }
 
@@ -114,6 +115,14 @@ static ASIDownloadCache* myCache;
     [request startSynchronous];
     if ( 200 == [request responseStatusCode] )
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == [request responseStatusCode])
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
@@ -135,6 +144,14 @@ static ASIDownloadCache* myCache;
     NSLog(@"userShowById: %@", [request responseString]);
     if ( 200 == [request responseStatusCode] )
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    else if( 500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
@@ -157,16 +174,25 @@ static ASIDownloadCache* myCache;
         NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
         return [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     }
+    else if( 500 == request.responseStatusCode )
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
+        ErrorAlertView;
         return nil;
     }
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)messageList:(int)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType
+- (NSArray*)messageList:(long)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/list?area_id=%d&count=%d", HOME_PAGE, AreaId, Count];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/list?area_id=%ld&count=%d", HOME_PAGE, AreaId, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
     if (MaxId != INT_MAX)
@@ -181,34 +207,24 @@ static ASIDownloadCache* myCache;
     
     //NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
     
-    NSError* error;
-    Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
-    if (result)
+    if (200 == request.responseStatusCode)
     {
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
         return [result.messages copy];
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
     }
     else
     {
         ErrorAlertView;
         return [NSArray array];
     }
-    /* if (200 == [request responseStatusCode])
-     {
-     NSError* error;
-     Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
-     if (result) {
-     return [result.messages copy];
-     }else{
-     NSLog(@"error = %@", [error description]);
-     return [NSArray array];
-     }
-     }
-     else
-     {
-     ErrorAlertView;
-     return [NSArray array];
-     }
-     */
 }
 
 //////////////////////////////////////////////////////////////////
@@ -223,6 +239,14 @@ static ASIDownloadCache* myCache;
     if ( 200 == [request responseStatusCode] )
     {
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
     }
     else
     {
@@ -250,12 +274,19 @@ static ASIDownloadCache* myCache;
     
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
-    else
+    else if(500 == request.responseStatusCode)
     {
         //const char *c = [request.responseString cStringUsingEncoding:NSISOLatin1StringEncoding];
         //NSLog(@"%s, result=%@", __FUNCTION__, [[NSString alloc] initWithCString:c encoding:NSUTF8StringEncoding]);
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
-        AlertContent(jsonDict[@"err_msg"]);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
+    else
+    {
+        ErrorAlertView;
         return nil;
     }
 }
@@ -274,21 +305,28 @@ static ASIDownloadCache* myCache;
     
     [request startSynchronous];
     
-    //NSLog(@"url = %@, comment = %@", requestUrl, request.responseString);
-    if (200 == [request responseStatusCode])
+    if (200 == request.responseStatusCode)
     {
-        NSError* error;
-        Comments* result = [[Comments alloc] initWithString:[request responseString] error:&error];
-        if (result) {
+        Comments* result = [[Comments alloc] initWithString:[request responseString] error:nil];
+        if (result)
             return [result.comments copy];
-        }else{
+        else
+        {
             ErrorAlertView;
             return [NSArray array];
         }
     }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    }
     else
     {
-        NoNetWorkAlertView;
+        ErrorAlertView;
         return [NSArray array];
     }
 }
@@ -308,6 +346,14 @@ static ASIDownloadCache* myCache;
     
     if ( 200 == [request responseStatusCode] )
         return [[CommentModel alloc] initWithString:[request responseString] error:nil];
+    else if( 500 == request.responseStatusCode )
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
@@ -329,13 +375,24 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
-    NSError* error;
-    Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
-    NSLog(@"%s, error = %@", __FUNCTION__, error.description);
-    if (result)
+    if (200 == request.responseStatusCode)
     {
-        return [result.notifications copy];
+        Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:nil];
+        if (result)
+            return  [result.notifications copy];
+        else
+        {
+            ErrorAlertView;
+            return [NSArray array];
+        }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
     }
     else
     {
@@ -371,14 +428,25 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     
-    NSError* error;
-    Areas* result = [[Areas alloc] initWithString:[request responseString] error:&error];
-    NSLog(@"%s, error = %@", __FUNCTION__, error.description);
-    if (result)
+    if (200 == request.responseStatusCode)
     {
-        return [result.areas copy];
+        Areas* result = [[Areas alloc] initWithString:[request responseString] error:nil];
+        if(result)
+            return [result.areas copy];
+        else
+        {
+            ErrorAlertView;
+            return [NSArray array];
+        }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
     }
     else
     {
@@ -395,10 +463,17 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     
     if ( 200 == [request responseStatusCode] )
         return [[AreaModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
@@ -417,6 +492,14 @@ static ASIDownloadCache* myCache;
     
     if ( 200 == [request responseStatusCode] )
         return [[MessageModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
@@ -438,12 +521,19 @@ static ASIDownloadCache* myCache;
     
     if ( 200 == [request responseStatusCode] )
         return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
     else
     {
         ErrorAlertView;
         return nil;
     }
-    
 }
 
 @end

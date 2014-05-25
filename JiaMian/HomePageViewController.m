@@ -56,9 +56,15 @@
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
     
+    [self fetchDataFromServer];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable)
                                                  name:@"publishMessageSuccess"
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(fetchDataFromServer)
+                                                 name:@"changeAreaSuccess"
                                                object:nil];
 }
 - (void)viewWillAppear:(BOOL)animated
@@ -66,6 +72,7 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
     
+    //创建BarButtonItem
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
     if (IOS_NEWER_OR_EQUAL_TO_7) {
@@ -76,7 +83,6 @@
     
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
     unReadMsgBarButton.shouldHideBadgeAtZero = YES;
-    //unReadMsgBarButton.badgeValue = @"2";
     unReadMsgBarButton.badgeOriginX = 5;
     unReadMsgBarButton.badgeOriginY = -9;
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
@@ -85,10 +91,19 @@
                                                                         action:@selector(settingBtnPressed:)];;
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
     
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        long unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%ld", unreadCount];
+        });
+        
+    });
+}
+- (void)fetchDataFromServer
+{
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        int unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
-        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:areaId
                                                                    sinceId:0
                                                                      maxId:INT_MAX
@@ -98,7 +113,6 @@
         [messageArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%d", unreadCount];
             [self.pullTableView reloadData];
         });
     });
@@ -112,6 +126,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (void)settingBtnPressed:(id)sender
 {
@@ -214,7 +232,7 @@
     UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
     
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-
+    
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     
     textLabel.text = currentMsg.text;
@@ -222,7 +240,8 @@
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
     likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
     visibleNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.visible_count];
-    if (currentMsg.is_official){
+    if (currentMsg.is_official)
+    {
         visibleNumberLabel.text = @"all";
         areaLabel.text = @"假面官方团队";
     }
@@ -259,10 +278,13 @@
         [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
         [textLabel setTextColor:UIColorFromRGB(0x000000)];
         
-        if (2 == bgImageNo) {
+        if (2 == bgImageNo)
+        {
             UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
             [cell.contentView setBackgroundColor:picColor];
-        } else {
+        }
+        else
+        {
             [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
         }
     }
@@ -316,7 +338,7 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:areaId
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
@@ -372,8 +394,19 @@
 
 - (IBAction)publishMessage:(id)sender
 {
-    PublishMsgViewController* publisMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
-    [self.navigationController pushViewController:publisMsgVC animated:YES];
+    NSDictionary* msgLimmit = [[NetWorkConnect sharedInstance] userMessageLimit];
+    
+    if (nil == msgLimmit)
+        return;
+    if( [[msgLimmit objectForKey:@"remain_count"] integerValue] > 0 )
+    {
+        PublishMsgViewController* publisMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
+        [self.navigationController pushViewController:publisMsgVC animated:YES];
+    }
+    else
+    {
+        AlertContent(@"为了保证社区纯净，您每天发布次数有限，今天已达上限");
+    }
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer{
     CGPoint tapLocation = [gestureRecognizer locationInView:self.pullTableView];
@@ -386,14 +419,16 @@
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
     
-    if (message) {
+    if (message)
+    {
         UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
         UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
         [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
         UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
         likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
         UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
-        if (message.is_official == NO){
+        if (message.is_official == NO)
+        {
             visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];

@@ -28,9 +28,7 @@
     {
         NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
         NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
-        [[NetWorkConnect sharedInstance] userLogInWithToken:token
-                                                   userType:logInType
-                                                      error:nil];
+        [[NetWorkConnect sharedInstance] userLogInWithToken:token userType:logInType];
     }
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
@@ -49,8 +47,7 @@
     [UMSocialQQHandler setQQWithAppId:kTencentQQAppKey appKey:kTencentQQKey url:@"http://www.umeng.com/social"];
     [UMSocialQQHandler setSupportQzoneSSO:YES];
     // Required
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                   UIRemoteNotificationTypeAlert)];
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)];
     // Required
     [APService setupWithOption:launchOptions];
     
@@ -95,10 +92,10 @@
         NSString* userId = [(WBAuthorizeResponse*)response userID];
         NSLog(@"wbToken = %@, userID = %@", wbToken, userId);
         
-        NSError* error;
-        UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken
-                                                                         userType:UserTypeWeiBo
-                                                                            error:&error];
+        UserModel* userSelf;
+        if ( (wbToken!= nil) && (userId != nil) )
+            userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo];
+        
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!");
@@ -115,21 +112,20 @@
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             
-            if (userSelf.area == nil) {
+            if (userSelf.area == nil)
+            {
                 SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
                 selectAreaVC.firstSelect = YES;
                 [self.window setRootViewController:selectAreaVC];
-            } else {
+            }
+            else
+            {
                 [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
                 [self.window setRootViewController:homeVC];
             }
-        }
-        else
-        {
-            //AlertContent([error.userInfo valueForKey:@"err_msg"]);
         }
     }
 }
@@ -141,7 +137,7 @@
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"===============%@", userInfo);
+    NSLog(@"%s, %@", __FUNCTION__, userInfo);
     [APService handleRemoteNotification:userInfo];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error

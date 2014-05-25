@@ -51,7 +51,8 @@
     [MobClick endLogPageView:@"PageOne"];
 }
 
-- (IBAction)sinaWBLogIn:(id)sender {
+- (IBAction)sinaWBLogIn:(id)sender
+{
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kSinaRedirectURI;
     request.scope = @"all";
@@ -76,10 +77,8 @@
               _tencentOAuth.openId,
               _tencentOAuth.expirationDate);
         
-        NSError* error;
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken
-                                                                         userType:UserTypeQQ
-                                                                            error:&error];
+                                                                         userType:UserTypeQQ];
         if (userSelf) //login successful
         {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
@@ -103,10 +102,6 @@
                 HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
                 [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
             }
-        }
-        else
-        {
-            //AlertContent([error.userInfo valueForKey:@"err_msg"]);
         }
     }
     else

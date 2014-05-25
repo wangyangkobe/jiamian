@@ -13,7 +13,7 @@
 @interface NetWorkConnect : NSObject
 
 +(id)sharedInstance;
-- (UserModel*)userLogInWithToken:(NSString*)access_token userType:(int)Type error:(NSError**)Error;
+- (UserModel*)userLogInWithToken:(NSString*)access_token userType:(int)Type;
 - (BOOL)userLogOut;
 - (UserModel*)userChangeArea:(long)AreaId;
 
@@ -27,7 +27,7 @@
 - (NSDictionary*)userMessageLimit;
 
 //AreaId: 0; SinceId: 0; MaxId: INT_MAX; Count: 20; TrimArea: NO; FilterType: 0
-- (NSArray*)messageList:(int)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType;
+- (NSArray*)messageList:(long)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType;
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
 - (MessageModel*)messageLikeByMsgId:(long)MsgId;

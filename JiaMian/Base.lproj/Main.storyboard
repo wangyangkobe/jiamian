@@ -51,7 +51,7 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <imageView userInteractionEnabled="NO" tag="8006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_eyes_grey.png" id="t6b-WX-PBH">
-                                                    <rect key="frame" x="228" y="213" width="17" height="15"/>
+                                                    <rect key="frame" x="228" y="214" width="17" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="umO-fQ-P5f">
@@ -180,7 +180,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_word.png" id="izV-rw-qEs">
-                                <rect key="frame" x="57" y="182" width="207" height="97"/>
+                                <rect key="frame" x="57" y="181" width="207" height="97"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             </imageView>
                         </subviews>
@@ -283,7 +283,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="7001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="qnG-Dg-FoO">
-                                                    <rect key="frame" x="20" y="26" width="57" height="22"/>
+                                                    <rect key="frame" x="20" y="26" width="28" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
