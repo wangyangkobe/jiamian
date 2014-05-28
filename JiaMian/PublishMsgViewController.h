@@ -11,5 +11,6 @@
 @interface PublishMsgViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet SAMTextView *textView;
+@property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 
 @end

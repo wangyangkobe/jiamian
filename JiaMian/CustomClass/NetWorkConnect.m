@@ -256,7 +256,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(int)AreaId lat:(double)Lat lon:(double)Long
+- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(long)AreaId lat:(double)Lat lon:(double)Long
 {
     if (NO == [self checkNetworkStatus])
         return nil;

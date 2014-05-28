@@ -85,15 +85,10 @@
             return;
         [[NSUserDefaults standardUserDefaults] setInteger:selcetedAreaId forKey:kUserAreaId];
         [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-        [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
     }
-    else
-    {
-        AlertContent(@"同学，你还没选择学校呢");
-    }
+    HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+    [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
 }
 - (void)didReceiveMemoryWarning
 {

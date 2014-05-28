@@ -42,7 +42,7 @@
 //NavBar高度
 #define NavigationBar_HEIGHT 44
 //ToolBar 高度
-#define TOOLBAR_HEIGHT 40
+#define TOOLBAR_HEIGHT 44
 //键盘高度
 #define KEYBOARD_HEIGHT 216
 
