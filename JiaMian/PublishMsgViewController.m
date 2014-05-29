@@ -50,6 +50,8 @@
     [self.textView.layer setBorderWidth: 1.0];    
     //[self.textView.layer setCornerRadius:8.0f];    
     [self.textView.layer setMasksToBounds:YES];
+    [self.textview setScrollEnabled:YES];
+    [self.textview setUserInteractionEnabled:YES];
 
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
