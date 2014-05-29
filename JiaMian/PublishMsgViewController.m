@@ -7,6 +7,7 @@
 //
 
 #import "PublishMsgViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 {
@@ -44,6 +45,12 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.textView.delegate = self;
+    
+    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];    
+    [self.textView.layer setBorderWidth: 1.0];    
+    //[self.textView.layer setCornerRadius:8.0f];    
+    [self.textView.layer setMasksToBounds:YES];
+
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
     NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
     [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
