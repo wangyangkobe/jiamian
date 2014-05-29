@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QiniuSimpleUploader.h"
+#import "QiniuPutPolicy.h"
+#import "QiniuConfig.h"
 
 @interface PublishMsgViewController : UIViewController
 
