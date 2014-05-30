@@ -9,7 +9,7 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE  @"http://114.215.109.246/MaskTech"
+#define HOME_PAGE  @"http://114.215.109.246/MaskTechDEV"
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
@@ -70,11 +70,11 @@ typedef NS_ENUM(NSInteger, UserType)
 	UserTypeWeiBo = 2,
 };
 
-typedef NS_ENUM(NSInteger, BackGroundType)
-{
-	BackGroundTypeNum = 1,  //序号
-	BackGroundTypeUrl = 2,  //图片URL
-};
+//typedef NS_ENUM(NSInteger, BackGroundType)
+//{
+//	BackGroundTypeNo    = 1,  //无图片
+//	BackGroundTypeImage = 2,  //图片
+//};
 
 #define RGBCOLOR(r,g,b)    [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]

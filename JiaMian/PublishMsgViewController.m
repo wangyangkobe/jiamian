@@ -149,9 +149,15 @@
 {
     long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
     NSLog(@"%s, areaId = %ld", __FUNCTION__, (long)areaId);
+    
+    int backgroudType = ( (imagePath == nil) ? 1 : 2 );
+    
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
                                                                     areaId:areaId
+                                                                    bgType:backgroudType
+                                                                  bgNumber:-1
+                                                                     bgUrl:imagePath
                                                                        lat:0.0
                                                                        lon:0.0];
     if (message)
@@ -238,7 +244,7 @@
     NSLog(@"imageView frame = %@", NSStringFromCGRect(self.bgImageView.frame));
     [self.textView resignFirstResponder];
     [self.textView becomeFirstResponder];
-    
+    [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
     imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
@@ -258,6 +264,7 @@
 {
     NSString* path = [QiniuDomian stringByAppendingString:[ret objectForKey:@"key"]];
     NSLog(@"qi niu image path:%@", path);
+    imagePath = path;
 }
 // Upload failed.
 - (void)uploadFailed:(NSString *)filePath error:(NSError *)error

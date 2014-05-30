@@ -137,6 +137,7 @@
 		15698552191355C800923E85 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15698551191355C800923E85 /* Default~iphone.png */; };
 		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
 		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
+		15707A4B1938C8D700DCF9C0 /* blackalpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 15707A4A1938C8D700DCF9C0 /* blackalpha.png */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
 		15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D0191A4D3F00C31D39 /* Icon-80.png */; };
 		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
@@ -355,6 +356,7 @@
 		15698551191355C800923E85 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		156985531913631B00923E85 /* comment_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_grey.png; sourceTree = "<group>"; };
 		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
+		15707A4A1938C8D700DCF9C0 /* blackalpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackalpha.png; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		15B035D0191A4D3F00C31D39 /* Icon-80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-80.png"; sourceTree = "<group>"; };
@@ -798,6 +800,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15707A4A1938C8D700DCF9C0 /* blackalpha.png */,
 				1516F3A9192CE6BB00FF68E1 /* new.png */,
 				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
 				15326B9D19289F1F0008AAE1 /* ic_eyes.png */,
@@ -925,6 +928,7 @@
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
+				15707A4B1938C8D700DCF9C0 /* blackalpha.png in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
 				1516F3AA192CE6BB00FF68E1 /* new.png in Resources */,
