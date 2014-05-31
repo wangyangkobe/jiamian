@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Extensions.h"
 
+static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 @interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, QiniuUploadDelegate>
 {
@@ -48,37 +49,24 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
     self.textView.delegate = self;
-    
-    //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    //    [self.textView.layer setBorderWidth: 5.0];
-    //    [self.textView.layer setCornerRadius:8.0f];
-    //    [self.textView.layer setMasksToBounds:YES];
     [self.textView setScrollEnabled:YES];
     [self.textView setUserInteractionEnabled:YES];
     
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:@"匿名发表心中所想吧"];
-    [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
-    [hoderText addAttribute:NSForegroundColorAttributeName value:[UIColor darkGrayColor] range:NSMakeRange(0, [hoderText length])];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
-    [paragraphStyle setAlignment:NSTextAlignmentCenter];
-    [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
-    //self.textView.contentInset = UIEdgeInsetsMake(90, 70, 0, 0);
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 10, 0, 10)];
-    self.textView.attributedPlaceholder = hoderText;
-    
+
+    [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
     [self configureToolBar];
     [self.view addSubview:_toolBar];
     [self.textView setInputAccessoryView:_toolBar];
     
     CGRect oldFrame = self.textView.frame;
     [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, oldFrame.size.width)];
-    self.bgImageView.frame = self.textView.frame;
-    // [self.bgImageView setContentMode:UIViewContentModeScaleAspectFit];
-    NSLog(@"imageView frame = %@", NSStringFromCGRect(self.bgImageView.frame));
-    NSLog(@"textView frame = %@", NSStringFromCGRect(self.textView.frame));
-    NSLog(@"screen frame = %@", NSStringFromCGRect([[UIScreen mainScreen] bounds]));
+    self.backgroundImageView.frame = self.textView.frame;
+
+    //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
+    //    [self.textView.layer setBorderWidth: 5.0];
+    //    [self.textView.layer setCornerRadius:8.0f];
+    //    [self.textView.layer setMasksToBounds:YES];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
@@ -124,6 +112,10 @@
 - (void)keyboardWillHide:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+    {
+        _textView.contentSize = _textView.frame.size;
+    }
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -150,7 +142,7 @@
     long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
     NSLog(@"%s, areaId = %ld", __FUNCTION__, (long)areaId);
     
-    int backgroudType = ( (imagePath == nil) ? 1 : 2 );
+    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
@@ -173,7 +165,18 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
-
+- (void)configurePlaceHolderText:(NSString*)text withColor:(UIColor*)color
+{
+    NSMutableAttributedString* hoderText = [[NSMutableAttributedString alloc] initWithString:text];
+    [hoderText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20.0] range:NSMakeRange(0, [hoderText length])];
+    [hoderText addAttribute:NSForegroundColorAttributeName value:color range:NSMakeRange(0, [hoderText length])];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init] ;
+    [paragraphStyle setAlignment:NSTextAlignmentCenter];
+    [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 10, 0, 10)];
+    self.textView.attributedPlaceholder = hoderText;
+}
 - (void)configureToolBar
 {
     if (_toolBar == nil)
@@ -191,7 +194,7 @@
 
 - (void)cameraBtnPressed:(id)sender
 {
-    [self.textView becomeFirstResponder];
+   // [self.textView becomeFirstResponder];
     UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                   delegate:self
                                                          cancelButtonTitle:@"Cancel"
@@ -232,21 +235,23 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
     
     NSDictionary* mediaInfoArray = (NSDictionary *)info;
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), [mediaInfoArray description]);
-    
     selectedImage = [mediaInfoArray objectForKey:UIImagePickerControllerEditedImage];
-    CGRect oldFrame = self.textView.frame;
-    [self.bgImageView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
-    self.textView.frame = self.bgImageView.frame;
     
-    [self.bgImageView setImage:selectedImage];
+    CGRect oldFrame = self.textView.frame;
+    [self.backgroundImageView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
+    self.textView.frame = self.backgroundImageView.frame;
+    
+    [self.backgroundImageView setImage:selectedImage];
     [self.textView setTextColor:UIColorFromRGB(0xffffff)];
-    NSLog(@"imageView frame = %@", NSStringFromCGRect(self.bgImageView.frame));
-    [self.textView resignFirstResponder];
+    
+   // [self.textView resignFirstResponder];
     [self.textView becomeFirstResponder];
+    
     [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
-    imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
+    [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
         [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
     });
 }
@@ -259,26 +264,20 @@
 
 
 #pragma mark - QiniuUploadDelegate
-// Upload completed successfully.
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
 {
     NSString* path = [QiniuDomian stringByAppendingString:[ret objectForKey:@"key"]];
-    NSLog(@"qi niu image path:%@", path);
     imagePath = path;
 }
-// Upload failed.
 - (void)uploadFailed:(NSString *)filePath error:(NSError *)error
 {
-    NSString *message = @"";
     if ([QiniuAccessKey hasPrefix:@"<Please"])
     {
-        message = @"Please replace kAccessKey, kSecretKey and kBucketName with proper values.";
-        NSLog(@"%@", message);
+        NSLog(@"Please replace kAccessKey, kSecretKey and kBucketName with proper values.");
     }
     else
     {
-        message = [NSString stringWithFormat:@"Failed uploading %@ with error: %@", filePath, error];
-        NSLog(@"%@", message);
+        NSLog(@"upload image file to QiNiu failded!");
         //继续重传
         [self uploadFile:filePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
     }
@@ -292,9 +291,7 @@
 
 - (void)uploadFile:(NSString *)filePath bucket:(NSString *)bucket key:(NSString *)key
 {
-    NSFileManager *manager = [NSFileManager defaultManager];
-    NSLog(@"%@, %@", filePath, key);
-    if ([manager fileExistsAtPath:filePath])
+    if ([NSFileManager.defaultManager fileExistsAtPath:filePath])
     {
         if(qiNiuUpLoader == nil)
             qiNiuUpLoader = [QiniuSimpleUploader uploaderWithToken:[self tokenWithScope:bucket]];
