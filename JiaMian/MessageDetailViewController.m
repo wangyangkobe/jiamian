@@ -248,7 +248,7 @@
         [textLabel setTextColor:UIColorFromRGB(0xff9000)];
     }
     else
-        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
     
     [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
     [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];

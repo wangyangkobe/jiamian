@@ -266,7 +266,7 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithInt:MsgType]  forKey:@"message_type"];
-    [request setPostValue:[NSNumber numberWithInt:AreaId]   forKey:@"area_id"];
+    [request setPostValue:[NSNumber numberWithLong:AreaId]   forKey:@"area_id"];
     [request setPostValue:[NSNumber numberWithInt:BGType]   forKey:@"background_type"];
     [request setPostValue:[NSNumber numberWithInt:BGNumer]   forKey:@"background_no"];
     if (BGUrl)
