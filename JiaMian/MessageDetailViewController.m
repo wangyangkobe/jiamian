@@ -64,7 +64,7 @@
     commentArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         long msgId = self.selectedMsg.message_id;
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:20];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:INT_MAX];
         [commentArr addObjectsFromArray:requestRes];
         
         dispatch_async(dispatch_get_main_queue(), ^{
