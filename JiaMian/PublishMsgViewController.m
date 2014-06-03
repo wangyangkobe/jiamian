@@ -53,16 +53,16 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView setUserInteractionEnabled:YES];
     
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-
+    
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
     [self configureToolBar];
     [self.view addSubview:_toolBar];
     [self.textView setInputAccessoryView:_toolBar];
     
     CGRect oldFrame = self.textView.frame;
-    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, oldFrame.size.width)];
+    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
     self.backgroundImageView.frame = self.textView.frame;
-
+    
     //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
     //    [self.textView.layer setBorderWidth: 5.0];
     //    [self.textView.layer setCornerRadius:8.0f];
@@ -89,8 +89,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     NSLog(@"call %s", __FUNCTION__);
 	CGRect keyboardBounds;
     [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
-    NSNumber *duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSNumber *curve    = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
+    NSNumber* duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
+    NSNumber* curve    = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
@@ -112,10 +112,17 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)keyboardWillHide:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-    {
-        _textView.contentSize = _textView.frame.size;
-    }
+    NSDictionary* info = [notification userInfo];
+    double duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    [UIView animateWithDuration:duration animations:^{
+        if (IOS_NEWER_OR_EQUAL_TO_7)
+        {
+            _textView.contentSize = _textView.frame.size;
+        }
+        CGRect oldFrame = self.textView.frame;
+        [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
+    }];
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -194,7 +201,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (void)cameraBtnPressed:(id)sender
 {
-   // [self.textView becomeFirstResponder];
+    // [self.textView becomeFirstResponder];
     UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                   delegate:self
                                                          cancelButtonTitle:@"Cancel"
@@ -244,12 +251,12 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.backgroundImageView setImage:selectedImage];
     [self.textView setTextColor:UIColorFromRGB(0xffffff)];
     
-   // [self.textView resignFirstResponder];
+    // [self.textView resignFirstResponder];
     [self.textView becomeFirstResponder];
     
     [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
-
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
         [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
@@ -267,6 +274,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
 {
     NSString* path = [QiniuDomian stringByAppendingString:[ret objectForKey:@"key"]];
+    NSLog(@"%s, path=%@", __FUNCTION__, path);
     imagePath = path;
 }
 - (void)uploadFailed:(NSString *)filePath error:(NSError *)error
