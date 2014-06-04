@@ -36,6 +36,7 @@
 		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
 		150ED9DC19150B9C00175728 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 150ED9DB19150B9C00175728 /* ic_share.png */; };
 		1516F3AA192CE6BB00FF68E1 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 1516F3A9192CE6BB00FF68E1 /* new.png */; };
+		151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */; };
 		1524CE381920E52F00CAB103 /* unread_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE371920E52F00CAB103 /* unread_head.png */; };
 		1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3B1920F27100CAB103 /* libPushSDK.a */; };
 		1524CE3E1920F29400CAB103 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3D1920F29400CAB103 /* CoreFoundation.framework */; };
@@ -197,6 +198,8 @@
 		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		150ED9DB19150B9C00175728 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		1516F3A9192CE6BB00FF68E1 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
+		151C900C193E109C00203AE1 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		1524CE371920E52F00CAB103 /* unread_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread_head.png; sourceTree = "<group>"; };
 		1524CE3A1920F27100CAB103 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		1524CE3B1920F27100CAB103 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
@@ -616,6 +619,8 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				151C900C193E109C00203AE1 /* UIAlertView+Blocks.h */,
+				151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */,
 				1558CFE1190BF34300E6B543 /* ASIHTTPRequest */,
 				1558CFF8190BF34300E6B543 /* EGOTableViewPullRefresh */,
 				1558D00B190BF34300E6B543 /* KxMenu */,
@@ -983,6 +988,7 @@
 				1559671B190E71C700FB760A /* NetWorkConnect.m in Sources */,
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
+				151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */,
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
 				1558D023190BF34300E6B543 /* KxMenu.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,

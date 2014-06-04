@@ -25,6 +25,7 @@
 #define kLikeNumberLabel 8005
 #define kVisibleImage 8006
 #define kVisibleNumberLabel 8007
+#define kJuBaoBtn     8008
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
@@ -138,7 +139,7 @@
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
+     // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
     
@@ -233,6 +234,9 @@
     
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
     
+    UIButton* juBaoBtn = (UIButton*)[cell.contentView viewWithTag:kJuBaoBtn];
+    [juBaoBtn addTarget:self action:@selector(handleJuBao:) forControlEvents:UIControlEventTouchUpInside];
+    
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     
     textLabel.text = currentMsg.text;
@@ -266,6 +270,8 @@
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
     UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
     
+    UIButton* juBaoBtn = (UIButton*)[cell.contentView viewWithTag:kJuBaoBtn];
+    
     int bgImageNo = currentMsg.background_no;
     if ( (1 == bgImageNo) || (2 == bgImageNo) )
     {
@@ -276,6 +282,7 @@
         [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
         [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
         [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
+        [juBaoBtn setTitleColor:UIColorFromRGB(0x969696) forState:UIControlStateNormal];
         [textLabel setTextColor:UIColorFromRGB(0x000000)];
         
         if (2 == bgImageNo)
@@ -297,6 +304,7 @@
         [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
         [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [juBaoBtn setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         if (9 == bgImageNo) {
             UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
@@ -408,7 +416,9 @@
         AlertContent(@"为了保证社区纯净，您每天发布次数有限，今天已达上限");
     }
 }
-- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer{
+
+- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
+{
     CGPoint tapLocation = [gestureRecognizer locationInView:self.pullTableView];
     NSIndexPath* tapIndexPath = [self.pullTableView indexPathForRowAtPoint:tapLocation];
     
@@ -433,5 +443,29 @@
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
+}
+- (void)handleJuBao:(UIButton*)sender
+{
+    UIAlertView *av = [[UIAlertView alloc] initWithTitle:@"请输入举报理由:"
+                                               message:nil
+                                              delegate:self
+                                     cancelButtonTitle:@"取消"
+                                     otherButtonTitles:@"确定", nil];
+    av.alertViewStyle = UIAlertViewStylePlainTextInput;
+    
+    av.tapBlock = ^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == alertView.firstOtherButtonIndex)
+        {
+            AlertContent(@"您的举报请求我们已收到，我们会在24小时内对这条消息进行审核，如果您的举报属实，这条消息将会被删除.");
+        }
+        else if (buttonIndex == alertView.cancelButtonIndex)
+        {
+            NSLog(@"Cancelled.");
+        }
+    };
+    av.shouldEnableFirstOtherButtonBlock = ^BOOL(UIAlertView *alertView) {
+        return ([[[alertView textFieldAtIndex:0] text] length] > 0);
+    };
+    [av show];
 }
 @end

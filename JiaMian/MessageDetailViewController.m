@@ -296,10 +296,14 @@
     
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
+    textView.layer.borderColor = [UIColor grayColor].CGColor;
+    textView.layer.borderWidth = 1.0;
+    textView.layer.cornerRadius =5.0;
+    
     // view hierachy
-    [self.toolBar addSubview:imageView];
+   // [self.toolBar addSubview:imageView];
     [self.toolBar addSubview:textView];
-    [self.toolBar addSubview:entryImageView];
+   // [self.toolBar addSubview:entryImageView];
     
     UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
@@ -307,7 +311,7 @@
 	UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 8, 63, 27);
     sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-	[sendBtn setTitle:@"Send" forState:UIControlStateNormal];
+	[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
     
     [sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
     sendBtn.titleLabel.shadowOffset = CGSizeMake (0.0, -1.0);
