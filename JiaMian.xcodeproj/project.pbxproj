@@ -53,6 +53,8 @@
 		15278141190D544400C15419 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813F190D544400C15419 /* Icon@2x.png */; };
 		15278144190D554100C15419 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278142190D554100C15419 /* Default~iphone.png */; };
 		15278145190D554100C15419 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278143190D554100C15419 /* Default@2x.png */; };
+		152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152BFF2C193F4424000D8E1F /* RegisterViewController.m */; };
+		152BFF31193F5F33000D8E1F /* useridlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 152BFF30193F5F33000D8E1F /* useridlogin.png */; };
 		15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */; };
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
 		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
@@ -217,6 +219,9 @@
 		1527813F190D544400C15419 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		15278142190D554100C15419 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		15278143190D554100C15419 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		152BFF2B193F4424000D8E1F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		152BFF2C193F4424000D8E1F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		152BFF30193F5F33000D8E1F /* useridlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = useridlogin.png; sourceTree = "<group>"; };
 		15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7.png"; sourceTree = "<group>"; };
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
 		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
@@ -570,6 +575,8 @@
 				1559671C190E740800FB760A /* UnReadMsgViewController.h */,
 				1559671D190E740800FB760A /* UnReadMsgViewController.m */,
 				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
+				152BFF2B193F4424000D8E1F /* RegisterViewController.h */,
+				152BFF2C193F4424000D8E1F /* RegisterViewController.m */,
 				155AC4A5190CE07200A8F252 /* TableHeaderView.h */,
 				155AC4A6190CE07200A8F252 /* TableHeaderView.m */,
 				155AC499190CC2B000A8F252 /* MessageDetailViewController.h */,
@@ -738,6 +745,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				152BFF30193F5F33000D8E1F /* useridlogin.png */,
 				1516F3A9192CE6BB00FF68E1 /* new.png */,
 				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
 				15326B9D19289F1F0008AAE1 /* ic_eyes.png */,
@@ -868,6 +876,7 @@
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
 				1516F3AA192CE6BB00FF68E1 /* new.png in Resources */,
+				152BFF31193F5F33000D8E1F /* useridlogin.png in Resources */,
 				15278140190D544400C15419 /* Icon.png in Resources */,
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
@@ -1001,6 +1010,7 @@
 				1558D014190BF34300E6B543 /* ASIInputStream.m in Sources */,
 				1558D018190BF34300E6B543 /* LoadMoreTableFooterView.m in Sources */,
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
+				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,

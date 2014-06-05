@@ -9,6 +9,7 @@
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
 #import "SelectAreaViewController.h"
+#import "RegisterViewController.h"
 @interface LogInViewController () <TencentSessionDelegate>
 
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
@@ -63,13 +64,17 @@
     [WeiboSDK sendRequest:request];
 }
 
-- (IBAction)tencentQQLogIn:(id)sender {
+- (IBAction)tencentQQLogIn:(id)sender
+{
     [_tencentOAuth authorize:_permissions inSafari:NO];
 }
-- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias {
+
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
     NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
-- (void)tencentDidLogin{
+- (void)tencentDidLogin
+{
     if (_tencentOAuth.accessToken && (0 != [_tencentOAuth.accessToken length]))
     {
         // 记录登录用户的OpenID、Token以及过期时间
@@ -92,11 +97,14 @@
                         target:nil];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-            if (userSelf.area == nil) {
+            if (userSelf.area == nil)
+            {
                 SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
                 selectAreaVC.firstSelect = YES;
                 [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
-            } else {
+            }
+            else
+            {
                 [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
@@ -109,10 +117,15 @@
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }
 }
--(void)tencentDidNotLogin:(BOOL)cancelled
+- (IBAction)logInWithUserName:(id)sender
+{
+    RegisterViewController* registerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
+    [[UIApplication sharedApplication].keyWindow setRootViewController:registerVC];
+}
+- (void)tencentDidNotLogin:(BOOL)cancelled
 {
 }
--(void)tencentDidNotNetWork
+-( void)tencentDidNotNetWork
 {
 }
 

@@ -59,9 +59,11 @@
     UIBarButtonItem* rightBtnItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                                                                                   target:self
                                                                                   action:@selector(selectAreaDone:)];
-    if (self.isFirstSelect) {
+    if (self.isFirstSelect)
+    {
         navigationItem.rightBarButtonItem = rightBtnItem;
-    }else{
+    }else
+    {
         UINavigationItem* backBtnItem = [[UINavigationItem alloc] initWithTitle:@"假面校园"];
         NSArray* items = [[NSArray alloc] initWithObjects:backBtnItem, navigationItem, nil];
         [navigationBar setItems:items animated:NO];

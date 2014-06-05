@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5053" systemVersion="13C1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
@@ -54,6 +54,14 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" tag="8008" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SEr-EX-d3a">
+                    <rect key="frame" x="270" y="15" width="30" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="举报">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.1960784495" green="0.36078432199999999" blue="0.074509806930000005" alpha="1" colorSpace="deviceRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -62,6 +70,7 @@
                 <outlet property="areaLabel" destination="zmW-6O-nen" id="QGW-yZ-jta"/>
                 <outlet property="commentImageView" destination="9ql-JN-dEo" id="GCe-E7-Y3e"/>
                 <outlet property="commentNumLabel" destination="OaQ-Qb-oQo" id="mDO-xm-UF9"/>
+                <outlet property="juBaoButton" destination="SEr-EX-d3a" id="NQH-iJ-ygb"/>
                 <outlet property="likeImageView" destination="2Yq-kd-aJo" id="irh-jw-RvJ"/>
                 <outlet property="likeNumberLabel" destination="HD3-36-UIa" id="IDp-w2-AF9"/>
                 <outlet property="textLabel" destination="VCb-95-Gl4" id="IsG-3X-P9M"/>

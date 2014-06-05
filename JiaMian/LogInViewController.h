@@ -11,4 +11,5 @@
 @interface LogInViewController : UIViewController
 - (IBAction)sinaWBLogIn:(id)sender;
 - (IBAction)tencentQQLogIn:(id)sender;
+- (IBAction)logInWithUserName:(id)sender;
 @end
