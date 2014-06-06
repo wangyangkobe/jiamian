@@ -71,4 +71,18 @@
         return rect.size;
     }
 }
+
++ (NSString*)md5HexDigest:(NSString*)input
+{
+    const char* str = [input UTF8String];
+    unsigned char result[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(str, strlen(str), result);
+
+    NSMutableString *res = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) 
+    {
+        [res appendFormat:@"%02x",result[i]];
+    }
+    return res;
+}
 @end
