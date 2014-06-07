@@ -130,14 +130,18 @@
 - (CGRect)placeholderRectForBounds:(CGRect)bounds {
 	CGRect rect = UIEdgeInsetsInsetRect(bounds, self.contentInset);
     
-	if ([self respondsToSelector:@selector(textContainer)]) {
+	if ([self respondsToSelector:@selector(textContainer)])
+    {
 		rect = UIEdgeInsetsInsetRect(rect, self.textContainerInset);
 		CGFloat padding = self.textContainer.lineFragmentPadding;
 		rect.origin.x += padding;
         rect.origin.y = 1.0f;
 		rect.size.width -= padding * 2.0f;
-	} else {
-        if (self.contentInset.left == 0.0f) {
+	}
+    else
+    {
+        if (self.contentInset.left == 0.0f)
+        {
             rect.origin.x += 8.0f;
         }
         rect.origin.y += 8.0f;

@@ -256,7 +256,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(int)AreaId lat:(double)Lat lon:(double)Long
+- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(long)AreaId bgType:(int)BGType bgNumber:(int)BGNumer bgUrl:(NSString *)BGUrl lat:(double)Lat lon:(double)Long
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -266,7 +266,13 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithInt:MsgType]  forKey:@"message_type"];
-    [request setPostValue:[NSNumber numberWithInt:AreaId]   forKey:@"area_id"];
+    [request setPostValue:[NSNumber numberWithLong:AreaId]   forKey:@"area_id"];
+    [request setPostValue:[NSNumber numberWithInt:BGType]   forKey:@"background_type"];
+    [request setPostValue:[NSNumber numberWithInt:BGNumer]   forKey:@"background_no"];
+    if (BGUrl)
+    {
+        [request setPostValue:BGUrl forKey:@"background_url"];
+    }
     [request setPostValue:[NSNumber numberWithDouble:Lat]   forKey:@"lat"];
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     

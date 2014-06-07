@@ -28,13 +28,13 @@
     
     NSDateComponents *comps = [calendar components:unitFlags fromDate:endDate toDate:nowDate options:0];
     if (comps.month > 0)
-        return [NSString stringWithFormat:@"%d月前", comps.month];
+        return [NSString stringWithFormat:@"%d月前", (int)comps.month];
     else if(comps.day > 0)
-        return [NSString stringWithFormat:@"%d天前", comps.day];
+        return [NSString stringWithFormat:@"%d天前", (int)comps.day];
     else if(comps.hour >0 )
-        return [NSString stringWithFormat:@"%d小时前", comps.hour];
+        return [NSString stringWithFormat:@"%d小时前", (int)comps.hour];
     else if(comps.minute)
-        return [NSString stringWithFormat:@"%d分钟前", comps.minute];
+        return [NSString stringWithFormat:@"%d分钟前", (int)comps.minute];
     else
         return @"刚刚";
 }
@@ -70,5 +70,24 @@
         
         return rect.size;
     }
+}
++ (NSString *)randomAlphanumericStringWithLength:(NSInteger)length
+{
+    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    NSMutableString *randomString = [NSMutableString stringWithCapacity:length];
+    
+    for (int i = 0; i < length; i++)
+    {
+        [randomString appendFormat:@"%C", [letters characterAtIndex:arc4random() % [letters length]]];
+    }
+    
+    return randomString;
+}
++ (NSString*)generateQiNiuFileName
+{
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYYMMddHHmmss"];
+    return [NSString stringWithFormat:@"%@%@", [formatter stringFromDate:[NSDate date]],
+            [NSString randomAlphanumericStringWithLength:10]];
 }
 @end

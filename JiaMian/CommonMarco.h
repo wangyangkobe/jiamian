@@ -9,7 +9,7 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE  @"http://114.215.109.246/MaskTech"
+#define HOME_PAGE  @"http://115.29.102.106/MaskTechDEV"
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
@@ -33,6 +33,11 @@
 //友盟
 #define kUMengAppKey    @"535e5f0256240baa89078c7f"
 
+//-------------------七牛-------------------------
+#define QiniuAccessKey @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU"
+#define QiniuSecretKey @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23"
+#define QiniuBucketName @"jiamiantechtest"
+#define QiniuDomian [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName]
 
 #define IOS_NEWER_OR_EQUAL_TO_7 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 7.0 )
 
@@ -42,7 +47,7 @@
 //NavBar高度
 #define NavigationBar_HEIGHT 44
 //ToolBar 高度
-#define TOOLBAR_HEIGHT 40
+#define TOOLBAR_HEIGHT 44
 //键盘高度
 #define KEYBOARD_HEIGHT 216
 
@@ -65,10 +70,10 @@ typedef NS_ENUM(NSInteger, UserType)
 	UserTypeWeiBo = 2,
 };
 
-typedef NS_ENUM(NSInteger, BackGroundType)
+typedef NS_ENUM(NSInteger, BackGroundImageType)
 {
-	BackGroundTypeNum = 1,  //序号
-	BackGroundTypeUrl = 2,  //图片URL
+	BackGroundWithoutImage = 1,  //无图片
+	BackGroundWithImage    = 2,  //图片
 };
 
 #define RGBCOLOR(r,g,b)    [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:1]
