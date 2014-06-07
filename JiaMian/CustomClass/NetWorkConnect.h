@@ -18,7 +18,7 @@
 - (UserModel*)userChangeArea:(long)AreaId;
 
 //Gender: 1; HeadImg: nil; Description: nil
-- (UserModel*)userRegisterWithName:(NSString*)UserName userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
+- (UserModel*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
 
 //UserId: 0; 默认使用当前用户id，若指定此参数，则查询该id对应用户的详情.
 - (UserModel*)userShowById:(int)UserId;

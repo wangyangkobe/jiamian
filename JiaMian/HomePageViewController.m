@@ -139,7 +139,7 @@
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
-     // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
+      // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
     
@@ -268,6 +268,7 @@
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [cell.contentView setBackgroundColor:[UIColor clearColor]];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     
     UILabel* textLabel       = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
@@ -342,7 +343,8 @@
             {
                 UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
                 [cell.contentView setBackgroundColor:picColor];
-            } else
+            }
+            else
             {
                 [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
             }

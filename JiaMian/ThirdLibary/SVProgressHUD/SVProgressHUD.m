@@ -208,7 +208,7 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
         if ([UIFont respondsToSelector:@selector(preferredFontForTextStyle:)]) {
             SVProgressHUDFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         } else {
-            SVProgressHUDFont = [UIFont systemFontOfSize:14.0];
+            SVProgressHUDFont = [UIFont systemFontOfSize:16.0];
             SVProgressHUDBackgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
             SVProgressHUDForegroundColor = [UIColor whiteColor];
         }
@@ -392,7 +392,7 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 - (void)positionHUD:(NSNotification*)notification {
     
     CGFloat keyboardHeight;
-    double animationDuration;
+    double animationDuration = 0.0;
     
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     

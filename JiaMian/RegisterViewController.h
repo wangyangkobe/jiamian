@@ -10,7 +10,6 @@
 
 @interface RegisterViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UILabel *returnLabel;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UITextField *passWord;
 @property (weak, nonatomic) IBOutlet UITextField *userName;

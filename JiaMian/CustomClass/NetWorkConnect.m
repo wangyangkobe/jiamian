@@ -99,7 +99,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userRegisterWithName:(NSString*)UserName userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description
+- (UserModel*)userRegisterWithName:(NSString *)UserName passWord:(NSString *)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString *)HeadImg description:(NSString *)Description
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -111,6 +111,8 @@ static ASIDownloadCache* myCache;
     [request setPostValue:UserName forKey:@"user_name"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
     [request setPostValue:[NSNumber numberWithInt:Gender] forKey:@"gender"];
+    if (UserTypeRegister == Type)
+        [request setPostValue:PassWord forKey:@"user_pwd"];
     if (HeadImg)
         [request setPostValue:HeadImg forKey:@"head_image"];
     if (Description)

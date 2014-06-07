@@ -138,37 +138,31 @@
     
     if (_selectedMsg.background_url)
     {
-        [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_grey"]];
-        [myHeader.areaLabel setTextColor:UIColorFromRGB(0x969696)];
-        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-        [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-        [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-        [myHeader.textLabel setTextColor:UIColorFromRGB(0x000000)];
-        [myHeader.juBaoButton setTitleColor:UIColorFromRGB(0x000000) forState:UIControlStateNormal];
-        [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        if (2 == bgImageNo) {
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-            [myHeader setBackgroundColor:picColor];
-        } else {
-            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        }
-        [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like_grey"]];
-        [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
+        [myHeader.backgroudImageView setImage:[UIImage imageNamed:@"blackalpha"]];
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d",
+                                                _selectedMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
+        [manager downloadWithURL:imageUrl
+                         options:0
+                        progress:nil
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
+                           if (image && finished)
+                           {
+                               [myHeader setBackgroundColor:[UIColor colorWithPatternImage:image]];
+                           }
+                       }];
     }
     else
     {
-        [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
-        [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.juBaoButton setTitleColor:UIColorFromRGB(0xffffff) forState:UIControlStateNormal];
-        [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        if (9 == bgImageNo) {
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-            [myHeader setBackgroundColor:picColor];
-        } else {
+        int bgImageNo = self.selectedMsg.background_no;
+        if ( (1 == bgImageNo) || (2 == bgImageNo) )
+        {
+            [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_grey"]];
+            [myHeader.areaLabel setTextColor:UIColorFromRGB(0x969696)];
+            [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+            [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0x969696)];
+            [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
+            [myHeader.textLabel setTextColor:UIColorFromRGB(0x000000)];
             [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
             if (2 == bgImageNo) {
                 UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
@@ -198,7 +192,6 @@
             [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
         }
     }
-    
     if (self.selectedMsg.has_like)
     {
         [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liƒked"]];

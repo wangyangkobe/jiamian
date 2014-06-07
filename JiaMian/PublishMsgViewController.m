@@ -170,6 +170,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 15)];
     [SVProgressHUD showWithStatus:@"消息发送中..."];
     if (imagePath)
     {

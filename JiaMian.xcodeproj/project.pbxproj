@@ -699,6 +699,7 @@
 			children = (
 				151C900C193E109C00203AE1 /* UIAlertView+Blocks.h */,
 				151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */,
+				15BBB2B51942EFE900A9C003 /* SVProgressHUD */,
 				1558CFE1190BF34300E6B543 /* ASIHTTPRequest */,
 				1558CFF8190BF34300E6B543 /* EGOTableViewPullRefresh */,
 				1558D00B190BF34300E6B543 /* KxMenu */,
@@ -819,6 +820,7 @@
 			isa = PBXGroup;
 			children = (
 				152BFF30193F5F33000D8E1F /* useridlogin.png */,
+				15707A4A1938C8D700DCF9C0 /* blackalpha.png */,
 				1516F3A9192CE6BB00FF68E1 /* new.png */,
 				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
 				15326B9D19289F1F0008AAE1 /* ic_eyes.png */,

@@ -10,6 +10,7 @@
 #import "LogInViewController.h"
 #import "SelectAreaViewController.h"
 #import "HomePageViewController.h"
+#import "SVProgressHUD.h"
 @interface RegisterViewController ()
 
 @end
@@ -59,50 +60,76 @@
     AlertContent(@"请联系admin@jiamiantech.com");
 }
 
-- (IBAction)registerBtnPress:(id)sender
+- (IBAction)registerBtnPress:(UIButton*)sender
 {
-//    NSString* userName = _userName.text;
-//    NSString* passWord = _passWord.text;
-//    if (userName == nil || passWord == nil)
-//    {
-//        AlertContent(@"用户名或密码不能为空!");
-//    }
-//    
-//    UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
-//                                                                     userType:UserTypeRegister
-//                                                                 userIdentity:userName];
-//    
-//    if (userSelf) //login successful
-//    {
-//        NSLog(@"user register log in successful!");
-//        
-//        [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
-//        [[NSUserDefaults standardUserDefaults] setObject:passWord forKey:kLogInToken];
-//        [[NSUserDefaults standardUserDefaults] setInteger:UserTypeRegister forKey:kLogInType];
-//        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:kUserIdentity];
-//        [[NSUserDefaults standardUserDefaults] synchronize];
-//        
-//        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-//        
-//        if (userSelf.area == nil)
-//        {
-//            SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-//            selectAreaVC.firstSelect = YES;
-//            [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
-//        }
-//        else
-//        {
-//            [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//            
-//            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-//            [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
-//        }
-//    }
+    [self validateUserNameAndPassWord];
+    [sender setTag:6998]; //注册
+    [SVProgressHUD showWithStatus:@"正在注册..."];
+    [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
 }
 
-- (IBAction)logInBtnPress:(id)sender
+- (IBAction)logInBtnPress:(UIButton*)sender
 {
-    [self registerBtnPress:sender];
+    [self validateUserNameAndPassWord];
+    [sender setTag:6999];
+    [SVProgressHUD showWithStatus:@"正在登录..."];
+    [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
+}
+- (void)validateUserNameAndPassWord
+{
+    NSString* userName = _userName.text;
+    NSString* passWord = _passWord.text;
+    if (userName == nil || passWord == nil)
+    {
+        AlertContent(@"用户名或密码不能为空!");
+        return;
+    }
+}
+- (void)handleBtnAction:(UIButton*)sender
+{
+    NSString* userName = _userName.text;
+    NSString* passWord = _passWord.text;
+    
+    UserModel* userSelf = nil;
+    if (sender.tag == 6998)
+        userSelf = [NetWorkConnect.sharedInstance userRegisterWithName:userName
+                                                              passWord:[NSString md5HexDigest:passWord]
+                                                              userType:UserTypeRegister
+                                                                gender:GenderTypeBoy
+                                                               headImg:nil
+                                                           description:nil];
+    else
+        userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
+                                                              userType:UserTypeRegister
+                                                          userIdentity:userName];
+    
+    [SVProgressHUD dismiss];
+    if (userSelf) //login successful
+    {
+        NSLog(@"user register log in successful!");
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
+        [[NSUserDefaults standardUserDefaults] setObject:passWord forKey:kLogInToken];
+        [[NSUserDefaults standardUserDefaults] setInteger:UserTypeRegister forKey:kLogInType];
+        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:kUserIdentity];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        
+        if (userSelf.area == nil)
+        {
+            SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+            selectAreaVC.firstSelect = YES;
+            [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
+        }
+        else
+        {
+            [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+        }
+    }
 }
 @end
