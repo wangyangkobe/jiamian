@@ -9,7 +9,7 @@
 #import "PublishMsgViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Extensions.h"
-
+#import "SVProgressHUD.h"
 static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 @interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, QiniuUploadDelegate>
@@ -17,6 +17,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     UIImage* selectedImage;
     QiniuSimpleUploader* qiNiuUpLoader;
     NSString* imagePath;
+    NSString* qiNiuImagePath;
     CGRect previouRect;
     NSInteger lineNumbers;
 }
@@ -169,24 +170,14 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    NSLog(@"%s, areaId = %ld", __FUNCTION__, (long)areaId);
-    
-    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
-    
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
-                                                                   msgType:MessageTypeText
-                                                                    areaId:areaId
-                                                                    bgType:backgroudType
-                                                                  bgNumber:-1
-                                                                     bgUrl:imagePath
-                                                                       lat:0.0
-                                                                       lon:0.0];
-    if (message)
+    [SVProgressHUD showWithStatus:@"消息发送中..."];
+    if (imagePath)
     {
-        //通知父视图获取最新数据
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-        [self.navigationController popViewControllerAnimated:YES ];
+        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+    }
+    else
+    {
+        [self publishMessageToServer];
     }
 }
 - (void)dealloc
@@ -280,10 +271,11 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
-        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
-    });
+    imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
+    //    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    //        imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
+    //        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+    //    });
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
@@ -291,17 +283,17 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         [self.textView becomeFirstResponder];
     }];
 }
-
-
 #pragma mark - QiniuUploadDelegate
 - (void)uploadSucceeded:(NSString *)filePath ret:(NSDictionary *)ret
 {
-    NSString* path = [QiniuDomian stringByAppendingString:[ret objectForKey:@"key"]];
-    NSLog(@"%s, path=%@", __FUNCTION__, path);
-    imagePath = path;
+    qiNiuImagePath = [QiniuDomian stringByAppendingString:[ret objectForKey:@"key"]];
+    NSLog(@"%s, path=%@", __FUNCTION__, qiNiuImagePath);
+    [self publishMessageToServer];
+    //    imagePath = path;
 }
 - (void)uploadFailed:(NSString *)filePath error:(NSError *)error
 {
+    [SVProgressHUD dismiss];
     if ([QiniuAccessKey hasPrefix:@"<Please"])
     {
         NSLog(@"Please replace kAccessKey, kSecretKey and kBucketName with proper values.");
@@ -309,8 +301,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     else
     {
         NSLog(@"upload image file to QiNiu failded!");
-        //继续重传
-        [self uploadFile:filePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+        AlertContent(@"同学，网路不给力啊，图片上传失败，稍后再试试.")
     }
 }
 - (NSString *)tokenWithScope:(NSString *)scope
@@ -343,5 +334,28 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         index = NSMaxRange(lineRange);
     }
     return numberOfLines;
+}
+- (void)publishMessageToServer
+{
+    long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+    NSLog(@"%s, areaId = %ld", __FUNCTION__, (long)areaId);
+    
+    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
+    
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
+                                                                   msgType:MessageTypeText
+                                                                    areaId:areaId
+                                                                    bgType:backgroudType
+                                                                  bgNumber:-1
+                                                                     bgUrl:qiNiuImagePath
+                                                                       lat:0.0
+                                                                       lon:0.0];
+    [SVProgressHUD dismiss];
+    if (message)
+    {
+        //通知父视图获取最新数据
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+        [self.navigationController popViewControllerAnimated:YES ];
+    }
 }
 @end

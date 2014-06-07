@@ -143,6 +143,8 @@
 		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
 		15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */; };
 		15B035D7191A7AC700C31D39 /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D6191A7AC700C31D39 /* food.png */; };
+		15BBB2BA1942EFE900A9C003 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */; };
+		15BBB2BB1942EFE900A9C003 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 /* End PBXBuildFile section */
@@ -363,6 +365,10 @@
 		15B035D1191A4D3F00C31D39 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		15B035D6191A7AC700C31D39 /* food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food.png; sourceTree = "<group>"; };
+		15BBB2B61942EFE900A9C003 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		15BBB2B81942EFE900A9C003 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -681,6 +687,7 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				15BBB2B51942EFE900A9C003 /* SVProgressHUD */,
 				1558CFE1190BF34300E6B543 /* ASIHTTPRequest */,
 				1558CFF8190BF34300E6B543 /* EGOTableViewPullRefresh */,
 				1558D00B190BF34300E6B543 /* KxMenu */,
@@ -845,6 +852,17 @@
 			path = ResourceImage;
 			sourceTree = "<group>";
 		};
+		15BBB2B51942EFE900A9C003 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				15BBB2B61942EFE900A9C003 /* SVProgressHUD-Prefix.pch */,
+				15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */,
+				15BBB2B81942EFE900A9C003 /* SVProgressHUD.h */,
+				15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -928,6 +946,7 @@
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
+				15BBB2BA1942EFE900A9C003 /* SVProgressHUD.bundle in Resources */,
 				15707A4B1938C8D700DCF9C0 /* blackalpha.png in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
@@ -1078,6 +1097,7 @@
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
 				15596714190E71BE00FB760A /* CommentModel.m in Sources */,
 				1558D017190BF34300E6B543 /* EGORefreshTableHeaderView.m in Sources */,
+				15BBB2BB1942EFE900A9C003 /* SVProgressHUD.m in Sources */,
 				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,
