@@ -95,9 +95,13 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
 - (UIView*)configureTableHeaderView
 {
-    //  NSString* text = self.selectedMsg.text;
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
                                                               options:nil] objectAtIndex:0];
@@ -107,10 +111,17 @@
     //    CGRect labelRect = myHeader.textLabel.frame;
     //    [myHeader.textLabel setFrame:CGRectMake(labelRect.origin.x, labelRect.origin.y, 260, textHeight)];
     
-    headerViewHeight = textHeight + 60 + 60;
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        headerViewHeight += 10;
+    if (_selectedMsg.background_url)
+    {
+        headerViewHeight = SCREEN_WIDTH;
     }
+    else
+    {
+        headerViewHeight = textHeight + 60 + 60;
+        if (IOS_NEWER_OR_EQUAL_TO_7)
+            headerViewHeight += 10;
+    }
+    
     CGRect headerFrame = myHeader.frame;
     headerFrame.size.height = headerViewHeight;
     myHeader.frame = headerFrame;
@@ -124,8 +135,8 @@
         myHeader.visibleNumberLabel.text = @"all";
         myHeader.areaLabel.text = @"假面官方团队";
     }
-    int bgImageNo = self.selectedMsg.background_no;
-    if ( (1 == bgImageNo) || (2 == bgImageNo) )
+    
+    if (_selectedMsg.background_url)
     {
         [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_grey"]];
         [myHeader.areaLabel setTextColor:UIColorFromRGB(0x969696)];
@@ -159,12 +170,38 @@
             [myHeader setBackgroundColor:picColor];
         } else {
             [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            if (2 == bgImageNo) {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+                [myHeader setBackgroundColor:picColor];
+            } else {
+                [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
+            [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like_grey"]];
+            [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
         }
-        [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
-        [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
+        else
+        {
+            [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
+            [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            if (9 == bgImageNo) {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+                [myHeader setBackgroundColor:picColor];
+            } else {
+                [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
+            [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
+            [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
+        }
     }
-    if (self.selectedMsg.has_like) {
-        [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liked"]];
+    
+    if (self.selectedMsg.has_like)
+    {
+        [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liƒked"]];
     }
     
     [myHeader.likeImageView setUserInteractionEnabled:YES];
@@ -214,37 +251,6 @@
     [av show];
 }
 #pragma mark UITableViewDelgate
-//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-//{
-//
-//    CGFloat textHeight = [NSString textHeight:self.msgText
-//                                 sizeWithFont:[UIFont systemFontOfSize:17]
-//                            constrainedToSize:CGSizeMake(240, 9999)];
-//    headerViewHeight = textHeight + 15 + 50;
-//    NSLog(@"%s, %lf", __FUNCTION__, textHeight);
-//    return headerViewHeight;
-//
-//}
-//- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//
-//    static NSString *HeaderIdentifier = @"HeaderViewIdentifier";
-//    TableHeaderView *myHeader = [tableView dequeueReusableHeaderFooterViewWithIdentifier:HeaderIdentifier];
-//    if(!myHeader)
-//    {
-//        myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
-//                                                  owner:self
-//                                                options:nil] objectAtIndex:0];
-//    }
-//    myHeader.textLabel.text = self.msgText;
-//    myHeader.areaLabel.text = @"华东理工";
-//    myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", 1];
-//    [myHeader setNeedsLayout];
-//    return myHeader;
-//
-//
-//}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -273,7 +279,7 @@
         [textLabel setTextColor:UIColorFromRGB(0xff9000)];
     }
     else
-        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
     
     [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
     [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
@@ -286,7 +292,6 @@
                               sizeWithFont:[UIFont systemFontOfSize:17]
                          constrainedToSize:CGSizeMake(260, 9999)];
     
-    NSLog(@"%s, %f", __FUNCTION__, textHight);
     if (IOS_NEWER_OR_EQUAL_TO_7)
         return textHight + 23 + 7;
     else

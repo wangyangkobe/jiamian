@@ -25,6 +25,7 @@
 #define kLikeNumberLabel 8005
 #define kVisibleImage 8006
 #define kVisibleNumberLabel 8007
+#define kBackgroundImageView 8008
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
@@ -208,8 +209,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger row = indexPath.row;
-    NSString* text = [(MessageModel*)[messageArray objectAtIndex:row] text];
-    CGFloat textHeight = [NSString textHeight:text sizeWithFont:[UIFont systemFontOfSize:18] constrainedToSize:CGSizeMake(260,9999)];
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:row];
+    if (currentMsg.background_url)
+    {
+        return SCREEN_WIDTH;
+    }
+    
+    CGFloat textHeight = [NSString textHeight:currentMsg.text
+                                 sizeWithFont:[UIFont systemFontOfSize:18]
+                            constrainedToSize:CGSizeMake(260,9999)];
     //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
     //                           constrainedToSize:CGSizeMake(260, 42*10)
     //                               lineBreakMode:NSLineBreakByWordWrapping].height;
@@ -250,6 +258,12 @@
     [likeImageTap setNumberOfTapsRequired:1];
     [likeImage addGestureRecognizer:likeImageTap];
     
+    UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
+    if (currentMsg.background_url)
+        [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
+    else
+        [bgImageView setImage:nil];
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -266,29 +280,7 @@
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
     UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
     
-    int bgImageNo = currentMsg.background_no;
-    if ( (1 == bgImageNo) || (2 == bgImageNo) )
-    {
-        [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
-        [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
-        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
-        [areaLabel setTextColor:UIColorFromRGB(0x969696)];
-        [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-        [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
-        [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-        [textLabel setTextColor:UIColorFromRGB(0x000000)];
-        
-        if (2 == bgImageNo)
-        {
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-            [cell.contentView setBackgroundColor:picColor];
-        }
-        else
-        {
-            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        }
-    }
-    else
+    if (currentMsg.background_url)
     {
         [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
         [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
@@ -298,14 +290,67 @@
         [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
         [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-        if (9 == bgImageNo) {
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-            [cell.contentView setBackgroundColor:picColor];
-        } else {
-            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d",
+                                                currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
+        [manager downloadWithURL:imageUrl
+                         options:0
+                        progress:nil
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
+                           if (image && finished)
+                           {
+                               [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+                           }
+                       }];
+    }
+    else
+    {
+        int bgImageNo = currentMsg.background_no;
+        if ( (1 == bgImageNo) || (2 == bgImageNo) )
+        {
+            [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
+            [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
+            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
+            [areaLabel setTextColor:UIColorFromRGB(0x969696)];
+            [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+            [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
+            [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
+            [textLabel setTextColor:UIColorFromRGB(0x000000)];
+            
+            if (2 == bgImageNo)
+            {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+                [cell.contentView setBackgroundColor:picColor];
+            }
+            else
+            {
+                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
+        }
+        else
+        {
+            [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+            [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
+            [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [textLabel setTextColor:UIColorFromRGB(0xffffff)];
+            if (9 == bgImageNo)
+            {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+                [cell.contentView setBackgroundColor:picColor];
+            } else
+            {
+                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
         }
     }
-    if (currentMsg.has_like) {
+    
+    if (currentMsg.has_like)
+    {
         [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
     }
 }

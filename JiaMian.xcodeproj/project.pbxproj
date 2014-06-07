@@ -67,6 +67,13 @@
 		15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326BA019289F1F0008AAE1 /* ic_liked.png */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
 		153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 153DCA741917DD8100072F4F /* UILabel+Extensions.m */; };
+		15503DF71937813100CD737D /* UIImage+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503DF61937813100CD737D /* UIImage+Extensions.m */; };
+		15503E0D193784E200CD737D /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503DFE193784E200CD737D /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15503E0E193784E200CD737D /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503E02193784E200CD737D /* JSONKit.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15503E0F193784E200CD737D /* QiniuPutExtra.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503E05193784E200CD737D /* QiniuPutExtra.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503E07193784E200CD737D /* QiniuPutPolicy.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15503E11193784E200CD737D /* QiniuSimpleUploader.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503E09193784E200CD737D /* QiniuSimpleUploader.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15503E12193784E200CD737D /* QiniuUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 15503E0C193784E200CD737D /* QiniuUtils.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558CF88190B9C5400E6B543 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF87190B9C5400E6B543 /* Foundation.framework */; };
 		1558CF8A190B9C5400E6B543 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF89190B9C5400E6B543 /* CoreGraphics.framework */; };
 		1558CF8C190B9C5400E6B543 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CF8B190B9C5400E6B543 /* UIKit.framework */; };
@@ -133,11 +140,14 @@
 		15698552191355C800923E85 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 15698551191355C800923E85 /* Default~iphone.png */; };
 		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
 		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
+		15707A4B1938C8D700DCF9C0 /* blackalpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 15707A4A1938C8D700DCF9C0 /* blackalpha.png */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
 		15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D0191A4D3F00C31D39 /* Icon-80.png */; };
 		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
 		15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */; };
 		15B035D7191A7AC700C31D39 /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D6191A7AC700C31D39 /* food.png */; };
+		15BBB2BA1942EFE900A9C003 /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */; };
+		15BBB2BB1942EFE900A9C003 /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 /* End PBXBuildFile section */
@@ -236,6 +246,23 @@
 		153DCA711917C8D200072F4F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		153DCA731917DD8100072F4F /* UILabel+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Extensions.h"; sourceTree = "<group>"; };
 		153DCA741917DD8100072F4F /* UILabel+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Extensions.m"; sourceTree = "<group>"; };
+		15503DF51937813100CD737D /* UIImage+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Extensions.h"; sourceTree = "<group>"; };
+		15503DF61937813100CD737D /* UIImage+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Extensions.m"; sourceTree = "<group>"; };
+		15503DFD193784E200CD737D /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		15503DFE193784E200CD737D /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		15503DFF193784E200CD737D /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		15503E01193784E200CD737D /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
+		15503E02193784E200CD737D /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		15503E03193784E200CD737D /* QiniuConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuConfig.h; sourceTree = "<group>"; };
+		15503E04193784E200CD737D /* QiniuPutExtra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutExtra.h; sourceTree = "<group>"; };
+		15503E05193784E200CD737D /* QiniuPutExtra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutExtra.m; sourceTree = "<group>"; };
+		15503E06193784E200CD737D /* QiniuPutPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuPutPolicy.h; sourceTree = "<group>"; };
+		15503E07193784E200CD737D /* QiniuPutPolicy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuPutPolicy.m; sourceTree = "<group>"; };
+		15503E08193784E200CD737D /* QiniuSimpleUploader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuSimpleUploader.h; sourceTree = "<group>"; };
+		15503E09193784E200CD737D /* QiniuSimpleUploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuSimpleUploader.m; sourceTree = "<group>"; };
+		15503E0A193784E200CD737D /* QiniuUploadDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuUploadDelegate.h; sourceTree = "<group>"; };
+		15503E0B193784E200CD737D /* QiniuUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QiniuUtils.h; sourceTree = "<group>"; };
+		15503E0C193784E200CD737D /* QiniuUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QiniuUtils.m; sourceTree = "<group>"; };
 		1558CF84190B9C5400E6B543 /* JiaMian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JiaMian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1558CF87190B9C5400E6B543 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1558CF89190B9C5400E6B543 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -339,12 +366,17 @@
 		15698551191355C800923E85 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		156985531913631B00923E85 /* comment_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_grey.png; sourceTree = "<group>"; };
 		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
+		15707A4A1938C8D700DCF9C0 /* blackalpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackalpha.png; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		15B035D0191A4D3F00C31D39 /* Icon-80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-80.png"; sourceTree = "<group>"; };
 		15B035D1191A4D3F00C31D39 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		15B035D6191A7AC700C31D39 /* food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food.png; sourceTree = "<group>"; };
+		15BBB2B61942EFE900A9C003 /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		15BBB2B81942EFE900A9C003 /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -509,9 +541,48 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		15503DFB193784E200CD737D /* QiniuSDK */ = {
+			isa = PBXGroup;
+			children = (
+				15503DFC193784E200CD737D /* GTMBase64 */,
+				15503E00193784E200CD737D /* JSONKit */,
+				15503E03193784E200CD737D /* QiniuConfig.h */,
+				15503E04193784E200CD737D /* QiniuPutExtra.h */,
+				15503E05193784E200CD737D /* QiniuPutExtra.m */,
+				15503E06193784E200CD737D /* QiniuPutPolicy.h */,
+				15503E07193784E200CD737D /* QiniuPutPolicy.m */,
+				15503E08193784E200CD737D /* QiniuSimpleUploader.h */,
+				15503E09193784E200CD737D /* QiniuSimpleUploader.m */,
+				15503E0A193784E200CD737D /* QiniuUploadDelegate.h */,
+				15503E0B193784E200CD737D /* QiniuUtils.h */,
+				15503E0C193784E200CD737D /* QiniuUtils.m */,
+			);
+			path = QiniuSDK;
+			sourceTree = "<group>";
+		};
+		15503DFC193784E200CD737D /* GTMBase64 */ = {
+			isa = PBXGroup;
+			children = (
+				15503DFD193784E200CD737D /* GTMBase64.h */,
+				15503DFE193784E200CD737D /* GTMBase64.m */,
+				15503DFF193784E200CD737D /* GTMDefines.h */,
+			);
+			path = GTMBase64;
+			sourceTree = "<group>";
+		};
+		15503E00193784E200CD737D /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				15503E01193784E200CD737D /* JSONKit.h */,
+				15503E02193784E200CD737D /* JSONKit.m */,
+			);
+			path = JSONKit;
+			sourceTree = "<group>";
+		};
 		1558CF7B190B9C5300E6B543 = {
 			isa = PBXGroup;
 			children = (
+				15503DFB193784E200CD737D /* QiniuSDK */,
 				150D5E6B1927884E00BE24AB /* libWeiboSDK */,
 				150D5E2E1927866900BE24AB /* UMSocial_Sdk_3.3.7.1 */,
 				1524CE391920F27100CAB103 /* lib */,
@@ -732,6 +803,8 @@
 		15596718190E71C700FB760A /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
+				15503DF51937813100CD737D /* UIImage+Extensions.h */,
+				15503DF61937813100CD737D /* UIImage+Extensions.m */,
 				155AC4A0190CCFC400A8F252 /* NSString+Extenions.h */,
 				155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */,
 				15596719190E71C700FB760A /* NetWorkConnect.h */,
@@ -788,6 +861,17 @@
 				155AC493190C836400A8F252 /* ico-to-do-list@2x.png */,
 			);
 			path = ResourceImage;
+			sourceTree = "<group>";
+		};
+		15BBB2B51942EFE900A9C003 /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				15BBB2B61942EFE900A9C003 /* SVProgressHUD-Prefix.pch */,
+				15BBB2B71942EFE900A9C003 /* SVProgressHUD.bundle */,
+				15BBB2B81942EFE900A9C003 /* SVProgressHUD.h */,
+				15BBB2B91942EFE900A9C003 /* SVProgressHUD.m */,
+			);
+			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -873,6 +957,8 @@
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
+				15BBB2BA1942EFE900A9C003 /* SVProgressHUD.bundle in Resources */,
+				15707A4B1938C8D700DCF9C0 /* blackalpha.png in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
 				155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */,
 				1516F3AA192CE6BB00FF68E1 /* new.png in Resources */,
@@ -990,9 +1076,14 @@
 			files = (
 				150ED9D619149EE500175728 /* Reachability.m in Sources */,
 				1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */,
+				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
 				15596717190E71BE00FB760A /* UserModel.m in Sources */,
+				15503E11193784E200CD737D /* QiniuSimpleUploader.m in Sources */,
+				15503E0E193784E200CD737D /* JSONKit.m in Sources */,
 				1558D00F190BF34300E6B543 /* ASIDataCompressor.m in Sources */,
+				15503E0F193784E200CD737D /* QiniuPutExtra.m in Sources */,
+				15503DF71937813100CD737D /* UIImage+Extensions.m in Sources */,
 				155AC49B190CC2B000A8F252 /* MessageDetailViewController.m in Sources */,
 				1559671B190E71C700FB760A /* NetWorkConnect.m in Sources */,
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
@@ -1001,8 +1092,10 @@
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
 				1558D023190BF34300E6B543 /* KxMenu.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
+				15503E0D193784E200CD737D /* GTMBase64.m in Sources */,
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
+				15503E12193784E200CD737D /* QiniuUtils.m in Sources */,
 				15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */,
 				1558D012190BF34300E6B543 /* ASIFormDataRequest.m in Sources */,
 				1558D011190BF34300E6B543 /* ASIDownloadCache.m in Sources */,
@@ -1018,6 +1111,7 @@
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
 				15596714190E71BE00FB760A /* CommentModel.m in Sources */,
 				1558D017190BF34300E6B543 /* EGORefreshTableHeaderView.m in Sources */,
+				15BBB2BB1942EFE900A9C003 /* SVProgressHUD.m in Sources */,
 				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,

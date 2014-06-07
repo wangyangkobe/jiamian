@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QiniuSimpleUploader.h"
+#import "QiniuPutPolicy.h"
+#import "QiniuConfig.h"
 
 @interface PublishMsgViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet SAMTextView *textView;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
 
 @end
