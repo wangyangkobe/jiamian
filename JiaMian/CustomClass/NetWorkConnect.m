@@ -46,7 +46,7 @@ static ASIDownloadCache* myCache;
     }
 }
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type
+- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type userIdentity:(NSString *)Identity
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -56,6 +56,10 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:AccessToken forKey:@"access_token"];
     [request setPostValue:[NSNumber numberWithInt:Type] forKey:@"user_type"];
+    if (UserTypeRegister == Type)
+    {
+        [request setPostValue:Identity forKey:@"user_identity"];
+    }
     [request setNumberOfTimesToRetryOnTimeout:2];
     [request startSynchronous];
     

@@ -83,7 +83,8 @@
               _tencentOAuth.expirationDate);
         
         UserModel* userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:_tencentOAuth.accessToken
-                                                                         userType:UserTypeQQ];
+                                                                         userType:UserTypeQQ
+                                                                     userIdentity:nil];
         if (userSelf) //login successful
         {
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];

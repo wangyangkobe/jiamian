@@ -26,9 +26,20 @@
     }
     else
     {
-        NSString* token     = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
         NSInteger logInType = [[NSUserDefaults standardUserDefaults] integerForKey:kLogInType];
-        [[NetWorkConnect sharedInstance] userLogInWithToken:token userType:logInType];
+        if (UserTypeRegister == logInType)
+        {
+            NSString* passWord = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
+            NSString* userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserIdentity];
+            [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
+                                                       userType:logInType
+                                                   userIdentity:userName];
+        }
+        else
+        {
+            NSString* token = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
+            [[NetWorkConnect sharedInstance] userLogInWithToken:token userType:logInType userIdentity:nil];
+        }
     }
     [WeiboSDK enableDebugMode:YES];
     [WeiboSDK registerApp:kSinaAppKey];
@@ -94,7 +105,7 @@
         
         UserModel* userSelf;
         if ( (wbToken!= nil) && (userId != nil) )
-            userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo];
+            userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:wbToken userType:UserTypeWeiBo userIdentity:nil];
         
         if (userSelf) //login successful
         {

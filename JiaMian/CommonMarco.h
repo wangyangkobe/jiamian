@@ -9,13 +9,14 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE  @"http://114.215.109.246/MaskTech"
+#define HOME_PAGE  @"http://115.29.102.106/MaskTechDEV1"
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"
 #define kLogInUserId   @"kLogInUserId"
 #define kLogInType     @"kLogInType"
 #define kUserAreaId    @"kUserAreaId"
+#define kUserIdentity  @"kUserIdentity"
 
 #define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo
@@ -61,8 +62,9 @@ typedef NS_ENUM(NSInteger, GenderType)
 
 typedef NS_ENUM(NSInteger, UserType)
 {
-	UserTypeQQ    = 1,
-	UserTypeWeiBo = 2,
+	UserTypeQQ       = 1,
+	UserTypeWeiBo    = 2,
+    UserTypeRegister = 3
 };
 
 typedef NS_ENUM(NSInteger, BackGroundType)
