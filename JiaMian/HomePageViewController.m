@@ -282,6 +282,15 @@
     
     if (currentMsg.background_url)
     {
+        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
+        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
+        
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
         NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d",
                                                 currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];

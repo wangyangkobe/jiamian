@@ -17,6 +17,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     UIImage* selectedImage;
     QiniuSimpleUploader* qiNiuUpLoader;
     NSString* imagePath;
+    CGRect previouRect;
+    NSInteger lineNumbers;
 }
 @property (nonatomic, strong) UIToolbar* toolBar;
 @end
@@ -47,6 +49,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     // Do any additional setup after loading the view.
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
+    
+    previouRect = CGRectZero;
+    lineNumbers = 0;
     
     self.textView.delegate = self;
     [self.textView setScrollEnabled:YES];
@@ -139,10 +144,28 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if (IOS_NEWER_OR_EQUAL_TO_7 && [self numberOfLinesInTextView:textView] > 9)
+        return NO;
+    else
+    {
+        if (lineNumbers > 8) return NO;  // ios 6
+    }
     if ( (range.location > 160) || (textView.text.length > 160) )  //控制输入文本的长度
         return NO;
     else
         return YES;
+}
+- (void)textViewDidChange:(UITextView *)textView
+{
+    UITextPosition* pos = textView.endOfDocument;
+    CGRect currentRect = [textView caretRectForPosition:pos];
+    if (currentRect.origin.y > previouRect.origin.y)
+    {
+        //new line reached, write your code
+        lineNumbers++;
+        NSLog(@"lineNumbers = %ld", (long)lineNumbers);
+    }
+    previouRect = currentRect;
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
@@ -306,5 +329,19 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         qiNiuUpLoader.delegate = self;
         [qiNiuUpLoader uploadFile:filePath key:key extra:nil];
     }
+}
+- (NSUInteger)numberOfLinesInTextView:(UITextView *)textView
+{
+    NSLayoutManager *layoutManager = [textView layoutManager];
+    NSUInteger index, numberOfLines;
+    NSRange glyphRange = [layoutManager glyphRangeForTextContainer:[textView textContainer]];
+    NSRange lineRange;
+    
+    for (numberOfLines = 0, index = glyphRange.location; index < glyphRange.length; numberOfLines++)
+    {
+        (void) [layoutManager lineFragmentRectForGlyphAtIndex:index effectiveRange:&lineRange];
+        index = NSMaxRange(lineRange);
+    }
+    return numberOfLines;
 }
 @end
