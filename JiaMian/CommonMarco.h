@@ -9,7 +9,7 @@
 #ifndef JiaMian_CommonMarco_h
 #define JiaMian_CommonMarco_h
 
-#define HOME_PAGE  @"http://115.29.102.106/MaskTechDEV"
+#define HOME_PAGE  @"http://114.215.109.246/MaskTech"
 
 #define kUserLogIn     @"kUserLogIn"
 #define kLogInToken    @"kLogInToken"

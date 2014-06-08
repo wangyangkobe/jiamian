@@ -62,28 +62,43 @@
 
 - (IBAction)registerBtnPress:(UIButton*)sender
 {
-    [self validateUserNameAndPassWord];
-    [sender setTag:6998]; //注册
-    [SVProgressHUD showWithStatus:@"正在注册..."];
-    [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
+    BOOL checkRes = [self validateUserNameAndPassWord];
+    if (checkRes)
+    {
+        [sender setTag:6998]; //注册
+        [SVProgressHUD showWithStatus:@"正在注册..."];
+        [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
+    }
 }
 
 - (IBAction)logInBtnPress:(UIButton*)sender
 {
-    [self validateUserNameAndPassWord];
-    [sender setTag:6999];
-    [SVProgressHUD showWithStatus:@"正在登录..."];
-    [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
+    BOOL checkRes = [self validateUserNameAndPassWord];
+    if (checkRes)
+    {
+        [sender setTag:6999];
+        [SVProgressHUD showWithStatus:@"正在登录..."];
+        [self performSelector:@selector(handleBtnAction:) withObject:sender afterDelay:0.5];
+    }
 }
-- (void)validateUserNameAndPassWord
+- (BOOL)validateUserNameAndPassWord
 {
     NSString* userName = _userName.text;
     NSString* passWord = _passWord.text;
     if (userName == nil || passWord == nil)
     {
         AlertContent(@"用户名或密码不能为空!");
-        return;
+        return NO;
     }
+    NSString* emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate* emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    if ([emailTest evaluateWithObject:userName] == NO)
+    {
+        AlertContent(@"用户名格式不对!");
+        return NO;
+    }
+    
+    return YES;
 }
 - (void)handleBtnAction:(UIButton*)sender
 {
