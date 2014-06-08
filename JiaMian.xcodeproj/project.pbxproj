@@ -147,6 +147,9 @@
 		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
 		15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */; };
 		15B035D7191A7AC700C31D39 /* food.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D6191A7AC700C31D39 /* food.png */; };
+		15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E42905194412DB00641635 /* SelectZoneViewController.m */; };
+		15E429081944137500641635 /* CustomCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15E429071944137500641635 /* CustomCollectionCell.xib */; };
+		15E4290B194413DF00641635 /* CustomCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E4290A194413DF00641635 /* CustomCollectionCell.m */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 /* End PBXBuildFile section */
@@ -375,6 +378,11 @@
 		15B035D1191A4D3F00C31D39 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		15B035D6191A7AC700C31D39 /* food.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = food.png; sourceTree = "<group>"; };
+		15E42904194412DB00641635 /* SelectZoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectZoneViewController.h; sourceTree = "<group>"; };
+		15E42905194412DB00641635 /* SelectZoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectZoneViewController.m; sourceTree = "<group>"; };
+		15E429071944137500641635 /* CustomCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCollectionCell.xib; sourceTree = "<group>"; };
+		15E42909194413DF00641635 /* CustomCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionCell.h; sourceTree = "<group>"; };
+		15E4290A194413DF00641635 /* CustomCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionCell.m; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -665,6 +673,11 @@
 				155AC497190C9D8800A8F252 /* PublishMsgViewController.m */,
 				1558CFBC190BA56700E6B543 /* LogInViewController.h */,
 				1558CFBD190BA56700E6B543 /* LogInViewController.m */,
+				15E42904194412DB00641635 /* SelectZoneViewController.h */,
+				15E42905194412DB00641635 /* SelectZoneViewController.m */,
+				15E429071944137500641635 /* CustomCollectionCell.xib */,
+				15E42909194413DF00641635 /* CustomCollectionCell.h */,
+				15E4290A194413DF00641635 /* CustomCollectionCell.m */,
 				155AC491190C836400A8F252 /* ResourceImage */,
 				1558CFE0190BF34300E6B543 /* ThirdLibary */,
 				1558CF9F190B9C5400E6B543 /* Images.xcassets */,
@@ -970,6 +983,7 @@
 				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				1524CE401920F3D100CAB103 /* PushConfig.plist in Resources */,
+				15E429081944137500641635 /* CustomCollectionCell.xib in Resources */,
 				15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */,
 				150D5E4C1927866900BE24AB /* UMSCommentInputController.xib in Resources */,
 				150D5E511927866900BE24AB /* UMSnsAccountViewController.xib in Resources */,
@@ -1090,9 +1104,11 @@
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
 				1558D023190BF34300E6B543 /* KxMenu.m in Sources */,
 				153C70361943DB860045A0FC /* SVProgressHUD.m in Sources */,
+				15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
 				15503E0D193784E200CD737D /* GTMBase64.m in Sources */,
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
+				15E4290B194413DF00641635 /* CustomCollectionCell.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
 				15503E12193784E200CD737D /* QiniuUtils.m in Sources */,
 				15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */,

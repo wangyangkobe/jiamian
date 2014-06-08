@@ -205,8 +205,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_WIDTH - 44, SCREEN_WIDTH, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
+                         // [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cameraBtnPressed:)],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           nil];
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;

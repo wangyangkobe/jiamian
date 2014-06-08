@@ -111,7 +111,7 @@
     //    CGRect labelRect = myHeader.textLabel.frame;
     //    [myHeader.textLabel setFrame:CGRectMake(labelRect.origin.x, labelRect.origin.y, 260, textHeight)];
     
-    if (_selectedMsg.background_url)
+    if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
     {
         headerViewHeight = SCREEN_WIDTH;
     }
@@ -136,7 +136,7 @@
         myHeader.areaLabel.text = @"假面官方团队";
     }
     
-    if (_selectedMsg.background_url)
+    if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
     {
         [myHeader.backgroudImageView setImage:[UIImage imageNamed:@"blackalpha"]];
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
