@@ -210,7 +210,7 @@
 {
     NSInteger row = indexPath.row;
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:row];
-    if (currentMsg.background_url)
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
         return SCREEN_WIDTH;
     }
@@ -259,7 +259,7 @@
     [likeImage addGestureRecognizer:likeImageTap];
     
     UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
-    if (currentMsg.background_url)
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
         [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
     else
         [bgImageView setImage:nil];
@@ -281,7 +281,7 @@
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
     UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
     
-    if (currentMsg.background_url)
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
         [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
         [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
