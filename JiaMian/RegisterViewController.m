@@ -94,7 +94,7 @@
     NSPredicate* emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
     if ([emailTest evaluateWithObject:userName] == NO)
     {
-        AlertContent(@"用户名格式不对!");
+        AlertContent(@"邮箱格式不对!");
         return NO;
     }
     
