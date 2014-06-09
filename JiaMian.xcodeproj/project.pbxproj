@@ -55,6 +55,7 @@
 		15278145190D554100C15419 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278143190D554100C15419 /* Default@2x.png */; };
 		152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152BFF2C193F4424000D8E1F /* RegisterViewController.m */; };
 		152BFF31193F5F33000D8E1F /* useridlogin.png in Resources */ = {isa = PBXBuildFile; fileRef = 152BFF30193F5F33000D8E1F /* useridlogin.png */; };
+		1530D4471945FE950064CDFD /* blackalpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 1530D4461945FE950064CDFD /* blackalpha.png */; };
 		15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */; };
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
 		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
@@ -231,6 +232,7 @@
 		152BFF2B193F4424000D8E1F /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		152BFF2C193F4424000D8E1F /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		152BFF30193F5F33000D8E1F /* useridlogin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = useridlogin.png; sourceTree = "<group>"; };
+		1530D4461945FE950064CDFD /* blackalpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackalpha.png; sourceTree = "<group>"; };
 		15326B8E19281AC80008AAE1 /* ico-to-do-list_ios7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7.png"; sourceTree = "<group>"; };
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
 		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
@@ -828,6 +830,7 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1530D4461945FE950064CDFD /* blackalpha.png */,
 				152BFF30193F5F33000D8E1F /* useridlogin.png */,
 				1516F3A9192CE6BB00FF68E1 /* new.png */,
 				15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */,
@@ -1000,6 +1003,7 @@
 				150D5E75192788B700BE24AB /* umFeedback.bundle in Resources */,
 				15326BA319289F1F0008AAE1 /* ic_like_grey.png in Resources */,
 				15326BA219289F1F0008AAE1 /* ic_eyes.png in Resources */,
+				1530D4471945FE950064CDFD /* blackalpha.png in Resources */,
 				1558D020190BF34300E6B543 /* grayArrow@2x.png in Resources */,
 				150D5E4F1927866900BE24AB /* UMShareEditViewControlleriPad.xib in Resources */,
 				1558D01D190BF34300E6B543 /* blueArrow.png in Resources */,
