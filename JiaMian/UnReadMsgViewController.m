@@ -78,11 +78,11 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-//    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
-//                                               constrainedToSize:CGSizeMake(175, 48)
-//                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
-//    return textHeight + 10;
+    //    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+    //    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
+    //                                               constrainedToSize:CGSizeMake(175, 48)
+    //                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
+    //    return textHeight + 10;
     return 48 + 10;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -111,6 +111,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (indexPath.row >= unReadMsgArr.count)
+        return;
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:indexPath.row];
     MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
     if (!message)
