@@ -79,7 +79,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier forIndexPath:indexPath];
-    cell.selectedImageV.image = [UIImage imageNamed:@"ico-to-do-list_ios7"];
+    cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
     return cell;
 }
 #pragma mark UICollectionViewDelegate
@@ -89,12 +89,12 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     CustomCollectionCell* selectedCell = (CustomCollectionCell*)[collectionView cellForItemAtIndexPath:indexPath];
     if ([selectedIndexSet containsObject:indexPath])
     {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ico-to-do-list_ios7"];
+        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
         [selectedIndexSet removeObject:indexPath];
     }
     else
     {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"new"];
+        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
         [selectedIndexSet addObject:indexPath];
     }
 }
