@@ -170,16 +170,29 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 15)];
-    [SVProgressHUD showWithStatus:@"消息发送中..."];
-    if (imagePath)
-    {
-        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
-    }
-    else
-    {
-        [self publishMessageToServer];
-    }
+    NSArray* options = [NSArray arrayWithObjects:
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Facebook",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Twitter",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Tumblr",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Google+",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"LinkedIn",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Pinterest",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"Dribbble",@"text", nil],
+                        [NSDictionary dictionaryWithObjectsAndKeys:@"deviantArt",@"text", nil],
+                        nil];
+    LeveyPopListView *lplv = [[LeveyPopListView alloc] initWithTitle:@"请选择圈子" options:options handler:^(NSInteger anIndex) {
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 15)];
+        [SVProgressHUD showWithStatus:@"消息发送中..."];
+        if (imagePath)
+        {
+            [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+        }
+        else
+        {
+            [self publishMessageToServer];
+        }
+    }];
+    [lplv showInView:self.view animated:YES];
 }
 - (void)dealloc
 {
