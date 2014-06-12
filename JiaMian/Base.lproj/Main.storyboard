@@ -109,22 +109,22 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="z23-tU-F60">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="262"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" id="hRu-GD-pYW" customClass="SAMTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="262"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <view contentMode="scaleToFill" id="fu9-BU-O9c">
-                                <rect key="frame" x="0.0" y="307" width="320" height="153"/>
+                                <rect key="frame" x="0.0" y="362" width="320" height="109"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击照相机按钮可以更换文字背景" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WFm-hs-BMc">
-                                        <rect key="frame" x="60" y="37" width="200" height="80"/>
+                                        <rect key="frame" x="60" y="11" width="200" height="80"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -323,7 +323,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg.png" id="qe8-1y-shM">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W2K-X5-T89">
                                 <rect key="frame" x="48" y="342" width="225" height="40"/>
@@ -365,7 +365,6 @@
                                 <rect key="frame" x="80" y="445" width="160" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -510,8 +509,8 @@
         <image name="comment_white.png" width="26" height="27"/>
         <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
-        <image name="login_word.png" width="333" height="151"/>
-        <image name="loginbg.png" width="540" height="903"/>
+        <image name="login_word.png" width="484" height="215"/>
+        <image name="loginbg.png" width="320" height="480"/>
         <image name="qq_login.png" width="310" height="52"/>
         <image name="qq_login_pressed.png" width="310" height="52"/>
         <image name="sina_login.png" width="310" height="52"/>
