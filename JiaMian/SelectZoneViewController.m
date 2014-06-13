@@ -8,7 +8,7 @@
 
 #import "SelectZoneViewController.h"
 #import "CustomCollectionCell.h"
-
+#import "HomePageViewController.h"
 static NSString* kCollectionViewCellIdentifier = @"Cell";
 @interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
@@ -134,8 +134,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (void)handleDone:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"selectZoneSucess" object:self userInfo:nil];
-    }];
+    if (self.isFirstSelect)
+    {
+        HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+    }
+    else
+    {
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }
+ //   [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
 }
 @end

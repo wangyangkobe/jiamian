@@ -16,6 +16,7 @@
 
 @property(nonatomic, assign) int       area_id;
 @property(nonatomic, strong) NSString* area_name;
+@property(nonatomic, assign) int       hots;
 @property(nonatomic, assign) int       type;
 @property(nonatomic, strong) NSString* type_name;
 @property(nonatomic, strong) NSString* city;

@@ -11,5 +11,5 @@
 @interface SelectZoneViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 - (IBAction)loadMoreBtnPress:(id)sender;
-
+@property (assign, nonatomic, getter = isFirstSelect) BOOL firstSelect;
 @end

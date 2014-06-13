@@ -18,6 +18,7 @@
 @property(nonatomic, assign) int                  user_type;      // 1-QQ，2-Weibo
 @property(nonatomic, strong) NSString<Optional>*  description;
 @property(nonatomic, strong) AreaModel<Optional>* area;
+@property(nonatomic, strong) NSArray<AreaModel, Optional>* areas;
 
 + (void)saveUserModelObject:(UserModel*) object key:(NSString*)key;
 + (UserModel*)loadUserModelObjectWithKey:(NSString*)key;

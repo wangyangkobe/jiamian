@@ -69,10 +69,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
     self.backgroundImageView.frame = self.textView.frame;
     
-    //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    //    [self.textView.layer setBorderWidth: 5.0];
-    //    [self.textView.layer setCornerRadius:8.0f];
-    //    [self.textView.layer setMasksToBounds:YES];
+    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
+    [self.textView.layer setBorderWidth: 5.0];
+    [self.textView.layer setCornerRadius:8.0f];
+    [self.textView.layer setMasksToBounds:YES];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
@@ -207,7 +207,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_WIDTH - 44, SCREEN_WIDTH, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
-                         // [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          // [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cameraBtnPressed:)],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           nil];
@@ -341,7 +341,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)publishMessageToServer
 {
     long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    NSLog(@"%s, areaId = %ld", __FUNCTION__, (long)areaId);
     
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
     

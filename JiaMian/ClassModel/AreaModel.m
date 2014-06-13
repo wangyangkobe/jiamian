@@ -10,6 +10,13 @@
 
 @implementation AreaModel
 
++ (BOOL)propertyIsOptional:(NSString*)propertyName
+{
+    if ([propertyName isEqualToString:@"hots"])
+        return YES;
+    else
+        return NO;
+}
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
 	if (self = [super init])

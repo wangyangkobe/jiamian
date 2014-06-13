@@ -26,7 +26,7 @@
     self.layer.borderColor =[UIColor darkGrayColor].CGColor;
     self.layer.borderWidth = 1;
     
-    self.backgroundColor = [UIColor lightGrayColor];
+    self.backgroundColor = UIColorFromRGB(0xd2d2d2);
 }
 /*
 // Only override drawRect: if you perform custom drawing.

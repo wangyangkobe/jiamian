@@ -14,7 +14,7 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <CommonCrypto/CommonDigest.h>
-    
+
     #import "WeiboSDK.h"
     #import "CommonMarco.h"
     #import <TencentOpenAPI/TencentOAuth.h>
@@ -33,4 +33,5 @@
     #import "APService.h"
     #import "UIAlertView+Blocks.h"
     #import "LeveyPopListView.h"
+    #import "SelectZoneViewController.h"
 #endif

@@ -138,7 +138,7 @@
     NSArray *menuItems =
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
+      // [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"选择圈子" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
@@ -183,6 +183,7 @@
     else if([menuItem.title isEqualToString:@"选择圈子"])
     {
         SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
+        selectZoneVC.firstSelect = NO;
         [self presentViewController:selectZoneVC animated:YES completion:nil];
     }
     else
