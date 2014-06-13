@@ -32,4 +32,5 @@
     #import "UMSocialWechatHandler.h"
     #import "APService.h"
     #import "UIAlertView+Blocks.h"
+    #import "LeveyPopListView.h"
 #endif

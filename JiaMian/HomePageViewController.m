@@ -16,6 +16,7 @@
 #import "UILabel+Extensions.h"
 #import "UMFeedback.h"
 #import "SelectAreaViewController.h"
+#import "SelectZoneViewController.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -138,6 +139,7 @@
     @[
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
+      [KxMenuItem menuItem:@"选择圈子" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
@@ -177,6 +179,11 @@
     else if([menuItem.title isEqualToString:@"检查更新"])
     {
         [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
+    }
+    else if([menuItem.title isEqualToString:@"选择圈子"])
+    {
+        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
+        [self presentViewController:selectZoneVC animated:YES completion:nil];
     }
     else
     {

@@ -109,22 +109,22 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="z23-tU-F60">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="262"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="center" id="hRu-GD-pYW" customClass="SAMTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="262"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="320"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="21"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <view contentMode="scaleToFill" id="fu9-BU-O9c">
-                                <rect key="frame" x="0.0" y="307" width="320" height="153"/>
+                                <rect key="frame" x="0.0" y="362" width="320" height="109"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击照相机按钮可以更换文字背景" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WFm-hs-BMc">
-                                        <rect key="frame" x="60" y="37" width="200" height="80"/>
+                                        <rect key="frame" x="60" y="11" width="200" height="80"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -266,6 +266,53 @@
             </objects>
             <point key="canvasLocation" x="254" y="1250"/>
         </scene>
+        <!--Select Zone View Controller-->
+        <scene sceneID="rxB-a2-IZx">
+            <objects>
+                <viewController storyboardIdentifier="SelectZoneVCIdentifier" id="zMV-JM-W87" customClass="SelectZoneViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rSr-nt-R4X">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Xi2-Rq-QGo">
+                                <rect key="frame" x="-5" y="44" width="325" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PkQ-1q-Hco">
+                                    <size key="itemSize" width="108" height="80"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="50"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionFooter" id="Vf3-xp-EV6">
+                                    <rect key="frame" x="0.0" y="0.0" width="325" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GNd-Lb-GOx">
+                                            <rect key="frame" x="90" y="10" width="145" height="30"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <state key="normal" title="加载更多">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="loadMoreBtnPress:" destination="zMV-JM-W87" eventType="touchUpInside" id="h0g-Rk-6vr"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                </collectionReusableView>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="Xi2-Rq-QGo" id="cOL-og-Edn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5uu-2X-UT8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="650" y="1250"/>
+        </scene>
         <!--Log In View Controller-->
         <scene sceneID="Xxq-tc-ZMG">
             <objects>
@@ -318,7 +365,6 @@
                                 <rect key="frame" x="80" y="445" width="160" height="10"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -463,8 +509,8 @@
         <image name="comment_white.png" width="26" height="27"/>
         <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
-        <image name="login_word.png" width="333" height="151"/>
-        <image name="loginbg.png" width="540" height="903"/>
+        <image name="login_word.png" width="484" height="215"/>
+        <image name="loginbg.png" width="320" height="480"/>
         <image name="qq_login.png" width="310" height="52"/>
         <image name="qq_login_pressed.png" width="310" height="52"/>
         <image name="sina_login.png" width="310" height="52"/>
