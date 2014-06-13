@@ -321,7 +321,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbg.png" id="qe8-1y-shM">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbackground.png" id="qe8-1y-shM">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -510,11 +510,11 @@
         <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
         <image name="login_word.png" width="484" height="215"/>
-        <image name="loginbg.png" width="320" height="480"/>
-        <image name="qq_login.png" width="310" height="52"/>
-        <image name="qq_login_pressed.png" width="310" height="52"/>
-        <image name="sina_login.png" width="310" height="52"/>
-        <image name="sina_login_pressed.png" width="310" height="52"/>
+        <image name="loginbackground.png" width="320" height="480"/>
+        <image name="qq_login.png" width="372" height="66"/>
+        <image name="qq_login_pressed.png" width="372" height="66"/>
+        <image name="sina_login.png" width="372" height="66"/>
+        <image name="sina_login_pressed.png" width="372" height="66"/>
         <image name="useridlogin.png" width="97" height="47"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

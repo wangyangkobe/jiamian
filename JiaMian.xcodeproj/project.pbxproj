@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		0B18C8C1AA3043F1BCB65B3E /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C47598134FC4338B1A545FC /* libPods.a */; };
 		1505E4A119184A250037A671 /* Icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 1505E4A019184A250037A671 /* Icon-120.png */; };
+		1507851D194B2410006CDD95 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15078518194B2410006CDD95 /* Default-568h@2x.png */; };
+		1507851E194B2410006CDD95 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15078519194B2410006CDD95 /* Default@2x.png */; };
+		1507851F194B2410006CDD95 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851A194B2410006CDD95 /* Default~iphone.png */; };
+		15078520194B2410006CDD95 /* ic_qz_marked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851B194B2410006CDD95 /* ic_qz_marked.png */; };
+		15078521194B2410006CDD95 /* ic_qz.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851C194B2410006CDD95 /* ic_qz.png */; };
 		150D5E491927866900BE24AB /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 150D5E2F1927866900BE24AB /* UMSocialLocalizable.strings */; };
 		150D5E4A1927866900BE24AB /* libUMSocial_Sdk_3.3.7.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150D5E3D1927866900BE24AB /* libUMSocial_Sdk_3.3.7.1.a */; };
 		150D5E4B1927866900BE24AB /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150D5E3F1927866900BE24AB /* UMSCommentDetailController.xib */; };
@@ -36,9 +41,6 @@
 		150ED9DA19149F1000175728 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150ED9D919149F1000175728 /* MobileCoreServices.framework */; };
 		150ED9DC19150B9C00175728 /* ic_share.png in Resources */ = {isa = PBXBuildFile; fileRef = 150ED9DB19150B9C00175728 /* ic_share.png */; };
 		1516F3AA192CE6BB00FF68E1 /* new.png in Resources */ = {isa = PBXBuildFile; fileRef = 1516F3A9192CE6BB00FF68E1 /* new.png */; };
-		15172EDF1949C34B00187923 /* blackalpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 15172EDE1949C34B00187923 /* blackalpha.png */; };
-		15172EE21949C36200187923 /* ic_qz_marked.png in Resources */ = {isa = PBXBuildFile; fileRef = 15172EE01949C36200187923 /* ic_qz_marked.png */; };
-		15172EE31949C36200187923 /* ic_qz.png in Resources */ = {isa = PBXBuildFile; fileRef = 15172EE11949C36200187923 /* ic_qz.png */; };
 		151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */; };
 		1524CE381920E52F00CAB103 /* unread_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE371920E52F00CAB103 /* unread_head.png */; };
 		1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3B1920F27100CAB103 /* libPushSDK.a */; };
@@ -54,10 +56,6 @@
 		1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */; };
 		15278140190D544400C15419 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813E190D544400C15419 /* Icon.png */; };
 		15278141190D544400C15419 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813F190D544400C15419 /* Icon@2x.png */; };
-		152A34541949CDC70012B220 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 152A34521949CDC70012B220 /* Default~iphone.png */; };
-		152A34551949CDC70012B220 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 152A34531949CDC70012B220 /* Default@2x.png */; };
-		152A34571949CDD30012B220 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 152A34561949CDD30012B220 /* Default-568h@2x.png */; };
-		152A34591949CEC40012B220 /* loginbg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 152A34581949CEC40012B220 /* loginbg@2x.png */; };
 		152A345F1949D8040012B220 /* LeveyPopListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 152A345C1949D8040012B220 /* LeveyPopListView.m */; };
 		152A34601949D8040012B220 /* LeveyPopListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 152A345E1949D8040012B220 /* LeveyPopListViewCell.m */; };
 		152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152BFF2C193F4424000D8E1F /* RegisterViewController.m */; };
@@ -142,7 +140,7 @@
 		155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */; };
 		155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155AC4A3190CDD0F00A8F252 /* HeaderView.xib */; };
 		155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A6190CE07200A8F252 /* TableHeaderView.m */; };
-		1569854A19134A0C00923E85 /* loginbg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854919134A0C00923E85 /* loginbg.png */; };
+		1569854A19134A0C00923E85 /* loginbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854919134A0C00923E85 /* loginbackground.png */; };
 		1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854B19134A1700923E85 /* qq_login_pressed.png */; };
 		1569854E19134A1700923E85 /* sina_login_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854C19134A1700923E85 /* sina_login_pressed.png */; };
 		156985501913522000923E85 /* login_word.png in Resources */ = {isa = PBXBuildFile; fileRef = 1569854F1913522000923E85 /* login_word.png */; };
@@ -173,6 +171,11 @@
 /* Begin PBXFileReference section */
 		039441761BD14D36B95936E2 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		1505E4A019184A250037A671 /* Icon-120.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-120.png"; sourceTree = "<group>"; };
+		15078518194B2410006CDD95 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		15078519194B2410006CDD95 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		1507851A194B2410006CDD95 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
+		1507851B194B2410006CDD95 /* ic_qz_marked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz_marked.png; sourceTree = "<group>"; };
+		1507851C194B2410006CDD95 /* ic_qz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz.png; sourceTree = "<group>"; };
 		150D5E301927866900BE24AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		150D5E321927866900BE24AB /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		150D5E331927866900BE24AB /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -218,9 +221,6 @@
 		150ED9D919149F1000175728 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		150ED9DB19150B9C00175728 /* ic_share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share.png; sourceTree = "<group>"; };
 		1516F3A9192CE6BB00FF68E1 /* new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new.png; sourceTree = "<group>"; };
-		15172EDE1949C34B00187923 /* blackalpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blackalpha.png; sourceTree = "<group>"; };
-		15172EE01949C36200187923 /* ic_qz_marked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz_marked.png; sourceTree = "<group>"; };
-		15172EE11949C36200187923 /* ic_qz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz.png; sourceTree = "<group>"; };
 		151C900C193E109C00203AE1 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
 		151C900D193E109C00203AE1 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		1524CE371920E52F00CAB103 /* unread_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread_head.png; sourceTree = "<group>"; };
@@ -238,10 +238,6 @@
 		15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntrySendButtonPressed@2x.png"; sourceTree = "<group>"; };
 		1527813E190D544400C15419 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1527813F190D544400C15419 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		152A34521949CDC70012B220 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
-		152A34531949CDC70012B220 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		152A34561949CDD30012B220 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		152A34581949CEC40012B220 /* loginbg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbg@2x.png"; sourceTree = "<group>"; };
 		152A345B1949D8040012B220 /* LeveyPopListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeveyPopListView.h; sourceTree = "<group>"; };
 		152A345C1949D8040012B220 /* LeveyPopListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeveyPopListView.m; sourceTree = "<group>"; };
 		152A345D1949D8040012B220 /* LeveyPopListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeveyPopListViewCell.h; sourceTree = "<group>"; };
@@ -380,7 +376,7 @@
 		155AC4A3190CDD0F00A8F252 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
 		155AC4A5190CE07200A8F252 /* TableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableHeaderView.h; sourceTree = "<group>"; };
 		155AC4A6190CE07200A8F252 /* TableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableHeaderView.m; sourceTree = "<group>"; };
-		1569854919134A0C00923E85 /* loginbg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbg.png; sourceTree = "<group>"; };
+		1569854919134A0C00923E85 /* loginbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbackground.png; sourceTree = "<group>"; };
 		1569854B19134A1700923E85 /* qq_login_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login_pressed.png; sourceTree = "<group>"; };
 		1569854C19134A1700923E85 /* sina_login_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login_pressed.png; sourceTree = "<group>"; };
 		1569854F1913522000923E85 /* login_word.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_word.png; sourceTree = "<group>"; };
@@ -867,6 +863,11 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				15078518194B2410006CDD95 /* Default-568h@2x.png */,
+				15078519194B2410006CDD95 /* Default@2x.png */,
+				1507851A194B2410006CDD95 /* Default~iphone.png */,
+				1507851B194B2410006CDD95 /* ic_qz_marked.png */,
+				1507851C194B2410006CDD95 /* ic_qz.png */,
 				1530D4461945FE950064CDFD /* blackalpha.png */,
 				152BFF30193F5F33000D8E1F /* useridlogin.png */,
 				1516F3A9192CE6BB00FF68E1 /* new.png */,
@@ -890,7 +891,7 @@
 				1569854F1913522000923E85 /* login_word.png */,
 				1569854B19134A1700923E85 /* qq_login_pressed.png */,
 				1569854C19134A1700923E85 /* sina_login_pressed.png */,
-				1569854919134A0C00923E85 /* loginbg.png */,
+				1569854919134A0C00923E85 /* loginbackground.png */,
 				15FB3431190FC9D600EBD9DF /* qq_login.png */,
 				15FB3432190FC9D600EBD9DF /* sina_login.png */,
 				1527813E190D544400C15419 /* Icon.png */,
@@ -989,7 +990,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				156985501913522000923E85 /* login_word.png in Resources */,
-				152A34541949CDC70012B220 /* Default~iphone.png in Resources */,
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
@@ -1001,17 +1001,18 @@
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
 				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
-				15172EE21949C36200187923 /* ic_qz_marked.png in Resources */,
-				1569854A19134A0C00923E85 /* loginbg.png in Resources */,
+				15078520194B2410006CDD95 /* ic_qz_marked.png in Resources */,
+				1507851E194B2410006CDD95 /* Default@2x.png in Resources */,
+				1569854A19134A0C00923E85 /* loginbackground.png in Resources */,
 				15326BA419289F1F0008AAE1 /* ic_like.png in Resources */,
 				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
 				1524CE401920F3D100CAB103 /* PushConfig.plist in Resources */,
+				1507851D194B2410006CDD95 /* Default-568h@2x.png in Resources */,
 				15E429081944137500641635 /* CustomCollectionCell.xib in Resources */,
 				15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */,
 				150D5E4C1927866900BE24AB /* UMSCommentInputController.xib in Resources */,
 				150D5E511927866900BE24AB /* UMSnsAccountViewController.xib in Resources */,
-				152A34571949CDD30012B220 /* Default-568h@2x.png in Resources */,
 				150D5E661927870300BE24AB /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */,
 				15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */,
@@ -1023,6 +1024,7 @@
 				1558D01C190BF34300E6B543 /* blackArrow@2x.png in Resources */,
 				156985561913816200923E85 /* comment_white.png in Resources */,
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
+				1507851F194B2410006CDD95 /* Default~iphone.png in Resources */,
 				15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */,
 				153C70351943DB860045A0FC /* SVProgressHUD.bundle in Resources */,
 				15B035D7191A7AC700C31D39 /* food.png in Resources */,
@@ -1044,13 +1046,10 @@
 				15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */,
 				15278139190D511000C15419 /* MessageEntrySendButton@2x.png in Resources */,
 				15278137190D511000C15419 /* MessageEntryInputField@2x.png in Resources */,
-				152A34551949CDC70012B220 /* Default@2x.png in Resources */,
 				1558CF92190B9C5400E6B543 /* InfoPlist.strings in Resources */,
 				150D5E491927866900BE24AB /* UMSocialLocalizable.strings in Resources */,
 				155AC494190C836400A8F252 /* ico-to-do-list.png in Resources */,
 				15278138190D511000C15419 /* MessageEntrySendButton.png in Resources */,
-				152A34591949CEC40012B220 /* loginbg@2x.png in Resources */,
-				15172EDF1949C34B00187923 /* blackalpha.png in Resources */,
 				150D5E4D1927866900BE24AB /* UMSCommentInputControlleriPad.xib in Resources */,
 				15326BA119289F1F0008AAE1 /* ic_eyes_grey.png in Resources */,
 				1558CF9B190B9C5400E6B543 /* Main.storyboard in Resources */,
@@ -1059,8 +1058,8 @@
 				150D5E501927866900BE24AB /* UMSLoginViewController.xib in Resources */,
 				15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */,
 				150D5E4B1927866900BE24AB /* UMSCommentDetailController.xib in Resources */,
+				15078521194B2410006CDD95 /* ic_qz.png in Resources */,
 				15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */,
-				15172EE31949C36200187923 /* ic_qz.png in Resources */,
 				156985541913631B00923E85 /* comment_grey.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
