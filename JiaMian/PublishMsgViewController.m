@@ -20,6 +20,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     NSString* qiNiuImagePath;
     CGRect previouRect;
     NSInteger lineNumbers;
+    NSMutableArray* zoneArray;
+    int selectIndex;
+    NSMutableArray* zoneIdArray;
 }
 @property (nonatomic, strong) UIToolbar* toolBar;
 @end
@@ -65,12 +68,12 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.view addSubview:_toolBar];
     [self.textView setInputAccessoryView:_toolBar];
     
-    CGRect oldFrame = self.textView.frame;
-    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
-    self.backgroundImageView.frame = self.textView.frame;
+    //    CGRect oldFrame = self.textView.frame;
+    //    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
+    //    self.backgroundImageView.frame = self.textView.frame;
     
     [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    [self.textView.layer setBorderWidth: 5.0];
+    [self.textView.layer setBorderWidth: 1.0];
     [self.textView.layer setCornerRadius:8.0f];
     [self.textView.layer setMasksToBounds:YES];
     
@@ -88,6 +91,12 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    zoneArray = [NSMutableArray array];
+    zoneIdArray = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
+        [zoneArray addObjectsFromArray:result];
+    });
 }
 
 - (void)keyboardWillShow:(NSNotification*)notification
@@ -112,7 +121,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         _textView.contentSize = _textView.frame.size;
     }
-    
+    [self.toolBar setFrame:CGRectMake(0, _textView.frame.size.height, 320, 44)];
+    [self.view addSubview:_toolBar];
 	[UIView commitAnimations];
 }
 - (void)keyboardWillHide:(NSNotification*)notification
@@ -126,9 +136,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         {
             _textView.contentSize = _textView.frame.size;
         }
-        CGRect oldFrame = self.textView.frame;
-        [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
+        [self.textView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
     }];
+    [self.toolBar setFrame:CGRectMake(0, 320, 320, 44)];
+    [self.view addSubview:_toolBar];
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -164,23 +175,35 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         //new line reached, write your code
         lineNumbers++;
-        NSLog(@"lineNumbers = %ld", (long)lineNumbers);
     }
     previouRect = currentRect;
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-    [SVProgressHUD showWithStatus:@"消息发送中..."];
-    if (imagePath)
+    [self.textView setInputAccessoryView:nil];
+    [self.textView resignFirstResponder];
+    
+    NSMutableArray* options = [NSMutableArray array];
+    for (AreaModel* zone in zoneArray)
     {
-        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+        [options addObject: [NSDictionary dictionaryWithObjectsAndKeys:zone.area_name, @"text", nil]];
+        [zoneIdArray addObject:[NSNumber numberWithInt:zone.area_id]];
     }
-    else
-    {
-        [self publishMessageToServer];
-    }
+    LeveyPopListView *lplv = [[LeveyPopListView alloc] initWithTitle:@"请选择圈子" options:options handler:^(NSInteger anIndex) {
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+        [SVProgressHUD showWithStatus:@"消息发送中..."];
+        selectIndex = (int)anIndex;
+        if (imagePath)
+        {
+            [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+        }
+        else
+        {
+            [self publishMessageToServer];
+        }
+    }];
+    [lplv showInView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 - (void)dealloc
 {
@@ -204,11 +227,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     if (_toolBar == nil)
     {
-        _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREEN_WIDTH - 44, SCREEN_WIDTH, 44)];
+        _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 320, 320, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
+                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
-                          // [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(cameraBtnPressed:)],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           nil];
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -340,13 +362,13 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-    long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    
+    // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+    long zoneId = [[zoneIdArray objectAtIndex:selectIndex] integerValue];
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
-                                                                    areaId:areaId
+                                                                    areaId:zoneId
                                                                     bgType:backgroudType
                                                                   bgNumber:-1
                                                                      bgUrl:qiNiuImagePath

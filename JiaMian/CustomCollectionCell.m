@@ -21,10 +21,10 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.layer.cornerRadius = 5;
-    self.layer.masksToBounds = YES;
-    self.layer.borderColor =[UIColor darkGrayColor].CGColor;
-    self.layer.borderWidth = 1;
+//    self.layer.cornerRadius = 5;
+//    self.layer.masksToBounds = YES;
+//    self.layer.borderColor =[UIColor darkGrayColor].CGColor;
+//    self.layer.borderWidth = 1;
     
     self.backgroundColor = UIColorFromRGB(0xd2d2d2);
 }

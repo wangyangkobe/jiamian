@@ -84,6 +84,7 @@
 - (BOOL)validateUserNameAndPassWord
 {
     return YES;
+    
     NSString* userName = _userName.text;
     NSString* passWord = _passWord.text;
     if (userName == nil || passWord == nil)

@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="华东理工" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="wMw-jA-hGQ">
-                        <rect key="frame" x="5" y="5" width="81" height="26"/>
+                        <rect key="frame" x="5" y="5" width="108" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                         <color key="textColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -29,14 +29,14 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="389958" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aAe-Oq-etX">
-                        <rect key="frame" x="75" y="39" width="61" height="21"/>
+                        <rect key="frame" x="75.000000190367032" y="39" width="61" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_qz.png" id="Yc8-rA-zwg">
-                        <rect key="frame" x="121" y="5" width="15" height="15"/>
+                        <rect key="frame" x="121.00000019036702" y="5" width="15" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
@@ -44,7 +44,9 @@
             </view>
             <size key="customSize" width="186" height="100"/>
             <connections>
+                <outlet property="likeNumber" destination="aAe-Oq-etX" id="ajR-BM-rpd"/>
                 <outlet property="selectedImageV" destination="Yc8-rA-zwg" id="gnz-gK-c8g"/>
+                <outlet property="zoneName" destination="wMw-jA-hGQ" id="xHz-vT-Hbn"/>
             </connections>
         </collectionViewCell>
     </objects>

@@ -16,6 +16,7 @@
 - (UserModel*)userLogInWithToken:(NSString*)access_token userType:(int)Type userIdentity:(NSString*)Identity;
 - (BOOL)userLogOut;
 - (UserModel*)userChangeArea:(long)AreaId;
+- (UserModel*)userChangeZone:(NSString*)zoneStr;
 
 //Gender: 1; HeadImg: nil; Description: nil
 - (UserModel*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;

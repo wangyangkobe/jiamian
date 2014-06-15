@@ -547,5 +547,31 @@ static ASIDownloadCache* myCache;
         return nil;
     }
 }
-
+- (UserModel*)userChangeZone:(NSString*)zoneStr
+{
+    if (NO == [self checkNetworkStatus])
+        return nil;
+    
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/users/area", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:zoneStr forKey:@"area_id"];
+    [request startSynchronous];
+    
+    if ( 200 == [request responseStatusCode] )
+        return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    }
+    else
+    {
+        ErrorAlertView;
+        return nil;
+    }
+}
 @end

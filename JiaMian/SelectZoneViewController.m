@@ -9,10 +9,14 @@
 #import "SelectZoneViewController.h"
 #import "CustomCollectionCell.h"
 #import "HomePageViewController.h"
+#import "SVProgressHUD.h"
 static NSString* kCollectionViewCellIdentifier = @"Cell";
 @interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     NSMutableSet* selectedIndexSet;
+    NSMutableArray* zoneArray;
+    NSMutableSet* selectZoneIDs;
+    NSArray* lastSelectZones;
 }
 
 @end
@@ -27,7 +31,19 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     }
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    lastSelectZones = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    NSLog(@"last select = %@", [lastSelectZones description]);
+    selectedIndexSet = [NSMutableSet set];
+    selectZoneIDs = [NSMutableSet set];
+    
+    if ((self.isFirstSelect == NO) && lastSelectZones)
+    {
+        [selectZoneIDs addObjectsFromArray:lastSelectZones];
+    }
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -39,9 +55,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCollectionViewCellIdentifier];
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
-    
-    selectedIndexSet = [NSMutableSet set];
-    
     
     CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame]; //height = 20
     //创建UINavigationBar
@@ -63,6 +76,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
                                                                                   target:self
                                                                                   action:@selector(handleDone:)];
     navigationItem.rightBarButtonItem = rightBtnItem;
+    
+    zoneArray = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
+        [zoneArray addObjectsFromArray:result];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,28 +97,49 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return [zoneArray count];
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    AreaModel* zone = (AreaModel*)[zoneArray objectAtIndex:indexPath.row];
     CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier forIndexPath:indexPath];
     cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
+    cell.zoneName.text = zone.area_name;
+    cell.likeNumber.text = [NSString stringWithFormat:@"%d", zone.hots];
+    if ([selectZoneIDs  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    {
+        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+    }
+    
+    if ( (_firstSelect == NO) && [lastSelectZones containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    {
+        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+    }
+    
     return cell;
 }
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    AreaModel* selectZone = (AreaModel*)[zoneArray objectAtIndex:indexPath.row];
     NSLog(@"%s", __FUNCTION__);
     CustomCollectionCell* selectedCell = (CustomCollectionCell*)[collectionView cellForItemAtIndexPath:indexPath];
     if ([selectedIndexSet containsObject:indexPath])
     {
         selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
         [selectedIndexSet removeObject:indexPath];
+        [selectZoneIDs removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
     }
     else
     {
         selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
         [selectedIndexSet addObject:indexPath];
+        [selectZoneIDs addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
+    }
+    
+    if ([selectZoneIDs containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
+    {
+        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
     }
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -131,9 +175,41 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (IBAction)loadMoreBtnPress:(id)sender
 {
     NSLog(@"load more");
+    if ([zoneArray count] == 0)
+        return;
+    
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"获取中..."];
+    
+    [self performSelector:@selector(loadMoreBtnPressHelp) withObject:nil afterDelay:0.5];
+}
+- (void)loadMoreBtnPressHelp
+{
+    NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:40];
+    [zoneArray removeAllObjects];
+    [zoneArray addObjectsFromArray:result];
+    [SVProgressHUD dismiss];
+    [self.collectionView reloadData];
 }
 - (void)handleDone:(id)sender
 {
+    if ([selectedIndexSet count] > 5)
+    {
+        AlertContent(@"同学，您最多只能选择5个圈子");
+        return;
+    }
+    if ([selectZoneIDs count] != 0)
+    {
+        NSString* res = [[selectZoneIDs allObjects] componentsJoinedByString:@","];
+        UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
+        if (user == nil)
+            return;
+        NSLog(@"sle == %@", [selectZoneIDs description]);
+        [[NSUserDefaults standardUserDefaults] setObject:selectZoneIDs forKey:kSelectZones];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+    }
     if (self.isFirstSelect)
     {
         HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
@@ -144,6 +220,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
- //   [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+    //   [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
 }
 @end

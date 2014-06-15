@@ -35,7 +35,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder
 {
-    [aCoder encodeInt32:_user_id      forKey:@"user_id"];
+    [aCoder encodeInt:_user_id      forKey:@"user_id"];
     [aCoder encodeObject:_user_name   forKey:@"user_name"];
     [aCoder encodeInt:_gender         forKey:@"gender"];
     [aCoder encodeObject:_head_image  forKey:@"head_image"];

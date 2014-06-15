@@ -53,7 +53,7 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.title = @"假面校园";
+    self.title = @"假面匿名爆料";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
@@ -216,23 +216,25 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger row = indexPath.row;
-    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:row];
-    if (currentMsg.background_url && currentMsg.background_url.length > 0)
-    {
-        return SCREEN_WIDTH;
-    }
+    return SCREEN_WIDTH;
     
-    CGFloat textHeight = [NSString textHeight:currentMsg.text
-                                 sizeWithFont:[UIFont systemFontOfSize:18]
-                            constrainedToSize:CGSizeMake(260,9999)];
-    //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
-    //                           constrainedToSize:CGSizeMake(260, 42*10)
-    //                               lineBreakMode:NSLineBreakByWordWrapping].height;
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-        return textHeight + 60 + 60 + 10;
-    else
-        return textHeight + 60 + 60;
+    //    NSInteger row = indexPath.row;
+    //    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:row];
+    //    if (currentMsg.background_url && currentMsg.background_url.length > 0)
+    //    {
+    //        return SCREEN_WIDTH;
+    //    }
+    //
+    //    CGFloat textHeight = [NSString textHeight:currentMsg.text
+    //                                 sizeWithFont:[UIFont systemFontOfSize:18]
+    //                            constrainedToSize:CGSizeMake(260,9999)];
+    //    //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
+    //    //                           constrainedToSize:CGSizeMake(260, 42*10)
+    //    //                               lineBreakMode:NSLineBreakByWordWrapping].height;
+    //    if (IOS_NEWER_OR_EQUAL_TO_7)
+    //        return textHeight + 60 + 60 + 10;
+    //    else
+    //        return textHeight + 60 + 60;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
