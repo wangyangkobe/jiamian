@@ -14,8 +14,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 @interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 {
     NSMutableSet* selectedIndexSet;
-    NSMutableArray* zoneArray;
-    NSMutableSet* selectZoneIDs;
+    NSMutableArray* zonesArr;
+    NSMutableSet* selectZoneIds;
     NSArray* lastSelectZones;
 }
 
@@ -37,11 +37,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     lastSelectZones = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
     NSLog(@"last select = %@", [lastSelectZones description]);
     selectedIndexSet = [NSMutableSet set];
-    selectZoneIDs = [NSMutableSet set];
+    selectZoneIds = [NSMutableSet set];
     
     if ((self.isFirstSelect == NO) && lastSelectZones)
     {
-        [selectZoneIDs addObjectsFromArray:lastSelectZones];
+        [selectZoneIds addObjectsFromArray:lastSelectZones];
     }
 }
 - (void)viewDidLoad
@@ -77,10 +77,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
                                                                                   action:@selector(handleDone:)];
     navigationItem.rightBarButtonItem = rightBtnItem;
     
-    zoneArray = [NSMutableArray array];
+    zonesArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
-        [zoneArray addObjectsFromArray:result];
+        [zonesArr addObjectsFromArray:result];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
@@ -97,16 +97,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [zoneArray count];
+    return [zonesArr count];
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    AreaModel* zone = (AreaModel*)[zoneArray objectAtIndex:indexPath.row];
+    AreaModel* zone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
     CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier forIndexPath:indexPath];
     cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
     cell.zoneName.text = zone.area_name;
     cell.likeNumber.text = [NSString stringWithFormat:@"%d", zone.hots];
-    if ([selectZoneIDs  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    if ([selectZoneIds  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
     {
         cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
     }
@@ -121,23 +121,23 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    AreaModel* selectZone = (AreaModel*)[zoneArray objectAtIndex:indexPath.row];
+    AreaModel* selectZone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
     NSLog(@"%s", __FUNCTION__);
     CustomCollectionCell* selectedCell = (CustomCollectionCell*)[collectionView cellForItemAtIndexPath:indexPath];
     if ([selectedIndexSet containsObject:indexPath])
     {
         selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
         [selectedIndexSet removeObject:indexPath];
-        [selectZoneIDs removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
+        [selectZoneIds removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
     }
     else
     {
         selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
         [selectedIndexSet addObject:indexPath];
-        [selectZoneIDs addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
+        [selectZoneIds addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
     }
     
-    if ([selectZoneIDs containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
+    if ([selectZoneIds containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
     {
         selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
     }
@@ -148,6 +148,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
         return footerView;
+    }
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+    {
+        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+        return headerView;
     }
     return nil;
 }
@@ -172,10 +177,14 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     return CGSizeMake(SCREEN_WIDTH, 40);
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake(SCREEN_WIDTH, 40);
+}
 - (IBAction)loadMoreBtnPress:(id)sender
 {
     NSLog(@"load more");
-    if ([zoneArray count] == 0)
+    if ([zonesArr count] == 0)
         return;
     
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
@@ -187,26 +196,30 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)loadMoreBtnPressHelp
 {
     NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:40];
-    [zoneArray removeAllObjects];
-    [zoneArray addObjectsFromArray:result];
+    [zonesArr removeAllObjects];
+    [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
     [self.collectionView reloadData];
 }
 - (void)handleDone:(id)sender
 {
-    if ([selectedIndexSet count] > 5)
+    if ([selectZoneIds count] > 5)
     {
         AlertContent(@"同学，您最多只能选择5个圈子");
         return;
     }
-    if ([selectZoneIDs count] != 0)
+    if([selectZoneIds count] == 0)
     {
-        NSString* res = [[selectZoneIDs allObjects] componentsJoinedByString:@","];
+        AlertContent(@"同学，您最少要选择一个圈子吧");
+        return;
+    }
+    if ([selectZoneIds count] != 0)
+    {
+        NSString* res = [[selectZoneIds allObjects] componentsJoinedByString:@","];
         UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
         if (user == nil)
             return;
-        NSLog(@"sle == %@", [selectZoneIDs description]);
-        [[NSUserDefaults standardUserDefaults] setObject:selectZoneIDs forKey:kSelectZones];
+        [[NSUserDefaults standardUserDefaults] setObject:[selectZoneIds allObjects] forKey:kSelectZones];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
     }

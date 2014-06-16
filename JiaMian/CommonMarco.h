@@ -18,7 +18,7 @@
 #define kLogInType     @"kLogInType"
 #define kUserAreaId    @"kUserAreaId"
 #define kUserIdentity  @"kUserIdentity"
-#define kSelectZones  @"kSelectZones"
+#define kSelectZones   @"kSelectZones"
 
 #define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo

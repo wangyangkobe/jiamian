@@ -23,6 +23,7 @@
 	{
 		_area_id     = [aDecoder decodeIntForKey:@"area_id"];
 		_area_name   = [aDecoder decodeObjectForKey:@"area_name"];
+        _hots        = [aDecoder decodeIntForKey:@"hots"];
 		_type        = [aDecoder decodeIntForKey:@"type"];
 		_type_name   = [aDecoder decodeObjectForKey:@"type_name"];
 		_city        = [aDecoder decodeObjectForKey:@"city"];
@@ -34,6 +35,7 @@
 {
     [aCoder encodeInt:_area_id      forKey:@"area_id"];
     [aCoder encodeObject:_area_name forKey:@"area_name"];
+    [aCoder encodeInt:_hots         forKey:@"hots"];
     [aCoder encodeInt:_type         forKey:@"type"];
     [aCoder encodeObject:_type_name forKey:@"type_name"];
     [aCoder encodeObject:_city      forKey:@"city"];
@@ -46,6 +48,7 @@
     
     copy.area_id  = self.area_id;
     copy.type     = self.type;
+    copy.hots     = self.hots;
     
     copy.area_name = [self.area_name copyWithZone:zone];
     copy.type_name = [self.type_name copyWithZone:zone];

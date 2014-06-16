@@ -80,7 +80,7 @@
 +(NSString*)saveImage:(UIImage *)image withName:(NSString *)name
 {
     //grab the data from our image
-    NSData *data = UIImageJPEGRepresentation(image, 1);
+    NSData *data = UIImageJPEGRepresentation(image, 0.5);
     if (data == nil)
     {
         data = UIImagePNGRepresentation(image);

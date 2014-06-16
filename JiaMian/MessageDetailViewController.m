@@ -104,26 +104,9 @@
 {
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
-                                                              options:nil] objectAtIndex:0];
-    CGFloat textHeight = [NSString textHeight:self.selectedMsg.text
-                                 sizeWithFont:[UIFont systemFontOfSize:18]
-                            constrainedToSize:CGSizeMake(260, 9999)];
-    //    CGRect labelRect = myHeader.textLabel.frame;
-    //    [myHeader.textLabel setFrame:CGRectMake(labelRect.origin.x, labelRect.origin.y, 260, textHeight)];
-    
-    if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
-    {
-        headerViewHeight = SCREEN_WIDTH;
-    }
-    else
-    {
-        headerViewHeight = textHeight + 60 + 60;
-        if (IOS_NEWER_OR_EQUAL_TO_7)
-            headerViewHeight += 10;
-    }
-    
+                                                              options:nil] objectAtIndex:0];    
     CGRect headerFrame = myHeader.frame;
-    headerFrame.size.height = headerViewHeight;
+    headerFrame.size.height = SCREEN_WIDTH;
     myHeader.frame = headerFrame;
     myHeader.textLabel.text = self.selectedMsg.text;
     myHeader.areaLabel.text = self.selectedMsg.area.area_name;

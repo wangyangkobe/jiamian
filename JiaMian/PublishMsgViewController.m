@@ -20,9 +20,11 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     NSString* qiNiuImagePath;
     CGRect previouRect;
     NSInteger lineNumbers;
-    NSMutableArray* zoneArray;
+    
     int selectIndex;
-    NSMutableArray* zoneIdArray;
+    
+    NSMutableArray* selectZoneNames;
+    NSMutableDictionary* indexMapZoneName;
 }
 @property (nonatomic, strong) UIToolbar* toolBar;
 @end
@@ -91,11 +93,19 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
-    zoneArray = [NSMutableArray array];
-    zoneIdArray = [NSMutableArray array];
+    
+    selectZoneNames = [NSMutableArray array];
+    indexMapZoneName = [NSMutableDictionary dictionary];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
-        [zoneArray addObjectsFromArray:result];
+        NSArray* zoneIdArr = [[NSUserDefaults standardUserDefaults] valueForKey:kSelectZones];
+        int temp = 0;
+        for (id zoneId in zoneIdArr)
+        {
+            AreaModel* zone = [[NetWorkConnect sharedInstance] areaShowByAreaId:[zoneId integerValue]];
+            [selectZoneNames addObject:[NSDictionary dictionaryWithObjectsAndKeys:zone.area_name, @"text", nil]];
+            [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:[NSString stringWithFormat:@"%d", temp]];
+            temp++;
+        }
     });
 }
 
@@ -180,16 +190,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    [self.textView setInputAccessoryView:nil];
     [self.textView resignFirstResponder];
     
-    NSMutableArray* options = [NSMutableArray array];
-    for (AreaModel* zone in zoneArray)
-    {
-        [options addObject: [NSDictionary dictionaryWithObjectsAndKeys:zone.area_name, @"text", nil]];
-        [zoneIdArray addObject:[NSNumber numberWithInt:zone.area_id]];
-    }
-    LeveyPopListView *lplv = [[LeveyPopListView alloc] initWithTitle:@"请选择圈子" options:options handler:^(NSInteger anIndex) {
+    LeveyPopListView *lplv = [[LeveyPopListView alloc] initWithTitle:@"请选择圈子" options:selectZoneNames handler:^(NSInteger anIndex) {
         [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
         [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
         [SVProgressHUD showWithStatus:@"消息发送中..."];
@@ -363,7 +366,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)publishMessageToServer
 {
     // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-    long zoneId = [[zoneIdArray objectAtIndex:selectIndex] integerValue];
+    long zoneId = [[indexMapZoneName objectForKey:[NSString stringWithFormat:@"%d", selectIndex]] integerValue];
+    
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
