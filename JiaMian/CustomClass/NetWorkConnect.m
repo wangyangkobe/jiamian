@@ -433,14 +433,24 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count FilterType:(int)filterType keyWord:(NSString*)KeyWord
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld", HOME_PAGE, SinceId];
+    
+    if (filterType == 1 || filterType == 2)
+    {
+        requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld&filter_type=%d&key_word=%@",
+                      HOME_PAGE, SinceId, filterType, KeyWord];
+        //对url进行编码，因为url含有汉字
+        requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
+  
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
+      NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Areas* result = [[Areas alloc] initWithString:[request responseString] error:nil];

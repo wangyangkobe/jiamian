@@ -46,6 +46,6 @@
 - (NSInteger)notificationUnreadCount;
 
 //SinceId: 0 MaxId: INT_MAX; Count: 20
-- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count;
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count FilterType:(int)filterType keyWord:(NSString*)KeyWord;
 - (AreaModel*)areaShowByAreaId:(long)AreaID;
 @end

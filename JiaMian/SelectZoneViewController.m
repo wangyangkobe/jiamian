@@ -11,13 +11,17 @@
 #import "HomePageViewController.h"
 #import "SVProgressHUD.h"
 static NSString* kCollectionViewCellIdentifier = @"Cell";
-@interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource,UITableViewDelegate>
 {
     NSMutableSet* selectedIndexSet;
     NSMutableArray* zonesArr;
     NSMutableSet* selectZoneIds;
     NSArray* lastSelectZones;
+    
+    NSMutableArray* fastSearchRes;
 }
+@property (nonatomic, retain) UISearchDisplayController* searchController;
+@property (retain, nonatomic) UISearchBar *searchBar;
 
 @end
 
@@ -62,7 +66,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if (IOS_NEWER_OR_EQUAL_TO_7)
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
-        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
+        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height + 44, 0, 0, 0)];
     } else {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
     }
@@ -79,13 +83,31 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     zonesArr = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
+        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
         [zonesArr addObjectsFromArray:result];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
         });
     });
+    
+    fastSearchRes = [NSMutableArray array];
+    
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+    {
+        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 44 + statusBarFrame.size.height, 320, 44)];
+    }
+    else
+    {
+        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 44, 320, 44)];
+    }
+    _searchBar.delegate = self;
+    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
+    self.searchController.searchResultsDelegate= self;
+    self.searchController.searchResultsDataSource = self;
+    self.searchController.delegate = self;
+    
+    [self.view addSubview:_searchBar];
 }
 
 - (void)didReceiveMemoryWarning
@@ -149,11 +171,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
         return footerView;
     }
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-    {
-        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-        return headerView;
-    }
+    //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+    //    {
+    //        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+    //        return headerView;
+    //    }
     return nil;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
@@ -177,10 +199,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     return CGSizeMake(SCREEN_WIDTH, 40);
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-{
-    return CGSizeMake(SCREEN_WIDTH, 40);
-}
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return CGSizeMake(SCREEN_WIDTH, 60);
+//}
 - (IBAction)loadMoreBtnPress:(id)sender
 {
     NSLog(@"load more");
@@ -196,7 +218,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)loadMoreBtnPressHelp
 {
     AreaModel* zone = (AreaModel*)[zonesArr lastObject];
-    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20];
+    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
     [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
     [self.collectionView reloadData];
@@ -234,5 +256,63 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
+}
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSLog(@"%s", __FUNCTION__);
+    return [fastSearchRes count];
+}
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    AreaModel* zone = (AreaModel*)[fastSearchRes objectAtIndex:indexPath.row];
+    
+    static NSString* CellIdentifier = @"TableViewCell";
+    UITableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+    cell.textLabel.text = zone.area_name;
+    return cell;
+}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    NSLog(@"%s, searchText = %@", __FUNCTION__, searchText);
+    if([searchText length] == 0)
+        return;
+    [fastSearchRes removeAllObjects];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:1 keyWord:searchText];
+        [fastSearchRes addObjectsFromArray:res];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.searchDisplayController.searchResultsTableView reloadData];
+        });
+    });
+}
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    NSString* searchText = [searchBar text];
+    if([searchText length] == 0)
+        return;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:2 keyWord:searchText];
+        [zonesArr removeAllObjects];
+        [zonesArr addObjectsFromArray:res];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.searchDisplayController setActive:NO];
+            [self.collectionView reloadData];
+        });
+    });
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    AreaModel* zone = (AreaModel*)[fastSearchRes objectAtIndex:indexPath.row];
+    [_searchBar setText:zone.area_name];
+    [fastSearchRes removeAllObjects];
+    [fastSearchRes addObject:zone];
+    [self.searchDisplayController.searchResultsTableView reloadData];
 }
 @end

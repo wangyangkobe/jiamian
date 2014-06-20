@@ -275,31 +275,17 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="Xi2-Rq-QGo">
-                                <rect key="frame" x="-5" y="44" width="325" height="416"/>
+                                <rect key="frame" x="-4" y="44" width="324" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PkQ-1q-Hco">
                                     <size key="itemSize" width="108" height="80"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
-                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionHeader" id="p0c-Jl-S2L">
-                                    <rect key="frame" x="0.0" y="0.0" width="325" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="假面会逐步开放更多圈子，下一版本将提供方便的圈子搜索功能" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3J4-r0-v5m">
-                                            <rect key="frame" x="8" y="14" width="308" height="24"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionFooter" id="Vf3-xp-EV6">
-                                    <rect key="frame" x="0.0" y="50" width="325" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="324" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GNd-Lb-GOx">
@@ -321,9 +307,26 @@
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="Xi2-Rq-QGo" id="cOL-og-Edn"/>
+                        <outlet property="searchDisplayController" destination="8ZP-7k-Vla" id="7T5-BH-tZM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5uu-2X-UT8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="8kV-YZ-z9C">
+                    <connections>
+                        <outlet property="delegate" destination="zMV-JM-W87" id="TcL-BY-E0p"/>
+                        <outlet property="searchContentsController" destination="zMV-JM-W87" id="7wc-Cw-U9M"/>
+                        <outlet property="searchResultsDataSource" destination="zMV-JM-W87" id="ef4-BV-YCL"/>
+                        <outlet property="searchResultsDelegate" destination="zMV-JM-W87" id="pFx-fY-Fia"/>
+                    </connections>
+                </searchDisplayController>
+                <searchDisplayController id="8ZP-7k-Vla">
+                    <connections>
+                        <outlet property="delegate" destination="zMV-JM-W87" id="Kwa-WL-JLS"/>
+                        <outlet property="searchContentsController" destination="zMV-JM-W87" id="rZl-3G-yu4"/>
+                        <outlet property="searchResultsDataSource" destination="zMV-JM-W87" id="4Zz-8K-bb7"/>
+                        <outlet property="searchResultsDelegate" destination="zMV-JM-W87" id="ny1-nX-1e2"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="650" y="1250"/>
         </scene>

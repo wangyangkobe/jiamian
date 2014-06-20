@@ -70,7 +70,7 @@
     }
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20];
+        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
         [areaArray addObjectsFromArray:result];
         
         dispatch_async(dispatch_get_main_queue(), ^{
