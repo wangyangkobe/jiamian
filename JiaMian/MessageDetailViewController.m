@@ -104,7 +104,7 @@
 {
     TableHeaderView*  myHeader = [[[NSBundle mainBundle] loadNibNamed:@"HeaderView"
                                                                 owner:self
-                                                              options:nil] objectAtIndex:0];    
+                                                              options:nil] objectAtIndex:0];
     CGRect headerFrame = myHeader.frame;
     headerFrame.size.height = SCREEN_WIDTH;
     myHeader.frame = headerFrame;
@@ -177,7 +177,7 @@
     }
     if (self.selectedMsg.has_like)
     {
-        [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liƒked"]];
+        [myHeader.likeImageView  setImage:[UIImage imageNamed:@"ic_liked"]];
     }
     
     [myHeader.likeImageView setUserInteractionEnabled:YES];

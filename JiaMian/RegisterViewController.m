@@ -39,6 +39,12 @@
     UITapGestureRecognizer* tapViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyBoard:)];
     [self.view addGestureRecognizer:tapViewGesture];
 }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self checkQQInstalled];
+    [TencentOAuth iphoneQQInstalled];
+}
 - (void)dismissKeyBoard:(UIGestureRecognizer*)gesture
 {
     [self.view endEditing:YES];
@@ -150,6 +156,19 @@
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
         }
+    }
+}
+- (BOOL)checkQQInstalled
+{
+    if ([TencentOAuth iphoneQQInstalled])
+    {
+        NSLog(@"QQ is installed");
+        return YES;
+    }
+    else
+    {
+        NSLog(@"QQ is not installed");
+        return NO;
     }
 }
 @end

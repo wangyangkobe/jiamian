@@ -435,7 +435,7 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list", HOME_PAGE];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld", HOME_PAGE, SinceId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];

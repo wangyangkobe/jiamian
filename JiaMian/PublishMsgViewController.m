@@ -74,10 +74,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     //    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
     //    self.backgroundImageView.frame = self.textView.frame;
     
-    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    [self.textView.layer setBorderWidth: 1.0];
-    [self.textView.layer setCornerRadius:8.0f];
-    [self.textView.layer setMasksToBounds:YES];
+//    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
+//    [self.textView.layer setBorderWidth: 1.0];
+//    [self.textView.layer setCornerRadius:8.0f];
+//    [self.textView.layer setMasksToBounds:YES];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
@@ -131,8 +131,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         _textView.contentSize = _textView.frame.size;
     }
-    [self.toolBar setFrame:CGRectMake(0, _textView.frame.size.height, 320, 44)];
-    [self.view addSubview:_toolBar];
 	[UIView commitAnimations];
 }
 - (void)keyboardWillHide:(NSNotification*)notification
@@ -148,8 +146,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         }
         [self.textView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
     }];
-    [self.toolBar setFrame:CGRectMake(0, 320, 320, 44)];
-    [self.view addSubview:_toolBar];
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

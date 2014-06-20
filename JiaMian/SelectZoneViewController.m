@@ -195,8 +195,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (void)loadMoreBtnPressHelp
 {
-    NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:40];
-    [zonesArr removeAllObjects];
+    AreaModel* zone = (AreaModel*)[zonesArr lastObject];
+    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20];
     [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
     [self.collectionView reloadData];
@@ -223,6 +223,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [[NSUserDefaults standardUserDefaults] synchronize];
         
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAreaSuccess" object:self userInfo:nil];
     if (self.isFirstSelect)
     {
         HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
@@ -233,6 +234,5 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
-    //   [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
 }
 @end

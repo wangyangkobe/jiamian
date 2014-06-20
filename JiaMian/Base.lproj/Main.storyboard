@@ -327,6 +327,30 @@
             </objects>
             <point key="canvasLocation" x="650" y="1250"/>
         </scene>
+        <!--Show Info View Controller-->
+        <scene sceneID="7og-wD-HwD">
+            <objects>
+                <viewController storyboardIdentifier="ShowInfoVCIdentifier" id="WOW-eA-24I" customClass="ShowInfoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Pzs-Bi-1Fd">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" id="oAt-XN-1Ll">
+                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="oAt-XN-1Ll" id="Gc1-9I-bwO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b2Z-fJ-rgm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1038" y="1252"/>
+        </scene>
         <!--Log In View Controller-->
         <scene sceneID="Xxq-tc-ZMG">
             <objects>
@@ -351,7 +375,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tsX-pd-Uxp">
-                                <rect key="frame" x="60" y="300" width="200" height="35"/>
+                                <rect key="frame" x="60" y="299" width="200" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" image="sina_login.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -375,15 +399,25 @@
                                     <action selector="logInWithUserName:" destination="8xJ-at-9BO" eventType="touchUpInside" id="9i5-2d-Lcp"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="假面科技|jiamiantech.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xtc-tf-Rez">
-                                <rect key="frame" x="80" y="445" width="160" height="10"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="uQF-aj-QWf">
+                                <rect key="frame" x="60" y="440" width="204" height="14"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <state key="normal" title="最终用户许可协议">
+                                    <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="showUserInfo:" destination="8xJ-at-9BO" eventType="touchUpInside" id="VmA-zz-U8H"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="qqBtn" destination="W2K-X5-T89" id="arg-N1-xnw"/>
+                        <outlet property="sinaBtn" destination="tsX-pd-Uxp" id="wi8-Po-KcG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m1E-ee-6ys" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

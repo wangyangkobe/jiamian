@@ -10,6 +10,7 @@
 #import "HomePageViewController.h"
 #import "SelectAreaViewController.h"
 #import "RegisterViewController.h"
+#import "ShowInfoViewController.h"
 @interface LogInViewController () <TencentSessionDelegate>
 
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
@@ -45,6 +46,12 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
+    
+    if ([TencentOAuth iphoneQQInstalled] == NO)
+    {
+        self.sinaBtn.frame = self.qqBtn.frame;
+        self.qqBtn.hidden = YES;
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -66,7 +73,8 @@
 
 - (IBAction)tencentQQLogIn:(id)sender
 {
-    [_tencentOAuth authorize:_permissions inSafari:NO];
+    [_tencentOAuth authorize:_permissions];
+  //  [_tencentOAuth authorize:_permissions inSafari:YES];
 }
 
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -134,4 +142,10 @@
 {
 }
 
+- (IBAction)showUserInfo:(id)sender
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    ShowInfoViewController* showInfoVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"ShowInfoVCIdentifier"];
+    [self presentViewController:showInfoVC animated:YES completion:nil];
+}
 @end

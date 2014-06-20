@@ -105,8 +105,8 @@
 {
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:areaId
+      //  long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                    sinceId:0
                                                                      maxId:INT_MAX
                                                                      count:20
@@ -140,7 +140,7 @@
       [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
       // [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"选择圈子" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
+      //[KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
       // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
       [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
       ];
@@ -395,8 +395,8 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:areaId
+       // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
                                                                       count:20
@@ -420,8 +420,8 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:areaId
+    //    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
                                                                       maxId:lastMessage.message_id
                                                                       count:20
