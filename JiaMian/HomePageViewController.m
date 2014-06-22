@@ -53,7 +53,7 @@
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.title = @"假面匿名爆料";
+    self.title = @"假面";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;

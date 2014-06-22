@@ -184,11 +184,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         }
         return footerView;
     }
-    //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-    //    {
-    //        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-    //        return headerView;
-    //    }
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+    {
+        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+        return headerView;
+    }
     return nil;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
@@ -202,7 +202,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f);
+    return UIEdgeInsetsMake(0.0f, 15.0f, 10.0f, 15.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -212,10 +212,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     return CGSizeMake(SCREEN_WIDTH, 40);
 }
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(SCREEN_WIDTH, 60);
-//}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake(SCREEN_WIDTH, 40);
+}
 - (IBAction)loadMoreBtnPress:(id)sender
 {
     NSLog(@"load more");

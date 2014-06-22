@@ -151,6 +151,10 @@
 }
 - (void)loadMoreDataToTable
 {
+    if ([unReadMsgArr count] == 0)
+    {
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NotificationModel* lastNotification = [unReadMsgArr lastObject];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] notificationShow:0
