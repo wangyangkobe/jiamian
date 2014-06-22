@@ -12,5 +12,4 @@
 @property (weak, nonatomic) IBOutlet UIImageView *selectedImageV;
 @property (weak, nonatomic) IBOutlet UILabel *zoneName;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumber;
-
 @end

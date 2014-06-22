@@ -15,10 +15,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     NSMutableSet* selectedIndexSet;
     NSMutableArray* zonesArr;
-    NSMutableSet* selectZoneIds;
+    NSMutableSet* selectZoneIdSet;
     NSArray* lastSelectZones;
     
     NSMutableArray* fastSearchRes;
+    BOOL isShowSearchRes;
 }
 @property (nonatomic, retain) UISearchDisplayController* searchController;
 @property (retain, nonatomic) UISearchBar *searchBar;
@@ -41,11 +42,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     lastSelectZones = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
     NSLog(@"last select = %@", [lastSelectZones description]);
     selectedIndexSet = [NSMutableSet set];
-    selectZoneIds = [NSMutableSet set];
+    selectZoneIdSet = [NSMutableSet set];
     
     if ((self.isFirstSelect == NO) && lastSelectZones)
     {
-        [selectZoneIds addObjectsFromArray:lastSelectZones];
+        [selectZoneIdSet addObjectsFromArray:lastSelectZones];
     }
 }
 - (void)viewDidLoad
@@ -69,6 +70,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height + 44, 0, 0, 0)];
     } else {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+        [self.collectionView setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
     }
     navigationBar.delegate = self;
     //创建UINavigationItem
@@ -128,15 +130,15 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
     cell.zoneName.text = zone.area_name;
     cell.likeNumber.text = [NSString stringWithFormat:@"%d", zone.hots];
-    if ([selectZoneIds  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    if ([selectZoneIdSet  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
     {
         cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
     }
     
-    if ( (_firstSelect == NO) && [lastSelectZones containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
-    {
-        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-    }
+    //    if ( (_firstSelect == NO) && [lastSelectZones containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    //    {
+    //        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+    //    }
     
     return cell;
 }
@@ -146,29 +148,40 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     AreaModel* selectZone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
     NSLog(@"%s", __FUNCTION__);
     CustomCollectionCell* selectedCell = (CustomCollectionCell*)[collectionView cellForItemAtIndexPath:indexPath];
-    if ([selectedIndexSet containsObject:indexPath])
+    
+    if ([selectZoneIdSet containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]] == NO)
     {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
-        [selectedIndexSet removeObject:indexPath];
-        [selectZoneIds removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
+        if ([selectZoneIdSet count] >= 5)
+        {
+            AlertContent(@"同学，您最多只能选择5个圈子");
+            return;
+        }
+        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+        [selectedIndexSet addObject:indexPath];
+        [selectZoneIdSet addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
     }
     else
     {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-        [selectedIndexSet addObject:indexPath];
-        [selectZoneIds addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
+        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
+        [selectedIndexSet removeObject:indexPath];
+        [selectZoneIdSet removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
     }
-    
-    if ([selectZoneIds containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
-    {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-    }
+    //    if ([selectZoneIdSet containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
+    //    {
+    //        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+    //    }
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
+        
+        if (isShowSearchRes)
+        {
+            UIButton* btn = (UIButton*)[footerView viewWithTag:9999];
+            [btn setTitle:@"显示全部" forState:UIControlStateNormal];
+        }
         return footerView;
     }
     //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
@@ -206,14 +219,30 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (IBAction)loadMoreBtnPress:(id)sender
 {
     NSLog(@"load more");
-    if ([zonesArr count] == 0)
-        return;
-    
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-    [SVProgressHUD showWithStatus:@"获取中..."];
-    
-    [self performSelector:@selector(loadMoreBtnPressHelp) withObject:nil afterDelay:0.5];
+    if (isShowSearchRes)
+    {
+        [zonesArr removeAllObjects];
+        isShowSearchRes = NO;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
+            [zonesArr addObjectsFromArray:result];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.collectionView reloadData];
+            });
+        });
+    }
+    else
+    {
+        if ([zonesArr count] == 0)
+            return;
+        
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+        [SVProgressHUD showWithStatus:@"获取中..."];
+        
+        [self performSelector:@selector(loadMoreBtnPressHelp) withObject:nil afterDelay:0.5];
+    }
 }
 - (void)loadMoreBtnPressHelp
 {
@@ -225,23 +254,23 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (void)handleDone:(id)sender
 {
-    if ([selectZoneIds count] > 5)
+    if ([selectZoneIdSet count] > 5)
     {
         AlertContent(@"同学，您最多只能选择5个圈子");
         return;
     }
-    if([selectZoneIds count] == 0)
+    if([selectZoneIdSet count] == 0)
     {
         AlertContent(@"同学，您最少要选择一个圈子吧");
         return;
     }
-    if ([selectZoneIds count] != 0)
+    if ([selectZoneIdSet count] != 0)
     {
-        NSString* res = [[selectZoneIds allObjects] componentsJoinedByString:@","];
+        NSString* res = [[selectZoneIdSet allObjects] componentsJoinedByString:@","];
         UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
         if (user == nil)
             return;
-        [[NSUserDefaults standardUserDefaults] setObject:[selectZoneIds allObjects] forKey:kSelectZones];
+        [[NSUserDefaults standardUserDefaults] setObject:[selectZoneIdSet allObjects] forKey:kSelectZones];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
     }
@@ -302,6 +331,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [zonesArr addObjectsFromArray:res];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.searchDisplayController setActive:NO];
+            isShowSearchRes = YES;
             [self.collectionView reloadData];
         });
     });

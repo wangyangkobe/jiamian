@@ -83,7 +83,7 @@
     //                                               constrainedToSize:CGSizeMake(175, 48)
     //                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
     //    return textHeight + 10;
-    return 48 + 10;
+    return 175 + 10;//48 + 10;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -99,7 +99,7 @@
     if (notification.status == 1) {
         [newImageView setImage:[UIImage imageNamed:@"new"]];
     }
-    [titleLabel setText:@"有同学回复了"];
+    [titleLabel setText:@"某某某回复了"];
     [titleLabel setTextColor:UIColorFromRGB(0x576b95)];
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x919191)];

@@ -146,10 +146,18 @@
             //            [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
             SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
             selectZoneVC.firstSelect = YES;
+            
             [[UIApplication sharedApplication].keyWindow setRootViewController:selectZoneVC];
         }
         else
         {
+            NSMutableArray* zoneIds = [NSMutableArray array];
+            for (AreaModel* area in userSelf.areas)
+            {
+                [zoneIds addObject:[NSString stringWithFormat:@"%d", area.area_id]];
+            }
+            [[NSUserDefaults standardUserDefaults] setObject:zoneIds forKey:kSelectZones];
+
             [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
