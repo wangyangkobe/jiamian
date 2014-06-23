@@ -70,6 +70,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.view addSubview:_toolBar];
     [self.textView setInputAccessoryView:_toolBar];
     
+    UISwipeGestureRecognizer* hiddenKeyBoard = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
+    [hiddenKeyBoard setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.textView addGestureRecognizer:hiddenKeyBoard];
+    
     //    CGRect oldFrame = self.textView.frame;
     //    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
     //    self.backgroundImageView.frame = self.textView.frame;
@@ -108,7 +112,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         }
     });
 }
-
+- (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
+{
+    [self.textView resignFirstResponder];
+}
 - (void)keyboardWillShow:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);

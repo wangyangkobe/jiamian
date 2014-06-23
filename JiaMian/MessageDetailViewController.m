@@ -184,11 +184,19 @@
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
     [myHeader.likeImageView addGestureRecognizer:likeImageTap];
-    
     [myHeader.juBaoButton addTarget:self action:@selector(handleJuBaoBtnPress:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
+    [hiddenKeyBoard setNumberOfTapsRequired:1];
+    [myHeader addGestureRecognizer:hiddenKeyBoard];
     return myHeader;
 }
-- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer{
+- (void)hiddenKeyBoard:(UITapGestureRecognizer*)gestureRecognizer
+{
+    [textView resignFirstResponder];
+}
+- (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
+{
     if (self.selectedMsg.has_like)
         return;
     TableHeaderView* headerView = (TableHeaderView*)[gestureRecognizer.view superview];
@@ -197,7 +205,8 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
     if (message) {
         self.selectedMsg = message;
-        if (message.is_official == NO){
+        if (message.is_official == NO)
+        {
             headerView.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
     }
