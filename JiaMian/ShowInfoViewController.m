@@ -53,7 +53,7 @@
     UIBarButtonItem* leftBtnItem = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backBarBtn:)];
     
     navigationItem.leftBarButtonItem = leftBtnItem;
-                                     
+    
     NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"eula" ofType:@"html"];
     NSData *data = [NSData dataWithContentsOfFile: htmlPath];
     NSString *info = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

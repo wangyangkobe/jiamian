@@ -43,6 +43,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
+    
+    CGRect oldFrame = _textView.frame;
+    _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, 320, 320);
+    _textView.contentSize = _textView.frame.size;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -64,7 +68,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView setUserInteractionEnabled:YES];
     
     [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
     [self configureToolBar];
     [self.view addSubview:_toolBar];
@@ -134,10 +137,11 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     CGRect oldFrame = _textView.frame;
     CGFloat viewHeight = self.view.bounds.size.height;
     _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, viewHeight - keyboardBounds.size.height);
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-    {
-        _textView.contentSize = _textView.frame.size;
-    }
+//    if (IOS_NEWER_OR_EQUAL_TO_7)
+//    {
+//        _textView.contentSize = _textView.frame.size;
+//    }
+    _textView.contentSize = _textView.frame.size;
 	[UIView commitAnimations];
 }
 - (void)keyboardWillHide:(NSNotification*)notification
@@ -303,10 +307,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
     
     imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
-    //    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-    //        imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
-    //        [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
-    //    });
 }
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {

@@ -74,7 +74,6 @@
 - (IBAction)tencentQQLogIn:(id)sender
 {
     [_tencentOAuth authorize:_permissions];
-  //  [_tencentOAuth authorize:_permissions inSafari:YES];
 }
 
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -108,9 +107,9 @@
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             if (userSelf.area == nil)
             {
-//                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-//                selectAreaVC.firstSelect = YES;
-//                [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
+                //                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+                //                selectAreaVC.firstSelect = YES;
+                //                [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
                 
                 SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
                 selectZoneVC.firstSelect = YES;

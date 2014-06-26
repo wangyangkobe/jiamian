@@ -13,6 +13,7 @@
 #define kNewPicView      7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
+
 @interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* unReadMsgArr;
@@ -44,6 +45,16 @@
     
     [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
     
+    unReadMsgArr = [NSMutableArray array];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
+        [unReadMsgArr addObjectsFromArray:requestRes];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+        });
+    });
+    NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,16 +66,6 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
-    
-    unReadMsgArr = [NSMutableArray array];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        [unReadMsgArr addObjectsFromArray:requestRes];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadData];
-        });
-    });
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -89,14 +90,16 @@
 {
     static NSString* CellIdentifier = @"UnReadMsgCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+    if (cell == nil)
+    {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-    UILabel* titleLabel = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
-    UILabel* contentLabel = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
+    UILabel* titleLabel       = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
+    UILabel* contentLabel     = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
     UIImageView* newImageView = (UIImageView*)[cell.contentView viewWithTag:kNewPicView];
-    if (notification.status == 1) {
+    if (notification.status == 1)
+    {
         [newImageView setImage:[UIImage imageNamed:@"new"]];
     }
     [titleLabel setText:@"某某某回复了"];
@@ -125,14 +128,7 @@
     messageDetailVC.selectedMsg = message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-//    if (1 == notification.status)
-//    {
-//        [cell.contentView setBackgroundColor:UIColorFromRGB(0xddffe5)];
-//    }
-//}
+
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
 {

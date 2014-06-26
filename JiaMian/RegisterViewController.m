@@ -89,8 +89,6 @@
 }
 - (BOOL)validateUserNameAndPassWord
 {
-    return YES;
-    
     NSString* userName = _userName.text;
     NSString* passWord = _passWord.text;
     if (userName == nil || passWord == nil)
@@ -141,9 +139,6 @@
         
         if (userSelf.area == nil)
         {
-            //            SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-            //            selectAreaVC.firstSelect = YES;
-            //            [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
             SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
             selectZoneVC.firstSelect = YES;
             
@@ -157,7 +152,7 @@
                 [zoneIds addObject:[NSString stringWithFormat:@"%d", area.area_id]];
             }
             [[NSUserDefaults standardUserDefaults] setObject:zoneIds forKey:kSelectZones];
-
+            
             [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
             [[NSUserDefaults standardUserDefaults] synchronize];
             

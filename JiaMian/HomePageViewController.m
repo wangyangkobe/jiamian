@@ -105,7 +105,7 @@
 {
     messageArray = [NSMutableArray array];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      //  long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        //  long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                    sinceId:0
                                                                      maxId:INT_MAX
@@ -395,7 +395,7 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-       // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
@@ -420,7 +420,7 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-    //    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
+        //    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
                                                                       maxId:lastMessage.message_id

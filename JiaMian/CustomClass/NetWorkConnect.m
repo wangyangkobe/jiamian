@@ -444,13 +444,13 @@ static ASIDownloadCache* myCache;
         //对url进行编码，因为url含有汉字
         requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
-  
+    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-      NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Areas* result = [[Areas alloc] initWithString:[request responseString] error:nil];

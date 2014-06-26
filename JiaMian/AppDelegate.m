@@ -125,9 +125,9 @@
             
             if (userSelf.area == nil)
             {
-//                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-//                selectAreaVC.firstSelect = YES;
-//                [self.window setRootViewController:selectAreaVC];
+                //                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+                //                selectAreaVC.firstSelect = YES;
+                //                [self.window setRootViewController:selectAreaVC];
                 
                 SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
                 selectZoneVC.firstSelect = YES;
