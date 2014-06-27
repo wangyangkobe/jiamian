@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Extensions.h"
 #import "SVProgressHUD.h"
+
 static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 @interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, QiniuUploadDelegate>
@@ -71,9 +72,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
     [self configureToolBar];
     [self.view addSubview:_toolBar];
-    [self.textView setInputAccessoryView:_toolBar];
     
-    UISwipeGestureRecognizer* hiddenKeyBoard = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
+    UISwipeGestureRecognizer* hiddenKeyBoard = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                            action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.textView addGestureRecognizer:hiddenKeyBoard];
     
@@ -122,27 +123,24 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)keyboardWillShow:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);
-	CGRect keyboardBounds;
-    [[notification.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
-    NSNumber* duration = [notification.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
-    NSNumber* curve    = [notification.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
     
-    keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
-    
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:[duration doubleValue]];
-    [UIView setAnimationCurve:[curve intValue]];
-	
-    CGRect oldFrame = _textView.frame;
-    CGFloat viewHeight = self.view.bounds.size.height;
-    _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, viewHeight - keyboardBounds.size.height);
-//    if (IOS_NEWER_OR_EQUAL_TO_7)
-//    {
-//        _textView.contentSize = _textView.frame.size;
-//    }
-    _textView.contentSize = _textView.frame.size;
-	[UIView commitAnimations];
+    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    [UIView animateWithDuration:animationTime animations:^{
+        CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        NSLog(@"键盘即将出现：%@", NSStringFromCGRect(keyBoardFrame));
+        
+        float keyBoardHeight = keyBoardFrame.size.height;
+        CGRect oldFrame = _textView.frame;
+        CGFloat viewHeight = self.view.bounds.size.height;
+        
+        _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH,  viewHeight - keyBoardHeight - 44);
+        _toolBar.frame = CGRectMake(0, _textView.frame.size.height, 320, 44);
+        //    if (IOS_NEWER_OR_EQUAL_TO_7)
+        //    {
+        //        _textView.contentSize = _textView.frame.size;
+        //    }
+        _textView.contentSize = _textView.frame.size;
+    }];
 }
 - (void)keyboardWillHide:(NSNotification*)notification
 {
@@ -156,6 +154,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
             _textView.contentSize = _textView.frame.size;
         }
         [self.textView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
+        [self.toolBar setFrame:CGRectMake(0, _textView.frame.size.height, SCREEN_WIDTH, 44)];
     }];
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -250,7 +249,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (void)cameraBtnPressed:(id)sender
 {
-    // [self.textView becomeFirstResponder];
     UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                                   delegate:self
                                                          cancelButtonTitle:@"Cancel"
@@ -368,7 +366,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-    // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
     long zoneId = [[indexMapZoneName objectForKey:[NSString stringWithFormat:@"%d", selectIndex]] integerValue];
     
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );

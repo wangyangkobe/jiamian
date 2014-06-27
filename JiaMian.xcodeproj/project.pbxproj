@@ -158,6 +158,7 @@
 		15F80F5D19509AA1008072AD /* eula.html in Resources */ = {isa = PBXBuildFile; fileRef = 15F80F5C19509AA1008072AD /* eula.html */; };
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
+		15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0CC195CFA980033AD23 /* SAMTextView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -400,6 +401,8 @@
 		15F80F5C19509AA1008072AD /* eula.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = eula.html; sourceTree = "<group>"; };
 		15FB3431190FC9D600EBD9DF /* qq_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login.png; sourceTree = "<group>"; };
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
+		15FFC0CB195CFA980033AD23 /* SAMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAMTextView.h; sourceTree = "<group>"; };
+		15FFC0CC195CFA980033AD23 /* SAMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAMTextView.m; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -747,6 +750,7 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				15FFC0CA195CFA980033AD23 /* SAMTextView */,
 				152A345A1949D8040012B220 /* LeveyPopListView */,
 				153C70301943DB860045A0FC /* SVProgressHUD */,
 				151C900C193E109C00203AE1 /* UIAlertView+Blocks.h */,
@@ -916,6 +920,15 @@
 				155AC493190C836400A8F252 /* ico-to-do-list@2x.png */,
 			);
 			path = ResourceImage;
+			sourceTree = "<group>";
+		};
+		15FFC0CA195CFA980033AD23 /* SAMTextView */ = {
+			isa = PBXGroup;
+			children = (
+				15FFC0CB195CFA980033AD23 /* SAMTextView.h */,
+				15FFC0CC195CFA980033AD23 /* SAMTextView.m */,
+			);
+			path = SAMTextView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1133,6 +1146,7 @@
 				15503E0F193784E200CD737D /* QiniuPutExtra.m in Sources */,
 				15503DF71937813100CD737D /* UIImage+Extensions.m in Sources */,
 				155AC49B190CC2B000A8F252 /* MessageDetailViewController.m in Sources */,
+				15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */,
 				1559671B190E71C700FB760A /* NetWorkConnect.m in Sources */,
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
