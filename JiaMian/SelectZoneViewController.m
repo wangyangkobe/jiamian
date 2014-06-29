@@ -79,12 +79,12 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSLog(@"configure = %@", configureDict);
     if (_firstSelect || configureDict == nil)
     {
-        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, nil]
-                                                                         forKeys:@[@"id", @"name", @"color"] ];
-        NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+学校", @0xf6d7c4, nil]
-                                                                         forKeys:@[@"id", @"name", @"color"] ];
-        NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+行业", @0xf9eca8, nil]
-                                                                         forKeys:@[@"id", @"name", @"color"] ];
+        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, [NSNull null], nil]
+                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
+        NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+学校", @0xf6d7c4, [NSNull null], nil]
+                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
+        NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+行业", @0xf9eca8, [NSNull null], nil]
+                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
         
         configureDict = [NSMutableDictionary dictionaryWithObjects:@[scope1, scope2, scope3]
                                                            forKeys:@[@0, @1, @2] ];
@@ -92,13 +92,12 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
     NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
-    selectZones = [NSMutableArray array];
-    if (lastSelectZones && _firstSelect)
+    selectZones = [NSMutableArray arrayWithObjects:[NSNull null], [NSNull null], [NSNull null], nil];
+    if (lastSelectZones && !_firstSelect)
     {
-        int stop = MIN(3, lastSelectZones.count);
-        for (int i = 0; i < stop; i++)
+        for (int i = 0; i < lastSelectZones.count; i++)
         {
-            [selectZones addObject:lastSelectZones[i]];
+            [selectZones setObject:lastSelectZones[i] atIndexedSubscript:i];
         }
     }
 }
@@ -111,6 +110,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark ZoneDetailVCDelegate
 - (void)zoneDetailViewController:(ZoneDetailViewController *)viewController didFinishSelectZone:(AreaModel *)zone
 {
+    NSLog(@"%@", selectZones);
     NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:selectScopeId]];
     [currentConf setValue:zone.area_name forKey:@"name"];
     if (0 == selectScopeId){
@@ -120,7 +120,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     }else{
         [currentConf setValue:[NSNumber numberWithInt:0xf9eca8] forKey:@"color"];
     }
-    if ([selectZones containsObject:selectZones] == NO)
+    
+    if ([selectZones containsObject:zone] == NO)
     {
         [selectZones setObject:zone atIndexedSubscript:selectScopeId];
     }
@@ -216,7 +217,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         NSMutableArray* zoneIdArr = [NSMutableArray array];
         for (AreaModel* area in selectZones)
         {
-            [zoneIdArr addObject:[NSString stringWithFormat:@"%d", area.area_id]];
+            if ([area isEqual:[NSNull null]] == NO)
+            {
+                [zoneIdArr addObject:[NSString stringWithFormat:@"%d", area.area_id]];
+            }
         }
         NSString* res = [zoneIdArr componentsJoinedByString:@","];
         UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
