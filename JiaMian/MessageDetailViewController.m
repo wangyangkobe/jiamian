@@ -8,6 +8,7 @@
 
 #import "MessageDetailViewController.h"
 #import "TableHeaderView.h"
+#import "SVProgressHUD.h"
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -423,18 +424,28 @@
 {
     NSLog(@"call: %s", __FUNCTION__);
 	[textView resignFirstResponder];
+    
     if ([textView.text length] > 0)
     {
-        CommentModel* comment = [[NetWorkConnect sharedInstance] commentCreate:self.selectedMsg.message_id text:textView.text];
-        if (comment)
-        {
-            [commentArr addObject:comment];
-            [textView setText:@""];
-            [self.tableView reloadData];
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
-                                  atScrollPosition:UITableViewScrollPositionBottom
-                                          animated:YES];
-        }
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+        [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+        [SVProgressHUD showWithStatus:@"发送中..."];
+        
+        [self performSelector:@selector(sendComment:) withObject:textView.text afterDelay:0.5];
+    }
+}
+- (void)sendComment:(NSString*)commentStr
+{
+    CommentModel* comment = [[NetWorkConnect sharedInstance] commentCreate:self.selectedMsg.message_id text:textView.text];
+    if (comment)
+    {
+        [SVProgressHUD dismiss];
+        [commentArr addObject:comment];
+        [textView setText:@""];
+        [self.tableView reloadData];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
     }
 }
 - (void)sendCommentMessage:(id)sender

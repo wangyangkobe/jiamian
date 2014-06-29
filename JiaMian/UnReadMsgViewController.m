@@ -10,6 +10,8 @@
 #import "MessageDetailViewController.h"
 #import "UILabel+Extensions.h"
 #import "MessageModel.h"
+#import "SVProgressHUD.h"
+
 #define kNewPicView      7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
@@ -46,11 +48,17 @@
     [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
     
     unReadMsgArr = [NSMutableArray array];
+    
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"刷新中..."];
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
         [unReadMsgArr addObjectsFromArray:requestRes];
         
         dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
             [self.tableView reloadData];
         });
     });
