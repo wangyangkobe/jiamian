@@ -125,22 +125,15 @@
             
             if (userSelf.area == nil)
             {
-                //                SelectAreaViewController* selectAreaVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-                //                selectAreaVC.firstSelect = YES;
-                //                [self.window setRootViewController:selectAreaVC];
-                
                 SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
                 selectZoneVC.firstSelect = YES;
                 [[UIApplication sharedApplication].keyWindow setRootViewController:selectZoneVC];
             }
             else
             {
-                NSMutableArray* zoneIds = [NSMutableArray array];
-                for (AreaModel* area in userSelf.areas)
-                {
-                    [zoneIds addObject:[NSString stringWithFormat:@"%d", area.area_id]];
-                }
-                [[NSUserDefaults standardUserDefaults] setObject:zoneIds forKey:kSelectZones];
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userSelf.areas];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
+                
                 [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 

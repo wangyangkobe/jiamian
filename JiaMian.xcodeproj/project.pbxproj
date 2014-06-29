@@ -159,6 +159,7 @@
 		15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3431190FC9D600EBD9DF /* qq_login.png */; };
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 		15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0CC195CFA980033AD23 /* SAMTextView.m */; };
+		15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -403,6 +404,8 @@
 		15FB3432190FC9D600EBD9DF /* sina_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login.png; sourceTree = "<group>"; };
 		15FFC0CB195CFA980033AD23 /* SAMTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SAMTextView.h; sourceTree = "<group>"; };
 		15FFC0CC195CFA980033AD23 /* SAMTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SAMTextView.m; sourceTree = "<group>"; };
+		15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDetailViewController.h; sourceTree = "<group>"; };
+		15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDetailViewController.m; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -707,6 +710,8 @@
 				15E42904194412DB00641635 /* SelectZoneViewController.h */,
 				15E42905194412DB00641635 /* SelectZoneViewController.m */,
 				15E429071944137500641635 /* CustomCollectionCell.xib */,
+				15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */,
+				15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */,
 				15E42909194413DF00641635 /* CustomCollectionCell.h */,
 				15E4290A194413DF00641635 /* CustomCollectionCell.m */,
 				155AC491190C836400A8F252 /* ResourceImage */,
@@ -1153,6 +1158,7 @@
 				151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */,
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
 				1558D023190BF34300E6B543 /* KxMenu.m in Sources */,
+				15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */,
 				153C70361943DB860045A0FC /* SVProgressHUD.m in Sources */,
 				15F80F5B19509644008072AD /* ShowInfoViewController.m in Sources */,
 				15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */,
@@ -1255,7 +1261,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1295,7 +1301,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;

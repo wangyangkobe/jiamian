@@ -10,6 +10,7 @@
 #import "QiniuSimpleUploader.h"
 #import "QiniuPutPolicy.h"
 #import "QiniuConfig.h"
+#import "SAMTextView.h"
 
 @interface PublishMsgViewController : UIViewController
 

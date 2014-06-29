@@ -21,7 +21,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.layer.cornerRadius = 5;
+    self.layer.cornerRadius = 70;
     self.layer.masksToBounds = YES;
     //self.layer.borderColor =[UIColor darkGrayColor].CGColor;
     //self.layer.borderWidth = 1;

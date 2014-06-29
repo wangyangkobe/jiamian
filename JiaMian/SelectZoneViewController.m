@@ -10,16 +10,15 @@
 #import "CustomCollectionCell.h"
 #import "HomePageViewController.h"
 #import "SVProgressHUD.h"
+#import "ZoneDetailViewController.h"
+
 static NSString* kCollectionViewCellIdentifier = @"Cell";
-@interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource,UITableViewDelegate>
+
+@interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ZoneDetailVCDelegate>
 {
-    NSMutableSet* selectedIndexSet;
-    NSMutableArray* zonesArr;
-    NSMutableSet* selectZoneIdSet;
-    NSArray* lastSelectZones;
-    
-    NSMutableArray* fastSearchRes;
-    BOOL isShowSearchRes;
+    int selectScopeId;
+    NSMutableArray* selectZones;
+    NSMutableDictionary* configureDict;
 }
 @property (nonatomic, retain) UISearchDisplayController* searchController;
 @property (retain, nonatomic) UISearchBar *searchBar;
@@ -39,15 +38,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    lastSelectZones = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
-    NSLog(@"last select = %@", [lastSelectZones description]);
-    selectedIndexSet = [NSMutableSet set];
-    selectZoneIdSet = [NSMutableSet set];
-    
-    if ((self.isFirstSelect == NO) && lastSelectZones)
-    {
-        [selectZoneIdSet addObjectsFromArray:lastSelectZones];
-    }
 }
 - (void)viewDidLoad
 {
@@ -67,14 +57,15 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if (IOS_NEWER_OR_EQUAL_TO_7)
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
-        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height + 44, 0, 0, 0)];
-    } else {
+        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
+    }
+    else
+    {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-        [self.collectionView setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
     }
     navigationBar.delegate = self;
     //创建UINavigationItem
-    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择关注的圈子"];
+    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
     
@@ -83,33 +74,33 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
                                                                                   action:@selector(handleDone:)];
     navigationItem.rightBarButtonItem = rightBtnItem;
     
-    zonesArr = [NSMutableArray array];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
-        [zonesArr addObjectsFromArray:result];
+    NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey:kCongigureDict];
+    configureDict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    NSLog(@"configure = %@", configureDict);
+    if (_firstSelect || configureDict == nil)
+    {
+        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, nil]
+                                                                         forKeys:@[@"id", @"name", @"color"] ];
+        NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+学校", @0xf6d7c4, nil]
+                                                                         forKeys:@[@"id", @"name", @"color"] ];
+        NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+行业", @0xf9eca8, nil]
+                                                                         forKeys:@[@"id", @"name", @"color"] ];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.collectionView reloadData];
-        });
-    });
-    
-    fastSearchRes = [NSMutableArray array];
-    
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-    {
-        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 44 + statusBarFrame.size.height, 320, 44)];
+        configureDict = [NSMutableDictionary dictionaryWithObjects:@[scope1, scope2, scope3]
+                                                           forKeys:@[@0, @1, @2] ];
     }
-    else
-    {
-        _searchBar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 44, 320, 44)];
-    }
-    _searchBar.delegate = self;
-    _searchController = [[UISearchDisplayController alloc] initWithSearchBar:self.searchBar contentsController:self];
-    self.searchController.searchResultsDelegate= self;
-    self.searchController.searchResultsDataSource = self;
-    self.searchController.delegate = self;
     
-    [self.view addSubview:_searchBar];
+    NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
+    selectZones = [NSMutableArray array];
+    if (lastSelectZones && _firstSelect)
+    {
+        int stop = MIN(3, lastSelectZones.count);
+        for (int i = 0; i < stop; i++)
+        {
+            [selectZones addObject:lastSelectZones[i]];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -117,78 +108,74 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark ZoneDetailVCDelegate
+- (void)zoneDetailViewController:(ZoneDetailViewController *)viewController didFinishSelectZone:(AreaModel *)zone
+{
+    NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:selectScopeId]];
+    [currentConf setValue:zone.area_name forKey:@"name"];
+    if (0 == selectScopeId){
+        [currentConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
+    }else if (1 == selectScopeId){
+        [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
+    }else{
+        [currentConf setValue:[NSNumber numberWithInt:0xf9eca8] forKey:@"color"];
+    }
+    if ([selectZones containsObject:selectZones] == NO)
+    {
+        [selectZones setObject:zone atIndexedSubscript:selectScopeId];
+    }
+    
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [_collectionView reloadData];
+}
 
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [zonesArr count];
+    return 3;
+    //return [zonesArr count];
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    AreaModel* zone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
-    CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier forIndexPath:indexPath];
-    cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
-    cell.zoneName.text = zone.area_name;
-    cell.likeNumber.text = [NSString stringWithFormat:@"%d", zone.hots];
-    if ([selectZoneIdSet  containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
+    CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier
+                                                                           forIndexPath:indexPath];
+    int row = indexPath.row;
+    if (row < 3)
     {
-        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
+        NSDictionary* configure = [configureDict objectForKey:[NSNumber numberWithInt:row]];
+        [cell.zoneName setText:[configure objectForKey:@"name"]];
+        int colorValue = [[configure objectForKey:@"color"] integerValue];
+        [cell setBackgroundColor:UIColorFromRGB(colorValue)];
     }
-    
-    //    if ( (_firstSelect == NO) && [lastSelectZones containsObject:[NSString stringWithFormat:@"%d", zone.area_id]])
-    //    {
-    //        cell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-    //    }
     
     return cell;
 }
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    AreaModel* selectZone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
     NSLog(@"%s", __FUNCTION__);
-    CustomCollectionCell* selectedCell = (CustomCollectionCell*)[collectionView cellForItemAtIndexPath:indexPath];
     
-    if ([selectZoneIdSet containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]] == NO)
-    {
-        if ([selectZoneIdSet count] >= 5)
-        {
-            AlertContent(@"同学，您最多只能选择5个圈子");
-            return;
-        }
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-        [selectedIndexSet addObject:indexPath];
-        [selectZoneIdSet addObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
-    }
-    else
-    {
-        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz"];
-        [selectedIndexSet removeObject:indexPath];
-        [selectZoneIdSet removeObject:[NSString stringWithFormat:@"%d", selectZone.area_id]];
-    }
-    //    if ([selectZoneIdSet containsObject:[NSString stringWithFormat:@"%d", selectZone.area_id]])
-    //    {
-    //        selectedCell.selectedImageV.image = [UIImage imageNamed:@"ic_qz_marked"];
-    //    }
+    selectScopeId = indexPath.row;
+    ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
+    zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    zoneDetailVC.delegate = self;
+    [self presentViewController:zoneDetailVC animated:YES completion:nil];
+    
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
-        
-        if (isShowSearchRes)
-        {
-            UIButton* btn = (UIButton*)[footerView viewWithTag:9999];
-            [btn setTitle:@"显示全部" forState:UIControlStateNormal];
-        }
         return footerView;
     }
-    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-    {
-        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-        return headerView;
-    }
+    //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
+    //    {
+    //        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+    //        return headerView;
+    //    }
     return nil;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
@@ -202,75 +189,43 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(0.0f, 15.0f, 10.0f, 15.0f);
+    return UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(140.0f, 80.0f);
+    return CGSizeMake(140.0f, 140.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     return CGSizeMake(SCREEN_WIDTH, 40);
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+//{
+//    return CGSizeMake(SCREEN_WIDTH, 40);
+//}
+- (IBAction)nextStepBtnPress:(id)sender
 {
-    return CGSizeMake(SCREEN_WIDTH, 40);
-}
-- (IBAction)loadMoreBtnPress:(id)sender
-{
-    NSLog(@"load more");
-    if (isShowSearchRes)
-    {
-        [zonesArr removeAllObjects];
-        isShowSearchRes = NO;
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
-            [zonesArr addObjectsFromArray:result];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.collectionView reloadData];
-            });
-        });
-    }
-    else
-    {
-        if ([zonesArr count] == 0)
-            return;
-        
-        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-        [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-        [SVProgressHUD showWithStatus:@"获取中..."];
-        
-        [self performSelector:@selector(loadMoreBtnPressHelp) withObject:nil afterDelay:0.5];
-    }
-}
-- (void)loadMoreBtnPressHelp
-{
-    AreaModel* zone = (AreaModel*)[zonesArr lastObject];
-    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
-    [zonesArr addObjectsFromArray:result];
-    [SVProgressHUD dismiss];
-    [self.collectionView reloadData];
-}
-- (void)handleDone:(id)sender
-{
-    if ([selectZoneIdSet count] > 5)
-    {
-        AlertContent(@"同学，您最多只能选择5个圈子");
-        return;
-    }
-    if([selectZoneIdSet count] == 0)
+    NSLog(@"%s", __FUNCTION__);
+    if([selectZones count] == 0)
     {
         AlertContent(@"同学，您最少要选择一个圈子吧");
         return;
     }
-    if ([selectZoneIdSet count] != 0)
+    if ([selectZones count] != 0)
     {
-        NSString* res = [[selectZoneIdSet allObjects] componentsJoinedByString:@","];
+        NSMutableArray* zoneIdArr = [NSMutableArray array];
+        for (AreaModel* area in selectZones)
+        {
+            [zoneIdArr addObject:[NSString stringWithFormat:@"%d", area.area_id]];
+        }
+        NSString* res = [zoneIdArr componentsJoinedByString:@","];
         UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
         if (user == nil)
             return;
-        [[NSUserDefaults standardUserDefaults] setObject:[selectZoneIdSet allObjects] forKey:kSelectZones];
+        
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:selectZones];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
+        
         [[NSUserDefaults standardUserDefaults] synchronize];
         
     }
@@ -285,64 +240,36 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSLog(@"%s", __FUNCTION__);
-    return [fastSearchRes count];
-}
-- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    AreaModel* zone = (AreaModel*)[fastSearchRes objectAtIndex:indexPath.row];
     
-    static NSString* CellIdentifier = @"TableViewCell";
-    UITableViewCell* cell =  [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    }
-    cell.textLabel.text = zone.area_name;
-    return cell;
 }
-- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+
+- (void)handleDone:(id)sender
 {
-    NSLog(@"%s, searchText = %@", __FUNCTION__, searchText);
-    if([searchText length] == 0)
-        return;
-    [fastSearchRes removeAllObjects];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:1 keyWord:searchText];
-        [fastSearchRes addObjectsFromArray:res];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.searchDisplayController.searchResultsTableView reloadData];
-        });
-    });
-}
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    NSString* searchText = [searchBar text];
-    if([searchText length] == 0)
-        return;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:2 keyWord:searchText];
-        [zonesArr removeAllObjects];
-        [zonesArr addObjectsFromArray:res];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.searchDisplayController setActive:NO];
-            isShowSearchRes = YES;
-            [self.collectionView reloadData];
-        });
-    });
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    AreaModel* zone = (AreaModel*)[fastSearchRes objectAtIndex:indexPath.row];
-    [_searchBar setText:zone.area_name];
-    [fastSearchRes removeAllObjects];
-    [fastSearchRes addObject:zone];
-    [self.searchDisplayController.searchResultsTableView reloadData];
+    //    if([selectZoneIds count] == 0)
+    //    {
+    //        AlertContent(@"同学，您最少要选择一个圈子吧");
+    //        return;
+    //    }
+    //    if ([selectZoneIds count] != 0)
+    //    {
+    //        NSString* res = [selectZoneIds componentsJoinedByString:@","];
+    //        UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
+    //        if (user == nil)
+    //            return;
+    //        [[NSUserDefaults standardUserDefaults] setObject:selectZoneIds forKey:kSelectZones];
+    //        [[NSUserDefaults standardUserDefaults] synchronize];
+    //
+    //    }
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAreaSuccess" object:self userInfo:nil];
+    //    if (self.isFirstSelect)
+    //    {
+    //        HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+    //        [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+    //    }
+    //    else
+    //    {
+    //        [self dismissViewControllerAnimated:YES completion:^{
+    //        }];
+    //    }
 }
 @end
