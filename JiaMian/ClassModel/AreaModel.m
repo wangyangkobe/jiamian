@@ -60,6 +60,16 @@
     copy.city      = [self.city copyWithZone:zone];
     return copy;
 }
+
+- (BOOL)isEqual:(id)other
+{
+    if ([other isMemberOfClass:[self class]])
+    {
+        AreaModel* otherArea = (AreaModel*)other;
+        return (self.area_id == otherArea.area_id);
+    }
+    return NO;
+}
 @end
 
 @implementation Areas

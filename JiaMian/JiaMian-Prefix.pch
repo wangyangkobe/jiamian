@@ -34,4 +34,5 @@
     #import "UIAlertView+Blocks.h"
     #import "LeveyPopListView.h"
     #import "SelectZoneViewController.h"
+    #import "SVProgressHUD.h"
 #endif

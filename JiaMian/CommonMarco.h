@@ -19,6 +19,7 @@
 #define kUserAreaId    @"kUserAreaId"
 #define kUserIdentity  @"kUserIdentity"
 #define kSelectZones   @"kSelectZones"
+#define kCongigureDict @"kCongigureDict"
 
 #define kSelfUserModel @"kSelfUserModel"
 //Sina WeiBo
@@ -53,6 +54,8 @@
 #define TOOLBAR_HEIGHT 44
 //键盘高度
 #define KEYBOARD_HEIGHT 216
+
+#define StatusBarHeight 20
 
 typedef NS_ENUM(NSInteger, MessageType)
 {
