@@ -63,20 +63,12 @@
 
 - (BOOL)isEqual:(id)other
 {
-    NSLog(@"other = %@", other);
-    if ([other isEqual:[NSNull null]])
+    if ([other isMemberOfClass:[self class]])
     {
-        return NO;
+        AreaModel* otherArea = (AreaModel*)other;
+        return (self.area_id == otherArea.area_id);
     }
-    AreaModel* otherArea = (AreaModel*)other;
-    if (otherArea.area_id == self.area_id)
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
+    return NO;
 }
 @end
 

@@ -129,13 +129,15 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    [_collectionView reloadData];
+    // [_collectionView reloadData];
+    NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:selectScopeId inSection:0]];
+    [_collectionView reloadItemsAtIndexPaths:indexPaths];
 }
 
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return 4;
     //return [zonesArr count];
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -145,25 +147,34 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     int row = indexPath.row;
     if (row < 3)
     {
+        [cell.zoneName setHidden:NO];
         NSDictionary* configure = [configureDict objectForKey:[NSNumber numberWithInt:row]];
         [cell.zoneName setText:[configure objectForKey:@"name"]];
         int colorValue = [[configure objectForKey:@"color"] integerValue];
         [cell setBackgroundColor:UIColorFromRGB(colorValue)];
     }
-    
+    else
+    {
+        [cell setDashedBorder:YES];
+    }
     return cell;
 }
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
-    
-    selectScopeId = indexPath.row;
-    ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
-    zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    zoneDetailVC.delegate = self;
-    [self presentViewController:zoneDetailVC animated:YES completion:nil];
-    
+    if (indexPath.row < 3)
+    {
+        selectScopeId = indexPath.row;
+        ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
+        zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        zoneDetailVC.delegate = self;
+        [self presentViewController:zoneDetailVC animated:YES completion:nil];
+    }
+    else
+    {
+        AlertContent(@"此版本暂不支持解锁更多圈子");
+    }
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {

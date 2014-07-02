@@ -33,6 +33,7 @@
     // Do any additional setup after loading the view.
     [self configureNavigationBar];
     [self configureTableHeaderView:1];
+    [self configureTableFooterView];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -198,5 +199,33 @@
     label.center = headerView.center;
     [headerView addSubview:label];
     [_tableView setTableHeaderView:headerView];
+}
+- (void)configureTableFooterView
+{
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setFrame:CGRectMake(60, 5, 200, 40)];
+    [btn setTitle:@"加载更多" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(loadMoreZones:) forControlEvents:UIControlEventTouchUpInside];
+    [btn setBackgroundColor:[UIColor blueColor]];
+    [footerView addSubview:btn];
+    [_tableView setTableFooterView:footerView];
+    _tableView.tableFooterView.userInteractionEnabled = YES;
+}
+- (void)loadMoreZones:(id)sender
+{
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"获取中..."];
+    
+    [self performSelector:@selector(loadMoreBtnPressHelp) withObject:nil afterDelay:0.5];
+}
+- (void)loadMoreBtnPressHelp
+{
+    AreaModel* zone = (AreaModel*)[zonesArr lastObject];
+    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
+    [zonesArr addObjectsFromArray:result];
+    [SVProgressHUD dismiss];
+    [_tableView reloadData];
 }
 @end
