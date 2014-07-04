@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Extensions.h"
 #import "SVProgressHUD.h"
+#import "UIActionSheet+Blocks.h"
 
 static NSString* placeHolderText = @"匿名发表心中所想吧";
 
@@ -22,9 +23,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     CGRect previouRect;
     NSInteger lineNumbers;
     
-    int selectIndex;
+    int selectZoneId;
     
-    NSMutableArray* selectZoneNames;
+    NSMutableArray* selectZones;
     NSMutableDictionary* indexMapZoneName;
 }
 @property (nonatomic, strong) UIToolbar* toolBar;
@@ -74,7 +75,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.view addSubview:_toolBar];
     
     UISwipeGestureRecognizer* hiddenKeyBoard = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                            action:@selector(hiddenKeyBoard:)];
+                                                                                         action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.textView addGestureRecognizer:hiddenKeyBoard];
     
@@ -82,10 +83,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     //    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
     //    self.backgroundImageView.frame = self.textView.frame;
     
-//    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-//    [self.textView.layer setBorderWidth: 1.0];
-//    [self.textView.layer setCornerRadius:8.0f];
-//    [self.textView.layer setMasksToBounds:YES];
+    //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
+    //    [self.textView.layer setBorderWidth: 1.0];
+    //    [self.textView.layer setCornerRadius:8.0f];
+    //    [self.textView.layer setMasksToBounds:YES];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
@@ -102,19 +103,19 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    selectZoneNames = [NSMutableArray array];
+    //  selectZones = [NSMutableArray array];
     indexMapZoneName = [NSMutableDictionary dictionary];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* zoneIdArr = [[NSUserDefaults standardUserDefaults] valueForKey:kSelectZones];
-        int temp = 0;
-        for (id zoneId in zoneIdArr)
+    
+    NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    selectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
+    for (id element in selectZones)
+    {
+        if ([element isMemberOfClass:[AreaModel class]])
         {
-            AreaModel* zone = [[NetWorkConnect sharedInstance] areaShowByAreaId:[zoneId integerValue]];
-            [selectZoneNames addObject:[NSDictionary dictionaryWithObjectsAndKeys:zone.area_name, @"text", nil]];
-            [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:[NSString stringWithFormat:@"%d", temp]];
-            temp++;
+            AreaModel* zone = (AreaModel*)element;
+            [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
-    });
+    }
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
@@ -198,21 +199,37 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     [self.textView resignFirstResponder];
     
-    LeveyPopListView *lplv = [[LeveyPopListView alloc] initWithTitle:@"请选择圈子" options:selectZoneNames handler:^(NSInteger anIndex) {
-        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-        [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-        [SVProgressHUD showWithStatus:@"消息发送中..."];
-        selectIndex = (int)anIndex;
-        if (imagePath)
-        {
-            [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
-        }
-        else
-        {
-            [self publishMessageToServer];
-        }
-    }];
-    [lplv showInView:[UIApplication sharedApplication].keyWindow animated:YES];
+    NSLog(@"%@", selectZones);
+    [UIActionSheet showInView:self.textView
+                    withTitle:@"请选择圈子"
+            cancelButtonTitle:@"Cancel"
+       destructiveButtonTitle:nil
+            otherButtonTitles:[indexMapZoneName allKeys]
+                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                         
+                         if (buttonIndex == [selectZones count])
+                         {
+                             return ;
+                         }
+                         else
+                         {
+                             NSString* key = [actionSheet buttonTitleAtIndex:buttonIndex];
+                             selectZoneId = [[indexMapZoneName valueForKey:key] integerValue];
+                             
+                             [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+                             [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+                             [SVProgressHUD showWithStatus:@"消息发送中..."];
+                             if (imagePath)
+                             {
+                                 [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+                             }
+                             else
+                             {
+                                 [self publishMessageToServer];
+                             }
+                             
+                         }
+                     }];
 }
 - (void)dealloc
 {
@@ -366,13 +383,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-    long zoneId = [[indexMapZoneName objectForKey:[NSString stringWithFormat:@"%d", selectIndex]] integerValue];
-    
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
-    
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
                                                                    msgType:MessageTypeText
-                                                                    areaId:zoneId
+                                                                    areaId:selectZoneId
                                                                     bgType:backgroudType
                                                                   bgNumber:-1
                                                                      bgUrl:qiNiuImagePath

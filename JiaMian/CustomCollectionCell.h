@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CustomCollectionCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *selectedImageV;
+
 @property (weak, nonatomic) IBOutlet UILabel *zoneName;
-@property (weak, nonatomic) IBOutlet UILabel *likeNumber;
 @property (assign, nonatomic, getter = isDashedBorder) BOOL dashedBorder;
+
 @end

@@ -13,6 +13,7 @@
 {
     NSMutableArray* zonesArr;
     NSMutableArray* searchRes;
+    NSArray* lastSelectZones;
 }
 @property (nonatomic, retain) NSIndexPath *lastIndexPath;
 @end
@@ -44,6 +45,9 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
         [zonesArr addObjectsFromArray:result];
+        
+        NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+        lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
@@ -101,6 +105,16 @@
     UILabel* zoneNameLabel = (UILabel*)[cell viewWithTag:kZoneNameLabelTag];
     [zoneNameLabel setText:zone.area_name];
     
+    if ([lastSelectZones containsObject:zone])
+    {
+        [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+    }
+    else
+    {
+        [cell setAccessoryType:UITableViewCellAccessoryNone
+         
+         ];
+    }
     return cell;
 }
 
@@ -140,6 +154,15 @@
 #pragma mark - UISearchDispalyController delegate
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        for (UIView *v in controller.searchResultsTableView.subviews) {
+            if ([v isKindOfClass:[UILabel self]]) {
+                //((UILabel *)v).text = @"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面";
+                AlertContent(@"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面");
+                break;
+            }
+        }
+    });
     return YES;
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

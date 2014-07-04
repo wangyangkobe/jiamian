@@ -5,17 +5,20 @@ PODS:
   - SDWebImage (3.6):
     - SDWebImage/Core
   - SDWebImage/Core (3.6)
+  - UIActionSheet+Blocks (0.8.1)
 
 DEPENDENCIES:
   - BBBadgeBarButtonItem
   - HPGrowingTextView
   - JSONModel
   - SDWebImage
+  - UIActionSheet+Blocks
 
 SPEC CHECKSUMS:
   BBBadgeBarButtonItem: 9fd6089e0694ee1e9dfb96fb66fbcb4bfa22f3ee
   HPGrowingTextView: 07d5ab1f1e867acfb7a6f498b819948c9e97d07c
   JSONModel: 62ea96b49ea18a8b91ef89c249dba291d8601d82
   SDWebImage: c6989652c1cdf27cbdf3f56957e2030f825af5bc
+  UIActionSheet+Blocks: c8b9c02f3d08964e8f7a4202f004a639c15eab80
 
 COCOAPODS: 0.32.1

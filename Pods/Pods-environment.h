@@ -36,3 +36,9 @@
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 6
 #define COCOAPODS_VERSION_PATCH_SDWebImage_Core 0
 
+// UIActionSheet+Blocks
+#define COCOAPODS_POD_AVAILABLE_UIActionSheet_Blocks
+#define COCOAPODS_VERSION_MAJOR_UIActionSheet_Blocks 0
+#define COCOAPODS_VERSION_MINOR_UIActionSheet_Blocks 8
+#define COCOAPODS_VERSION_PATCH_UIActionSheet_Blocks 1
+
