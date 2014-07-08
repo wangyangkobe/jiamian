@@ -433,14 +433,14 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count FilterType:(int)filterType keyWord:(NSString*)KeyWord
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count areaType:(int)AreaType filterType:(int)FilterType keyWord:(NSString*)KeyWord
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld", HOME_PAGE, SinceId];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld&area_type=%d", HOME_PAGE, SinceId, AreaType];
     
-    if (filterType == 1 || filterType == 2)
+    if (FilterType == 1 || FilterType == 2)
     {
-        requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld&filter_type=%d&key_word=%@",
-                      HOME_PAGE, SinceId, filterType, KeyWord];
+        requestUrl = [NSString stringWithFormat:@"%@/areas/list?since_id=%ld&filter_type=%d&&area_type=%d&key_word=%@",
+                      HOME_PAGE, SinceId, FilterType, AreaType, KeyWord];
         //对url进行编码，因为url含有汉字
         requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     }
@@ -557,6 +557,7 @@ static ASIDownloadCache* myCache;
         return nil;
     }
 }
+//////////////////////////////////////////////////////////////////
 - (UserModel*)userChangeZone:(NSString*)zoneStr
 {
     if (NO == [self checkNetworkStatus])
@@ -582,6 +583,68 @@ static ASIDownloadCache* myCache;
     {
         ErrorAlertView;
         return nil;
+    }
+}
+//////////////////////////////////////////////////////////////////
+- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId count:(int)Count
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/list?since_id=%ld&max_id=%ld&count=%d", HOME_PAGE, SinceId, MaxId, Count];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    
+   // NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    if (200 == request.responseStatusCode)
+    {
+        Topics * result = [[Topics alloc] initWithString:[request responseString] error:nil];
+        if(result)
+            return [result.topics copy];
+        else
+        {
+            ErrorAlertView;
+            return [NSArray array];
+        }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
+}
+//////////////////////////////////////////////////////////////////
+- (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/getMessages?topic_id=%ld&since_id=%ld&max_id=%ld&count=%d",
+                            HOME_PAGE, topicId, SinceId, MaxId, Count];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    
+   // NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    
+    if (200 == request.responseStatusCode) {
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
+        return [result.messages copy];
+    } else if(500 == request.responseStatusCode) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    } else {
+        ErrorAlertView;
+        return [NSArray array];
     }
 }
 @end

@@ -124,7 +124,7 @@
     {
         [myHeader.backgroudImageView setImage:[UIImage imageNamed:@"blackalpha"]];
         SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d",
+        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
                                                 _selectedMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
         [manager downloadWithURL:imageUrl
                          options:0

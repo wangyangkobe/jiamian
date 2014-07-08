@@ -79,11 +79,12 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSLog(@"configure = %@", configureDict);
     if (_firstSelect || configureDict == nil)
     {
-        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, [NSNull null], nil]
-                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
         NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+学校", @0xf6d7c4, [NSNull null], nil]
                                                                          forKeys:@[@"id", @"name", @"color", @"zone"] ];
         NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+行业", @0xf9eca8, [NSNull null], nil]
+                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
+        
+        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, [NSNull null], nil]
                                                                          forKeys:@[@"id", @"name", @"color", @"zone"] ];
         
         configureDict = [NSMutableDictionary dictionaryWithObjects:@[scope1, scope2, scope3]
@@ -129,7 +130,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
     [[NSUserDefaults standardUserDefaults] synchronize];
-    // [_collectionView reloadData];
     NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:selectScopeId inSection:0]];
     [_collectionView reloadItemsAtIndexPaths:indexPaths];
 }
@@ -156,6 +156,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     else
     {
         [cell setDashedBorder:YES];
+        UIImageView* addIV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
+        addIV.center = cell.contentView.center;
+        [cell.contentView addSubview:addIV];
+        [addIV setImage:[UIImage imageNamed:@"ic_add"]];
     }
     return cell;
 }
@@ -168,6 +172,13 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         selectScopeId = indexPath.row;
         ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
         zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        if (selectScopeId == 0) {
+            zoneDetailVC.zoneType = ZoneTypeSchool;
+        }else if(selectScopeId == 1){
+            zoneDetailVC.zoneType = ZoneTypeIndustry;
+        }else{
+            zoneDetailVC.zoneType = ZoneTypeCompany;
+        }
         zoneDetailVC.delegate = self;
         [self presentViewController:zoneDetailVC animated:YES completion:nil];
     }

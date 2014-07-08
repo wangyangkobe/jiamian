@@ -8,7 +8,8 @@
 
 #import "ZoneDetailViewController.h"
 
-#define kZoneNameLabelTag 9000
+#define kZoneNameLabelTag    9000
+#define kZoneHotImageViewTag 9001
 @interface ZoneDetailViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
 {
     NSMutableArray* zonesArr;
@@ -43,7 +44,12 @@
     searchRes = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
+        NSArray* result = [[NetWorkConnect sharedInstance] areaList:0
+                                                              maxId:INT_MAX
+                                                              count:20
+                                                              areaType:_zoneType
+                                                         filterType:0
+                                                            keyWord:nil];
         [zonesArr addObjectsFromArray:result];
         
         NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
@@ -104,6 +110,18 @@
     }
     UILabel* zoneNameLabel = (UILabel*)[cell viewWithTag:kZoneNameLabelTag];
     [zoneNameLabel setText:zone.area_name];
+    UIImageView* hotImageView = (UIImageView*)[cell viewWithTag:kZoneHotImageViewTag];
+    if (zone.hots >= 5000) {
+        [hotImageView setImage:[UIImage imageNamed:@"ic_index_star5"]];
+    } else if (zone.hots > 2000) {
+        [hotImageView setImage:[UIImage imageNamed:@"ic_index_star4"]];
+    } else if (zone.hots > 500) {
+        [hotImageView setImage:[UIImage imageNamed:@"ic_index_star3"]];
+    } else if (zone.hots > 100) {
+        [hotImageView setImage:[UIImage imageNamed:@"ic_index_star2"]];
+    } else {
+        [hotImageView setImage:[UIImage imageNamed:@"ic_index_star1"]];
+    }
     
     if ([lastSelectZones containsObject:zone])
     {
@@ -111,9 +129,7 @@
     }
     else
     {
-        [cell setAccessoryType:UITableViewCellAccessoryNone
-         
-         ];
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
     return cell;
 }
@@ -172,7 +188,7 @@
         return;
     [searchRes removeAllObjects];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:1 keyWord:searchText];
+        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 areaType:_zoneType filterType:1 keyWord:searchText];
         [searchRes addObjectsFromArray:res];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -186,7 +202,7 @@
     if([searchText length] == 0)
         return;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 FilterType:2 keyWord:searchText];
+        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 areaType:_zoneType filterType:2 keyWord:searchText];
         [searchRes removeAllObjects];
         [searchRes addObjectsFromArray:res];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -246,7 +262,12 @@
 - (void)loadMoreBtnPressHelp
 {
     AreaModel* zone = (AreaModel*)[zonesArr lastObject];
-    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence maxId:INT_MAX count:20 FilterType:0 keyWord:nil];
+    NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence
+                                                        maxId:INT_MAX
+                                                          count:20
+                                                       areaType:_zoneType
+                                                     filterType:0
+                                                        keyWord:nil];
     [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
     [_tableView reloadData];

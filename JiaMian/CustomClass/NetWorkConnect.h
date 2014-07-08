@@ -8,7 +8,7 @@
 #import "NotificationModel.h"
 #import "AreaModel.h"
 #import "CommonMarco.h"
-
+#import "TopicModel.h"
 
 @interface NetWorkConnect : NSObject
 
@@ -46,6 +46,10 @@
 - (NSInteger)notificationUnreadCount;
 
 //SinceId: 0 MaxId: INT_MAX; Count: 20
-- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count FilterType:(int)filterType keyWord:(NSString*)KeyWord;
+- (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count areaType:(int)AreaType filterType:(int)FilterType keyWord:(NSString*)KeyWord;
 - (AreaModel*)areaShowByAreaId:(long)AreaID;
+
+//SinceId: 0 MaxId: INT_MAX; Count: 3
+- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId count:(int)Count;
+- (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
 @end

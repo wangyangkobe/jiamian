@@ -11,6 +11,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="348"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DD3-2x-rVQ">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="348"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VCb-95-Gl4">
                     <rect key="frame" x="30" y="60" width="260" height="228"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
@@ -72,6 +76,7 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="areaLabel" destination="zmW-6O-nen" id="QGW-yZ-jta"/>
+                <outlet property="backgroudImageView" destination="DD3-2x-rVQ" id="VcU-FW-cQm"/>
                 <outlet property="commentImageView" destination="9ql-JN-dEo" id="GCe-E7-Y3e"/>
                 <outlet property="commentNumLabel" destination="OaQ-Qb-oQo" id="mDO-xm-UF9"/>
                 <outlet property="juBaoButton" destination="SEr-EX-d3a" id="NQH-iJ-ygb"/>

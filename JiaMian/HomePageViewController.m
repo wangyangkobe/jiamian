@@ -17,6 +17,7 @@
 #import "UMFeedback.h"
 #import "SelectAreaViewController.h"
 #import "SelectZoneViewController.h"
+#import "TopicDetailViewController.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -28,9 +29,16 @@
 #define kVisibleNumberLabel 8007
 #define kBackgroundImageView 8008
 
+#define kTopicTextLabel   8999
+#define kTopicNumberLabel 8998
+#define kTopicView        8997
+#define kTopicMsgLabel    8996
+#define kTopicMsgView     8995
+#define kTopicImageView   8994
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray* messageArray;
+    NSMutableArray* topicArray;
 }
 
 @end
@@ -104,6 +112,8 @@
 - (void)fetchDataFromServer
 {
     messageArray = [NSMutableArray array];
+    topicArray   = [NSMutableArray array];
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //  long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
@@ -113,6 +123,9 @@
                                                                   trimArea:NO
                                                                 filterType:0];
         [messageArray addObjectsFromArray:requestRes];
+        
+        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        [topicArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.pullTableView reloadData];
@@ -209,137 +222,138 @@
     [self.navigationController pushViewController:unReadMsgVC animated:YES];
 }
 #pragma mark - UITableView Delegate
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 30.0f;
+}
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%s %lu", __FUNCTION__, (unsigned long)messageArray.count);
-    return [messageArray count];
+    
+    if (section == 0){
+        return [topicArray count];
+    }else{
+        NSLog(@"%s %lu", __FUNCTION__, (unsigned long)messageArray.count);
+        return [messageArray count];
+    }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SCREEN_WIDTH;
+    if (indexPath.section == 0) {
+        return 92;
+    }else{
+        return SCREEN_WIDTH;
+    }
+}
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+    UILabel* label = [[UILabel alloc] initWithFrame:view.frame];
+    [view addSubview:label];
     
-    //    NSInteger row = indexPath.row;
-    //    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:row];
-    //    if (currentMsg.background_url && currentMsg.background_url.length > 0)
-    //    {
-    //        return SCREEN_WIDTH;
-    //    }
-    //
-    //    CGFloat textHeight = [NSString textHeight:currentMsg.text
-    //                                 sizeWithFont:[UIFont systemFontOfSize:18]
-    //                            constrainedToSize:CGSizeMake(260,9999)];
-    //    //    CGFloat textHeight = [text  sizeWithFont:[UIFont systemFontOfSize:18]
-    //    //                           constrainedToSize:CGSizeMake(260, 42*10)
-    //    //                               lineBreakMode:NSLineBreakByWordWrapping].height;
-    //    if (IOS_NEWER_OR_EQUAL_TO_7)
-    //        return textHeight + 60 + 60 + 10;
-    //    else
-    //        return textHeight + 60 + 60;
+    if (section == 0) {
+        [label setText:@"热门话题"];
+    } else {
+        [label setText:@"圈内秘密"];
+    }
+    return view;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* CellIdentifier = @"TextCellIdentifier";
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (nil == cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-    };
-    UILabel* textLabel          = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel          = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
-    UILabel* likeNumerLabel     = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UILabel* commentNumLabel    = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-    
-    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    
-    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    
-    textLabel.text = currentMsg.text;
-    areaLabel.text = currentMsg.area.area_name;
-    commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
-    likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
-    visibleNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.visible_count];
-    if (currentMsg.is_official)
-    {
-        visibleNumberLabel.text = @"all";
-        areaLabel.text = @"假面官方团队";
+    if (indexPath.section == 1) {
+        static NSString* CellIdentifier = @"TextCellIdentifier";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        };
+        UILabel* textLabel          = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
+        UILabel* areaLabel          = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
+        UILabel* likeNumerLabel     = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
+        UILabel* commentNumLabel    = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
+        UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
+        
+        UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+        
+        MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+        
+        textLabel.text = currentMsg.text;
+        areaLabel.text = currentMsg.area.area_name;
+        commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+        likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
+        visibleNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.visible_count];
+        if (currentMsg.is_official)
+        {
+            visibleNumberLabel.text = @"all";
+            areaLabel.text = @"假面官方团队";
+        }
+        [likeImage setUserInteractionEnabled:YES];
+        UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                        action:@selector(likeImageTap:)];
+        [likeImageTap setNumberOfTapsRequired:1];
+        [likeImage addGestureRecognizer:likeImageTap];
+        
+        UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
+        if (currentMsg.background_url && currentMsg.background_url.length > 0)
+            [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
+        else
+            [bgImageView setImage:nil];
+        
+        return cell;
     }
-    [likeImage setUserInteractionEnabled:YES];
-    UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
-    [likeImageTap setNumberOfTapsRequired:1];
-    [likeImage addGestureRecognizer:likeImageTap];
-    
-    UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
-    if (currentMsg.background_url && currentMsg.background_url.length > 0)
-        [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
     else
-        [bgImageView setImage:nil];
-    
-    return cell;
+    {
+        static NSString* CellIdentifier = @"HotTopicCellIdentifier";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        };
+        
+        //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+        UIImage *accessoryImage = [UIImage imageNamed:@"accessoryDisclosure.png"];
+        UIImageView *accImageView = [[UIImageView alloc] initWithImage:accessoryImage];
+        accImageView.userInteractionEnabled = YES;
+        [accImageView setFrame:CGRectMake(0, 0, 28.0, 28.0)];
+        cell.accessoryView = accImageView;
+        
+        
+        TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
+        UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTopicTextLabel];
+        [textLabel setText:topic.topic_title];
+        
+        UIView* bgView = (UIView*)[cell.contentView viewWithTag:kTopicView];
+        NSString* colorStr = [NSString stringWithFormat:@"0x%@", topic.background_color];
+        [bgView setBackgroundColor:[NSString hexStringToColor:colorStr]];
+        
+        UILabel* numberLabel = (UILabel*)[cell.contentView viewWithTag:kTopicNumberLabel];
+        [numberLabel setText:[NSString stringWithFormat:@"已有%d条圈内爆料", topic.message_count]];
+        
+        UILabel* topicMsgLabel = (UILabel*)[cell.contentView viewWithTag:kTopicMsgLabel];
+        [topicMsgLabel setText:topic.latest_message.text];
+        
+        return cell;
+    }
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [cell.contentView setBackgroundColor:[UIColor clearColor]];
-    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    
-    UILabel* textLabel       = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel       = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
-    UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UILabel* likeNumerLabel  = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-    
-    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
-    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
-    
-    if (currentMsg.background_url && currentMsg.background_url.length > 0)
+    if (indexPath.section == 1)
     {
-        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
-        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
-        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [cell.contentView setBackgroundColor:[UIColor clearColor]];
+        MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
         
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d",
-                                                currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
-        [manager downloadWithURL:imageUrl
-                         options:0
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                           if (image && finished)
-                           {
-                               [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                           }
-                       }];
-    }
-    else
-    {
-        int bgImageNo = currentMsg.background_no;
-        if ( (1 == bgImageNo) || (2 == bgImageNo) )
-        {
-            [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
-            [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
-            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
-            [areaLabel setTextColor:UIColorFromRGB(0x969696)];
-            [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-            [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
-            [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-            [textLabel setTextColor:UIColorFromRGB(0x000000)];
-            
-            if (2 == bgImageNo)
-            {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                [cell.contentView setBackgroundColor:picColor];
-            }
-            else
-            {
-                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-        }
-        else
+        UILabel* textLabel       = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
+        UILabel* areaLabel       = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
+        UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
+        UILabel* likeNumerLabel  = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
+        UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
+        
+        UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
+        UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
+        UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+        
+        if (currentMsg.background_url && currentMsg.background_url.length > 0)
         {
             [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
             [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
@@ -349,30 +363,146 @@
             [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
             [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
             [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-            if (9 == bgImageNo)
+            
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
+                                                    currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
+            [manager downloadWithURL:imageUrl
+                             options:0
+                            progress:nil
+                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
+                               if (image && finished)
+                               {
+                                   [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+                               }
+                           }];
+        }
+        else
+        {
+            int bgImageNo = currentMsg.background_no;
+            if ( (1 == bgImageNo) || (2 == bgImageNo) )
             {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                [cell.contentView setBackgroundColor:picColor];
+                [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
+                [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
+                [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
+                [areaLabel setTextColor:UIColorFromRGB(0x969696)];
+                [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
+                [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
+                [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
+                [textLabel setTextColor:UIColorFromRGB(0x000000)];
+                
+                if (2 == bgImageNo)
+                {
+                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+                    [cell.contentView setBackgroundColor:picColor];
+                }
+                else
+                {
+                    [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                }
             }
             else
             {
-                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+                [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+                [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
+                [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+                [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+                [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+                [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+                [textLabel setTextColor:UIColorFromRGB(0xffffff)];
+                if (9 == bgImageNo)
+                {
+                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+                    [cell.contentView setBackgroundColor:picColor];
+                }
+                else
+                {
+                    [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                }
             }
         }
+        if (currentMsg.has_like)
+        {
+            [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
+        }
     }
-    
-    if (currentMsg.has_like)
+    else  //设置topic
     {
-        [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
+        TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
+        MessageModel* topicMsg = topic.latest_message;
+        
+        UIView* topicMsgView = (UIView*)[cell.contentView viewWithTag:kTopicMsgView];
+        UILabel* topicMsgLabel = (UILabel*)[cell.contentView viewWithTag:kTopicMsgLabel];
+        UIImageView* topicImageView = (UIImageView*)[cell.contentView viewWithTag:kTopicImageView];
+        
+        if (topicMsg.background_url && topicMsg.background_url.length > 0)
+        {
+            [topicImageView setImage:[UIImage imageNamed:@"blackalpha"]];
+            SDWebImageManager *manager = [SDWebImageManager sharedManager];
+            NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
+                                                    topicMsg.background_url, 92, 92]];
+            [manager downloadWithURL:imageUrl
+                             options:0
+                            progress:nil
+                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
+                               if (image && finished)
+                               {
+                                   [topicMsgView setBackgroundColor:[UIColor colorWithPatternImage:image]];
+                               }
+                           }];
+        }
+        else
+        {
+            [topicImageView setImage:nil];
+            int bgImageNo = topicMsg.background_no;
+            if ( (1 == bgImageNo) || (2 == bgImageNo) )
+            {
+                [topicMsgLabel setTextColor:UIColorFromRGB(0x000000)];
+                if (2 == bgImageNo)
+                {
+                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+                    [topicMsgView setBackgroundColor:picColor];
+                }
+                else
+                {
+                    [topicMsgView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                }
+            }
+            else
+            {
+                [topicMsgLabel setTextColor:UIColorFromRGB(0xffffff)];
+                if (9 == bgImageNo)
+                {
+                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+                    [topicMsgView setBackgroundColor:picColor];
+                }
+                else
+                {
+                    [topicMsgView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                }
+            }
+        }
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"%s", __FUNCTION__);
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:msgDetailVC animated:YES];
+    if (indexPath.section == 1)
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+        msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+        [self.navigationController pushViewController:msgDetailVC animated:YES];
+    }
+    else
+    {
+        TopicModel* topic = [topicArray objectAtIndex:indexPath.row];
+        TopicDetailViewController* topicDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TopicDetailVCIdentifier"];
+        topicDetailVC.topicId = topic.topic_id;
+        topicDetailVC.topicTitle = topic.topic_title;
+        [self.navigationController pushViewController:topicDetailVC animated:YES];
+    }
 }
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
@@ -435,7 +565,7 @@
             
             for(id result __unused in loadMoreRes)
             {
-                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:1]];
                 fromIndex++;
             }
             
@@ -491,6 +621,55 @@
             visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
+    }
+}
+
+- (void)configureTopicMsgView:(UIView*)view textLabel:(UILabel*)label message:(MessageModel*)message
+{
+    if (message.background_url && message.background_url.length > 0)
+    {
+        SDWebImageManager *manager = [SDWebImageManager sharedManager];
+        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
+                                                message.background_url, 92, 92]];
+        [manager downloadWithURL:imageUrl
+                         options:0
+                        progress:nil
+                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
+                           if (image && finished)
+                           {
+                               [view setBackgroundColor:[UIColor colorWithPatternImage:image]];
+                           }
+                       }];
+    }
+    else
+    {
+        int bgImageNo = message.background_no;
+        if ( (1 == bgImageNo) || (2 == bgImageNo) )
+        {
+            [label setTextColor:UIColorFromRGB(0x000000)];
+            if (2 == bgImageNo)
+            {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
+                [view setBackgroundColor:picColor];
+            }
+            else
+            {
+                [view setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
+        }
+        else
+        {
+            [label setTextColor:UIColorFromRGB(0xffffff)];
+            if (9 == bgImageNo)
+            {
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
+                [view setBackgroundColor:picColor];
+            }
+            else
+            {
+                [view setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+            }
+        }
     }
 }
 @end

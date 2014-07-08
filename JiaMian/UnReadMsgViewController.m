@@ -18,8 +18,8 @@
 
 @interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
-    NSMutableArray* unReadMsgArr;
 }
+@property (nonatomic, strong) NSMutableArray* notificationArr;
 @end
 
 @implementation UnReadMsgViewController
@@ -47,7 +47,7 @@
     
     [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
     
-    unReadMsgArr = [NSMutableArray array];
+    _notificationArr = [NSMutableArray array];
     
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
@@ -55,7 +55,7 @@
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        [unReadMsgArr addObjectsFromArray:requestRes];
+        [_notificationArr addObjectsFromArray:requestRes];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
@@ -83,7 +83,7 @@
 #pragma mark UITableView dataSource & delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [unReadMsgArr count];
+    return [_notificationArr count];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -102,7 +102,7 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
+    NotificationModel* notification = (NotificationModel*)[_notificationArr objectAtIndex:[indexPath row]];
     UILabel* titleLabel       = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel     = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
     UIImageView* newImageView = (UIImageView*)[cell.contentView viewWithTag:kNewPicView];
@@ -115,16 +115,15 @@
     [contentLabel setText:notification.message.text];
     [contentLabel setTextColor:UIColorFromRGB(0x919191)];
     [contentLabel setBackgroundColor:UIColorFromRGB(0xefeeee)];
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    if (indexPath.row >= unReadMsgArr.count)
+    if (indexPath.row >= _notificationArr.count)
         return;
-    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:indexPath.row];
+    NotificationModel* notification = (NotificationModel*)[_notificationArr objectAtIndex:indexPath.row];
     MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
     if (!message)
         return;
@@ -134,6 +133,7 @@
     MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
     
     messageDetailVC.selectedMsg = message;
+   // [_unReadMsgArr replaceObjectAtIndex:indexPath.row withObject:message];
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 }
 
@@ -155,17 +155,17 @@
 }
 - (void)loadMoreDataToTable
 {
-    if ([unReadMsgArr count] == 0)
+    if ([_notificationArr count] == 0)
     {
         return;
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NotificationModel* lastNotification = [unReadMsgArr lastObject];
+        NotificationModel* lastNotification = [_notificationArr lastObject];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] notificationShow:0
                                                                            maxId:lastNotification.notification_id
                                                                            count:15];
-        __block NSInteger fromIndex = [unReadMsgArr count];
-        [unReadMsgArr addObjectsFromArray:loadMoreRes];
+        __block NSInteger fromIndex = [_notificationArr count];
+        [_notificationArr addObjectsFromArray:loadMoreRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             self.tableView.pullTableIsLoadingMore = NO;

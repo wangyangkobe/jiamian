@@ -23,7 +23,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     CGRect previouRect;
     NSInteger lineNumbers;
     
-    int selectZoneId;
+    NSInteger selectZoneId;
     
     NSMutableArray* selectZones;
     NSMutableDictionary* indexMapZoneName;
@@ -318,6 +318,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     // [self.textView resignFirstResponder];
     [self.textView becomeFirstResponder];
     
+    if (!IOS_NEWER_OR_EQUAL_TO_7) // for ios6
+    {
+        [self.textView setFrame:CGRectMake(0, 0, 320, 200 - 44)];
+    }
     [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
     
