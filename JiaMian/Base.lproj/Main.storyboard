@@ -432,7 +432,7 @@
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <action selector="nextStepBtnPress:" destination="zMV-JM-W87" eventType="touchUpInside" id="wBT-pg-duZ"/>
+                                                <action selector="nextStepBtnPress:" destination="zMV-JM-W87" eventType="touchUpInside" id="UBk-UW-hMf"/>
                                             </connections>
                                         </button>
                                     </subviews>

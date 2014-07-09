@@ -17,11 +17,12 @@
 #define kLogInUserId   @"kLogInUserId"
 #define kLogInType     @"kLogInType"
 #define kUserAreaId    @"kUserAreaId"
-#define kUserIdentity  @"kUserIdentity"
+#define kUserName      @"kUserName"
 #define kSelectZones   @"kSelectZones"
 #define kCongigureDict @"kCongigureDict"
 
 #define kSelfUserModel @"kSelfUserModel"
+
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"
@@ -38,10 +39,10 @@
 #define kUMengAppKey    @"535e5f0256240baa89078c7f"
 
 //-------------------七牛-------------------------
-#define QiniuAccessKey @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU"
-#define QiniuSecretKey @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23"
+#define QiniuAccessKey  @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU"
+#define QiniuSecretKey  @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23"
 #define QiniuBucketName @"jiamiantechtest"
-#define QiniuDomian [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName]
+#define QiniuDomian     [NSString stringWithFormat:@"http://%@.qiniudn.com/", QiniuBucketName]
 
 #define IOS_NEWER_OR_EQUAL_TO_7 ( [ [ [ UIDevice currentDevice ] systemVersion ] floatValue ] >= 7.0 )
 

@@ -69,40 +69,78 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
     
-    UIBarButtonItem* rightBtnItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-                                                                                  target:self
-                                                                                  action:@selector(handleDone:)];
-    navigationItem.rightBarButtonItem = rightBtnItem;
+    //    UIBarButtonItem* rightBtnItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+    //                                                                                  target:self
+    //                                                                                  action:@selector(handleDone:)];
+    //    navigationItem.rightBarButtonItem = rightBtnItem;
     
+    NSData* lastSelectData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:lastSelectData];
+    NSLog(@"lastSelectZones = %@", lastSelectZones);
     NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey:kCongigureDict];
-    configureDict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    NSLog(@"configure = %@", configureDict);
-    if (_firstSelect || configureDict == nil)
+    if (lastSelectZones && data)
     {
+        configureDict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSLog(@"configure dict = %@", configureDict);
+        
+        for (AreaModel* zone in lastSelectZones)
+        {
+            if (zone.type == ZoneTypeCompany)
+            {
+                NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:0]];
+                [currentConf setValue:zone.area_name forKey:@"name"];
+                [currentConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
+            }
+            else if (zone.type == ZoneTypeIndustry)
+            {
+                NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:2]];
+                [currentConf setValue:zone.area_name forKey:@"name"];
+                [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
+            }
+            else
+            {
+                NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:1]];
+                [currentConf setValue:zone.area_name forKey:@"name"];
+                [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
+            }
+        }
+    }
+    else  //第一次登录
+    {
+        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, [NSNull null], nil]
+                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
         NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+学校", @0xf6d7c4, [NSNull null], nil]
                                                                          forKeys:@[@"id", @"name", @"color", @"zone"] ];
         NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+行业", @0xf9eca8, [NSNull null], nil]
-                                                                         forKeys:@[@"id", @"name", @"color", @"zone"] ];
-        
-        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@1, @"+公司", @0xadd5e6, [NSNull null], nil]
                                                                          forKeys:@[@"id", @"name", @"color", @"zone"] ];
         
         configureDict = [NSMutableDictionary dictionaryWithObjects:@[scope1, scope2, scope3]
                                                            forKeys:@[@0, @1, @2] ];
     }
     
-    NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
-    NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
-    selectZones = [NSMutableArray arrayWithObjects:[NSNull null], [NSNull null], [NSNull null], nil];
-    if (lastSelectZones && !_firstSelect)
+    data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //  selectZones = [NSMutableArray arrayWithArray:@[ [NSNull null], [NSNull null], [NSNull null] ]];
+    if (lastSelectZones)
     {
-        for (int i = 0; i < lastSelectZones.count; i++)
-        {
-            [selectZones setObject:lastSelectZones[i] atIndexedSubscript:i];
-        }
+        selectZones = [NSMutableArray arrayWithArray:[self filterArray:lastSelectZones]];
+    }
+    else
+    {
+        selectZones = [NSMutableArray array];
     }
 }
-
+- (NSArray*)filterArray:(NSArray*)array
+{
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    for(AreaModel* zone in array)
+    {
+        [dict setObject:zone forKey:[NSNumber numberWithInteger:zone.type]];
+    }
+    return [dict allValues];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -124,12 +162,13 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     if ([selectZones containsObject:zone] == NO)
     {
-        [selectZones setObject:zone atIndexedSubscript:selectScopeId];
+        [selectZones addObject:zone];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
     NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:selectScopeId inSection:0]];
     [_collectionView reloadItemsAtIndexPaths:indexPaths];
 }
@@ -138,7 +177,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return 4;
-    //return [zonesArr count];
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -147,7 +185,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     int row = indexPath.row;
     if (row < 3)
     {
-        [cell.zoneName setHidden:NO];
         NSDictionary* configure = [configureDict objectForKey:[NSNumber numberWithInt:row]];
         [cell.zoneName setText:[configure objectForKey:@"name"]];
         int colorValue = [[configure objectForKey:@"color"] integerValue];
@@ -166,18 +203,17 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __FUNCTION__);
     if (indexPath.row < 3)
     {
         selectScopeId = indexPath.row;
         ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
         zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         if (selectScopeId == 0) {
-            zoneDetailVC.zoneType = ZoneTypeSchool;
-        }else if(selectScopeId == 1){
-            zoneDetailVC.zoneType = ZoneTypeIndustry;
-        }else{
             zoneDetailVC.zoneType = ZoneTypeCompany;
+        }else if(selectScopeId == 1){
+            zoneDetailVC.zoneType = ZoneTypeSchool;
+        }else{
+            zoneDetailVC.zoneType = ZoneTypeIndustry;
         }
         zoneDetailVC.delegate = self;
         [self presentViewController:zoneDetailVC animated:YES completion:nil];
@@ -192,6 +228,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
+        if (_firstSelect == NO)
+        {
+            for (UIView* view in footerView.subviews)
+            {
+                if ([view isKindOfClass:[UIButton class]]) {
+                    UIButton* btn = (UIButton*)view;
+                    [btn setTitle:@"确定" forState:UIControlStateNormal];
+                }
+            }
+        }
         return footerView;
     }
     //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
@@ -228,7 +274,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 //}
 - (IBAction)nextStepBtnPress:(id)sender
 {
-    NSLog(@"%s", __FUNCTION__);
+    selectZones = [NSMutableArray arrayWithArray:[self filterArray:selectZones]];
     if([selectZones count] == 0)
     {
         AlertContent(@"同学，您最少要选择一个圈子吧");

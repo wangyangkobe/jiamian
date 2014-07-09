@@ -133,7 +133,7 @@
         [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
         [[NSUserDefaults standardUserDefaults] setObject:passWord forKey:kLogInToken];
         [[NSUserDefaults standardUserDefaults] setInteger:UserTypeRegister forKey:kLogInType];
-        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:kUserIdentity];
+        [[NSUserDefaults standardUserDefaults] setObject:userName forKey:kUserName];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];

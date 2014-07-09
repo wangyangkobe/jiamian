@@ -30,7 +30,7 @@
         if (UserTypeRegister == logInType)
         {
             NSString* passWord = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
-            NSString* userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserIdentity];
+            NSString* userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
             [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
                                                        userType:logInType
                                                    userIdentity:userName];
@@ -70,8 +70,6 @@
 }
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    NSLog(@"url = %@, sourceApplication = %@", url, sourceApplication);
-    
     if ([sourceApplication isEqualToString:@"com.sina.weibo"])
         return [WeiboSDK handleOpenURL:url delegate:self];
     else if( [sourceApplication isEqualToString:@"com.tencent.xin"] )
@@ -81,8 +79,6 @@
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
 {
-    NSLog(@"%s, url = %@", __FUNCTION__, url);
-    
     if ( [TencentOAuth CanHandleOpenURL:url] )
         return [TencentOAuth HandleOpenURL:url];
     else if([url.description hasPrefix:@"wechat"] || [url.description hasPrefix:@"qqshare"] )
@@ -119,6 +115,9 @@
             [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:wbToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeWeiBo forKey:kLogInType];
+            
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userSelf.areas];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];

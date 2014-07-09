@@ -29,6 +29,7 @@
 		_user_type   = [aDecoder decodeIntForKey:@"user_type"];
 		_description = [aDecoder decodeObjectForKey:@"description"];
         _area        = [aDecoder decodeObjectForKey:@"area"];
+        _areas       = [aDecoder decodeObjectForKey:@"areas"];
 	}
 	return self;
 }
@@ -42,6 +43,7 @@
     [aCoder encodeInt:_user_type      forKey:@"user_type"];
     [aCoder encodeObject:_description forKey:@"description"];
     [aCoder encodeObject:_area        forKey:@"area"];
+    [aCoder encodeObject:_areas       forKey:@"areas"];
 }
 
 #pragma mark NSCopying
@@ -56,7 +58,8 @@
     copy.user_name   = [self.user_name copyWithZone:zone];
     copy.head_image  = [self.head_image copyWithZone:zone];
     copy.description = [self.description copyWithZone:zone];
-    copy.area        = [self.description copyWithZone:zone];
+    copy.area        = [self.area copyWithZone:zone];
+    copy.areas       = [self.areas copyWithZone:zone];
     return copy;
 }
 

@@ -16,7 +16,7 @@
     NSMutableArray* searchRes;
     NSArray* lastSelectZones;
 }
-@property (nonatomic, retain) NSIndexPath *lastIndexPath;
+
 @end
 
 @implementation ZoneDetailViewController
@@ -47,7 +47,7 @@
         NSArray* result = [[NetWorkConnect sharedInstance] areaList:0
                                                               maxId:INT_MAX
                                                               count:20
-                                                              areaType:_zoneType
+                                                           areaType:_zoneType
                                                          filterType:0
                                                             keyWord:nil];
         [zonesArr addObjectsFromArray:result];
@@ -98,15 +98,15 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     }
-    int row = indexPath.row;
+    
     AreaModel* zone = nil;
     if (tableView == _searchDispalyController.searchResultsTableView)
     {
-        zone = (AreaModel*)[searchRes objectAtIndex:row];
+        zone = (AreaModel*)[searchRes objectAtIndex:indexPath.row];
     }
     else
     {
-        zone = (AreaModel*)[zonesArr objectAtIndex:row];
+        zone = (AreaModel*)[zonesArr objectAtIndex:indexPath.row];
     }
     UILabel* zoneNameLabel = (UILabel*)[cell viewWithTag:kZoneNameLabelTag];
     [zoneNameLabel setText:zone.area_name];
@@ -137,18 +137,6 @@
 #pragma mark - UITableView Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* currCell = [tableView cellForRowAtIndexPath:indexPath];
-    int new = [indexPath row];
-    int old = (_lastIndexPath != nil) ? [_lastIndexPath row] : -1;
-    
-    if(new != old)
-    {
-        currCell.accessoryType = UITableViewCellAccessoryCheckmark;
-        UITableViewCell* oldCell = [tableView cellForRowAtIndexPath:_lastIndexPath];
-        oldCell.accessoryType = UITableViewCellAccessoryNone;
-        _lastIndexPath = indexPath;
-    }
-    
     AreaModel* zone = nil;
     if (tableView == _searchDispalyController.searchResultsTableView)
     {
@@ -183,7 +171,6 @@
 }
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
-    NSLog(@"%s, searchText = %@", __FUNCTION__, searchText);
     if([searchText length] == 0)
         return;
     [searchRes removeAllObjects];
@@ -231,7 +218,14 @@
 {
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 20)];
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
-    [label setText:@"目前支持全国几十万家公司，以下是热门公司"];
+    if (_zoneType == ZoneTypeCompany) {
+        [label setText:@"目前支持全国几十万家公司，以下是热门公司"];
+    }else if (_zoneType == ZoneTypeIndustry){
+        [label setText:@"目前支持全国几十万个行业，以下是热门行业"];
+    }else{
+        [label setText:@"目前支持全国几十所学校，以下是热门学校"];
+    }
+    
     [label setTextColor:[UIColor lightGrayColor]];
     [label setFont:[UIFont systemFontOfSize:14]];
     [label sizeToFit];
@@ -263,7 +257,7 @@
 {
     AreaModel* zone = (AreaModel*)[zonesArr lastObject];
     NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence
-                                                        maxId:INT_MAX
+                                                          maxId:INT_MAX
                                                           count:20
                                                        areaType:_zoneType
                                                      filterType:0
