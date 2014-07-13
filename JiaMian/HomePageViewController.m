@@ -18,6 +18,7 @@
 #import "SelectAreaViewController.h"
 #import "SelectZoneViewController.h"
 #import "TopicDetailViewController.h"
+#import "TSActionSheet.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -82,6 +83,11 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
     
+//    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
+//    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
+    
     //创建BarButtonItem
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -98,7 +104,7 @@
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
                                                                          style:UIBarButtonItemStylePlain
                                                                         target:self
-                                                                        action:@selector(settingBtnPressed:)];;
+                                                                        action:@selector(showActionSheet:forEvent:)];;
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -145,6 +151,36 @@
 -(void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+-(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
+{
+    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    [actionSheet addButtonWithTitle:@"邀请朋友" block:^{
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMengAppKey
+                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
+                                         shareImage:nil
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+                                           delegate:nil];
+    }];
+    [actionSheet addButtonWithTitle:@"选择圈子" block:^{
+        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
+        selectZoneVC.firstSelect = NO;
+        [self presentViewController:selectZoneVC animated:YES completion:nil];
+    }];
+    [actionSheet addButtonWithTitle:@"注销登录" block:^{
+        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
+        if (result)
+        {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
+        }
+    }];
+    actionSheet.cornerRadius = 5;
+    
+    [actionSheet showWithTouch:event];
 }
 - (void)settingBtnPressed:(id)sender
 {
@@ -236,7 +272,6 @@
     if (section == 0){
         return [topicArray count];
     }else{
-        NSLog(@"%s %lu", __FUNCTION__, (unsigned long)messageArray.count);
         return [messageArray count];
     }
 }
@@ -251,15 +286,22 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
-    label.backgroundColor = [UIColor whiteColor];
-    label.opaque = NO;
+    UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 20, 20)];
+    
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, SCREEN_WIDTH - 60, 30)];
+    view.backgroundColor = UIColorFromRGB(0xf4f4f4);
+    view.opaque = NO;
+    [view addSubview:image];
     [view addSubview:label];
     
     if (section == 0) {
-        [label setText:@"   热门话题"];
+        [image setImage:[UIImage imageNamed:@"topic"]];
+        [label setTextColor:UIColorFromRGB(0xfd5b00)];
+        [label setText:@"  热门话题"];
     } else {
-        [label setText:@"   圈内秘密"];
+        [image setImage:[UIImage imageNamed:@"secret"]];
+        [label setTextColor:UIColorFromRGB(0xffb50b)];
+        [label setText:@"  圈内秘密"];
     }
     return view;
 }
@@ -335,6 +377,8 @@
         UILabel* topicMsgLabel = (UILabel*)[cell.contentView viewWithTag:kTopicMsgLabel];
         [topicMsgLabel setText:topic.latest_message.text];
         
+        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_next"]];;
+        [cell.accessoryView setFrame:CGRectMake(0, 0, 24, 24)];
         return cell;
     }
 }
@@ -440,6 +484,7 @@
         
         if (topicMsg.background_url && topicMsg.background_url.length > 0)
         {
+            [topicMsgLabel setTextColor:UIColorFromRGB(0xffffff)];
             [topicImageView setImage:[UIImage imageNamed:@"blackalpha"]];
             SDWebImageManager *manager = [SDWebImageManager sharedManager];
             NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",

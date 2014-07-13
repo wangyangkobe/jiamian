@@ -14,6 +14,10 @@
 		1507851F194B2410006CDD95 /* Default~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851A194B2410006CDD95 /* Default~iphone.png */; };
 		15078520194B2410006CDD95 /* ic_qz_marked.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851B194B2410006CDD95 /* ic_qz_marked.png */; };
 		15078521194B2410006CDD95 /* ic_qz.png in Resources */ = {isa = PBXBuildFile; fileRef = 1507851C194B2410006CDD95 /* ic_qz.png */; };
+		1508980D1972635E00039E33 /* ic_next.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508980B1972635E00039E33 /* ic_next.png */; };
+		1508980E1972635E00039E33 /* ic_next@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508980C1972635E00039E33 /* ic_next@2x.png */; };
+		150898111972699C00039E33 /* secret.png in Resources */ = {isa = PBXBuildFile; fileRef = 1508980F1972699C00039E33 /* secret.png */; };
+		150898121972699C00039E33 /* topic.png in Resources */ = {isa = PBXBuildFile; fileRef = 150898101972699C00039E33 /* topic.png */; };
 		150D5E491927866900BE24AB /* UMSocialLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 150D5E2F1927866900BE24AB /* UMSocialLocalizable.strings */; };
 		150D5E4A1927866900BE24AB /* libUMSocial_Sdk_3.3.7.1.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150D5E3D1927866900BE24AB /* libUMSocial_Sdk_3.3.7.1.a */; };
 		150D5E4B1927866900BE24AB /* UMSCommentDetailController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 150D5E3F1927866900BE24AB /* UMSCommentDetailController.xib */; };
@@ -63,6 +67,11 @@
 		1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */; };
 		15278140190D544400C15419 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813E190D544400C15419 /* Icon.png */; };
 		15278141190D544400C15419 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1527813F190D544400C15419 /* Icon@2x.png */; };
+		15280B531972A3A5002E8E07 /* TSActionSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 15280B491972A3A5002E8E07 /* TSActionSheet.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		15280B541972A3A5002E8E07 /* TSPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15280B4B1972A3A5002E8E07 /* TSPopoverController.m */; };
+		15280B551972A3A5002E8E07 /* TSPopoverPopoverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15280B4D1972A3A5002E8E07 /* TSPopoverPopoverView.m */; };
+		15280B561972A3A5002E8E07 /* TSPopoverTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15280B501972A3A5002E8E07 /* TSPopoverTouchView.m */; };
+		15280B571972A3A5002E8E07 /* UIBarButtonItem+WEPopover.m in Sources */ = {isa = PBXBuildFile; fileRef = 15280B521972A3A5002E8E07 /* UIBarButtonItem+WEPopover.m */; };
 		152A345F1949D8040012B220 /* LeveyPopListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 152A345C1949D8040012B220 /* LeveyPopListView.m */; };
 		152A34601949D8040012B220 /* LeveyPopListViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 152A345E1949D8040012B220 /* LeveyPopListViewCell.m */; };
 		152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152BFF2C193F4424000D8E1F /* RegisterViewController.m */; };
@@ -188,6 +197,10 @@
 		1507851A194B2410006CDD95 /* Default~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default~iphone.png"; sourceTree = "<group>"; };
 		1507851B194B2410006CDD95 /* ic_qz_marked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz_marked.png; sourceTree = "<group>"; };
 		1507851C194B2410006CDD95 /* ic_qz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_qz.png; sourceTree = "<group>"; };
+		1508980B1972635E00039E33 /* ic_next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_next.png; sourceTree = "<group>"; };
+		1508980C1972635E00039E33 /* ic_next@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_next@2x.png"; sourceTree = "<group>"; };
+		1508980F1972699C00039E33 /* secret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = secret.png; sourceTree = "<group>"; };
+		150898101972699C00039E33 /* topic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topic.png; sourceTree = "<group>"; };
 		150D5E301927866900BE24AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/UMSocialLocalizable.strings; sourceTree = "<group>"; };
 		150D5E321927866900BE24AB /* UMSocial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocial.h; sourceTree = "<group>"; };
 		150D5E331927866900BE24AB /* UMSocialAccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialAccountManager.h; sourceTree = "<group>"; };
@@ -257,6 +270,17 @@
 		15278133190D510F00C15419 /* MessageEntrySendButtonPressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MessageEntrySendButtonPressed@2x.png"; sourceTree = "<group>"; };
 		1527813E190D544400C15419 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		1527813F190D544400C15419 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		15280B481972A3A5002E8E07 /* TSActionSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSActionSheet.h; sourceTree = "<group>"; };
+		15280B491972A3A5002E8E07 /* TSActionSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSActionSheet.m; sourceTree = "<group>"; };
+		15280B4A1972A3A5002E8E07 /* TSPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverController.h; sourceTree = "<group>"; };
+		15280B4B1972A3A5002E8E07 /* TSPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverController.m; sourceTree = "<group>"; };
+		15280B4C1972A3A5002E8E07 /* TSPopoverPopoverView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverPopoverView.h; sourceTree = "<group>"; };
+		15280B4D1972A3A5002E8E07 /* TSPopoverPopoverView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverPopoverView.m; sourceTree = "<group>"; };
+		15280B4E1972A3A5002E8E07 /* TSPopoverTouchesDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverTouchesDelegate.h; sourceTree = "<group>"; };
+		15280B4F1972A3A5002E8E07 /* TSPopoverTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSPopoverTouchView.h; sourceTree = "<group>"; };
+		15280B501972A3A5002E8E07 /* TSPopoverTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSPopoverTouchView.m; sourceTree = "<group>"; };
+		15280B511972A3A5002E8E07 /* UIBarButtonItem+WEPopover.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+WEPopover.h"; sourceTree = "<group>"; };
+		15280B521972A3A5002E8E07 /* UIBarButtonItem+WEPopover.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+WEPopover.m"; sourceTree = "<group>"; };
 		152A345B1949D8040012B220 /* LeveyPopListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeveyPopListView.h; sourceTree = "<group>"; };
 		152A345C1949D8040012B220 /* LeveyPopListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeveyPopListView.m; sourceTree = "<group>"; };
 		152A345D1949D8040012B220 /* LeveyPopListViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeveyPopListViewCell.h; sourceTree = "<group>"; };
@@ -586,6 +610,24 @@
 			path = lib;
 			sourceTree = "<group>";
 		};
+		15280B471972A3A5002E8E07 /* TSPopover */ = {
+			isa = PBXGroup;
+			children = (
+				15280B481972A3A5002E8E07 /* TSActionSheet.h */,
+				15280B491972A3A5002E8E07 /* TSActionSheet.m */,
+				15280B4A1972A3A5002E8E07 /* TSPopoverController.h */,
+				15280B4B1972A3A5002E8E07 /* TSPopoverController.m */,
+				15280B4C1972A3A5002E8E07 /* TSPopoverPopoverView.h */,
+				15280B4D1972A3A5002E8E07 /* TSPopoverPopoverView.m */,
+				15280B4E1972A3A5002E8E07 /* TSPopoverTouchesDelegate.h */,
+				15280B4F1972A3A5002E8E07 /* TSPopoverTouchView.h */,
+				15280B501972A3A5002E8E07 /* TSPopoverTouchView.m */,
+				15280B511972A3A5002E8E07 /* UIBarButtonItem+WEPopover.h */,
+				15280B521972A3A5002E8E07 /* UIBarButtonItem+WEPopover.m */,
+			);
+			path = TSPopover;
+			sourceTree = "<group>";
+		};
 		152A345A1949D8040012B220 /* LeveyPopListView */ = {
 			isa = PBXGroup;
 			children = (
@@ -775,6 +817,7 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				15280B471972A3A5002E8E07 /* TSPopover */,
 				15FFC0CA195CFA980033AD23 /* SAMTextView */,
 				152A345A1949D8040012B220 /* LeveyPopListView */,
 				153C70301943DB860045A0FC /* SVProgressHUD */,
@@ -901,6 +944,10 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				1508980F1972699C00039E33 /* secret.png */,
+				150898101972699C00039E33 /* topic.png */,
+				1508980B1972635E00039E33 /* ic_next.png */,
+				1508980C1972635E00039E33 /* ic_next@2x.png */,
 				1536A4C4196ACDF8003DA8B9 /* ic_add.png */,
 				152031DF19693217006E8E88 /* ic_index_star5.png */,
 				152031E019693217006E8E88 /* ic_index_star4.png */,
@@ -1045,6 +1092,7 @@
 			files = (
 				156985501913522000923E85 /* login_word.png in Resources */,
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
+				1508980E1972635E00039E33 /* ic_next@2x.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
 				150D5E4E1927866900BE24AB /* UMShareEditViewController.xib in Resources */,
 				15278141190D544400C15419 /* Icon@2x.png in Resources */,
@@ -1059,6 +1107,7 @@
 				1507851E194B2410006CDD95 /* Default@2x.png in Resources */,
 				1569854A19134A0C00923E85 /* loginbackground.png in Resources */,
 				15326BA419289F1F0008AAE1 /* ic_like.png in Resources */,
+				150898111972699C00039E33 /* secret.png in Resources */,
 				152031E419693217006E8E88 /* ic_index_star5.png in Resources */,
 				15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */,
 				15278136190D511000C15419 /* MessageEntryInputField.png in Resources */,
@@ -1081,6 +1130,7 @@
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
 				1507851F194B2410006CDD95 /* Default~iphone.png in Resources */,
 				15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */,
+				150898121972699C00039E33 /* topic.png in Resources */,
 				153C70351943DB860045A0FC /* SVProgressHUD.bundle in Resources */,
 				15B035D7191A7AC700C31D39 /* food.png in Resources */,
 				152031E719693217006E8E88 /* ic_index_star2.png in Resources */,
@@ -1115,6 +1165,7 @@
 				1558CF9B190B9C5400E6B543 /* Main.storyboard in Resources */,
 				1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */,
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
+				1508980D1972635E00039E33 /* ic_next.png in Resources */,
 				150D5E501927866900BE24AB /* UMSLoginViewController.xib in Resources */,
 				152031E819693217006E8E88 /* ic_index_star1.png in Resources */,
 				15326B9019281AC80008AAE1 /* ico-to-do-list_ios7.png in Resources */,
@@ -1195,7 +1246,9 @@
 				15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */,
 				153C70361943DB860045A0FC /* SVProgressHUD.m in Sources */,
 				15F80F5B19509644008072AD /* ShowInfoViewController.m in Sources */,
+				15280B541972A3A5002E8E07 /* TSPopoverController.m in Sources */,
 				15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */,
+				15280B551972A3A5002E8E07 /* TSPopoverPopoverView.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
 				15503E0D193784E200CD737D /* GTMBase64.m in Sources */,
 				1558CFDF190BF00600E6B543 /* HomePageViewController.m in Sources */,
@@ -1210,9 +1263,11 @@
 				1558D018190BF34300E6B543 /* LoadMoreTableFooterView.m in Sources */,
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
 				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
+				15280B561972A3A5002E8E07 /* TSPopoverTouchView.m in Sources */,
 				152031EB19693579006E8E88 /* TopicModel.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
+				15280B571972A3A5002E8E07 /* UIBarButtonItem+WEPopover.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
 				1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */,
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
@@ -1222,6 +1277,7 @@
 				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
 				1592099D196B4E90000A1F0E /* TopicDetailViewController.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
+				15280B531972A3A5002E8E07 /* TSActionSheet.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

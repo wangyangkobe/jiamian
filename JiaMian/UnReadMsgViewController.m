@@ -87,12 +87,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NotificationModel* notification = (NotificationModel*)[unReadMsgArr objectAtIndex:[indexPath row]];
-    //    CGFloat textHeight = [notification.message.text sizeWithFont:[UIFont systemFontOfSize:13]
-    //                                               constrainedToSize:CGSizeMake(175, 48)
-    //                                                   lineBreakMode:NSLineBreakByTruncatingTail].height;
-    //    return textHeight + 10;
-    return 175 + 10;//48 + 10;
+    return 175 + 10;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -109,6 +104,10 @@
     if (notification.status == 1)
     {
         [newImageView setImage:[UIImage imageNamed:@"new"]];
+    }
+    else
+    {
+        [newImageView setImage:nil];
     }
     [titleLabel setText:@"某某某回复了"];
     [titleLabel setTextColor:UIColorFromRGB(0x576b95)];
@@ -176,11 +175,11 @@
                 [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
                 fromIndex++;
             }
-            
             [_tableView beginUpdates];
             [_tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationMiddle];
             [_tableView endUpdates];
-            
+            if (indexPaths.count > 0)
+                [self.tableView scrollToRowAtIndexPath:indexPaths[0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
         });
     });
     
