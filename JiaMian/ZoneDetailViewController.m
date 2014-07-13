@@ -233,9 +233,9 @@
     if (_zoneType == ZoneTypeCompany) {
         [label setText:@"目前支持全国几十万家公司，以下是热门公司"];
     }else if (_zoneType == ZoneTypeIndustry){
-        [label setText:@"目前支持全国几十万个行业，以下是热门行业"];
+        [label setText:@"目前支持全国几十个行业，以下是热门行业"];
     }else{
-        [label setText:@"目前支持全国几十所学校，以下是热门学校"];
+        [label setText:@"目前支持全国几千所学校，以下是热门学校"];
     }
     
     [label setTextColor:[UIColor lightGrayColor]];

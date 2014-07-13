@@ -161,7 +161,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     }else if (1 == selectScopeId){
         [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
     }else{
-        [currentConf setValue:[NSNumber numberWithInt:0xf9eca8] forKey:@"color"];
+        [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
     }
     
     if ([selectZones containsObject:zone] == NO)

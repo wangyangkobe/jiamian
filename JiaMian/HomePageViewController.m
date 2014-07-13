@@ -252,6 +252,8 @@
 {
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+    label.backgroundColor = [UIColor whiteColor];
+    label.opaque = NO;
     [view addSubview:label];
     
     if (section == 0) {
