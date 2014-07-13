@@ -117,6 +117,10 @@
 }
 - (void)fetchDataFromServer
 {
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"刷新中..."];
+    
     messageArray = [NSMutableArray array];
     topicArray   = [NSMutableArray array];
     
@@ -134,6 +138,7 @@
         [topicArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
             [self.pullTableView reloadData];
         });
     });
@@ -290,6 +295,7 @@
     
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, SCREEN_WIDTH - 60, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
+    label.backgroundColor = UIColorFromRGB(0xf4f4f4);
     view.opaque = NO;
     [view addSubview:image];
     [view addSubview:label];
