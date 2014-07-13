@@ -319,9 +319,9 @@
     textView.layer.cornerRadius =5.0;
     
     // view hierachy
-   // [self.toolBar addSubview:imageView];
+    // [self.toolBar addSubview:imageView];
     [self.toolBar addSubview:textView];
-   // [self.toolBar addSubview:entryImageView];
+    // [self.toolBar addSubview:entryImageView];
     
     UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];

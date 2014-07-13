@@ -251,13 +251,13 @@
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
-    UILabel* label = [[UILabel alloc] initWithFrame:view.frame];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     [view addSubview:label];
     
     if (section == 0) {
-        [label setText:@"热门话题"];
+        [label setText:@"   热门话题"];
     } else {
-        [label setText:@"圈内秘密"];
+        [label setText:@"   圈内秘密"];
     }
     return view;
 }
@@ -607,13 +607,12 @@
         return;
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
-    
+    UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
+    UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
+    [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
     if (message)
     {
-        UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
-        UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
-        [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
-        UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
         likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
         UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
         if (message.is_official == NO)

@@ -7,6 +7,7 @@
 //
 
 #import "ZoneDetailViewController.h"
+#import "AreaModel.h"
 
 #define kZoneNameLabelTag    9000
 #define kZoneHotImageViewTag 9001
@@ -14,7 +15,7 @@
 {
     NSMutableArray* zonesArr;
     NSMutableArray* searchRes;
-    NSArray* lastSelectZones;
+    AreaModel* lastSelectZone;
 }
 
 @end
@@ -53,8 +54,8 @@
         [zonesArr addObjectsFromArray:result];
         
         NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
-        lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
-        
+        NSArray* res = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
+        lastSelectZone = [self filterArray:res];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -70,7 +71,18 @@
         //   [_searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
     }
 }
-
+- (AreaModel*)filterArray:(NSArray*)array
+{
+    AreaModel* res = nil;
+    for(AreaModel* zone in array)
+    {
+        if (zone.type == _zoneType)
+        {
+            res = zone;
+        }
+    }
+    return res;
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -123,7 +135,7 @@
         [hotImageView setImage:[UIImage imageNamed:@"ic_index_star1"]];
     }
     
-    if ([lastSelectZones containsObject:zone])
+    if (lastSelectZone && zone.area_id == lastSelectZone.area_id)
     {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }
@@ -156,19 +168,19 @@
 }
 
 #pragma mark - UISearchDispalyController delegate
-- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
-{
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        for (UIView *v in controller.searchResultsTableView.subviews) {
-            if ([v isKindOfClass:[UILabel self]]) {
-                //((UILabel *)v).text = @"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面";
-                AlertContent(@"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面");
-                break;
-            }
-        }
-    });
-    return YES;
-}
+//- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+//{
+//    dispatch_async(dispatch_get_main_queue(), ^(void) {
+//        for (UIView *v in controller.searchResultsTableView.subviews) {
+//            if ([v isKindOfClass:[UILabel self]]) {
+//                //((UILabel *)v).text = @"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面";
+//                AlertContent(@"您搜索的圈子暂未开放,\r\n请关注其它圈子进入假面");
+//                break;
+//            }
+//        }
+//    });
+//    return YES;
+//}
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if([searchText length] == 0)

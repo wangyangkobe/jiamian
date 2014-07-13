@@ -55,7 +55,15 @@ static NSString* CellStr = @"TopicDetalCell";
             [_pullTableView reloadData];
         });
     });
-    self.title = _topicTitle;
+    if ([_topicTitle length] > 7)
+    {
+        self.title = [NSString stringWithFormat:@"%@...", [_topicTitle substringToIndex:6]];
+    }
+    else
+    {
+        self.title = _topicTitle;
+    }
+
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -29,6 +29,7 @@
     self.layer.masksToBounds = YES;
     //self.layer.borderColor =[UIColor darkGrayColor].CGColor;
     //self.layer.borderWidth = 1;
+
     self.backgroundColor = UIColorFromRGB(0xd2d2d2);
 }
 
@@ -40,7 +41,8 @@
     if (_dashedBorder)
     {
         _border = [CAShapeLayer layer];
-        _border.strokeColor = [UIColor colorWithRed:67/255.0f green:37/255.0f blue:83/255.0f alpha:1].CGColor;
+        UIColor* borderColor = UIColorFromRGB(0x93928e);
+        _border.strokeColor = borderColor.CGColor;
         _border.fillColor = nil;
         _border.lineDashPattern = @[@4, @2];
         [_border setLineWidth:5];

@@ -43,6 +43,10 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIView *blueView = [[UIView alloc]init];
+    blueView.backgroundColor = UIColorFromRGB(0xf6f5f1);
+    self.collectionView.backgroundView = blueView;
+ 
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
@@ -78,7 +82,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:lastSelectData];
     NSLog(@"lastSelectZones = %@", lastSelectZones);
     NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey:kCongigureDict];
-    if (lastSelectZones && data)
+    if (lastSelectZones && data && !self.isFirstSelect)
     {
         configureDict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
         NSLog(@"configure dict = %@", configureDict);
@@ -197,6 +201,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         addIV.center = cell.contentView.center;
         [cell.contentView addSubview:addIV];
         [addIV setImage:[UIImage imageNamed:@"ic_add"]];
+        [cell setBackgroundColor:UIColorFromRGB(0xf6f5f1)];
     }
     return cell;
 }
@@ -228,12 +233,15 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
-        if (_firstSelect == NO)
+        
+        for (UIView* view in footerView.subviews)
         {
-            for (UIView* view in footerView.subviews)
+            if ([view isKindOfClass:[UIButton class]])
             {
-                if ([view isKindOfClass:[UIButton class]]) {
-                    UIButton* btn = (UIButton*)view;
+                UIButton* btn = (UIButton*)view;
+                [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
+                if (_firstSelect == NO)
+                {
                     [btn setTitle:@"确定" forState:UIControlStateNormal];
                 }
             }
