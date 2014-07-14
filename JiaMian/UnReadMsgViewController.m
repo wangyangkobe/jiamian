@@ -48,21 +48,6 @@
     [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
     
     _notificationArr = [NSMutableArray array];
-    
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-    [SVProgressHUD showWithStatus:@"刷新中..."];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        [_notificationArr addObjectsFromArray:requestRes];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD dismiss];
-            [self.tableView reloadData];
-        });
-    });
-    NSLog(@"%s", __FUNCTION__);
 }
 
 - (void)didReceiveMemoryWarning
@@ -74,6 +59,19 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
+    
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"刷新中..."];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
+        [_notificationArr addObjectsFromArray:requestRes];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+            [self.tableView reloadData];
+        });
+    });
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -91,6 +89,7 @@
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"%s", __FUNCTION__);
     static NSString* CellIdentifier = @"UnReadMsgCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)

@@ -318,10 +318,7 @@
     textView.layer.borderWidth = 1.0;
     textView.layer.cornerRadius =5.0;
     
-    // view hierachy
-    // [self.toolBar addSubview:imageView];
     [self.toolBar addSubview:textView];
-    // [self.toolBar addSubview:entryImageView];
     
     UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
@@ -377,6 +374,15 @@
 	// set views with new info
 	self.toolBar.frame = containerFrame;
     
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardBounds.size.height, 0.0);
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
+    if (commentArr.count >=1)
+    {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
+                              atScrollPosition:UITableViewScrollPositionBottom
+                                      animated:YES];
+    }
 	// commit animations
 	[UIView commitAnimations];
 }
@@ -399,6 +405,9 @@
 	// set views with new info
 	self.toolBar.frame = containerFrame;
 	
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
+    self.tableView.contentInset = contentInsets;
+    self.tableView.scrollIndicatorInsets = contentInsets;
 	// commit animations
 	[UIView commitAnimations];
 }

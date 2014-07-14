@@ -83,10 +83,10 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
     
-//    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-//    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
-//    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
+    //    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    //    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
+    //    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
+    //    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
     
     //创建BarButtonItem
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -117,7 +117,7 @@
 }
 - (void)fetchDataFromServer
 {
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 50)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
     [SVProgressHUD showWithStatus:@"刷新中..."];
     
@@ -160,51 +160,35 @@
 -(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
 {
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
-    [actionSheet addButtonWithTitle:@"邀请朋友" block:^{
-        [UMSocialSnsService presentSnsIconSheetView:self
-                                             appKey:kUMengAppKey
-                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
-                                         shareImage:nil
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                           delegate:nil];
-    }];
-    [actionSheet addButtonWithTitle:@"选择圈子" block:^{
-        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
-        selectZoneVC.firstSelect = NO;
-        [self presentViewController:selectZoneVC animated:YES completion:nil];
-    }];
-    [actionSheet addButtonWithTitle:@"注销登录" block:^{
-        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-        if (result)
-        {
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-        }
-    }];
+    [actionSheet addButtonWithTitle:@"邀请朋友" color:[UIColor blackColor]
+                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
+                             [UMSocialSnsService presentSnsIconSheetView:self
+                                                                  appKey:kUMengAppKey
+                                                               shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
+                                                              shareImage:nil
+                                                         shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+                                                                delegate:nil];
+                         }];
+    [actionSheet addButtonWithTitle:@"选择圈子" color:[UIColor blackColor]
+                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
+                             SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
+                             selectZoneVC.firstSelect = NO;
+                             [self presentViewController:selectZoneVC animated:YES completion:nil];
+                         }];
+    [actionSheet addButtonWithTitle:@"注销登录" color:[UIColor blackColor]
+                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
+                             BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
+                             if (result)
+                             {
+                                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+                                 [[NSUserDefaults standardUserDefaults] synchronize];
+                                 LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+                                 [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
+                             }
+                         }];
     actionSheet.cornerRadius = 5;
     
     [actionSheet showWithTouch:event];
-}
-- (void)settingBtnPressed:(id)sender
-{
-    NSArray *menuItems =
-    @[
-      [KxMenuItem menuItem:@"邀请朋友" image:nil target:self action:@selector(menuItemPressed:)],
-      // [KxMenuItem menuItem:@"选择校园" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"选择圈子" image:nil target:self action:@selector(menuItemPressed:)],
-      //[KxMenuItem menuItem:@"意见反馈" image:nil target:self action:@selector(menuItemPressed:)],
-      // [KxMenuItem menuItem:@"检查更新" image:nil target:self action:@selector(menuItemPressed:)],
-      [KxMenuItem menuItem:@"注销登录" image:nil target:self action:@selector(menuItemPressed:)],
-      ];
-    
-    for (KxMenuItem* item in menuItems)
-        item.alignment = NSTextAlignmentCenter;
-    
-    [KxMenu setTintColor:[UIColor whiteColor]];
-    UIWindow* window = [[UIApplication sharedApplication].delegate window];
-    [KxMenu showMenuInView:window fromRect:CGRectMake(290, 30, 30, 30) menuItems:menuItems];
 }
 - (void)menuItemPressed:(id)sender
 {
