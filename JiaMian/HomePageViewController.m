@@ -83,10 +83,11 @@
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
     
-    //    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    //    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
-    //    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
-    //    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
+    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [publishButton setBackgroundImage:[UIImage imageNamed:@"publish_msg"] forState:UIControlStateNormal];
+    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
+    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
     
     //创建BarButtonItem
     UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -94,7 +95,7 @@
     if (IOS_NEWER_OR_EQUAL_TO_7) {
         [customButton setImage:[UIImage imageNamed:@"ico-to-do-list_ios7"] forState:UIControlStateNormal];
     } else {
-        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list"] forState:UIControlStateNormal];
+        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list_ios7"] forState:UIControlStateNormal];
     }
     
     BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
@@ -104,7 +105,11 @@
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
                                                                          style:UIBarButtonItemStylePlain
                                                                         target:self
-                                                                        action:@selector(showActionSheet:forEvent:)];;
+                                                                        action:@selector(showActionSheet:forEvent:)];
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        [settingBarButton setTintColor:[UIColor whiteColor]];
+    }
+
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{

@@ -44,19 +44,20 @@
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self
                                                                           action:@selector(shareMsgBtnPressed:)];
-    //    UIImage *shareImage = [UIImage imageNamed:@"ic_share"];
-    //    UIButton *shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    shareBtn.bounds = CGRectMake( 0, 0 , 44, 44 );
-    //    [shareBtn setImage:shareImage forState:UIControlStateNormal];
-    //    [shareBtn addTarget:self action:@selector(shareMsgBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    //    UIBarButtonItem *shareMessageBarBtn = [[UIBarButtonItem alloc] initWithCustomView:shareBtn];
-    
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        [shareMessageBarBtn setTintColor:[UIColor whiteColor]];
+    }
     self.navigationItem.rightBarButtonItem = shareMessageBarBtn;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
+    
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"bar_return"]];
+        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"bar_return"]];
+    }
 }
 - (void)viewWillAppear:(BOOL)animated
 {

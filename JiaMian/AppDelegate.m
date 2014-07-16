@@ -17,6 +17,17 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+    {
+        [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x242730)];
+    }
+    else{
+        [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x242730)];
+    }
+    
+    [[UINavigationBar appearance] setTitleTextAttributes:
+     [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil]];
+    
     BOOL isLogIn = [[NSUserDefaults standardUserDefaults] boolForKey:kUserLogIn];
     if ( NO == isLogIn )
     {

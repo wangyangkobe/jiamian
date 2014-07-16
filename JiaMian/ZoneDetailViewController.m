@@ -216,12 +216,16 @@
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + StatusBarHeight)];
         [self.tableView setContentInset:UIEdgeInsetsMake(StatusBarHeight, 0, 0, 0)];
+        [navigationBar setBarTintColor:UIColorFromRGB(0x242730)];
+        [navigationBar setTranslucent:NO];
     }
     else
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+        [navigationBar setTintColor:UIColorFromRGB(0x242730)];
     }
-    
+    [navigationBar setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                            NSForegroundColorAttributeName, nil]];
     UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];

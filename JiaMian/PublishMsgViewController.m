@@ -92,6 +92,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
                                                                          action:@selector(sendMsgBtnPressed:)];
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        [sendMessageBarBtn setTintColor:[UIColor whiteColor]];
+    }
     self.navigationItem.rightBarButtonItem = sendMessageBarBtn;
     
     [[NSNotificationCenter defaultCenter] addObserver:self

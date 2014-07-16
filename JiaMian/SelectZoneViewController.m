@@ -62,11 +62,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
         [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
+        [navigationBar setBarTintColor:UIColorFromRGB(0x242730)];
+        [navigationBar setTranslucent:NO];
     }
     else
     {
         navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+        [navigationBar setTintColor:UIColorFromRGB(0x242730)];
     }
+    [navigationBar setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                            NSForegroundColorAttributeName, nil]];
     navigationBar.delegate = self;
     //创建UINavigationItem
     UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];

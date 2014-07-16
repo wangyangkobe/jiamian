@@ -134,13 +134,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dNI-If-rd0">
-                        <barButtonItem key="leftBarButtonItem" systemItem="compose" id="qHM-et-C40">
-                            <connections>
-                                <action selector="publishMessage:" destination="vXZ-lx-hvc" id="Tjd-7a-gqi"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="dNI-If-rd0"/>
                     <connections>
                         <outlet property="pullTableView" destination="8V2-Xw-L5m" id="oFN-FW-efj"/>
                     </connections>
@@ -573,7 +567,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginbackground.png" id="qe8-1y-shM">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
-                                <autoresizingMask key="autoresizingMask"/>
+                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W2K-X5-T89">
                                 <rect key="frame" x="60" y="342" width="200" height="35"/>
@@ -597,10 +591,6 @@
                                     <action selector="sinaWBLogIn:" destination="8xJ-at-9BO" eventType="touchUpInside" id="Yxy-RA-oiW"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_word.png" id="izV-rw-qEs">
-                                <rect key="frame" x="57" y="181" width="207" height="97"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eyM-0E-NvB">
                                 <rect key="frame" x="60" y="384" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -770,7 +760,6 @@
         <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
         <image name="ic_like_grey.png" width="35" height="32"/>
-        <image name="login_word.png" width="484" height="215"/>
         <image name="loginbackground.png" width="320" height="480"/>
         <image name="qq_login.png" width="372" height="66"/>
         <image name="qq_login_pressed.png" width="372" height="66"/>

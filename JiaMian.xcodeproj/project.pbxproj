@@ -88,6 +88,11 @@
 		15326BA419289F1F0008AAE1 /* ic_like.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9F19289F1F0008AAE1 /* ic_like.png */; };
 		15326BA519289F1F0008AAE1 /* ic_liked.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326BA019289F1F0008AAE1 /* ic_liked.png */; };
 		1536A4C5196ACDF8003DA8B9 /* ic_add.png in Resources */ = {isa = PBXBuildFile; fileRef = 1536A4C4196ACDF8003DA8B9 /* ic_add.png */; };
+		153B34FB19769C20000EC30D /* publish_msg.png in Resources */ = {isa = PBXBuildFile; fileRef = 153B34FA19769C20000EC30D /* publish_msg.png */; };
+		153B34FD19769C2C000EC30D /* publish_msg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153B34FC19769C2C000EC30D /* publish_msg@2x.png */; };
+		153B35001976A222000EC30D /* bar_return.png in Resources */ = {isa = PBXBuildFile; fileRef = 153B34FE1976A222000EC30D /* bar_return.png */; };
+		153B35011976A222000EC30D /* bar_return@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153B34FF1976A222000EC30D /* bar_return@2x.png */; };
+		153B35031976A867000EC30D /* loginbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 153B35021976A867000EC30D /* loginbackground@2x.png */; };
 		153C70351943DB860045A0FC /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 153C70321943DB860045A0FC /* SVProgressHUD.bundle */; };
 		153C70361943DB860045A0FC /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 153C70341943DB860045A0FC /* SVProgressHUD.m */; };
 		153DCA721917C8D200072F4F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 153DCA711917C8D200072F4F /* ImageIO.framework */; };
@@ -301,6 +306,11 @@
 		15326B9F19289F1F0008AAE1 /* ic_like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_like.png; sourceTree = "<group>"; };
 		15326BA019289F1F0008AAE1 /* ic_liked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_liked.png; sourceTree = "<group>"; };
 		1536A4C4196ACDF8003DA8B9 /* ic_add.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_add.png; sourceTree = "<group>"; };
+		153B34FA19769C20000EC30D /* publish_msg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = publish_msg.png; sourceTree = "<group>"; };
+		153B34FC19769C2C000EC30D /* publish_msg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "publish_msg@2x.png"; sourceTree = "<group>"; };
+		153B34FE1976A222000EC30D /* bar_return.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bar_return.png; sourceTree = "<group>"; };
+		153B34FF1976A222000EC30D /* bar_return@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bar_return@2x.png"; sourceTree = "<group>"; };
+		153B35021976A867000EC30D /* loginbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbackground@2x.png"; sourceTree = "<group>"; };
 		153C70311943DB860045A0FC /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
 		153C70321943DB860045A0FC /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
 		153C70331943DB860045A0FC /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
@@ -944,6 +954,11 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				153B35021976A867000EC30D /* loginbackground@2x.png */,
+				153B34FE1976A222000EC30D /* bar_return.png */,
+				153B34FF1976A222000EC30D /* bar_return@2x.png */,
+				153B34FC19769C2C000EC30D /* publish_msg@2x.png */,
+				153B34FA19769C20000EC30D /* publish_msg.png */,
 				1508980F1972699C00039E33 /* secret.png */,
 				150898101972699C00039E33 /* topic.png */,
 				1508980B1972635E00039E33 /* ic_next.png */,
@@ -1091,6 +1106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				156985501913522000923E85 /* login_word.png in Resources */,
+				153B35001976A222000EC30D /* bar_return.png in Resources */,
 				1569854D19134A1700923E85 /* qq_login_pressed.png in Resources */,
 				1508980E1972635E00039E33 /* ic_next@2x.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
@@ -1101,6 +1117,7 @@
 				152BFF31193F5F33000D8E1F /* useridlogin.png in Resources */,
 				15278140190D544400C15419 /* Icon.png in Resources */,
 				1558CFA0190B9C5400E6B543 /* Images.xcassets in Resources */,
+				153B35031976A867000EC30D /* loginbackground@2x.png in Resources */,
 				1527813A190D511000C15419 /* MessageEntrySendButtonPressed.png in Resources */,
 				15FB3433190FC9D600EBD9DF /* qq_login.png in Resources */,
 				15078520194B2410006CDD95 /* ic_qz_marked.png in Resources */,
@@ -1126,6 +1143,7 @@
 				150D5E671927870300BE24AB /* ios-social-sdk-shake.html in Resources */,
 				155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */,
 				1558D01C190BF34300E6B543 /* blackArrow@2x.png in Resources */,
+				153B34FD19769C2C000EC30D /* publish_msg@2x.png in Resources */,
 				156985561913816200923E85 /* comment_white.png in Resources */,
 				1558D022190BF34300E6B543 /* whiteArrow@2x.png in Resources */,
 				1507851F194B2410006CDD95 /* Default~iphone.png in Resources */,
@@ -1138,6 +1156,7 @@
 				15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */,
 				152031E519693217006E8E88 /* ic_index_star4.png in Resources */,
 				1524CE381920E52F00CAB103 /* unread_head.png in Resources */,
+				153B35011976A222000EC30D /* bar_return@2x.png in Resources */,
 				1505E4A119184A250037A671 /* Icon-120.png in Resources */,
 				1536A4C5196ACDF8003DA8B9 /* ic_add.png in Resources */,
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
@@ -1153,6 +1172,7 @@
 				150D5E4F1927866900BE24AB /* UMShareEditViewControlleriPad.xib in Resources */,
 				1558D01D190BF34300E6B543 /* blueArrow.png in Resources */,
 				15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */,
+				153B34FB19769C20000EC30D /* publish_msg.png in Resources */,
 				15278139190D511000C15419 /* MessageEntrySendButton@2x.png in Resources */,
 				15278137190D511000C15419 /* MessageEntryInputField@2x.png in Resources */,
 				1558CF92190B9C5400E6B543 /* InfoPlist.strings in Resources */,
