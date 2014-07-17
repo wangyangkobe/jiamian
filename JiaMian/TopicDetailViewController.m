@@ -48,22 +48,35 @@ static NSString* CellStr = @"TopicDetalCell";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] topicGetMessages:_topicId sinceId:0 maxId:INT_MAX count:15];
+        NSArray* res = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id sinceId:0 maxId:INT_MAX count:15];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [messageArray addObjectsFromArray:res];
             [_pullTableView reloadData];
+            
+            [self updateHeaderView];
         });
     });
-    if ([_topicTitle length] > 7)
+    if ([_topic.topic_title length] > 8)
     {
-        self.title = [NSString stringWithFormat:@"%@...", [_topicTitle substringToIndex:6]];
+        self.title = [NSString stringWithFormat:@"%@...", [_topic.topic_title substringToIndex:8]];
     }
     else
     {
-        self.title = _topicTitle;
+        self.title = _topic.topic_title;
     }
-
+}
+-(void)updateHeaderView
+{
+    _msgLabel.text = _topic.topic_title;
+    [_imageView setImageWithURL:[NSURL URLWithString:_topic.img_url] placeholderImage:nil];
+    UIView* view = [_imageView superview];
+    [view setBackgroundColor:UIColorFromRGB(0xf7f6f4)];
+    if ([messageArray count] > 0)
+    {
+        MessageModel* message = [messageArray objectAtIndex:0];
+        _timeLabel.text = [NSString stringWithFormat:@"最后更新%@", message.create_at];
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

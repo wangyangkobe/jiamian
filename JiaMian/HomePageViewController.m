@@ -31,11 +31,12 @@
 #define kBackgroundImageView 8008
 
 #define kTopicTextLabel   8999
-#define kTopicNumberLabel 8998
-#define kTopicView        8997
-#define kTopicMsgLabel    8996
-#define kTopicMsgView     8995
+//#define kTopicNumberLabel 8998
+//#define kTopicView        8997
+//#define kTopicMsgLabel    8996
+//#define kTopicMsgView     8995
 #define kTopicImageView   8994
+#define kTopicNumberLabel 8993
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray* messageArray;
@@ -350,28 +351,15 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         };
         
-        //[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-        UIImage *accessoryImage = [UIImage imageNamed:@"accessoryDisclosure.png"];
-        UIImageView *accImageView = [[UIImageView alloc] initWithImage:accessoryImage];
-        accImageView.userInteractionEnabled = YES;
-        [accImageView setFrame:CGRectMake(0, 0, 28.0, 28.0)];
-        cell.accessoryView = accImageView;
-        
+        [cell.contentView setBackgroundColor:UIColorFromRGB(0xf7f6f4)];
         
         TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
         UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTopicTextLabel];
         [textLabel setText:topic.topic_title];
         
-        UIView* bgView = (UIView*)[cell.contentView viewWithTag:kTopicView];
-        NSString* colorStr = [NSString stringWithFormat:@"0x%@", topic.background_color];
-        [bgView setBackgroundColor:[NSString hexStringToColor:colorStr]];
-        
         UILabel* numberLabel = (UILabel*)[cell.contentView viewWithTag:kTopicNumberLabel];
-        [numberLabel setText:[NSString stringWithFormat:@"已有%d条圈内爆料", topic.message_count]];
-        
-        UILabel* topicMsgLabel = (UILabel*)[cell.contentView viewWithTag:kTopicMsgLabel];
-        [topicMsgLabel setText:topic.latest_message.text];
-        
+        [numberLabel setText:[NSString stringWithFormat:@"%d", topic.message_count]];
+        [numberLabel setTextColor:UIColorFromRGB(0xfc5d20)];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_next"]];;
         [cell.accessoryView setFrame:CGRectMake(0, 0, 24, 24)];
         return cell;
@@ -471,60 +459,9 @@
     else  //设置topic
     {
         TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
-        MessageModel* topicMsg = topic.latest_message;
-        
-        UIView* topicMsgView = (UIView*)[cell.contentView viewWithTag:kTopicMsgView];
-        UILabel* topicMsgLabel = (UILabel*)[cell.contentView viewWithTag:kTopicMsgLabel];
         UIImageView* topicImageView = (UIImageView*)[cell.contentView viewWithTag:kTopicImageView];
-        
-        if (topicMsg.background_url && topicMsg.background_url.length > 0)
-        {
-            [topicMsgLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [topicImageView setImage:[UIImage imageNamed:@"blackalpha"]];
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
-                                                    topicMsg.background_url, 92, 92]];
-            [manager downloadWithURL:imageUrl
-                             options:0
-                            progress:nil
-                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                               if (image && finished)
-                               {
-                                   [topicMsgView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                               }
-                           }];
-        }
-        else
-        {
-            [topicImageView setImage:nil];
-            int bgImageNo = topicMsg.background_no;
-            if ( (1 == bgImageNo) || (2 == bgImageNo) )
-            {
-                [topicMsgLabel setTextColor:UIColorFromRGB(0x000000)];
-                if (2 == bgImageNo)
-                {
-                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                    [topicMsgView setBackgroundColor:picColor];
-                }
-                else
-                {
-                    [topicMsgView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-                }
-            }
-            else
-            {
-                [topicMsgLabel setTextColor:UIColorFromRGB(0xffffff)];
-                if (9 == bgImageNo)
-                {
-                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                    [topicMsgView setBackgroundColor:picColor];
-                }
-                else
-                {
-                    [topicMsgView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-                }
-            }
-        }
+        NSURL* imageUrl = [NSURL URLWithString:topic.img_url];
+        [topicImageView setImageWithURL:imageUrl placeholderImage:nil];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -541,8 +478,7 @@
     {
         TopicModel* topic = [topicArray objectAtIndex:indexPath.row];
         TopicDetailViewController* topicDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TopicDetailVCIdentifier"];
-        topicDetailVC.topicId = topic.topic_id;
-        topicDetailVC.topicTitle = topic.topic_title;
+        topicDetailVC.topic = topic;
         [self.navigationController pushViewController:topicDetailVC animated:YES];
     }
 }

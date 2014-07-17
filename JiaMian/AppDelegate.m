@@ -20,6 +20,7 @@
     if (IOS_NEWER_OR_EQUAL_TO_7)
     {
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x242730)];
+        [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     }
     else{
         [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x242730)];

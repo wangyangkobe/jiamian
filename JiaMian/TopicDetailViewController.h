@@ -10,6 +10,10 @@
 
 @interface TopicDetailViewController : UIViewController
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;
-@property (nonatomic, assign) long topicId;
-@property (nonatomic, copy) NSString* topicTitle;
+
+@property (nonatomic, copy) TopicModel* topic;
+
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UILabel *msgLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @end
