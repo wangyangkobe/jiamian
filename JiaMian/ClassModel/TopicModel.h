@@ -19,7 +19,7 @@
 @property (nonatomic, strong) NSString* topic_title;
 @property (nonatomic, assign) int message_count;
 @property (nonatomic, strong) NSString* background_color;
-@property (nonatomic, strong) NSString* img_url;
+@property (nonatomic, strong) NSString<Optional>* img_url;
 @property (nonatomic, copy) MessageModel<Optional>* latest_message;
 
 @end

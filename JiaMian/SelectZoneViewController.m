@@ -46,7 +46,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     UIView *blueView = [[UIView alloc]init];
     blueView.backgroundColor = UIColorFromRGB(0xf6f5f1);
     self.collectionView.backgroundView = blueView;
- 
+    
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
@@ -106,7 +106,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
                 [currentConf setValue:zone.area_name forKey:@"name"];
                 [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
             }
-            else
+            else if (zone.type == ZoneTypeSchool)
             {
                 NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:1]];
                 [currentConf setValue:zone.area_name forKey:@"name"];
@@ -325,7 +325,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
-    
 }
 
 - (void)handleDone:(id)sender

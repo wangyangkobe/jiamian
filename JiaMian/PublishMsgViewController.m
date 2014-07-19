@@ -187,7 +187,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         if (lineNumbers > 8) return NO;  // ios 6
     }
-    if ( (range.location > 160) || (textView.text.length > 160) )  //控制输入文本的长度
+    if ( (range.location > 140) || (textView.text.length > 140) )  //控制输入文本的长度
         return NO;
     else
         return YES;

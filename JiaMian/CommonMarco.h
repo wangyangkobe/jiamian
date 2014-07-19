@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, ZoneType)
 #define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f alpha:(a)]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
-static NSInteger COLOR_ARR[] = {0, 0xf1f1f1, 0xffff66, 0x000000, 0x24b1ce, 0xff9999, 0x99CC66, 0xCC3399, 0xfe4a4a, 0xCC3333};
+static NSInteger COLOR_ARR[] = {0, 0x6683c4, 0x2bad94, 0x8ab147, 0xacc551, 0xeac851, 0xe4847f, 0xeb977a, 0xb086c1, 0x505050, 0x7bc3c7};
 
 #define FONT(x) [UIFont systemFontOfSize:x]
 #define USER_DEFAULT [NSUserDefaults standardUserDefaults];

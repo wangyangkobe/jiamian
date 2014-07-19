@@ -18,7 +18,8 @@
 #import "SelectAreaViewController.h"
 #import "SelectZoneViewController.h"
 #import "TopicDetailViewController.h"
-#import "TSActionSheet.h"
+#import "SettingViewController.h"
+#import "MoreTopicViewController.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -42,7 +43,6 @@
     NSMutableArray* messageArray;
     NSMutableArray* topicArray;
 }
-
 @end
 
 @implementation HomePageViewController
@@ -106,7 +106,7 @@
     UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
                                                                          style:UIBarButtonItemStylePlain
                                                                         target:self
-                                                                        action:@selector(showActionSheet:forEvent:)];
+                                                                        action:@selector(showSettingVC)];
     if (IOS_NEWER_OR_EQUAL_TO_7) {
         [settingBarButton setTintColor:[UIColor whiteColor]];
     }
@@ -118,7 +118,6 @@
         dispatch_sync(dispatch_get_main_queue(), ^{
             unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%ld", unreadCount];
         });
-        
     });
 }
 - (void)fetchDataFromServer
@@ -159,42 +158,14 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
--(void)dealloc
+- (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
--(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
+- (void)showSettingVC
 {
-    TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
-    [actionSheet addButtonWithTitle:@"邀请朋友" color:[UIColor blackColor]
-                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
-                             [UMSocialSnsService presentSnsIconSheetView:self
-                                                                  appKey:kUMengAppKey
-                                                               shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
-                                                              shareImage:nil
-                                                         shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                                                delegate:nil];
-                         }];
-    [actionSheet addButtonWithTitle:@"选择圈子" color:[UIColor blackColor]
-                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
-                             SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
-                             selectZoneVC.firstSelect = NO;
-                             [self presentViewController:selectZoneVC animated:YES completion:nil];
-                         }];
-    [actionSheet addButtonWithTitle:@"注销登录" color:[UIColor blackColor]
-                         titleColor:[UIColor whiteColor] borderWidth:1 borderColor:[UIColor blackColor] block:^{
-                             BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-                             if (result)
-                             {
-                                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-                                 [[NSUserDefaults standardUserDefaults] synchronize];
-                                 LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-                                 [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-                             }
-                         }];
-    actionSheet.cornerRadius = 5;
-    
-    [actionSheet showWithTouch:event];
+    SettingViewController* settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingVCIdentifier"];
+    [self.navigationController pushViewController:settingVC animated:YES];
 }
 - (void)menuItemPressed:(id)sender
 {
@@ -202,7 +173,6 @@
     if ([menuItem.title isEqualToString:@"邀请朋友"])
     {
         //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
-        
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
                                           shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
@@ -283,16 +253,21 @@
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 20, 20)];
     
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, SCREEN_WIDTH - 60, 30)];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 160, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
     label.backgroundColor = UIColorFromRGB(0xf4f4f4);
     view.opaque = NO;
+    
+    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(255, 0, 58, 30)];
+    [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(showMoreTopic:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:image];
     [view addSubview:label];
     
     if (section == 0) {
         [image setImage:[UIImage imageNamed:@"topic"]];
         [label setTextColor:UIColorFromRGB(0xfd5b00)];
+        [view addSubview:btn];
         [label setText:@"  热门话题"];
     } else {
         [image setImage:[UIImage imageNamed:@"secret"]];
@@ -300,6 +275,11 @@
         [label setText:@"  圈内秘密"];
     }
     return view;
+}
+- (void)showMoreTopic:(id)sender
+{
+    MoreTopicViewController* moreTopicVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MoreTopicVCIdentifier"];
+    [self.navigationController pushViewController:moreTopicVC animated:YES];
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -351,7 +331,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         };
         
-        [cell.contentView setBackgroundColor:UIColorFromRGB(0xf7f6f4)];
+        [cell setBackgroundColor:UIColorFromRGB(0xf7f6f4)];
         
         TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
         UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTopicTextLabel];
@@ -408,48 +388,25 @@
         }
         else
         {
-            int bgImageNo = currentMsg.background_no;
-            if ( (1 == bgImageNo) || (2 == bgImageNo) )
+            int bgImageNo = currentMsg.background_no2;
+            if (bgImageNo >=1 && bgImageNo <= 10)
             {
-                [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
-                [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
-                [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
-                [areaLabel setTextColor:UIColorFromRGB(0x969696)];
-                [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-                [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
-                [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-                [textLabel setTextColor:UIColorFromRGB(0x000000)];
-                
-                if (2 == bgImageNo)
-                {
-                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                    [cell.contentView setBackgroundColor:picColor];
-                }
-                else
-                {
-                    [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-                }
+                 [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
             }
             else
             {
-                [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-                [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
-                [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
-                [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-                [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-                [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
-                [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-                [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-                if (9 == bgImageNo)
-                {
-                    UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                    [cell.contentView setBackgroundColor:picColor];
-                }
-                else
-                {
-                    [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-                }
+                NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
+                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+                [cell.contentView setBackgroundColor:picColor];
             }
+            [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+            [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
+            [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+            [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         }
         if (currentMsg.has_like)
         {

@@ -53,11 +53,6 @@
     
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
-    
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        [[UINavigationBar appearance] setBackIndicatorImage:[UIImage imageNamed:@"bar_return"]];
-        [[UINavigationBar appearance] setBackIndicatorTransitionMaskImage:[UIImage imageNamed:@"bar_return"]];
-    }
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -139,43 +134,25 @@
     }
     else
     {
-        int bgImageNo = self.selectedMsg.background_no;
-        if ( (1 == bgImageNo) || (2 == bgImageNo) )
+        int bgImageNo = self.selectedMsg.background_no2;
+        if (bgImageNo >=1 && bgImageNo <= 10)
         {
-            [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_grey"]];
-            [myHeader.areaLabel setTextColor:UIColorFromRGB(0x969696)];
-            [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-            [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-            [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-            [myHeader.textLabel setTextColor:UIColorFromRGB(0x000000)];
             [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            if (2 == bgImageNo) {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                [myHeader setBackgroundColor:picColor];
-            } else {
-                [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-            [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like_grey"]];
-            [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
         }
         else
         {
-            [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
-            [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            if (9 == bgImageNo) {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                [myHeader setBackgroundColor:picColor];
-            } else {
-                [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-            [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
-            [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
+            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+            [myHeader setBackgroundColor:picColor];
         }
+        [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
+        [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
+        [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
     }
     if (self.selectedMsg.has_like)
     {
@@ -191,6 +168,7 @@
     UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setNumberOfTapsRequired:1];
     [myHeader addGestureRecognizer:hiddenKeyBoard];
+    [_tableView addGestureRecognizer:hiddenKeyBoard];
     return myHeader;
 }
 - (void)hiddenKeyBoard:(UITapGestureRecognizer*)gestureRecognizer

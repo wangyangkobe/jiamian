@@ -173,48 +173,25 @@ static NSString* CellStr = @"TopicDetalCell";
     }
     else
     {
-        int bgImageNo = currentMsg.background_no;
-        if ( (1 == bgImageNo) || (2 == bgImageNo) )
+        int bgImageNo = currentMsg.background_no2;
+        if (bgImageNo >=1 && bgImageNo <= 10)
         {
-            [commentImage setImage:[UIImage imageNamed:@"comment_grey"]];
-            [likeImage setImage:[UIImage imageNamed:@"ic_like_grey"]];
-            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes_grey"]];
-            [areaLabel setTextColor:UIColorFromRGB(0x969696)];
-            [commentNumLabel setTextColor:UIColorFromRGB(0x969696)];
-            [likeNumerLabel setTextColor:UIColorFromRGB(0x969696)];
-            [visibleNumberLabel setTextColor:UIColorFromRGB(0x969696)];
-            [textLabel setTextColor:UIColorFromRGB(0x000000)];
-            
-            if (2 == bgImageNo)
-            {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                [cell.contentView setBackgroundColor:picColor];
-            }
-            else
-            {
-                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
+            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
         }
         else
         {
-            [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-            [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
-            [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
-            [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-            [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-            if (9 == bgImageNo)
-            {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                [cell.contentView setBackgroundColor:picColor];
-            }
-            else
-            {
-                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
+            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+            [cell.contentView setBackgroundColor:picColor];
         }
+        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
+        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
+        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
+        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
+        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
     if (currentMsg.has_like)
     {
