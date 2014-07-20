@@ -118,22 +118,15 @@
     
     if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
     {
-        [myHeader.backgroudImageView setImage:[UIImage imageNamed:@"blackalpha"]];
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
-                                                _selectedMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
-        [manager downloadWithURL:imageUrl
-                         options:0
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                           if (image && finished)
-                           {
-                               [myHeader setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                           }
-                       }];
+        [myHeader.bgImageView setImageWithURL:[NSURL URLWithString:_selectedMsg.background_url] placeholderImage:nil];
+        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
+        [myHeader.maskImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
     }
     else
     {
+        [myHeader.maskImageView setBackgroundColor:[UIColor clearColor]];
+        [myHeader.bgImageView setImage:nil];
+        
         int bgImageNo = self.selectedMsg.background_no2;
         if (bgImageNo >=1 && bgImageNo <= 10)
         {

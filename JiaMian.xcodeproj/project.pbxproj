@@ -189,6 +189,8 @@
 		D3DA69C3197A60AA00D48864 /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C2197A60AA00D48864 /* about@2x.png */; };
 		D3DA69C5197A60C000D48864 /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C4197A60C000D48864 /* about.png */; };
 		D3DA69C7197A741000D48864 /* gointolist.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C6197A741000D48864 /* gointolist.png */; };
+		D3F6A974197B5DE6002300C8 /* qz_select_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */; };
+		D3F6A976197B5FF3002300C8 /* qz_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A975197B5FF3002300C8 /* qz_select.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -470,6 +472,8 @@
 		D3DA69C2197A60AA00D48864 /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
 		D3DA69C4197A60C000D48864 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		D3DA69C6197A741000D48864 /* gointolist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gointolist.png; sourceTree = "<group>"; };
+		D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select_pressed.png; sourceTree = "<group>"; };
+		D3F6A975197B5FF3002300C8 /* qz_select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -952,6 +956,8 @@
 		155AC491190C836400A8F252 /* ResourceImage */ = {
 			isa = PBXGroup;
 			children = (
+				D3F6A975197B5FF3002300C8 /* qz_select.png */,
+				D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */,
 				D3DA69C6197A741000D48864 /* gointolist.png */,
 				D3DA69C4197A60C000D48864 /* about.png */,
 				D3DA69C2197A60AA00D48864 /* about@2x.png */,
@@ -1136,6 +1142,7 @@
 				1507851E194B2410006CDD95 /* Default@2x.png in Resources */,
 				1569854A19134A0C00923E85 /* loginbackground.png in Resources */,
 				15326BA419289F1F0008AAE1 /* ic_like.png in Resources */,
+				D3F6A974197B5DE6002300C8 /* qz_select_pressed.png in Resources */,
 				150898111972699C00039E33 /* secret.png in Resources */,
 				152031E419693217006E8E88 /* ic_index_star5.png in Resources */,
 				D3DA69C5197A60C000D48864 /* about.png in Resources */,
@@ -1203,6 +1210,7 @@
 				1558CF9B190B9C5400E6B543 /* Main.storyboard in Resources */,
 				1527813B190D511000C15419 /* MessageEntrySendButtonPressed@2x.png in Resources */,
 				1558D01E190BF34300E6B543 /* blueArrow@2x.png in Resources */,
+				D3F6A976197B5FF3002300C8 /* qz_select.png in Resources */,
 				1508980D1972635E00039E33 /* ic_next.png in Resources */,
 				150D5E501927866900BE24AB /* UMSLoginViewController.xib in Resources */,
 				D3DA69C7197A741000D48864 /* gointolist.png in Resources */,
@@ -1390,7 +1398,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.jiamiantech.JiaMian";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1430,7 +1438,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.jiamiantech.JiaMian";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1453,7 +1461,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.jiamiantech.JiaMian";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1492,7 +1500,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.jiamiantech.JiaMian";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

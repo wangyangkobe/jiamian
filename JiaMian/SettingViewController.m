@@ -39,6 +39,7 @@
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setTitle:@"注销登录" forState:UIControlStateNormal];
     [button addTarget:self action:@selector(logOut:) forControlEvents:UIControlEventTouchUpInside];
+    button.showsTouchWhenHighlighted = YES;
     [footerView addSubview:button];
     
     _tableView.tableFooterView = footerView;

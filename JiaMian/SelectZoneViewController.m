@@ -245,6 +245,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
             {
                 UIButton* btn = (UIButton*)view;
                 [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
+                btn.showsTouchWhenHighlighted = YES;
                 if (_firstSelect == NO)
                 {
                     [btn setTitle:@"确定" forState:UIControlStateNormal];

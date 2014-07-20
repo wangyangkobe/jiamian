@@ -30,7 +30,7 @@
 #define kVisibleImage 8006
 #define kVisibleNumberLabel 8007
 #define kBackgroundImageView 8008
-
+#define kMaskImageView  8009
 #define kTopicTextLabel   8999
 //#define kTopicNumberLabel 8998
 //#define kTopicView        8997
@@ -256,9 +256,9 @@
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 160, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
     label.backgroundColor = UIColorFromRGB(0xf4f4f4);
-    view.opaque = NO;
+  //  view.opaque = NO;
     
-    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(255, 0, 58, 30)];
+    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(270, 2, 40, 26)];
     [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(showMoreTopic:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:image];
@@ -315,12 +315,6 @@
         [likeImageTap setNumberOfTapsRequired:1];
         [likeImage addGestureRecognizer:likeImageTap];
         
-        UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
-        if (currentMsg.background_url && currentMsg.background_url.length > 0)
-            [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
-        else
-            [bgImageView setImage:nil];
-        
         return cell;
     }
     else
@@ -361,6 +355,8 @@
         UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
         UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
         UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+        UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
+        UIImageView* maskImageView  = (UIImageView*)[cell.contentView viewWithTag:kMaskImageView];
         
         if (currentMsg.background_url && currentMsg.background_url.length > 0)
         {
@@ -373,21 +369,15 @@
             [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
             [textLabel setTextColor:UIColorFromRGB(0xffffff)];
             
-            SDWebImageManager *manager = [SDWebImageManager sharedManager];
-            NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
-                                                    currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
-            [manager downloadWithURL:imageUrl
-                             options:0
-                            progress:nil
-                           completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                               if (image && finished)
-                               {
-                                   [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                               }
-                           }];
+            [bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
+            UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
+            [maskImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
+            //[maskImageView setImage:[UIImage imageNamed:@"blackalpha.png"]];
         }
         else
         {
+            [maskImageView setBackgroundColor:[UIColor clearColor]];
+            [bgImageView setImage:nil];
             int bgImageNo = currentMsg.background_no2;
             if (bgImageNo >=1 && bgImageNo <= 10)
             {

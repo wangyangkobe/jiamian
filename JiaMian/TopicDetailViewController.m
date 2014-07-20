@@ -18,7 +18,7 @@
 #define kVisibleImage 8006
 #define kVisibleNumberLabel 8007
 #define kBackgroundImageView 8008
-
+#define kMaskImageView  8009
 @interface TopicDetailViewController ()<UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* messageArray;
@@ -121,11 +121,6 @@ static NSString* CellStr = @"TopicDetalCell";
     [likeImageTap setNumberOfTapsRequired:1];
     [likeImage addGestureRecognizer:likeImageTap];
     
-    UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
-    if (currentMsg.background_url && currentMsg.background_url.length > 0)
-        [bgImageView setImage:[UIImage imageNamed:@"blackalpha"]];
-    else
-        [bgImageView setImage:nil];
     return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -146,6 +141,8 @@ static NSString* CellStr = @"TopicDetalCell";
     UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
     UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
+    UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
+    UIImageView* maskImageView  = (UIImageView*)[cell.contentView viewWithTag:kMaskImageView];
     
     if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
@@ -158,21 +155,14 @@ static NSString* CellStr = @"TopicDetalCell";
         [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
         [textLabel setTextColor:UIColorFromRGB(0xffffff)];
         
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
-                                                currentMsg.background_url, (int)SCREEN_WIDTH, (int)SCREEN_WIDTH]];
-        [manager downloadWithURL:imageUrl
-                         options:0
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                           if (image && finished)
-                           {
-                               [cell.contentView setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                           }
-                       }];
+        [bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
+        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
+        [maskImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
     }
     else
     {
+        [maskImageView setBackgroundColor:[UIColor clearColor]];
+        [bgImageView setImage:nil];
         int bgImageNo = currentMsg.background_no2;
         if (bgImageNo >=1 && bgImageNo <= 10)
         {

@@ -136,6 +136,10 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" tag="8009" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ZBz-LF-SdG">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="238"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="33p-eF-Api">
                                                     <rect key="frame" x="30" y="60" width="260" height="118"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
@@ -301,6 +305,10 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="238"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
+                                                <imageView userInteractionEnabled="NO" tag="8009" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="ubO-sM-ZzI">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="238"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8000" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GPf-8b-mgO">
                                                     <rect key="frame" x="30" y="60" width="260" height="118"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
@@ -308,8 +316,8 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="GWF-KJ-dLN">
-                                                    <rect key="frame" x="20" y="213" width="110" height="15"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8001" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="GWF-KJ-dLN">
+                                                    <rect key="frame" x="20" y="213" width="120" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -535,7 +543,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" tag="9999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GNd-Lb-GOx">
-                                            <rect key="frame" x="90" y="10" width="145" height="30"/>
+                                            <rect key="frame" x="100" y="10" width="125" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <state key="normal" title="下一步">
@@ -686,7 +694,7 @@
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="W2K-X5-T89">
-                                <rect key="frame" x="60" y="342" width="200" height="35"/>
+                                <rect key="frame" x="95" y="344" width="130" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" image="qq_login.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -698,7 +706,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tsX-pd-Uxp">
-                                <rect key="frame" x="60" y="299" width="200" height="35"/>
+                                <rect key="frame" x="95" y="303" width="130" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" image="sina_login.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -710,7 +718,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="eyM-0E-NvB">
-                                <rect key="frame" x="60" y="384" width="60" height="30"/>
+                                <rect key="frame" x="95" y="384" width="60" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                 <state key="normal" image="useridlogin.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -879,12 +887,12 @@
         <image name="ic_like.png" width="35" height="32"/>
         <image name="ic_like_grey.png" width="35" height="32"/>
         <image name="loginbackground.png" width="320" height="480"/>
-        <image name="qq_login.png" width="316" height="68"/>
+        <image name="qq_login.png" width="260" height="68"/>
         <image name="qq_login_pressed.png" width="372" height="66"/>
-        <image name="qq_login_push.png" width="316" height="68"/>
-        <image name="sina_login.png" width="316" height="68"/>
+        <image name="qq_login_push.png" width="260" height="68"/>
+        <image name="sina_login.png" width="260" height="68"/>
         <image name="sina_login_pressed.png" width="372" height="66"/>
-        <image name="sina_login_push.png" width="316" height="68"/>
+        <image name="sina_login_push.png" width="260" height="68"/>
         <image name="useridlogin.png" width="97" height="47"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

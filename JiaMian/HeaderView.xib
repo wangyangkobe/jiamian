@@ -11,6 +11,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="348"/>
             <autoresizingMask key="autoresizingMask"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="r4f-ks-TI4">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="348"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="DD3-2x-rVQ">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="348"/>
                     <autoresizingMask key="autoresizingMask"/>
@@ -76,12 +80,13 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="areaLabel" destination="zmW-6O-nen" id="QGW-yZ-jta"/>
-                <outlet property="backgroudImageView" destination="DD3-2x-rVQ" id="VcU-FW-cQm"/>
+                <outlet property="bgImageView" destination="r4f-ks-TI4" id="Qr9-un-ADv"/>
                 <outlet property="commentImageView" destination="9ql-JN-dEo" id="GCe-E7-Y3e"/>
                 <outlet property="commentNumLabel" destination="OaQ-Qb-oQo" id="mDO-xm-UF9"/>
                 <outlet property="juBaoButton" destination="SEr-EX-d3a" id="NQH-iJ-ygb"/>
                 <outlet property="likeImageView" destination="2Yq-kd-aJo" id="irh-jw-RvJ"/>
                 <outlet property="likeNumberLabel" destination="HD3-36-UIa" id="IDp-w2-AF9"/>
+                <outlet property="maskImageView" destination="DD3-2x-rVQ" id="SCA-uF-mKW"/>
                 <outlet property="textLabel" destination="VCb-95-Gl4" id="IsG-3X-P9M"/>
                 <outlet property="visibleImageView" destination="2bJ-wd-Xda" id="un6-AT-V5b"/>
                 <outlet property="visibleNumberLabel" destination="HTa-RV-pBM" id="frd-ry-aAn"/>

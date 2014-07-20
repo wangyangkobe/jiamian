@@ -8,6 +8,7 @@
 
 #import "MoreTopicViewController.h"
 #import "TopicModel.h"
+#import "TopicDetailViewController.h"
 
 #define kImageViewTag  3000
 #define kTextLabelTag  3001
@@ -76,6 +77,14 @@
     [numberLabel setText:[NSString stringWithFormat:@"%d", topic.message_count]];
     [numberLabel setTextColor:UIColorFromRGB(0xfc5d20)];
     return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [_tableView deselectRowAtIndexPath:indexPath animated:NO];
+    TopicModel* topic = (TopicModel*)[topicArr objectAtIndex:indexPath.row];
+    TopicDetailViewController* topicDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TopicDetailVCIdentifier"];
+    topicDetailVC.topic = topic;
+    [self.navigationController pushViewController:topicDetailVC animated:YES];
 }
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
