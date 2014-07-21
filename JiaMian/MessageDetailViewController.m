@@ -180,6 +180,7 @@
         self.selectedMsg = message;
         if (message.is_official == NO)
         {
+            [UIView animateForVisibleNumberInView:headerView];
             headerView.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
     }

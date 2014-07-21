@@ -65,8 +65,11 @@
     [SVProgressHUD showWithStatus:@"刷新中..."];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        [_notificationArr addObjectsFromArray:requestRes];
-        
+        if (requestRes)
+        {
+            [_notificationArr removeAllObjects];
+            [_notificationArr addObjectsFromArray:requestRes];
+        }
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             [self.tableView reloadData];
@@ -89,7 +92,6 @@
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"%s", __FUNCTION__);
     static NSString* CellIdentifier = @"UnReadMsgCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)

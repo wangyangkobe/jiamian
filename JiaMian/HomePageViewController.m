@@ -110,7 +110,7 @@
     if (IOS_NEWER_OR_EQUAL_TO_7) {
         [settingBarButton setTintColor:[UIColor whiteColor]];
     }
-
+    
     [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -256,7 +256,7 @@
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 160, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
     label.backgroundColor = UIColorFromRGB(0xf4f4f4);
-  //  view.opaque = NO;
+    //  view.opaque = NO;
     
     UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(270, 2, 40, 26)];
     [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
@@ -381,7 +381,7 @@
             int bgImageNo = currentMsg.background_no2;
             if (bgImageNo >=1 && bgImageNo <= 10)
             {
-                 [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
             }
             else
             {
@@ -523,25 +523,31 @@
 
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {
-    CGPoint tapLocation = [gestureRecognizer locationInView:self.pullTableView];
-    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForRowAtPoint:tapLocation];
+    UIImageView* tappedView = (UIImageView*)[gestureRecognizer view];
+    UITableViewCell* tappedCell;
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        tappedCell = (UITableViewCell*)tappedView.superview.superview.superview;
+    }else{
+        tappedCell = (UITableViewCell*)tappedView.superview.superview;
+    }
     
+    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForCell:tappedCell];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
-    
     if (currentMsg.has_like)
         return;
     
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
-    UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
     UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
     [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
+    likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
+    
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
     if (message)
     {
-        likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
         UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
         if (message.is_official == NO)
         {
+            [UIView animateForVisibleNumberInView:tappedCell.contentView];
             visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];

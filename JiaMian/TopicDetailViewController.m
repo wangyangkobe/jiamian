@@ -190,26 +190,31 @@ static NSString* CellStr = @"TopicDetalCell";
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {
-    CGPoint tapLocation = [gestureRecognizer locationInView:self.pullTableView];
-    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForRowAtPoint:tapLocation];
+    UIImageView* tappedView = (UIImageView*)[gestureRecognizer view];
+    UITableViewCell* tappedCell;
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        tappedCell = (UITableViewCell*)tappedView.superview.superview.superview;
+    }else{
+        tappedCell = (UITableViewCell*)tappedView.superview.superview;
+    }
     
+    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForCell:tappedCell];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
-    
     if (currentMsg.has_like)
         return;
     
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
+    UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
+    [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
+    likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
     
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
     if (message)
     {
-        UITableViewCell* tappedCell = [self.pullTableView cellForRowAtIndexPath:tapIndexPath];
-        UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
-        [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
-        UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
-        likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
         UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
         if (message.is_official == NO)
         {
+            [UIView animateForVisibleNumberInView:tappedCell.contentView];
             visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
