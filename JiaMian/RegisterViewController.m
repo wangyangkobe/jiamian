@@ -129,7 +129,16 @@
     if (userSelf) //login successful
     {
         NSLog(@"user register log in successful!");
-        
+    
+	NSSet tags = [NSSet mutableSet];
+	[tags addObject:@"online"];
+	for(AreaModel area in userSelf.areas)
+	    [tags addObject:[NSString stringWithFormat:@"%ld", area.area_id]];
+        [APService setTags:tags
+                     alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
+          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
+                    target:self];
+    
         [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
         [[NSUserDefaults standardUserDefaults] setObject:passWord forKey:kLogInToken];
         [[NSUserDefaults standardUserDefaults] setInteger:UserTypeRegister forKey:kLogInType];

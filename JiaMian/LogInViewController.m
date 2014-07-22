@@ -98,8 +98,12 @@
             [[NSUserDefaults standardUserDefaults] setObject:_tencentOAuth.accessToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
-            
-            [APService setTags:[NSSet setWithObjects:@"online", @"1", nil]
+           
+            NSSet tags = [NSSet mutableSet];
+	    [tags addObject:@"online"];
+	    for(AreaModel area in userSelf.areas)
+	        [tags addObject:[NSString stringWithFormat:@"%ld", area.area_id]]; 
+            [APService setTags:tags
                          alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
               callbackSelector:@selector(tagsAliasCallback:tags:alias:)
                         target:nil];
