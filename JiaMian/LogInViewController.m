@@ -99,10 +99,10 @@
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
            
-            NSSet tags = [NSSet mutableSet];
-	    [tags addObject:@"online"];
-	    for(AreaModel area in userSelf.areas)
-	        [tags addObject:[NSString stringWithFormat:@"%ld", area.area_id]]; 
+            NSMutableSet *tags = [NSMutableSet set];
+            [tags addObject:@"online"];
+            for(AreaModel* area in userSelf.areas)
+                [tags addObject:[NSString stringWithFormat:@"%d", area.area_id]];
             [APService setTags:tags
                          alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
               callbackSelector:@selector(tagsAliasCallback:tags:alias:)

@@ -130,10 +130,10 @@
     {
         NSLog(@"user register log in successful!");
     
-	NSSet tags = [NSSet mutableSet];
-	[tags addObject:@"online"];
-	for(AreaModel area in userSelf.areas)
-	    [tags addObject:[NSString stringWithFormat:@"%ld", area.area_id]];
+        NSMutableSet *tags = [NSMutableSet set];
+        [tags addObject:@"online"];
+        for(AreaModel* area in userSelf.areas)
+            [tags addObject:[NSString stringWithFormat:@"%d", area.area_id]];
         [APService setTags:tags
                      alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
           callbackSelector:@selector(tagsAliasCallback:tags:alias:)
@@ -179,5 +179,9 @@
         NSLog(@"QQ is not installed");
         return NO;
     }
+}
+- (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
+{
+    NSLog(@"rescode: %d, \ntags: %@, \nalias: %@\n", iResCode, tags , alias);
 }
 @end

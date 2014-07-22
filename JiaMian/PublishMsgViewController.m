@@ -116,7 +116,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         if ([element isMemberOfClass:[AreaModel class]])
         {
             AreaModel* zone = (AreaModel*)element;
-            [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
+            if(zone.type == ZoneTypeIndustry || ZoneTypeSchool == zone.type || ZoneTypeCompany == zone.type)
+                [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
     }
 }

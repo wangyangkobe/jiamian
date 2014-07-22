@@ -121,10 +121,10 @@
         {
             NSLog(@"user sina log in successful!");
 
-	    NSSet tags = [NSSet mutableSet];
-	    [tags addObject:@"online"];
-	    for(AreaModel area in userSelf.areas)
-	        [tags addObject:[NSString stringWithFormat:@"%ld", area.area_id]];
+            NSMutableSet *tags = [NSMutableSet set];
+            [tags addObject:@"online"];
+            for(AreaModel* area in userSelf.areas)
+                [tags addObject:[NSString stringWithFormat:@"%d", area.area_id]];
             [APService setTags:tags
                          alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
               callbackSelector:@selector(tagsAliasCallback:tags:alias:)
@@ -212,13 +212,13 @@
 
 - (void)clearDefaults
 {
-     	NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
 	if ([defs boolForKey:@"donotclearme"] == NO)
 	{
 		NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 		[defs removePersistentDomainForName:appDomain];
 		[defs setBool:YES forKey:@"donotclearme"];
-		[defs synchronize]
+		[defs synchronize];
 	}
 
 }
