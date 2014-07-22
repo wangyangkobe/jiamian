@@ -273,6 +273,12 @@ static NSString* CellStr = @"TopicDetalCell";
 									 sinceId:0 
 									   maxId:lastMessage.message_id
 									   count:15];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
+                                                                    sinceId:0
+                                                                      maxId:lastMessage.message_id
+                                                                      count:20
+                                                                   trimArea:NO
+                                                                 filterType:0];
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];
         
