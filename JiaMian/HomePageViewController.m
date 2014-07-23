@@ -78,6 +78,23 @@
                                              selector:@selector(fetchDataFromServer)
                                                  name:@"changeAreaSuccess"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleImageTapped:) name:@"likedImageTap" object:nil];
+}
+- (void)handleImageTapped:(NSNotification*)notification
+{
+    NSLog(@"%s", __FUNCTION__);
+    MessageModel* tappedMsg = (MessageModel*)[notification.userInfo objectForKey:@"likedMsg"];
+    NSUInteger index = [messageArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
+        MessageModel* msg = (MessageModel*)obj;
+        return msg.message_id == tappedMsg.message_id;
+    }];
+    if (index != NSNotFound)
+    {
+        [messageArray replaceObjectAtIndex:index withObject:tappedMsg];
+    }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.pullTableView reloadData];
+    });
 }
 - (void)viewWillAppear:(BOOL)animated
 {

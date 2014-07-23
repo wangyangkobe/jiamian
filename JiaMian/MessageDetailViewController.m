@@ -176,7 +176,10 @@
     [headerView.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     [headerView.likeNumberLabel setText:[NSString stringWithFormat:@"%d", self.selectedMsg.likes_count + 1]];
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
-    if (message) {
+    if (message)
+    {
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"likedMsg"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"likedImageTap" object:self userInfo:userInfo];
         self.selectedMsg = message;
         if (message.is_official == NO)
         {
