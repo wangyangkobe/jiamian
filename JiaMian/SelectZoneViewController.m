@@ -165,94 +165,62 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     CGPoint point = [gestureRecognizer locationInView:self.collectionView];
     
-    cancelIndex = [self.collectionView indexPathForItemAtPoint:point];
-    if (cancelIndex == nil || cancelIndex.row == 3){
+    NSIndexPath* indexPath = [self.collectionView indexPathForItemAtPoint:point];
+    if (indexPath == nil || indexPath.row == 3){
         NSLog(@"couldn't find index path");
     } else {
         //UICollectionViewCell* cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-        NSMutableDictionary* conf = [configureDict objectForKey:[NSNumber numberWithInteger:cancelIndex.row]];
+        NSMutableDictionary* conf = [configureDict objectForKey:[NSNumber numberWithInteger:indexPath.row]];
         NSInteger zoneId = [[conf objectForKey:@"zoneId"] integerValue];
         if (zoneId == 0)
             return;
-        
-        UIAlertView* alert =  [[UIAlertView alloc] initWithTitle:@"提示"
-                                   message:@"确定取消关注该圈子?"
-                                  delegate:self
-                         cancelButtonTitle:@"取消"
-                         otherButtonTitles:@"确定", nil];
-     //   [alert show];
-        
-//        [UIAlertView showWithTitle:@"提示"
-//                           message:@"确定取消关注该圈子?"
-//                 cancelButtonTitle:@"取消"
-//                 otherButtonTitles:@[@"确定"]
-//                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-//                              if (buttonIndex == 0)
-//                                  return;
-//                              
-//                              for (AreaModel* zone in selectZones)
-//                              {
-//                                  if (zone.area_id == zoneId)
-//                                  {
-//                                      [selectZones removeObject:zone];
-//                                  }
-//                              }
-//                              NSLog(@"conf = %@", conf);
-//                             [conf setValue:[NSNumber numberWithInteger:0] forKey:@"zoneId"];
-//                              NSLog(@"sssssssssssss");
-//                              if (0 == indexPath.row) {
-//                                  [conf setValue:@"公司" forKey:@"name"];
-//                              }else if (1 == indexPath.row){
-//                                  [conf setValue:@"学校" forKey:@"name"];
-//                              }else if (2 == indexPath.row){
-//                                  [conf setValue:@"行业" forKey:@"name"];
-//                              }
-//                              NSLog(@"%@", configureDict);
-//                              NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
-//                              [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
-//                              [[NSUserDefaults standardUserDefaults] synchronize];
-//                              
-//                              NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-//                              [_collectionView reloadItemsAtIndexPaths:indexPaths];
-//                              
-//                              [self handleSelectZone];
-//                          }];
-    }
-}
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 0)
-        return;
-    NSMutableDictionary* conf = [configureDict objectForKey:[NSNumber numberWithInteger:cancelIndex.row]];
-    NSInteger zoneId = [[conf objectForKey:@"zoneId"] integerValue];
-    for (AreaModel* zone in selectZones)
-    {
-        if (zone.area_id == zoneId)
-        {
-            [selectZones removeObject:zone];
+        if ([selectZones count] == 1) {
+            AlertContent(@"最后一个圈子，不能取消!");
+            return;
         }
+        [UIAlertView showWithTitle:@"提示"
+                           message:@"确定取消关注该圈子?"
+                 cancelButtonTitle:@"取消"
+                 otherButtonTitles:@[@"确定"]
+                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              if (buttonIndex == 0)
+                                  return;
+                              @try {
+                                  NSMutableArray* temp = [NSMutableArray array];
+                                  for (AreaModel* zone in selectZones) {
+                                      if (zone.area_id != zoneId) {
+                                          [temp addObject:zone];
+                                      }
+                                  }
+                                  selectZones = [NSMutableArray arrayWithArray:temp];
+                                  NSLog(@"conf = %@", conf);
+                                  [conf setValue:[NSNumber numberWithInteger:0] forKey:@"zoneId"];
+                                  NSLog(@"sssssssssssss");
+                                  if (0 == indexPath.row) {
+                                      [conf setValue:@"+公司" forKey:@"name"];
+                                  }else if (1 == indexPath.row){
+                                      [conf setValue:@"+学校" forKey:@"name"];
+                                  }else if (2 == indexPath.row){
+                                      [conf setValue:@"+行业" forKey:@"name"];
+                                  }
+                                  NSLog(@"%@", configureDict);
+                                  NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
+                                  [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
+                                  [[NSUserDefaults standardUserDefaults] synchronize];
+                                  
+                                  NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
+                                  [_collectionView reloadItemsAtIndexPaths:indexPaths];
+                              }
+                              @catch (NSException *exception) {
+                                  NSLog(@"exception = %@", exception);
+                              }
+                              @finally {
+                                  [self handleSelectZone];
+                              }
+                          }];
     }
-    NSLog(@"conf = %@", conf);
-    [conf setValue:[NSNumber numberWithInteger:0] forKey:@"zoneId"];
-    NSLog(@"sssssssssssss");
-    if (0 == cancelIndex.row) {
-        [conf setValue:@"公司" forKey:@"name"];
-    }else if (1 == cancelIndex.row){
-        [conf setValue:@"学校" forKey:@"name"];
-    }else if (2 == cancelIndex.row){
-        [conf setValue:@"行业" forKey:@"name"];
-    }
-    NSLog(@"%@", configureDict);
-    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:cancelIndex.row inSection:0]];
-    [_collectionView reloadItemsAtIndexPaths:indexPaths];
-    
-    [self handleSelectZone];
-    
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
