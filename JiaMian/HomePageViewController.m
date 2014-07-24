@@ -78,12 +78,12 @@
                                              selector:@selector(fetchDataFromServer)
                                                  name:@"changeAreaSuccess"
                                                object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleImageTapped:) name:@"likedImageTap" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
 }
-- (void)handleImageTapped:(NSNotification*)notification
+- (void)handleMsgChanged:(NSNotification*)notification
 {
     NSLog(@"%s", __FUNCTION__);
-    MessageModel* tappedMsg = (MessageModel*)[notification.userInfo objectForKey:@"likedMsg"];
+    MessageModel* tappedMsg = (MessageModel*)[notification.userInfo objectForKey:@"changedMsg"];
     NSUInteger index = [messageArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         MessageModel* msg = (MessageModel*)obj;
         return msg.message_id == tappedMsg.message_id;

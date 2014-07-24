@@ -178,8 +178,8 @@
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
     if (message)
     {
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"likedMsg"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"likedImageTap" object:self userInfo:userInfo];
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"changedMsg"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
         self.selectedMsg = message;
         if (message.is_official == NO)
         {
@@ -241,7 +241,8 @@
         [textLabel setTextColor:UIColorFromRGB(0xff9000)];
     }
     else
-        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1, [NSString convertTimeFormat:currentComment.create_at]];
+        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1,
+                          [NSString convertTimeFormat:currentComment.create_at]];
     
     [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
     [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
@@ -326,7 +327,6 @@
                                                object:nil];
 }
 #pragma mark 监听键盘的显示与隐藏
-//Code from Brett Schumann
 - (void)keyboardWillShow:(NSNotification*)note
 {
     // get keyboard size and loctaion
@@ -416,7 +416,7 @@
         [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
         [SVProgressHUD showWithStatus:@"发送中..."];
         
-        [self performSelector:@selector(sendComment:) withObject:textView.text afterDelay:0.5];
+        [self performSelector:@selector(sendComment:) withObject:textView.text afterDelay:0.3];
     }
 }
 - (void)sendComment:(NSString*)commentStr
@@ -424,6 +424,14 @@
     CommentModel* comment = [[NetWorkConnect sharedInstance] commentCreate:self.selectedMsg.message_id text:textView.text];
     if (comment)
     {
+        MessageModel* msg = [[NetWorkConnect sharedInstance] messageShowByMsgId:comment.message_id];
+        self.selectedMsg = msg;
+        TableHeaderView* headerView = (TableHeaderView*)self.tableView.tableHeaderView;
+        headerView.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
+        
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:msg forKey:@"changedMsg"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
+        
         [SVProgressHUD dismiss];
         [commentArr addObject:comment];
         [textView setText:@""];
