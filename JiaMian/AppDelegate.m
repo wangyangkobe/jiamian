@@ -14,9 +14,18 @@
 
 @implementation AppDelegate
 
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    NSLog(@"\n\nuserInfo = %@", userInfo);
+    return YES;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    NSLog(@"%s", __FUNCTION__);
     [self clearDefaults];
 
     if (IOS_NEWER_OR_EQUAL_TO_7)
@@ -46,13 +55,13 @@
             NSString* passWord = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
             NSString* userName = [[NSUserDefaults standardUserDefaults] stringForKey:kUserName];
             [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
-                                                       userType:logInType
+                                                       userType:(int)logInType
                                                    userIdentity:userName];
         }
         else
         {
             NSString* token = [[NSUserDefaults standardUserDefaults] stringForKey:kLogInToken];
-            [[NetWorkConnect sharedInstance] userLogInWithToken:token userType:logInType userIdentity:nil];
+            [[NetWorkConnect sharedInstance] userLogInWithToken:token userType:(int)logInType userIdentity:nil];
         }
     }
     [WeiboSDK enableDebugMode:YES];
@@ -72,10 +81,12 @@
     [UMSocialQQHandler setQQWithAppId:kTencentQQAppKey appKey:kTencentQQKey url:@"http://www.umeng.com/social"];
     [UMSocialQQHandler setSupportQzoneSSO:YES];
     // Required
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge
+                                                   | UIRemoteNotificationTypeAlert |
+                                                   UIRemoteNotificationTypeSound)];
     // Required
     [APService setupWithOption:launchOptions];
- 
+    
     // apn 内容获取
     NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
     [self analyseRemoteNotification:remoteNotification]; 
@@ -114,7 +125,7 @@
     {
         NSString* wbToken = [(WBAuthorizeResponse *)response accessToken];
         NSString* userId = [(WBAuthorizeResponse*)response userID];
-        NSLog(@"wbToken = %@, userID = %@", wbToken, userId);
+        NSLog(@"wbToken = %@, weiboUserId = %@", wbToken, userId);
         
         UserModel* userSelf;
         if ( (wbToken!= nil) && (userId != nil) )
@@ -122,7 +133,7 @@
         
         if (userSelf) //login successful
         {
-            NSLog(@"user sina log in successful!");
+            NSLog(@"user sina log in successful!, userId = %ld", userSelf.user_id);
 
             NSMutableSet *tags = [NSMutableSet set];
             [tags addObject:@"online"];
@@ -175,17 +186,16 @@
     [self analyseRemoteNotification:userInfo];
     [APService handleRemoteNotification:userInfo];
 }
--(void)analyseRemoteNotification:(NSDictionary*)remoteNotification
+-(void)analyseRemoteNotification:(NSDictionary*)userInfo
 {
     // 取得 APNs 标准信息内容
-    NSDictionary *aps = [userInfo valueForKey:@"ios"];
+    NSDictionary *aps = [userInfo valueForKey:@"aps"];
     NSString* alert = [aps valueForKey:@"alert"]; //推送显示的内容
     NSInteger badge   = [[aps valueForKey:@"badge"] integerValue]; //badge数量
     NSString* sound   = [aps valueForKey:@"sound"]; //播放的声音
 
-    NSDictionary* extras = [aps valueForKey:@"extras"];
-    NSInteger msgId = [[extras valueForKey:@"message_id"] integerValue];
-    NSLog(@"alert =[%@], badge=[%d], sound=[%@], extras =[%@]", alert, badge, sound, extras);
+    NSInteger msgId = [[userInfo valueForKey:@"message_id"] integerValue];
+    NSLog(@"alert =[%@], badge=[%ld], sound=[%@], msgId =[%d]", alert, (long)badge, sound, msgId);
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error
 {
@@ -203,20 +213,24 @@
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [UMSocialSnsService  applicationDidBecomeActive];
+    
+    [UMSocialSnsService applicationDidBecomeActive];
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+    [application setApplicationIconBadgeNumber:0];
 }
 
 #ifdef __IPHONE_7_0
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    NSLog(@"%s", __FUNCTION__);
+    [self analyseRemoteNotification:userInfo];
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNoData);
+    
 }
 #endif
 
@@ -237,6 +251,5 @@
 		[defs synchronize];
 	}
 }
-
 
 @end
