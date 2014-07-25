@@ -111,6 +111,8 @@
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             if (userSelf.area == nil)
             {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSelectZones];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
                 selectZoneVC.firstSelect = YES;
                 [[UIApplication sharedApplication].keyWindow setRootViewController:selectZoneVC];

@@ -133,15 +133,14 @@
             [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:wbToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeWeiBo forKey:kLogInType];
-            
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userSelf.areas];
-            [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
             UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
             
             if (userSelf.area == nil)
             {
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSelectZones];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 SelectZoneViewController* selectZoneVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
                 selectZoneVC.firstSelect = YES;
                 [[UIApplication sharedApplication].keyWindow setRootViewController:selectZoneVC];
@@ -220,7 +219,6 @@
 		[defs setBool:YES forKey:@"donotclearme"];
 		[defs synchronize];
 	}
-
 }
 
 
