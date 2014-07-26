@@ -27,7 +27,7 @@
     // Override point for customization after application launch.
     NSLog(@"%s", __FUNCTION__);
     [self clearDefaults];
-
+    
     if (IOS_NEWER_OR_EQUAL_TO_7)
     {
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x242730)];
@@ -89,7 +89,7 @@
     
     // apn 内容获取
     NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-    [self analyseRemoteNotification:remoteNotification]; 
+    [self analyseRemoteNotification:remoteNotification];
     return YES;
 }
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -134,7 +134,7 @@
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!, userId = %ld", userSelf.user_id);
-
+            
             NSMutableSet *tags = [NSMutableSet set];
             [tags addObject:@"online"];
             for(AreaModel* area in userSelf.areas)
@@ -191,11 +191,11 @@
     // 取得 APNs 标准信息内容
     NSDictionary *aps = [userInfo valueForKey:@"aps"];
     NSString* alert = [aps valueForKey:@"alert"]; //推送显示的内容
-    NSInteger badge   = [[aps valueForKey:@"badge"] integerValue]; //badge数量
-    NSString* sound   = [aps valueForKey:@"sound"]; //播放的声音
-
+    NSInteger badge = [[aps valueForKey:@"badge"] integerValue]; //badge数量
+    NSString* sound = [aps valueForKey:@"sound"]; //播放的声音
+    
     NSInteger msgId = [[userInfo valueForKey:@"message_id"] integerValue];
-    NSLog(@"alert =[%@], badge=[%ld], sound=[%@], msgId =[%d]", alert, (long)badge, sound, msgId);
+    NSLog(@"alert =[%@], badge=[%ld], sound=[%@], msgId =[%ld]", alert, (long)badge, sound, (long)msgId);
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *) error
 {
@@ -230,7 +230,6 @@
     [self analyseRemoteNotification:userInfo];
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNoData);
-    
 }
 #endif
 

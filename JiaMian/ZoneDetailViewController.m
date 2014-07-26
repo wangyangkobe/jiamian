@@ -15,7 +15,7 @@
 {
     NSMutableArray* zonesArr;
     NSMutableArray* searchRes;
-    AreaModel* lastSelectZone;
+    NSInteger lastSelectZoneId;
 }
 
 @end
@@ -34,6 +34,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSLog(@"viewDidLoad");
     [self configureNavigationBar];
     [self configureTableHeaderView:1];
     [self configureTableFooterView];
@@ -53,9 +54,11 @@
                                                             keyWord:nil];
         [zonesArr addObjectsFromArray:result];
         
-        NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
-        NSArray* res = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
-        lastSelectZone = [self filterArray:res];
+        NSData* confData = [[NSUserDefaults standardUserDefaults] objectForKey:kCongigureDict];
+        NSDictionary* confDict = [NSKeyedUnarchiver unarchiveObjectWithData:confData];
+        NSDictionary* zoneConf = [confDict objectForKey:[NSNumber numberWithInteger:_zoneType]];
+        lastSelectZoneId = [[zoneConf objectForKey:@"zoneId"] integerValue];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
         });
@@ -135,7 +138,7 @@
         [hotImageView setImage:[UIImage imageNamed:@"ic_index_star1"]];
     }
     
-    if (lastSelectZone && zone.area_id == lastSelectZone.area_id)
+    if (lastSelectZoneId == zone.area_id)
     {
         [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
     }

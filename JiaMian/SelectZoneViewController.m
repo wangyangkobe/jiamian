@@ -16,10 +16,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 
 @interface SelectZoneViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, ZoneDetailVCDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
 {
-    int selectScopeId;
-    NSMutableArray* selectZones;
+    NSInteger selectScopeId;
     NSMutableDictionary* configureDict;
-    NSIndexPath* cancelIndex;
 }
 @property (nonatomic, retain) UISearchDisplayController* searchController;
 @property (retain, nonatomic) UISearchBar *searchBar;
@@ -39,64 +37,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    NSData* lastSelectData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
-    NSArray* lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:lastSelectData];
-    NSLog(@"lastSelectZones = %@", lastSelectZones);
-    NSData* data = [[NSUserDefaults standardUserDefaults] objectForKey:kCongigureDict];
-    if (lastSelectZones && data && !self.isFirstSelect)
-    {
-        configureDict = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-        NSLog(@"configure dict = %@", configureDict);
-        
-        for (AreaModel* zone in lastSelectZones)
-        {
-            if (zone.type == ZoneTypeCompany)
-            {
-                NSMutableDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:0]];
-                [currentConf setValue:zone.area_name forKey:@"name"];
-                [currentConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
-            }
-            else if (zone.type == ZoneTypeIndustry)
-            {
-                NSMutableDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:2]];
-                [currentConf setValue:zone.area_name forKey:@"name"];
-                [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
-            }
-            else if (zone.type == ZoneTypeSchool)
-            {
-                NSMutableDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:1]];
-                [currentConf setValue:zone.area_name forKey:@"name"];
-                [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
-            }
-        }
-    }
-    else  //第一次登录
-    {
-        NSMutableDictionary* scope1 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+公司", @0xadd5e6, [NSNull null], nil]
-                                                                         forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
-        NSMutableDictionary* scope2 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+学校", @0xf6d7c4, [NSNull null], nil]
-                                                                         forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
-        NSMutableDictionary* scope3 = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+行业", @0xf9eca8, [NSNull null], nil]
-                                                                         forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
-        
-        configureDict = [NSMutableDictionary dictionaryWithObjects:@[scope1, scope2, scope3]
-                                                           forKeys:@[@0, @1, @2] ];
-    }
-    
-    data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
-    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    //  selectZones = [NSMutableArray arrayWithArray:@[ [NSNull null], [NSNull null], [NSNull null] ]];
-    if (lastSelectZones)
-    {
-        selectZones = [NSMutableArray arrayWithArray:[self filterArray:lastSelectZones]];
-    }
-    else
-    {
-        selectZones = [NSMutableArray array];
-    }
 }
 - (void)viewDidLoad
 {
@@ -111,9 +51,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     lpgr.minimumPressDuration = 0.5; //seconds
     lpgr.delegate = self;
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        lpgr.delaysTouchesBegan = YES;
-    }
+    lpgr.delaysTouchesBegan = YES;
+    
     [self.collectionView addGestureRecognizer:lpgr];
     
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([CustomCollectionCell class]) bundle:[NSBundle mainBundle]];
@@ -148,76 +87,129 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     //                                                                                  target:self
     //                                                                                  action:@selector(handleDone:)];
     //    navigationItem.rightBarButtonItem = rightBtnItem;
-}
-- (NSArray*)filterArray:(NSArray*)array
-{
-    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-    for(AreaModel* zone in array)
-    {
-        [dict setObject:zone forKey:[NSNumber numberWithInteger:zone.type]];
+    
+    NSData* lastSelectData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    NSArray* lastSelectZones;
+    if (lastSelectData == nil) {
+        lastSelectZones = [NSArray array];
+    }else{
+        lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:lastSelectData];
     }
-    return [dict allValues];
+    
+    NSLog(@"%s, lastSelectZones = %@", __FUNCTION__, lastSelectZones);
+    
+    NSMutableDictionary* company = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+公司", @0xadd5e6, [NSNull null], nil]
+                                                                      forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
+    NSMutableDictionary* school = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+学校", @0xf6d7c4, [NSNull null], nil]
+                                                                     forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
+    NSMutableDictionary* industry = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+行业", @0xf9eca8, [NSNull null], nil]
+                                                                       forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
+    
+    configureDict = [NSMutableDictionary dictionaryWithObjects:@[company, school, industry]
+                                                       forKeys:@[[NSNumber numberWithInt:ZoneTypeCompany],
+                                                                 [NSNumber numberWithInt:ZoneTypeSchool],
+                                                                 [NSNumber numberWithInt:ZoneTypeIndustry] ] ];
+    
+    for (AreaModel* zone in lastSelectZones)
+    {
+        NSMutableDictionary* zoneConf = [configureDict objectForKey:[NSNumber numberWithInt:zone.type]];
+        [zoneConf setValue:zone.area_name forKey:@"name"];
+        [zoneConf setValue:[NSNumber numberWithInt:zone.area_id] forKey:@"zoneId"];
+        [zoneConf setValue:zone forKey:@"zone"];
+        if (zone.type == ZoneTypeCompany) {
+            [zoneConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
+        } else if(zone.type == ZoneTypeSchool) {
+            [zoneConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
+        } else if(zone.type == ZoneTypeIndustry) {
+            [zoneConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
+        }
+    }
+    
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (ZoneType)mapCellIdToZoneType:(NSInteger)scopeId
+{
+    if (0 == scopeId) {
+        return ZoneTypeCompany;
+    } else if (1 == scopeId) {
+        return ZoneTypeSchool;
+    } else {
+        return ZoneTypeIndustry;
+    }
 }
 -(void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer
 {
-    if (gestureRecognizer.state != UIGestureRecognizerStateEnded)
-        return;
-    
-    CGPoint point = [gestureRecognizer locationInView:self.collectionView];
-    
-    NSIndexPath* indexPath = [self.collectionView indexPathForItemAtPoint:point];
-    if (indexPath == nil || indexPath.row == 3){
-        NSLog(@"couldn't find index path");
-    } else {
-        //UICollectionViewCell* cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-        NSMutableDictionary* conf = [configureDict objectForKey:[NSNumber numberWithInteger:indexPath.row]];
-        NSInteger zoneId = [[conf objectForKey:@"zoneId"] integerValue];
-        if (zoneId == 0)
-            return;
-        if ([selectZones count] == 1) {
-            AlertContent(@"最后一个圈子，不能取消!");
-            return;
+    if (UIGestureRecognizerStateEnded == gestureRecognizer.state)
+    {
+        NSLog(@"%s", __FUNCTION__);
+        CGPoint point = [gestureRecognizer locationInView:self.collectionView];
+        NSIndexPath* indexPath = [self.collectionView indexPathForItemAtPoint:point];
+        if (indexPath == nil || indexPath.row == 3)
+        {
+            NSLog(@"couldn't find index path");
         }
-        [UIAlertView showWithTitle:@"提示"
-                           message:@"确定取消关注该圈子?"
-                 cancelButtonTitle:@"取消"
-                 otherButtonTitles:@[@"确定"]
-                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                              if (buttonIndex == 0)
-                                  return;
-                              @try {
-                                  NSMutableArray* temp = [NSMutableArray array];
-                                  for (AreaModel* zone in selectZones) {
-                                      if (zone.area_id != zoneId) {
-                                          [temp addObject:zone];
-                                      }
+        else
+        {
+            //UICollectionViewCell* cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+            NSMutableDictionary* zoneConf = [configureDict objectForKey:
+                                             [NSNumber numberWithInt:[self mapCellIdToZoneType:indexPath.row]]];
+            NSInteger zoneId = [[zoneConf objectForKey:@"zoneId"] integerValue];
+            if (zoneId == 0)
+                return;
+            
+            int number = 0;
+            for (NSNumber* key in configureDict) {
+                NSDictionary* zoneConf = [configureDict objectForKey:key];
+                NSInteger zoneId = [[zoneConf objectForKey:@"zoneId"] integerValue];
+                if (zoneId != 0) {
+                    number++;
+                }
+            }
+            if (number == 1)
+            {
+                AlertContent(@"同学，您不能取消最后一个圈子!");
+                return;
+            }
+            
+            [UIAlertView showWithTitle:@"提示"
+                               message:@"确定取消关注该圈子?"
+                     cancelButtonTitle:@"取消"
+                     otherButtonTitles:@[@"确定"]
+                              tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                  if (buttonIndex == 0)
+                                      return;
+                                  
+                                  [zoneConf setValue:[NSNumber numberWithInteger:0] forKey:@"zoneId"];
+                                  [zoneConf setObject:[NSNull null] forKey:@"zone"];
+                                  if (0 == indexPath.row)
+                                  {
+                                      [zoneConf setValue:@"+公司" forKey:@"name"];
+                                      [zoneConf setValue:@0xadd5e6 forKey:@"color"];
                                   }
-                                  selectZones = [NSMutableArray arrayWithArray:temp];
-                                  NSLog(@"conf = %@", conf);
-                                  [conf setValue:[NSNumber numberWithInteger:0] forKey:@"zoneId"];
-                                  NSLog(@"sssssssssssss");
-                                  if (0 == indexPath.row) {
-                                      [conf setValue:@"+公司" forKey:@"name"];
-                                  }else if (1 == indexPath.row){
-                                      [conf setValue:@"+学校" forKey:@"name"];
-                                  }else if (2 == indexPath.row){
-                                      [conf setValue:@"+行业" forKey:@"name"];
+                                  else if (1 == indexPath.row)
+                                  {
+                                      [zoneConf setValue:@"+学校" forKey:@"name"];
+                                      [zoneConf setValue:@0xf6d7c4 forKey:@"color"];
                                   }
-                                  NSLog(@"%@", configureDict);
+                                  else if (2 == indexPath.row)
+                                  {
+                                      [zoneConf setValue:@"+行业" forKey:@"name"];
+                                      [zoneConf setValue:@0xf9eca8 forKey:@"color"];
+                                  }
+                                  
                                   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
                                   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
                                   [[NSUserDefaults standardUserDefaults] synchronize];
                                   
                                   NSArray* indexPaths = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:indexPath.row inSection:0]];
-                                  [_collectionView reloadItemsAtIndexPaths:indexPaths];
-                              }
-                              @catch (NSException *exception) {
-                                  NSLog(@"exception = %@", exception);
-                              }
-                              @finally {
-                                  [self handleSelectZone];
-                              }
-                          }];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [_collectionView reloadItemsAtIndexPaths:indexPaths];
+                                  });
+                              }];
+        }
     }
 }
 
@@ -226,24 +218,24 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark ZoneDetailVCDelegate
 - (void)zoneDetailViewController:(ZoneDetailViewController *)viewController didFinishSelectZone:(AreaModel *)zone
 {
-    NSLog(@"%@", selectZones);
-    NSDictionary* currentConf = [configureDict objectForKey:[NSNumber numberWithInt:selectScopeId]];
+    NSLog(@"zoneId = %d", zone.area_id);
+    NSDictionary* currentConf = [configureDict objectForKey:
+                                 [NSNumber numberWithInt:[self mapCellIdToZoneType:selectScopeId]]];
+    
     [currentConf setValue:zone.area_name forKey:@"name"];
     [currentConf setValue:[NSNumber numberWithInteger:zone.area_id] forKey:@"zoneId"];
-    if (0 == selectScopeId){
-        [currentConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
-    }else if (1 == selectScopeId){
-        [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
-    }else{
-        [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
-    }
+    [currentConf setValue:zone forKey:@"zone"];
     
-    if ([selectZones containsObject:zone] == NO)
-    {
-        [selectZones addObject:zone];
+    if (0 == selectScopeId) {
+        [currentConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
+    } else if (1 == selectScopeId) {
+        [currentConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
+    } else {
+        [currentConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
     }
     
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
@@ -263,12 +255,12 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 {
     CustomCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier
                                                                            forIndexPath:indexPath];
-    int row = indexPath.row;
+    NSInteger row = indexPath.row;
     if (row < 3)
     {
-        NSDictionary* configure = [configureDict objectForKey:[NSNumber numberWithInt:row]];
+        NSDictionary* configure = [configureDict objectForKey:[NSNumber numberWithInt:[self mapCellIdToZoneType:row]]];
         [cell.zoneName setText:[configure objectForKey:@"name"]];
-        int colorValue = [[configure objectForKey:@"color"] integerValue];
+        NSInteger colorValue = [[configure objectForKey:@"color"] integerValue];
         [cell setBackgroundColor:UIColorFromRGB(colorValue)];
     }
     else
@@ -290,13 +282,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         selectScopeId = indexPath.row;
         ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
         zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-        if (selectScopeId == 0) {
-            zoneDetailVC.zoneType = ZoneTypeCompany;
-        }else if(selectScopeId == 1){
-            zoneDetailVC.zoneType = ZoneTypeSchool;
-        }else{
-            zoneDetailVC.zoneType = ZoneTypeIndustry;
-        }
+        zoneDetailVC.zoneType = [self mapCellIdToZoneType:indexPath.row];
+        
         zoneDetailVC.delegate = self;
         [self presentViewController:zoneDetailVC animated:YES completion:nil];
     }
@@ -360,10 +347,38 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 //}
 - (IBAction)nextStepBtnPress:(id)sender
 {
-    if (sender != nil)
+    NSMutableArray* zoneIdArr = [NSMutableArray array];
+    for (NSNumber* key in configureDict)
     {
-        [self handleSelectZone];
+        NSDictionary* zoneConf = [configureDict objectForKey:key];
+        NSInteger zoneId = [[zoneConf objectForKey:@"zoneId"] integerValue];
+        if (zoneId != 0) {
+            [zoneIdArr addObject:[NSString stringWithFormat:@"%ld", (long)zoneId]];
+        }
     }
+    
+    if ([zoneIdArr count] == 0) {
+        AlertContent(@"您最少要选择一个圈子吧");
+        return;
+    }
+    
+    NSString* zoneIdStr = [zoneIdArr componentsJoinedByString:@","];
+    NSLog(@"zoneIdStr = %@", zoneIdStr);
+    UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:zoneIdStr];
+    if (user == nil)
+        return;
+    
+    NSLog(@"area = %@", user.areas);
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:user.areas];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
+    
+    data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
+    [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAreaSuccess" object:self userInfo:nil];
+    
     if (self.isFirstSelect)
     {
         HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
@@ -375,36 +390,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         }];
     }
 }
-- (void)handleSelectZone
-{
-    selectZones = [NSMutableArray arrayWithArray:[self filterArray:selectZones]];
-    if([selectZones count] == 0)
-    {
-        AlertContent(@"同学，您最少要选择一个圈子吧");
-        return;
-    }
-    if ([selectZones count] != 0)
-    {
-        NSMutableArray* zoneIdArr = [NSMutableArray array];
-        for (AreaModel* area in selectZones)
-        {
-            if ([area isEqual:[NSNull null]] == NO)
-            {
-                [zoneIdArr addObject:[NSString stringWithFormat:@"%d", area.area_id]];
-            }
-        }
-        NSString* res = [zoneIdArr componentsJoinedByString:@","];
-        UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
-        if (user == nil)
-            return;
-        
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:selectZones];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSelectZones];
-        
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAreaSuccess" object:self userInfo:nil];
-}
+
 - (void)handleDone:(id)sender
 {
     //    if([selectZoneIds count] == 0)
