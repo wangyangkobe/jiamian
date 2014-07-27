@@ -270,12 +270,12 @@
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 20, 20)];
     
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 160, 30)];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 90, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
     label.backgroundColor = UIColorFromRGB(0xf4f4f4);
     //  view.opaque = NO;
     
-    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(270, 2, 40, 26)];
+    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(110, 2, 40, 26)];
     [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(showMoreTopic:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:image];
