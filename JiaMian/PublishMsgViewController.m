@@ -177,7 +177,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"%@, %@", NSStringFromRange(range), text);
+    NSLog(@"%@, %d", NSStringFromRange(range), textView.text.length);
     if (range.length == 1) //删除
     {
         return YES;
@@ -188,6 +188,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         if (lineNumbers > 8) return NO;  // ios 6
     }
+
     if ( (range.location > 140) || (textView.text.length > 140) )  //控制输入文本的长度
         return NO;
     else
@@ -201,6 +202,13 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         //new line reached, write your code
         lineNumbers++;
+    }
+    else if(currentRect.origin.y < previouRect.origin.y)
+    {
+        lineNumbers--;
+    }
+    else
+    {
     }
     previouRect = currentRect;
 }
