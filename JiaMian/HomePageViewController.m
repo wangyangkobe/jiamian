@@ -79,6 +79,24 @@
                                                  name:@"changeAreaSuccess"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRemoteNotification:)
+                                                 name:@"showRomoteNotification"
+                                               object:nil];
+}
+- (void)handleRemoteNotification:(NSNotification*)notification
+{
+    NSDictionary* userInfo = [notification userInfo];
+    NSInteger msgId = [[userInfo valueForKey:@"message_id"] integerValue];
+    
+    NSLog(@"%s, msgId = %ld", __FUNCTION__, msgId);
+    MessageModel* msg = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
+    if (msg)
+    {
+        MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+        msgDetailVC.selectedMsg = msg;
+        [self.navigationController pushViewController:msgDetailVC animated:YES];
+    }
 }
 - (void)handleMsgChanged:(NSNotification*)notification
 {

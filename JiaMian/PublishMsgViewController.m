@@ -177,7 +177,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"%@, %d", NSStringFromRange(range), textView.text.length);
+    NSLog(@"%@, %lu", NSStringFromRange(range), (unsigned long)textView.text.length);
     if (range.length == 1) //删除
     {
         return YES;

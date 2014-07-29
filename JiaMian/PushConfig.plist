@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>APS_FOR_PRODUCTION</key>
-	<string>1</string>
+	<string>0</string>
 	<key>APP_KEY</key>
 	<string>c8187fbaa98184f7925f2f75</string>
 	<key>CHANNEL</key>
