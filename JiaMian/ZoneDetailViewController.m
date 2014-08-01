@@ -232,6 +232,16 @@
     UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
+    
+    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" 
+                                                                   style:UIBarButtonItemStylePlain 
+                                                                   target:self 
+                                                                  action:@selector(barButtonBackPressed:)];
+    self.navigationItem.leftBarButtonItem = backButton;
+}
+-(void)barButtonBackPressed:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 - (void)configureTableHeaderView:(int)scopeId
 {
