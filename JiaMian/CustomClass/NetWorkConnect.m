@@ -269,6 +269,8 @@ static ASIDownloadCache* myCache;
     
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/create", HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setShouldAttemptPersistentConnection:NO];      //彻底禁用持久连接
+    [request setShouldContinueWhenAppEntersBackground:YES]; //进入后台继续运行
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithInt:MsgType]  forKey:@"message_type"];
