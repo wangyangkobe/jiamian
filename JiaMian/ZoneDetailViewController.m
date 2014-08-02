@@ -233,15 +233,19 @@
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
     
-    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" 
-                                                                   style:UIBarButtonItemStylePlain 
-                                                                   target:self 
+   // UINavigationItem* backBtnItem = [[UINavigationItem alloc] initWithTitle:@"假面校园"];
+   // NSArray* items = [[NSArray alloc] initWithObjects:backBtnItem, navigationItem, nil];
+   // [navigationBar setItems:items animated:NO];
+    
+    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                   target:self
                                                                   action:@selector(barButtonBackPressed:)];
-    self.navigationItem.leftBarButtonItem = backButton;
+    navigationItem.leftBarButtonItem = backButton;
 }
 -(void)barButtonBackPressed:(id)sender
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)configureTableHeaderView:(int)scopeId
 {

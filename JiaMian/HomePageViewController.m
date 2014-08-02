@@ -89,7 +89,7 @@
     NSDictionary* userInfo = [notification userInfo];
     NSInteger msgId = [[userInfo valueForKey:@"message_id"] integerValue];
     
-    NSLog(@"%s, msgId = %ld", __FUNCTION__, msgId);
+    NSLog(@"%s, msgId = %ld", __FUNCTION__, (long)msgId);
     MessageModel* msg = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
     if (msg)
     {
@@ -485,7 +485,6 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
@@ -495,6 +494,12 @@
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
+        NSArray* topics = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        if (topics) {
+            [topicArray removeAllObjects];
+            [topicArray addObjectsFromArray:topics];
+        }
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {
@@ -510,7 +515,6 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        //    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
                                                                       maxId:lastMessage.message_id
