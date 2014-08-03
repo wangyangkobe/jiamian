@@ -60,33 +60,16 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame]; //height = 20
-    //创建UINavigationBar
-    UINavigationBar* navigationBar = nil;
-    if (IOS_NEWER_OR_EQUAL_TO_7)
+    if (_firstSelect)
     {
-        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
-        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
-        [navigationBar setBarTintColor:UIColorFromRGB(0x242730)];
-        [navigationBar setTranslucent:NO];
+        [self configureNavigationBar];
     }
     else
     {
-        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
-        [navigationBar setTintColor:UIColorFromRGB(0x242730)];
+        CGRect oldFrame = _collectionView.frame;
+        [_collectionView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, oldFrame.size.height + 44 + 20)];
+        self.title = @"选择你的圈子";
     }
-    [navigationBar setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
-                                            NSForegroundColorAttributeName, nil]];
-    navigationBar.delegate = self;
-    //创建UINavigationItem
-    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];
-    [navigationBar pushNavigationItem:navigationItem animated:YES];
-    [self.view addSubview:navigationBar];
-    
-    //    UIBarButtonItem* rightBtnItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone
-    //                                                                                  target:self
-    //                                                                                  action:@selector(handleDone:)];
-    //    navigationItem.rightBarButtonItem = rightBtnItem;
     
     NSData* lastSelectData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
     NSArray* lastSelectZones;
@@ -130,6 +113,39 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)configureNavigationBar
+{
+    CGRect statusBarFrame  = [[UIApplication sharedApplication] statusBarFrame]; //height = 20
+    //创建UINavigationBar
+    UINavigationBar* navigationBar = nil;
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+    {
+        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44 + statusBarFrame.size.height)];
+        [self.collectionView setContentInset:UIEdgeInsetsMake(statusBarFrame.size.height, 0, 0, 0)];
+        [navigationBar setBarTintColor:UIColorFromRGB(0x242730)];
+        [navigationBar setTranslucent:NO];
+    }
+    else
+    {
+        navigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 44)];
+        [navigationBar setTintColor:UIColorFromRGB(0x242730)];
+    }
+    [navigationBar setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],
+                                            NSForegroundColorAttributeName, nil]];
+    navigationBar.delegate = self;
+    //创建UINavigationItem
+    UINavigationItem* navigationItem = [[UINavigationItem alloc] initWithTitle:@"选择你的圈子"];
+    [navigationBar pushNavigationItem:navigationItem animated:YES];
+    [self.view addSubview:navigationBar];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+        [self nextStepBtnPress:nil];
+    }
+    [super viewWillDisappear:animated];
+}
 - (ZoneType)mapCellIdToZoneType:(NSInteger)scopeId
 {
     if (0 == scopeId) {
@@ -283,7 +299,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         ZoneDetailViewController* zoneDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"ZoneDetailVCIdentifier"];
         zoneDetailVC.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
         zoneDetailVC.zoneType = [self mapCellIdToZoneType:indexPath.row];
-        
         zoneDetailVC.delegate = self;
         [self presentViewController:zoneDetailVC animated:YES completion:nil];
     }
@@ -297,7 +312,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
-        
 //        for (UIView* view in footerView.subviews)
 //        {
 //            if ([view isKindOfClass:[UIButton class]])

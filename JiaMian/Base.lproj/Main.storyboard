@@ -849,10 +849,15 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" tag="7004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="l34-VT-zKn">
+                                                    <rect key="frame" x="126" y="5" width="175" height="174"/>
+                                                    <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7003" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XWq-pz-UBO">
                                                     <rect key="frame" x="126" y="5" width="175" height="174"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="7001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="qnG-Dg-FoO">

@@ -29,6 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"设置";
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
@@ -108,7 +109,8 @@
     {
         SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
         selectZoneVC.firstSelect = NO;
-        [self presentViewController:selectZoneVC animated:YES completion:nil];
+       // [self presentViewController:selectZoneVC animated:YES completion:nil];
+        [self.navigationController pushViewController:selectZoneVC animated:YES];
     }
     else if(2 == row)
     {
