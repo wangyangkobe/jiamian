@@ -11,7 +11,7 @@
 
 #define kZoneNameLabelTag    9000
 #define kZoneHotImageViewTag 9001
-@interface ZoneDetailViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@interface ZoneDetailViewController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, UINavigationBarDelegate>
 {
     NSMutableArray* zonesArr;
     NSMutableArray* searchRes;
@@ -233,20 +233,19 @@
     [navigationBar pushNavigationItem:navigationItem animated:YES];
     [self.view addSubview:navigationBar];
     
-   // UINavigationItem* backBtnItem = [[UINavigationItem alloc] initWithTitle:@"假面校园"];
-   // NSArray* items = [[NSArray alloc] initWithObjects:backBtnItem, navigationItem, nil];
-   // [navigationBar setItems:items animated:NO];
-    
-    UIBarButtonItem* backButton = [[UIBarButtonItem alloc] initWithTitle:@"返回"
-                                                                   style:UIBarButtonItemStyleBordered
-                                                                   target:self
-                                                                  action:@selector(barButtonBackPressed:)];
-    navigationItem.leftBarButtonItem = backButton;
+    UINavigationItem* backBtnItem = [[UINavigationItem alloc] initWithTitle:@"假面"];
+    NSArray* items = [[NSArray alloc] initWithObjects:backBtnItem, navigationItem, nil];
+    [navigationBar setItems:items animated:NO];
+    navigationBar.delegate = self;
 }
--(void)barButtonBackPressed:(id)sender
+- (BOOL)navigationBar:(UINavigationBar *)navigationBar shouldPopItem:(UINavigationItem *)item
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if ([item.title isEqualToString:@"选择你的圈子"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    return YES;
 }
+
 - (void)configureTableHeaderView:(int)scopeId
 {
     UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 20)];

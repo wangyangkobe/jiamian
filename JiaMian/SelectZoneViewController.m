@@ -298,26 +298,26 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
         
-        for (UIView* view in footerView.subviews)
-        {
-            if ([view isKindOfClass:[UIButton class]])
-            {
-                UIButton* btn = (UIButton*)view;
-                [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
-                btn.showsTouchWhenHighlighted = YES;
-                if (_firstSelect == NO)
-                {
-                    [btn setTitle:@"确定" forState:UIControlStateNormal];
-                }
-            }
-        }
+//        for (UIView* view in footerView.subviews)
+//        {
+//            if ([view isKindOfClass:[UIButton class]])
+//            {
+//                UIButton* btn = (UIButton*)view;
+//                [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
+//                btn.showsTouchWhenHighlighted = YES;
+//                if (_firstSelect == NO)
+//                {
+//                    [btn setTitle:@"确定" forState:UIControlStateNormal];
+//                }
+//            }
+//        }
         return footerView;
     }
-    //    if ([kind isEqualToString:UICollectionElementKindSectionHeader])
-    //    {
-    //        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
-    //        return headerView;
-    //    }
+    if ( (_firstSelect == NO) && [kind isEqualToString:UICollectionElementKindSectionHeader] )
+    {
+        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionHeader" forIndexPath:indexPath];
+        return headerView;
+    }
     return nil;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
@@ -339,12 +339,18 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
+    if (_firstSelect) {
+        return CGSizeMake(SCREEN_WIDTH, 40);
+    }
+    return CGSizeMake(0, 0);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    if (_firstSelect) {
+        return CGSizeMake(0, 0);
+    }
     return CGSizeMake(SCREEN_WIDTH, 40);
 }
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
-//{
-//    return CGSizeMake(SCREEN_WIDTH, 40);
-//}
 - (IBAction)nextStepBtnPress:(id)sender
 {
     NSMutableArray* zoneIdArr = [NSMutableArray array];
@@ -356,7 +362,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
             [zoneIdArr addObject:[NSString stringWithFormat:@"%ld", (long)zoneId]];
         }
     }
-    
     if ([zoneIdArr count] == 0) {
         AlertContent(@"您最少要选择一个圈子吧");
         return;
@@ -389,35 +394,5 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         [self dismissViewControllerAnimated:YES completion:^{
         }];
     }
-}
-
-- (void)handleDone:(id)sender
-{
-    //    if([selectZoneIds count] == 0)
-    //    {
-    //        AlertContent(@"同学，您最少要选择一个圈子吧");
-    //        return;
-    //    }
-    //    if ([selectZoneIds count] != 0)
-    //    {
-    //        NSString* res = [selectZoneIds componentsJoinedByString:@","];
-    //        UserModel* user = [[NetWorkConnect sharedInstance] userChangeZone:res];
-    //        if (user == nil)
-    //            return;
-    //        [[NSUserDefaults standardUserDefaults] setObject:selectZoneIds forKey:kSelectZones];
-    //        [[NSUserDefaults standardUserDefaults] synchronize];
-    //
-    //    }
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeAreaSuccess" object:self userInfo:nil];
-    //    if (self.isFirstSelect)
-    //    {
-    //        HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-    //        [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
-    //    }
-    //    else
-    //    {
-    //        [self dismissViewControllerAnimated:YES completion:^{
-    //        }];
-    //    }
 }
 @end
