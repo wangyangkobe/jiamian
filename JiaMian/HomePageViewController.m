@@ -79,6 +79,24 @@
                                                  name:@"changeAreaSuccess"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRemoteNotification:)
+                                                 name:@"showRomoteNotification"
+                                               object:nil];
+}
+- (void)handleRemoteNotification:(NSNotification*)notification
+{
+    NSDictionary* userInfo = [notification userInfo];
+    NSInteger msgId = [[userInfo valueForKey:@"message_id"] integerValue];
+    
+    NSLog(@"%s, msgId = %ld", __FUNCTION__, (long)msgId);
+    MessageModel* msg = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
+    if (msg)
+    {
+        MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+        msgDetailVC.selectedMsg = msg;
+        [self.navigationController pushViewController:msgDetailVC animated:YES];
+    }
 }
 - (void)handleMsgChanged:(NSNotification*)notification
 {
@@ -270,12 +288,12 @@
     UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
     UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 20, 20)];
     
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 160, 30)];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 90, 30)];
     view.backgroundColor = UIColorFromRGB(0xf4f4f4);
     label.backgroundColor = UIColorFromRGB(0xf4f4f4);
     //  view.opaque = NO;
     
-    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(270, 2, 40, 26)];
+    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(110, 2, 40, 26)];
     [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(showMoreTopic:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:image];
@@ -467,7 +485,6 @@
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        // long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:sinceId
                                                                       maxId:INT_MAX
@@ -477,6 +494,12 @@
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
+        NSArray* topics = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        if (topics) {
+            [topicArray removeAllObjects];
+            [topicArray addObjectsFromArray:topics];
+        }
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {
@@ -492,7 +515,6 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        //    NSInteger areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                     sinceId:0
                                                                       maxId:lastMessage.message_id

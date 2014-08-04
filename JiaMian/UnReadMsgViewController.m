@@ -15,7 +15,7 @@
 #define kNewPicView      7001
 #define kTitleLabel      7002
 #define kContentLabel    7003
-
+#define KMsgBgImageView  7004
 @interface UnReadMsgViewController () <UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
 }
@@ -99,9 +99,33 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     NotificationModel* notification = (NotificationModel*)[_notificationArr objectAtIndex:[indexPath row]];
+    MessageModel* currentMsg = notification.message;
     UILabel* titleLabel       = (UILabel*)[cell.contentView viewWithTag:kTitleLabel];
     UILabel* contentLabel     = (UILabel*)[cell.contentView viewWithTag:kContentLabel];
     UIImageView* newImageView = (UIImageView*)[cell.contentView viewWithTag:kNewPicView];
+    UIImageView* msgBgImageView = (UIImageView*)[cell.contentView viewWithTag:KMsgBgImageView];
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
+    {
+        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
+        [contentLabel setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
+        [msgBgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
+    }
+    else
+    {
+        [contentLabel setBackgroundColor:[UIColor clearColor]];
+        [msgBgImageView setImage:nil];
+        int bgImageNo = currentMsg.background_no2;
+        if (bgImageNo >=1 && bgImageNo <= 10)
+        {
+            [contentLabel setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        }
+        else
+        {
+            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+            [contentLabel setBackgroundColor:picColor];
+        }
+    }
     if (notification.status == 1)
     {
         [newImageView setImage:[UIImage imageNamed:@"new"]];

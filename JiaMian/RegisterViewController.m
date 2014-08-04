@@ -136,8 +136,8 @@
             [tags addObject:[NSString stringWithFormat:@"%d", area.area_id]];
         [APService setTags:tags
                      alias:[NSString stringWithFormat:@"%ld", userSelf.user_id]
-          callbackSelector:@selector(tagsAliasCallback:tags:alias:)
-                    target:self];
+          callbackSelector:nil
+                    target:nil];
     
         [[NSUserDefaults standardUserDefaults] setBool:YES       forKey:kUserLogIn];
         [[NSUserDefaults standardUserDefaults] setObject:passWord forKey:kLogInToken];
