@@ -412,7 +412,12 @@
     
     if ([textView.text length] > 0)
     {
-        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+        if (IOS_NEWER_OR_EQUAL_TO_7) {
+            [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 120)];
+        } else {
+            [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+        }
+        
         [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
         [SVProgressHUD showWithStatus:@"发送中..."];
         
@@ -422,6 +427,7 @@
 - (void)sendComment:(NSString*)commentStr
 {
     CommentModel* comment = [[NetWorkConnect sharedInstance] commentCreate:self.selectedMsg.message_id text:textView.text];
+    [SVProgressHUD dismiss];
     if (comment)
     {
         MessageModel* msg = [[NetWorkConnect sharedInstance] messageShowByMsgId:comment.message_id];
@@ -432,7 +438,6 @@
         NSDictionary* userInfo = [NSDictionary dictionaryWithObject:msg forKey:@"changedMsg"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
         
-        [SVProgressHUD dismiss];
         [commentArr addObject:comment];
         [textView setText:@""];
         [self.tableView reloadData];
