@@ -33,9 +33,9 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     
-    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 200)];
+    UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setFrame:CGRectMake(80, 155, 160, 40)];
+    [button setFrame:CGRectMake(80, 75, 160, 40)];
     [button setBackgroundColor:UIColorFromRGB(0xff6f6f)];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setTitle:@"注销登录" forState:UIControlStateNormal];
@@ -61,35 +61,65 @@
         [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
     }
 }
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 2;
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 4;
+    if (0 == section) {
+        return 2;
+    } else {
+        return 4;
+    }
+}
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (0 == section) {
+        return @"提醒设置";
+    } else {
+        return @"其他设置";
+    }
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* cellIdentifer = @"SettingCell";
-    UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+    if (indexPath.section == 0) {
+        static NSString* cellIdentifer = @"SettingCell1";
+        UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+        }
+        if (indexPath.row == 0) {
+            cell.textLabel.text = @"震动";
+        } else {
+            cell.textLabel.text = @"声音";
+        }
+        UISwitch* switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
+        [cell.contentView addSubview:switchBtn];
+        return cell;
+    } else {
+        static NSString* cellIdentifer = @"SettingCell2";
+        UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+        }
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"邀请朋友";
+                break;
+            case 1:
+                cell.textLabel.text = @"选择圈子";
+                break;
+            case 2:
+                cell.textLabel.text = @"意见反馈";
+                break;
+            case 3:
+                cell.textLabel.text = @"关于";
+                break;
+            default:
+                break;
+        }
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        return cell;
     }
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = @"邀请朋友";
-            break;
-        case 1:
-            cell.textLabel.text = @"选择圈子";
-            break;
-        case 2:
-            cell.textLabel.text = @"意见反馈";
-            break;
-        case 3:
-            cell.textLabel.text = @"关于";
-            break;
-        default:
-            break;
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
