@@ -137,8 +137,6 @@
     [titleLabel setText:@"某某某回复了"];
     [titleLabel setTextColor:UIColorFromRGB(0x576b95)];
     [contentLabel setText:notification.message.text];
-    [contentLabel setTextColor:UIColorFromRGB(0x919191)];
-    [contentLabel setBackgroundColor:UIColorFromRGB(0xefeeee)];
     return cell;
 }
 
