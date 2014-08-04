@@ -45,21 +45,10 @@
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_like.png" id="2Yq-kd-aJo">
-                    <rect key="frame" x="188" y="323" width="15" height="15"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_eyes.png" id="2bJ-wd-Xda">
-                    <rect key="frame" x="228" y="324" width="17" height="12"/>
+                    <rect key="frame" x="231" y="323" width="15" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HD3-36-UIa">
-                    <rect key="frame" x="203" y="323" width="25" height="15"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HTa-RV-pBM">
                     <rect key="frame" x="246" y="323" width="25" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -88,14 +77,11 @@
                 <outlet property="likeNumberLabel" destination="HD3-36-UIa" id="IDp-w2-AF9"/>
                 <outlet property="maskImageView" destination="DD3-2x-rVQ" id="SCA-uF-mKW"/>
                 <outlet property="textLabel" destination="VCb-95-Gl4" id="IsG-3X-P9M"/>
-                <outlet property="visibleImageView" destination="2bJ-wd-Xda" id="un6-AT-V5b"/>
-                <outlet property="visibleNumberLabel" destination="HTa-RV-pBM" id="frd-ry-aAn"/>
             </connections>
         </view>
     </objects>
     <resources>
         <image name="comment_white.png" width="26" height="27"/>
-        <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
     </resources>
 </document>
