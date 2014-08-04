@@ -165,18 +165,7 @@
                                                     <rect key="frame" x="273" y="214" width="13" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" tag="8006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_eyes.png" id="t6b-WX-PBH">
-                                                    <rect key="frame" x="228" y="214" width="17" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="umO-fQ-P5f">
-                                                    <rect key="frame" x="203" y="213" width="25" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="100" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3Ct-8c-dYk">
                                                     <rect key="frame" x="246" y="213" width="25" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -184,7 +173,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="8004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_like.png" id="fys-uF-QF6">
-                                                    <rect key="frame" x="188" y="213" width="15" height="15"/>
+                                                    <rect key="frame" x="231" y="213" width="15" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                 </imageView>
                                             </subviews>
@@ -324,21 +313,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="8004" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_like_grey.png" id="W7b-al-Pzc">
-                                                    <rect key="frame" x="189" y="213" width="15" height="15"/>
+                                                    <rect key="frame" x="231" y="213" width="15" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8005" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tfe-Ph-3WT">
-                                                    <rect key="frame" x="204" y="213" width="25" height="15"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <imageView userInteractionEnabled="NO" tag="8006" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="cRe-EM-cO5">
-                                                    <rect key="frame" x="228" y="214" width="17" height="12"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8007" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="tM0-hJ-fYB">
                                                     <rect key="frame" x="246" y="213" width="25" height="15"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -346,7 +324,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" tag="8003" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="9JP-HC-3GW">
-                                                    <rect key="frame" x="274" y="214" width="13" height="13"/>
+                                                    <rect key="frame" x="273" y="214" width="13" height="13"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8002" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="z1g-y0-jgt">
@@ -901,7 +879,6 @@
     </scenes>
     <resources>
         <image name="comment_white.png" width="26" height="27"/>
-        <image name="ic_eyes.png" width="36" height="22"/>
         <image name="ic_like.png" width="35" height="32"/>
         <image name="ic_like_grey.png" width="35" height="32"/>
         <image name="loginbackground.png" width="320" height="480"/>
