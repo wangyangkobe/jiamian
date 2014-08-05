@@ -47,11 +47,16 @@ static NSString* CellStr = @"TopicDetalCell";
     _pullTableView.pullDelegate = self;
     messageArray = [NSMutableArray array];
     
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 50)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"刷新中..."];
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* res = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id sinceId:0 maxId:INT_MAX count:15];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [messageArray addObjectsFromArray:res];
+            [SVProgressHUD dismiss];
             [_pullTableView reloadData];
             
             [self updateHeaderView];
