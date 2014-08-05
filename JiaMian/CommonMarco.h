@@ -23,6 +23,10 @@
 
 #define kSelfUserModel @"kSelfUserModel"
 
+// Alert Config
+#define kAlertShake  @"kAlertShake"
+#define kAlertSound  @"kAlertSound"
+
 //Sina WeiBo
 #define kSinaAppKey         @"862234629"
 #define kSinaRedirectURI    @"https://api.weibo.com/oauth2/default.html"

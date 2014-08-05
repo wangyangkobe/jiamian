@@ -254,8 +254,10 @@
 		NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 		[defs removePersistentDomainForName:appDomain];
 		[defs setBool:YES forKey:@"donotclearme"];
-		[defs synchronize];
 	}
+    [defs setBool:YES forKey:kAlertShake];
+    [defs setBool:YES forKey:kAlertSound];
+    [defs synchronize];  
 }
 
 @end

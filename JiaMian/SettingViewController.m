@@ -79,28 +79,54 @@
         return @"其他设置";
     }
 }
+- (void)switchChangeAction:(id)sender {
+    UISwitch *switchBtn = (UISwitch*)sender; 
+    if (5000 == switchBtn.tag) {
+        [[NSUserDefaults standardUserDefaults] setBool:switchBtn.isOn forKey:kAlertShake];
+    } else {
+        [[NSUserDefaults standardUserDefaults] setBool:switchBtn.isOn forKey:kAlertSound];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    BOOL shakeAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertShake];
+    BOOL soundAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertSound];
+    if (shakeAlert && soundAlert) {
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                                       UIRemoteNotificationTypeSound |
+                                                       UIRemoteNotificationTypeAlert)];
+    } else if (shakeAlert) {
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)]; 
+    } else if (soundAlert) {
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    } else {
+        [APService registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge];
+    }
+}
+	        
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    static NSString* cellIdentifer = (indexPath.section == 0) ? @"SettingCell1" : @"SettingCell2";
+    UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
+    } 
+ 
     if (indexPath.section == 0) {
-        static NSString* cellIdentifer = @"SettingCell1";
-        UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-        }
+        UISwitch* switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
+        [switchBtn addTarget:self action:@selector(switchChangeAction:) forControlEvents:UIControlEventValueChanged];
+        BOOL storedValue;
         if (indexPath.row == 0) {
             cell.textLabel.text = @"震动";
+            switchBtn.tag = 5000;
+            storedValue = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertShake];
         } else {
             cell.textLabel.text = @"声音";
+            switchBtn.tag = 5001;
+            storedValue = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertSound];
         }
-        UISwitch* switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
+        [switchBtn setOn:value];
         [cell.contentView addSubview:switchBtn];
         return cell;
     } else {
-        static NSString* cellIdentifer = @"SettingCell2";
-        UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-        }
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"邀请朋友";
