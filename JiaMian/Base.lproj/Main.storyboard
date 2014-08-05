@@ -654,21 +654,10 @@
                     </view>
                     <connections>
                         <outlet property="searchBar" destination="cUR-by-bIh" id="JdS-8o-go9"/>
-                        <outlet property="searchDispalyController" destination="bV9-JC-pDN" id="XXy-5s-VJj"/>
-                        <outlet property="searchDisplayController" destination="bV9-JC-pDN" id="aci-Ly-rsV"/>
                         <outlet property="tableView" destination="TFb-he-4w1" id="pHf-t3-lVp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cOO-hb-XiH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="bV9-JC-pDN">
-                    <connections>
-                        <outlet property="delegate" destination="AmY-7Q-tso" id="SA9-bC-gXk"/>
-                        <outlet property="searchBar" destination="cUR-by-bIh" id="2L4-Mq-M5h"/>
-                        <outlet property="searchContentsController" destination="AmY-7Q-tso" id="fNO-KZ-vJJ"/>
-                        <outlet property="searchResultsDataSource" destination="AmY-7Q-tso" id="ObY-Mq-eC6"/>
-                        <outlet property="searchResultsDelegate" destination="AmY-7Q-tso" id="dSD-Z4-ChR"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1397" y="1252"/>
         </scene>

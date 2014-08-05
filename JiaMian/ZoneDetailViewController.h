@@ -19,7 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic, weak) id<ZoneDetailVCDelegate> delegate;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) IBOutlet UISearchDisplayController *searchDispalyController;
 
 @property (assign, nonatomic) NSInteger zoneType;
 

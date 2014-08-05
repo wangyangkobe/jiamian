@@ -452,7 +452,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    //NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Areas* result = [[Areas alloc] initWithString:[request responseString] error:nil];

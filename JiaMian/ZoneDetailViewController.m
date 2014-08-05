@@ -17,7 +17,7 @@
     NSMutableArray* searchRes;
     NSInteger lastSelectZoneId;
 }
-
+@property (strong, nonatomic) UISearchDisplayController *searchDispalyController;
 @end
 
 @implementation ZoneDetailViewController
@@ -49,7 +49,7 @@
         NSArray* result = [[NetWorkConnect sharedInstance] areaList:0
                                                               maxId:INT_MAX
                                                               count:20
-                                                           areaType:_zoneType
+                                                           areaType:(int)_zoneType
                                                          filterType:0
                                                             keyWord:nil];
         [zonesArr addObjectsFromArray:result];
@@ -73,6 +73,10 @@
     {
         //   [_searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(44, 0, 0, 0)];
     }
+    _searchDispalyController = [[UISearchDisplayController alloc] initWithSearchBar:_searchBar contentsController:self];
+    _searchDispalyController.delegate = self;
+    _searchDispalyController.searchResultsDataSource = self;
+    _searchDispalyController.searchResultsDelegate = self;
 }
 - (AreaModel*)filterArray:(NSArray*)array
 {
@@ -190,7 +194,12 @@
         return;
     [searchRes removeAllObjects];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0 maxId:INT_MAX count:100 areaType:_zoneType filterType:1 keyWord:searchText];
+        NSArray* res = [[NetWorkConnect sharedInstance] areaList:0
+                                                           maxId:INT_MAX
+                                                           count:100
+                                                        areaType:(int)_zoneType
+                                                      filterType:1
+                                                         keyWord:searchText];
         [searchRes addObjectsFromArray:res];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -291,11 +300,24 @@
     NSArray* result = [[NetWorkConnect sharedInstance] areaList:zone.sequence
                                                           maxId:INT_MAX
                                                           count:20
-                                                       areaType:_zoneType
+                                                       areaType:(int)_zoneType
                                                      filterType:0
                                                         keyWord:nil];
     [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
     [_tableView reloadData];
+}
+
+// fix bug on ios7
+- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide) name:UIKeyboardWillHideNotification object:nil];
+}
+- (void)keyboardWillHide {
+    UITableView *tableView = [[self searchDisplayController] searchResultsTableView];
+    [tableView setContentInset:UIEdgeInsetsZero];
+    [tableView setScrollIndicatorInsets:UIEdgeInsetsZero];
 }
 @end
