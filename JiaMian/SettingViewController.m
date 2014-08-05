@@ -51,11 +51,11 @@
     if (result)
     {
         [APService setTags:[NSSet setWithObjects:@"offline", nil]
-                         alias:@""
-              callbackSelector:nil
-                        target:nil];
-
-	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+                     alias:@""
+          callbackSelector:nil
+                    target:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
         [[NSUserDefaults standardUserDefaults] synchronize];
         LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
         [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
@@ -79,52 +79,72 @@
         return @"其他设置";
     }
 }
+
 - (void)switchChangeAction:(id)sender {
-    UISwitch *switchBtn = (UISwitch*)sender; 
+    NSUserDefaults* userDef = [NSUserDefaults standardUserDefaults];
+    UISwitch *switchBtn = (UISwitch*)sender;
     if (5000 == switchBtn.tag) {
-        [[NSUserDefaults standardUserDefaults] setBool:switchBtn.isOn forKey:kAlertShake];
+        [userDef setObject:[NSString bool2str:switchBtn.isOn] forKey:kAlertShake];
     } else {
-        [[NSUserDefaults standardUserDefaults] setBool:switchBtn.isOn forKey:kAlertSound];
+        [userDef setObject:[NSString bool2str:switchBtn.isOn] forKey:kAlertSound];
     }
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    BOOL shakeAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertShake];
-    BOOL soundAlert = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertSound];
+    [userDef synchronize];
+    BOOL shakeAlert = [NSString str2bool:[userDef stringForKey:kAlertShake]];
+    BOOL soundAlert = [NSString str2bool:[userDef stringForKey:kAlertSound]];
     if (shakeAlert && soundAlert) {
-        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-                                                       UIRemoteNotificationTypeSound |
-                                                       UIRemoteNotificationTypeAlert)];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|
+                                                                               UIRemoteNotificationTypeSound|
+                                                                               UIRemoteNotificationTypeAlert)];
     } else if (shakeAlert) {
-        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)]; 
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert)];
     } else if (soundAlert) {
-        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeSound)];
     } else {
-        [APService registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge];
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge];
     }
 }
-	        
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString* cellIdentifer = (indexPath.section == 0) ? @"SettingCell1" : @"SettingCell2";
+    static NSString* cellIdentifer;
+    if (0 == indexPath.section) {
+        cellIdentifer = @"SettingCell1";
+    } else {
+        cellIdentifer = @"SettingCell2";
+    }
     UITableViewCell* cell = [_tableView dequeueReusableHeaderFooterViewWithIdentifier:cellIdentifer];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
-    } 
- 
+    }
+    
     if (indexPath.section == 0) {
-        UISwitch* switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(260, 5, 50, 30)];
+        UISwitch* switchBtn;
+        if (IOS_NEWER_OR_EQUAL_TO_7) {
+            switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(250, 5, 50, 50)];
+        } else {
+            switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(215, 8, 45, 50)];
+        }
         [switchBtn addTarget:self action:@selector(switchChangeAction:) forControlEvents:UIControlEventValueChanged];
-        BOOL storedValue;
+        NSString* switchKey;
         if (indexPath.row == 0) {
             cell.textLabel.text = @"震动";
             switchBtn.tag = 5000;
-            storedValue = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertShake];
+            switchKey = kAlertShake;
         } else {
             cell.textLabel.text = @"声音";
             switchBtn.tag = 5001;
-            storedValue = [[NSUserDefaults standardUserDefaults] boolForKey:kAlertSound];
+            switchKey = kAlertSound;
         }
-        [switchBtn setOn:value];
+        NSString* storedValue =  [[NSUserDefaults standardUserDefaults] stringForKey:switchKey];
+        if (storedValue == nil) {
+            [switchBtn setOn:YES];
+        } else if ([storedValue isEqualToString:@"NO"]) {
+            [switchBtn setOn:NO];
+        } else {
+            [switchBtn setOn:YES];
+        }
         [cell.contentView addSubview:switchBtn];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     } else {
         switch (indexPath.row) {
@@ -149,6 +169,9 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (0 == indexPath.section)
+        return;
+    
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSInteger row = indexPath.row;
     if (0 == row)
@@ -165,7 +188,7 @@
     {
         SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
         selectZoneVC.firstSelect = NO;
-       // [self presentViewController:selectZoneVC animated:YES completion:nil];
+        // [self presentViewController:selectZoneVC animated:YES completion:nil];
         [self.navigationController pushViewController:selectZoneVC animated:YES];
     }
     else if(2 == row)

@@ -255,8 +255,6 @@
 		[defs removePersistentDomainForName:appDomain];
 		[defs setBool:YES forKey:@"donotclearme"];
 	}
-    [defs setBool:YES forKey:kAlertShake];
-    [defs setBool:YES forKey:kAlertSound];
     [defs synchronize];  
 }
 

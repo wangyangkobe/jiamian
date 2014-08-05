@@ -17,4 +17,7 @@
 + (NSString*)md5HexDigest:(NSString*)inputStr;
 + (NSString*) generateQiNiuFileName;
 + (UIColor*)hexStringToColor:(NSString *)stringToConvert;
+
++ (NSString*)bool2str:(BOOL)Bool;
++ (BOOL)str2bool:(NSString*)str;
 @end

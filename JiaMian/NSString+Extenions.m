@@ -138,4 +138,20 @@
                             blue:((float) b / 255.0f)
                            alpha:1.0f];
 }
+
++ (NSString*)bool2str:(BOOL)Bool
+{
+    if (Bool) {
+        return @"YES";
+    } else {
+        return @"NO";
+    }
+}
++ (BOOL)str2bool:(NSString*)str {
+    if ([str isEqualToString:@"YES"]) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
 @end
