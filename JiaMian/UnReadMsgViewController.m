@@ -153,8 +153,9 @@
     messageDetailVC.selectedMsg = message;
     [self.navigationController pushViewController:messageDetailVC animated:YES];
 
-    [_unReadMsgArr replaceObjectAtIndex:indexPath.row withObject:message];
-    [_tableView reloadRowAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    notification.status = 2; //置为已读
+    [_notificationArr replaceObjectAtIndex:indexPath.row withObject:notification];
+    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - PullTableViewDelegate
