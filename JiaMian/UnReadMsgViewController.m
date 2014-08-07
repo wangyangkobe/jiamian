@@ -48,6 +48,19 @@
     [self.tableView setBackgroundColor:UIColorFromRGB(0xffffff)];
     
     _notificationArr = [NSMutableArray array];
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+    [SVProgressHUD showWithStatus:@"刷新中..."];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
+        if (requestRes) {
+            [_notificationArr addObjectsFromArray:requestRes];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+            [self.tableView reloadData];
+        });
+    });
 }
 
 - (void)didReceiveMemoryWarning
@@ -59,22 +72,6 @@
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
-    
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-    [SVProgressHUD showWithStatus:@"刷新中..."];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        if (requestRes)
-        {
-            [_notificationArr removeAllObjects];
-            [_notificationArr addObjectsFromArray:requestRes];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD dismiss];
-            [self.tableView reloadData];
-        });
-    });
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -146,17 +143,18 @@
     if (indexPath.row >= _notificationArr.count)
         return;
     NotificationModel* notification = (NotificationModel*)[_notificationArr objectAtIndex:indexPath.row];
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
+    MessageModel* message = notification.message;
     if (!message)
         return;
     
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     
     MessageDetailViewController* messageDetailVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    
     messageDetailVC.selectedMsg = message;
-   // [_unReadMsgArr replaceObjectAtIndex:indexPath.row withObject:message];
     [self.navigationController pushViewController:messageDetailVC animated:YES];
+
+    [_unReadMsgArr replaceObjectAtIndex:indexPath.row withObject:message];
+    [_tableView reloadRowAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark - PullTableViewDelegate
