@@ -148,10 +148,10 @@
         return cell;
     } else {
         switch (indexPath.row) {
-            case 0:
+            case 1:
                 cell.textLabel.text = @"邀请朋友";
                 break;
-            case 1:
+            case 0:
                 cell.textLabel.text = @"选择圈子";
                 break;
             case 2:
@@ -174,7 +174,7 @@
     
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSInteger row = indexPath.row;
-    if (0 == row)
+    if (1 == row)
     {
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
@@ -184,7 +184,7 @@
                                            delegate:nil];
         
     }
-    else if(1 == row)
+    else if(0 == row)
     {
         SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
         selectZoneVC.firstSelect = NO;
