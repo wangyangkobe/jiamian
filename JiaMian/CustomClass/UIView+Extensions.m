@@ -12,8 +12,9 @@
 + (void)animateForVisibleNumberInView:(UIView*)view
 {
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectZero];
-    [label setFont:[UIFont systemFontOfSize:10]];
+    [label setFont:[UIFont systemFontOfSize:12]];
     [label setText:@"可见人数+50"];
+    [label setTextColor:[UIColor whiteColor]];
     [label setBackgroundColor:[UIColor clearColor]];
     [label sizeToFit];
     label.center = CGPointMake(250, 285);
