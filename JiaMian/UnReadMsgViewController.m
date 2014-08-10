@@ -143,7 +143,7 @@
     if (indexPath.row >= _notificationArr.count)
         return;
     NotificationModel* notification = (NotificationModel*)[_notificationArr objectAtIndex:indexPath.row];
-    MessageModel* message = notification.message;
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
     if (!message)
         return;
     
