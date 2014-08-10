@@ -62,18 +62,22 @@
     }
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 3;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (0 == section) {
+        return 1;
+    } else if (1 == section) {
         return 2;
     } else {
-        return 4;
+        return 3;
     }
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (0 == section) {
+        return @"圈子设置";
+    } else if (1 == section) {
         return @"提醒设置";
     } else {
         return @"其他设置";
@@ -107,7 +111,7 @@
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString* cellIdentifer;
-    if (0 == indexPath.section) {
+    if (1 == indexPath.section) {
         cellIdentifer = @"SettingCell1";
     } else {
         cellIdentifer = @"SettingCell2";
@@ -117,7 +121,13 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifer];
     }
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0)
+    {
+         cell.textLabel.text = @"选择圈子";
+         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    else if (indexPath.section == 1)
+    {
         UISwitch* switchBtn;
         if (IOS_NEWER_OR_EQUAL_TO_7) {
             switchBtn = [[UISwitch alloc] initWithFrame:CGRectMake(250, 5, 50, 50)];
@@ -145,60 +155,57 @@
         }
         [cell.contentView addSubview:switchBtn];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    } else {
+    }
+    else
+    {
         switch (indexPath.row) {
-            case 1:
+            case 0:
                 cell.textLabel.text = @"邀请朋友";
                 break;
-            case 0:
-                cell.textLabel.text = @"选择圈子";
-                break;
-            case 2:
+            case 1:
                 cell.textLabel.text = @"意见反馈";
                 break;
-            case 3:
+            case 2:
                 cell.textLabel.text = @"关于";
                 break;
             default:
                 break;
         }
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
     }
+    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (0 == indexPath.section)
-        return;
-    
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
-    NSInteger row = indexPath.row;
-    if (1 == row)
-    {
-        [UMSocialSnsService presentSnsIconSheetView:self
-                                             appKey:kUMengAppKey
-                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
-                                         shareImage:nil
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                           delegate:nil];
-        
-    }
-    else if(0 == row)
+ 
+    NSInteger row     = indexPath.row;
+    NSInteger section = indexPath.section;
+    if (section == 0)
     {
         SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
         selectZoneVC.firstSelect = NO;
-        // [self presentViewController:selectZoneVC animated:YES completion:nil];
         [self.navigationController pushViewController:selectZoneVC animated:YES];
     }
-    else if(2 == row)
+    else if (section == 1)
     {
-        [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
+        return;
     }
     else
     {
-        AboutViewController* aboutVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutVCIdentifier"];
-        [self.navigationController pushViewController:aboutVC animated:YES];
+        if (row == 0) {
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:kUMengAppKey
+                                              shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
+                                             shareImage:nil
+                                        shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+                                               delegate:nil];
+        } else if (row == 1) {
+            [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
+        } else {
+            AboutViewController* aboutVC = [self.storyboard instantiateViewControllerWithIdentifier:@"AboutVCIdentifier"];
+            [self.navigationController pushViewController:aboutVC animated:YES];
+        }
     }
 }
 - (void)didReceiveMemoryWarning
