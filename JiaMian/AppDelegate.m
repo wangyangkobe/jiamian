@@ -249,11 +249,11 @@
 - (void)clearDefaults
 {
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-	if ([defs boolForKey:@"donotclearme"] == NO)
+	if ([defs boolForKey:@"donotclearme1.5.3"] == NO)
 	{
 		NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 		[defs removePersistentDomainForName:appDomain];
-		[defs setBool:YES forKey:@"donotclearme"];
+		[defs setBool:YES forKey:@"donotclearme1.5.3"];
 	}
     [defs synchronize];  
 }
