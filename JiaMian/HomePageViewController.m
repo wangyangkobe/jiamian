@@ -75,7 +75,7 @@
                                                  name:@"publishMessageSuccess"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(fetchDataFromServer)
+                                             selector:@selector(fetchDataFromServerForAreaChange)
                                                  name:@"changeAreaSuccess"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
@@ -179,6 +179,28 @@
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
+            [self.pullTableView reloadData];
+        });
+    });
+}
+- (void)fetchDataFromServerForAreaChange
+{
+    messageArray = [NSMutableArray array];
+    topicArray   = [NSMutableArray array];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
+                                                                   sinceId:0
+                                                                     maxId:INT_MAX
+                                                                     count:20
+                                                                  trimArea:NO
+                                                                filterType:0];
+        [messageArray addObjectsFromArray:requestRes];
+        
+        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        [topicArray addObjectsFromArray:requestRes];
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
             [self.pullTableView reloadData];
         });
     });
