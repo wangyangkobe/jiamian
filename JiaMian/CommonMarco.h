@@ -42,6 +42,9 @@
 //友盟
 #define kUMengAppKey    @"535e5f0256240baa89078c7f"
 
+//环信
+#define kHuanXinAppKey  @"310105000460873#jiamiandev"
+
 //-------------------七牛-------------------------
 #define QiniuAccessKey  @"89DgnUvGmfOxOBnQeVn1z99ypLdGoC2JKsvs8aOU"
 #define QiniuSecretKey  @"FsTqp2yKJwtz5dI9vjhmzK16K6X8r9dzDa65mf23"

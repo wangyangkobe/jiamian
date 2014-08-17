@@ -9,6 +9,7 @@
 #import "MessageDetailViewController.h"
 #import "TableHeaderView.h"
 #import "SVProgressHUD.h"
+#import "UIActionSheet+Blocks.h"
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -64,8 +65,14 @@
         NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:INT_MAX];
         [commentArr addObjectsFromArray:requestRes];
         
+        MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+            if (message) {
+                self.selectedMsg = message;
+                NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"changedMsg"];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
+            }
         });
     });
 }
@@ -76,8 +83,6 @@
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
-    NSLog(@"%s, %@", __FUNCTION__, sender);
-    
     //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
     NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK", self.selectedMsg.text, self.selectedMsg.area.area_name];
     [UMSocialSnsService presentSnsIconSheetView:self
@@ -161,6 +166,7 @@
     UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setNumberOfTapsRequired:1];
     [myHeader addGestureRecognizer:hiddenKeyBoard];
+    [hiddenKeyBoard setCancelsTouchesInView:NO];
     [_tableView addGestureRecognizer:hiddenKeyBoard];
     return myHeader;
 }
@@ -259,6 +265,24 @@
         return textHight + 23 + 7;
     else
         return textHight + 23;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [UIActionSheet showInView:self.tableView
+                    withTitle:nil
+            cancelButtonTitle:@"取消"
+       destructiveButtonTitle:nil
+            otherButtonTitles:@[ @"回复", @"私信" ]
+                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                         
+                         if (0 == buttonIndex || 1 == buttonIndex) {
+                             TiXingViewController* tiXingVC = [[TiXingViewController alloc] init];
+                             tiXingVC.selectSegementIndex = buttonIndex;
+                             [self.navigationController pushViewController:tiXingVC animated:YES];
+                         }
+                         
+                     }];
 }
 - (void)configureToolBar
 {

@@ -276,8 +276,11 @@
     barButton.badgeValue = @"0";
     barButton.shouldHideBadgeAtZero = YES;
     
-    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
-    [self.navigationController pushViewController:unReadMsgVC animated:YES];
+    TiXingViewController* tiXinfVC = [[TiXingViewController alloc] init];
+    tiXinfVC.selectSegementIndex = 0;
+    [self.navigationController pushViewController:tiXinfVC animated:YES];
+//    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
+//    [self.navigationController pushViewController:unReadMsgVC animated:YES];
 }
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

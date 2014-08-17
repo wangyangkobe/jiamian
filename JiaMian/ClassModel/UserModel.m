@@ -17,6 +17,10 @@
 @synthesize head_image  = _head_image;
 @synthesize user_type   = _user_type;
 @synthesize description = _description;
+@synthesize area = _area;
+@synthesize areas = _areas;
+@synthesize easemob_name = _easemob_name;
+@synthesize easemob_pwd = _easemob_pwd;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -30,6 +34,8 @@
 		_description = [aDecoder decodeObjectForKey:@"description"];
         _area        = [aDecoder decodeObjectForKey:@"area"];
         _areas       = [aDecoder decodeObjectForKey:@"areas"];
+        _easemob_name = [aDecoder decodeObjectForKey:@"easemob_name"];
+        _easemob_pwd = [aDecoder decodeObjectForKey:@"easemob_pwd"];
 	}
 	return self;
 }
@@ -44,6 +50,8 @@
     [aCoder encodeObject:_description forKey:@"description"];
     [aCoder encodeObject:_area        forKey:@"area"];
     [aCoder encodeObject:_areas       forKey:@"areas"];
+    [aCoder encodeObject:_easemob_name forKey:@"easemob_name"];
+    [aCoder encodeObject:_easemob_pwd forKey:@"easemob_pwd"];
 }
 
 #pragma mark NSCopying
@@ -60,6 +68,8 @@
     copy.description = [self.description copyWithZone:zone];
     copy.area        = [self.area copyWithZone:zone];
     copy.areas       = [self.areas copyWithZone:zone];
+    copy.easemob_name = [self.easemob_name copyWithZone:zone];
+    copy.easemob_pwd = [self.easemob_pwd copyWithZone:zone];
     return copy;
 }
 

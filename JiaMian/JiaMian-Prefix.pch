@@ -36,4 +36,8 @@
     #import "SelectZoneViewController.h"
     #import "SVProgressHUD.h"
     #import "UIView+Extensions.h"
+    #import "EaseMob.h"
+    #import "TiXingViewController.h"
+    #import "UnReadMsgViewController.h"
+    #import "SiXinViewController.h"
 #endif

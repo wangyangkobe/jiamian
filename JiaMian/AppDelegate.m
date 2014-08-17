@@ -79,15 +79,12 @@
     // Required
     [APService setupWithOption:launchOptions];
     
-    // apn 内容获取
-//    NSDictionary *remoteNotification = [launchOptions objectForKey: UIApplicationLaunchOptionsRemoteNotificationKey];
-//    if (remoteNotification)
-//    {
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//            [self performSelector:@selector(analyseRemoteNotification:) withObject:remoteNotification afterDelay:2];
-//        });
-//    }
-//    [self analyseRemoteNotification:remoteNotification];
+    //注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
+	NSString *apnsCertName = @"jiamian_dev";
+	[[EaseMob sharedInstance] registerSDKWithAppKey:kHuanXinAppKey apnsCertName:apnsCertName];
+	[[EaseMob sharedInstance] enableBackgroundReceiveMessage];
+	[[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+    
     return YES;
 }
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -132,6 +129,15 @@
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!, userId = %ld", userSelf.user_id);
+            [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userSelf.easemob_name
+                                                                password:userSelf.easemob_pwd
+                                                              completion:^(NSDictionary *loginInfo, EMError *error) {
+                                                                  if (error) {
+                                                                      NSLog(@"环信-登录失败");
+                                                                  }else {
+                                                                      NSLog(@"环信-登录成功");
+                                                                  }
+                                                              } onQueue:nil];
             
             NSMutableSet *tags = [NSMutableSet set];
             [tags addObject:@"online"];
@@ -176,6 +182,8 @@
 {
     NSLog(@"%s, token = %@", __FUNCTION__, deviceToken.description);
     [APService registerDeviceToken:deviceToken];
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
@@ -207,24 +215,28 @@
 }
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] applicationWillResignActive:application];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     [application setApplicationIconBadgeNumber:0];
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] applicationWillEnterForeground:application];
 }
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     
     [UMSocialSnsService applicationDidBecomeActive];
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] applicationDidBecomeActive:application];
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     [application setApplicationIconBadgeNumber:0];
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] applicationDidEnterBackground:application];
 }
 
 #ifdef __IPHONE_7_0
@@ -244,6 +256,8 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    // 让SDK得到App目前的各种状态，以便让SDK做出对应当前场景的操作
+	[[EaseMob sharedInstance] applicationWillTerminate:application];
 }
 
 - (void)clearDefaults
@@ -255,7 +269,7 @@
 		[defs removePersistentDomainForName:appDomain];
 		[defs setBool:YES forKey:@"donotclearme1.5.3"];
 	}
-    [defs synchronize];  
+    [defs synchronize];
 }
 
 @end

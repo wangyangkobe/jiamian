@@ -19,6 +19,8 @@
 @property(nonatomic, strong) NSString<Optional>*  description;
 @property(nonatomic, strong) AreaModel<Optional>* area;
 @property(nonatomic, strong) NSArray<AreaModel, Optional>* areas;
+@property(nonatomic, strong) NSString<Optional>*  easemob_name;
+@property(nonatomic, strong) NSString<Optional>*  easemob_pwd;
 
 + (void)saveUserModelObject:(UserModel*) object key:(NSString*)key;
 + (UserModel*)loadUserModelObjectWithKey:(NSString*)key;
