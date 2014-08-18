@@ -588,9 +588,9 @@ static ASIDownloadCache* myCache;
     }
 }
 //////////////////////////////////////////////////////////////////
-- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId type:(int)Type count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/list?since_id=%ld&max_id=%ld&count=%d", HOME_PAGE, SinceId, MaxId, Count];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/list?since_id=%ld&max_id=%ld&type=%d&count=%d", HOME_PAGE, SinceId, MaxId, Type, Count];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
@@ -648,5 +648,48 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return [NSArray array];
     }
+}
+
+//////////////////////////////////////////////////////////////////
+- (UserModel*)userGetByMsgId:(long)MsgId {
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByMsgId?message_id=%ld", HOME_PAGE, MsgId];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+
+    if ( 200 == [request responseStatusCode] )
+        return [[HXUserModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return nil;
+    } else {
+        ErrorAlertView;
+        return nil;
+    }
+
+}
+- (UserModel*)userGetByCommentId:(log)CommentId {
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByCommentId?comment_id=%ld", HOME_PAGE, CommentId];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+
+    if ( 200 == [request responseStatusCode] )
+        return [[HXUserModel alloc] initWithString:[request responseString] error:nil];
+    else if(500 == request.responseStatusCode) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });         
+        return nil;
+    } else {
+        ErrorAlertView;
+        return nil;
+    } 
 }
 @end

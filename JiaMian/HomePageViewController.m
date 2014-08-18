@@ -174,7 +174,8 @@
                                                                 filterType:0];
         [messageArray addObjectsFromArray:requestRes];
         
-        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        // type = 1-热门话题
+        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
         [topicArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -519,10 +520,13 @@
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
-        NSArray* topics = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
-        if (topics) {
-            [topicArray removeAllObjects];
-            [topicArray addObjectsFromArray:topics];
+        NSArray* topics = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
+        NSInteger currentIndex = 0;
+        for (TopicModel* element in topics) {
+            if (currentIndex < 3) {
+                [topicArray replaceObjectAtIndex:currentIndex withObject:element];
+                currentIndex += 1;
+            }
         }
         
         dispatch_sync(dispatch_get_main_queue(), ^{

@@ -17,6 +17,8 @@
 - (BOOL)userLogOut;
 - (UserModel*)userChangeArea:(long)AreaId;
 - (UserModel*)userChangeZone:(NSString*)zoneStr;
+- (UserModel*)userGetByMsgId:(long)MsgId;
+- (UserModel*)userGetByCommentId:(log)CommentId;
 
 //Gender: 1; HeadImg: nil; Description: nil
 - (UserModel*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
@@ -49,7 +51,7 @@
 - (NSArray*)areaList:(long)SinceId maxId:(long)MaxId count:(int)Count areaType:(int)AreaType filterType:(int)FilterType keyWord:(NSString*)KeyWord;
 - (AreaModel*)areaShowByAreaId:(long)AreaID;
 
-//SinceId: 0 MaxId: INT_MAX; Count: 3
-- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId count:(int)Count;
+//SinceId: 0 MaxId: INT_MAX; Type:0 Count: 3
+- (NSArray*)topicList:(long)SinceId maxId:(long)MaxId type:(int)Type count:(int)Count;
 - (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
 @end
