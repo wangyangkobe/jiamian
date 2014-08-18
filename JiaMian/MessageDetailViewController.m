@@ -10,6 +10,7 @@
 #import "TableHeaderView.h"
 #import "SVProgressHUD.h"
 #import "UIActionSheet+Blocks.h"
+#import "PublishSiXinViewController.h"
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -266,24 +267,30 @@
     else
         return textHight + 23;
 }
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-//    [UIActionSheet showInView:self.tableView
-//                    withTitle:nil
-//            cancelButtonTitle:@"取消"
-//       destructiveButtonTitle:nil
-//            otherButtonTitles:@[ @"回复", @"私信" ]
-//                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-//                         
-//                         if (0 == buttonIndex || 1 == buttonIndex) {
-//                             TiXingViewController* tiXingVC = [[TiXingViewController alloc] init];
-//                             tiXingVC.selectSegementIndex = buttonIndex;
-//                             [self.navigationController pushViewController:tiXingVC animated:YES];
-//                         }
-//                         
-//                     }];
-//}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [UIActionSheet showInView:self.tableView
+                    withTitle:nil
+            cancelButtonTitle:@"取消"
+       destructiveButtonTitle:nil
+            otherButtonTitles:@[ @"回复", @"私信" ]
+                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                         
+                         if (0 == buttonIndex) {
+                             TiXingViewController* tiXingVC = [[TiXingViewController alloc] init];
+                             tiXingVC.selectSegementIndex = buttonIndex;
+                             [self.navigationController pushViewController:tiXingVC animated:YES];
+                         } else if(1 == buttonIndex) {
+                             CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
+                             HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
+                             PublishSiXinViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+                             publishVC.hxUserInfo = hxUserInfo;
+                             [self.navigationController pushViewController:publishVC animated:YES];
+                         }
+                         
+                     }];
+}
 - (void)configureToolBar
 {
     textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
@@ -292,8 +299,6 @@
     
 	textView.minNumberOfLines = 1;
 	textView.maxNumberOfLines = 6;
-    // you can also set the maximum height in points with maxHeight
-    // textView.maxHeight = 200.0f;
 	textView.returnKeyType = UIReturnKeyGo; //just as an example
 	textView.font = [UIFont systemFontOfSize:15.0f];
 	textView.delegate = self;

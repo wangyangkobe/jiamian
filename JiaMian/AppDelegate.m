@@ -80,10 +80,10 @@
     [APService setupWithOption:launchOptions];
     
     //注册 APNS文件的名字, 需要与后台上传证书时的名字一一对应
-//	NSString *apnsCertName = @"jiamian_dev";
-//	[[EaseMob sharedInstance] registerSDKWithAppKey:kHuanXinAppKey apnsCertName:apnsCertName];
-//	[[EaseMob sharedInstance] enableBackgroundReceiveMessage];
-//	[[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
+	NSString *apnsCertName = @"jiamian_dev";
+	[[EaseMob sharedInstance] registerSDKWithAppKey:kHuanXinAppKey apnsCertName:apnsCertName];
+	[[EaseMob sharedInstance] enableBackgroundReceiveMessage];
+	[[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
     return YES;
 }
@@ -109,8 +109,7 @@
     else
         return YES;
 }
-- (void)didReceiveWeiboRequest:(WBBaseRequest *)request
-{
+- (void)didReceiveWeiboRequest:(WBBaseRequest *)request {
 }
 
 - (void)didReceiveWeiboResponse:(WBBaseResponse *)response

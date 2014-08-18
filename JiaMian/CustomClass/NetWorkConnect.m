@@ -652,7 +652,7 @@ static ASIDownloadCache* myCache;
 
 //////////////////////////////////////////////////////////////////
 - (HxUserModel*)userGetByMsgId:(long)MsgId {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByMsgId?message_id=%ld", HOME_PAGE, MsgId];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/users/getByMsgId?message_id=%ld", HOME_PAGE, MsgId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
@@ -673,12 +673,12 @@ static ASIDownloadCache* myCache;
 
 }
 - (HxUserModel*)userGetByCommentId:(long)CommentId {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByCommentId?comment_id=%ld", HOME_PAGE, CommentId];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/users/getByCommentId?comment_id=%ld", HOME_PAGE, CommentId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( 200 == [request responseStatusCode] )
         return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {

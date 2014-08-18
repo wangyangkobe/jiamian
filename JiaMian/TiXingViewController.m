@@ -73,15 +73,16 @@
 {
     UIViewController *vc = [self viewControllerForSegmentIndex:sender.selectedSegmentIndex];
     [self addChildViewController:vc];
-    [self transitionFromViewController:self.currentVC toViewController:vc duration:0.5 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        [self.currentVC.view removeFromSuperview];
-        vc.view.frame = CGRectMake(0, 40, SCREEN_WIDTH, 300);
-        [self.view addSubview:vc.view];
-    } completion:^(BOOL finished) {
-        [vc didMoveToParentViewController:self];
-        [self.currentVC removeFromParentViewController];
-        self.currentVC = vc;
-    }];
+    [self transitionFromViewController:self.currentVC toViewController:vc duration:0.5
+                               options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+                                   [self.currentVC.view removeFromSuperview];
+                                   vc.view.frame = CGRectMake(0, 40, SCREEN_WIDTH, 300);
+                                   [self.view addSubview:vc.view];
+                               } completion:^(BOOL finished) {
+                                   [vc didMoveToParentViewController:self];
+                                   [self.currentVC removeFromParentViewController];
+                                   self.currentVC = vc;
+                               }];
     self.navigationItem.title = vc.title;
 }
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {

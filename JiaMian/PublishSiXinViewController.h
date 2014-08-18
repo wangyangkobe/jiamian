@@ -1,0 +1,20 @@
+//
+//  PublishSiXinViewController.h
+//  JiaMian
+//
+//  Created by wanyang on 14-8-18.
+//  Copyright (c) 2014年 wy. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "UIBubbleTableView.h"
+#import "UIBubbleTableViewDataSource.h"
+#import "NSBubbleData.h"
+
+@interface PublishSiXinViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
+@property (weak, nonatomic) IBOutlet UITableView *bubbleTable;
+@property (copy, nonatomic) NSString* emChatUserName;
+@property (copy, nonatomic) HxUserModel* hxUserInfo;
+@end

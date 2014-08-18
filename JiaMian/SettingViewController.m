@@ -50,6 +50,8 @@
     BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
     if (result)
     {
+        [[EaseMob sharedInstance].chatManager asyncLogoff];
+        
         [APService setTags:[NSSet setWithObjects:@"offline", nil]
                      alias:@""
           callbackSelector:nil

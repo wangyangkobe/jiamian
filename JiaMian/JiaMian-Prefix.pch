@@ -32,7 +32,6 @@
     #import "UMSocialWechatHandler.h"
     #import "APService.h"
     #import "UIAlertView+Blocks.h"
-    #import "LeveyPopListView.h"
     #import "SelectZoneViewController.h"
     #import "SVProgressHUD.h"
     #import "UIView+Extensions.h"
