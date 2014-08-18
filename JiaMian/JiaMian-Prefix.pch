@@ -40,4 +40,5 @@
     #import "TiXingViewController.h"
     #import "UnReadMsgViewController.h"
     #import "SiXinViewController.h"
+    #import "HxUserModel.h"
 #endif

@@ -198,7 +198,7 @@
                                                                 filterType:0];
         [messageArray addObjectsFromArray:requestRes];
         
-        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:3];
+        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
         [topicArray addObjectsFromArray:requestRes];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -277,11 +277,11 @@
     barButton.badgeValue = @"0";
     barButton.shouldHideBadgeAtZero = YES;
     
-    TiXingViewController* tiXinfVC = [[TiXingViewController alloc] init];
-    tiXinfVC.selectSegementIndex = 0;
-    [self.navigationController pushViewController:tiXinfVC animated:YES];
-//    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
-//    [self.navigationController pushViewController:unReadMsgVC animated:YES];
+//    TiXingViewController* tiXinfVC = [[TiXingViewController alloc] init];
+//    tiXinfVC.selectSegementIndex = 0;
+//    [self.navigationController pushViewController:tiXinfVC animated:YES];
+    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
+    [self.navigationController pushViewController:unReadMsgVC animated:YES];
 }
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section

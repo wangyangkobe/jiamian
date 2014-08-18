@@ -43,7 +43,7 @@
     [SVProgressHUD showWithStatus:@"刷新中..."];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:10];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:10];
         [topicArr addObjectsFromArray:requestRes];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -105,7 +105,7 @@
     self.tableView.pullTableIsRefreshing = YES;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX count:10];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:10];
         if (requestRes)
         {
             topicArr = [NSMutableArray arrayWithArray:requestRes];
@@ -126,7 +126,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         TopicModel* lastTopic = [topicArr lastObject];
         
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:lastTopic.topic_id count:10];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:lastTopic.topic_id type:1 count:10];
         __block NSInteger fromIndex = [topicArr count];
         [topicArr addObjectsFromArray:loadMoreRes];
         

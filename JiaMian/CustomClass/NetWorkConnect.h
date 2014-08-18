@@ -9,6 +9,7 @@
 #import "AreaModel.h"
 #import "CommonMarco.h"
 #import "TopicModel.h"
+#import "HxUserModel.h"
 
 @interface NetWorkConnect : NSObject
 
@@ -17,8 +18,8 @@
 - (BOOL)userLogOut;
 - (UserModel*)userChangeArea:(long)AreaId;
 - (UserModel*)userChangeZone:(NSString*)zoneStr;
-- (UserModel*)userGetByMsgId:(long)MsgId;
-- (UserModel*)userGetByCommentId:(log)CommentId;
+- (HxUserModel*)userGetByMsgId:(long)MsgId;
+- (HxUserModel*)userGetByCommentId:(long)CommentId;
 
 //Gender: 1; HeadImg: nil; Description: nil
 - (UserModel*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;

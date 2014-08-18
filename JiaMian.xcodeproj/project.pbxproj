@@ -196,6 +196,7 @@
 		D3DA69C3197A60AA00D48864 /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C2197A60AA00D48864 /* about@2x.png */; };
 		D3DA69C5197A60C000D48864 /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C4197A60C000D48864 /* about.png */; };
 		D3DA69C7197A741000D48864 /* gointolist.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69C6197A741000D48864 /* gointolist.png */; };
+		D3F193FD19A222C7000829FD /* HxUserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F193FC19A222C7000829FD /* HxUserModel.m */; };
 		D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F27D83197D477B00737A63 /* UIView+Extensions.m */; };
 		D3F6A974197B5DE6002300C8 /* qz_select_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */; };
 		D3F6A976197B5FF3002300C8 /* qz_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A975197B5FF3002300C8 /* qz_select.png */; };
@@ -561,6 +562,8 @@
 		D3DA69C2197A60AA00D48864 /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
 		D3DA69C4197A60C000D48864 /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		D3DA69C6197A741000D48864 /* gointolist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gointolist.png; sourceTree = "<group>"; };
+		D3F193FB19A222C7000829FD /* HxUserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HxUserModel.h; sourceTree = "<group>"; };
+		D3F193FC19A222C7000829FD /* HxUserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HxUserModel.m; sourceTree = "<group>"; };
 		D3F27D82197D477B00737A63 /* UIView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extensions.h"; sourceTree = "<group>"; };
 		D3F27D83197D477B00737A63 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extensions.m"; sourceTree = "<group>"; };
 		D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select_pressed.png; sourceTree = "<group>"; };
@@ -1025,6 +1028,8 @@
 		15596708190E71BE00FB760A /* ClassModel */ = {
 			isa = PBXGroup;
 			children = (
+				D3F193FB19A222C7000829FD /* HxUserModel.h */,
+				D3F193FC19A222C7000829FD /* HxUserModel.m */,
 				15596709190E71BE00FB760A /* AreaModel.h */,
 				1559670A190E71BE00FB760A /* AreaModel.m */,
 				1559670B190E71BE00FB760A /* CommentModel.h */,
@@ -1601,6 +1606,7 @@
 				15503E0F193784E200CD737D /* QiniuPutExtra.m in Sources */,
 				15503DF71937813100CD737D /* UIImage+Extensions.m in Sources */,
 				155AC49B190CC2B000A8F252 /* MessageDetailViewController.m in Sources */,
+				D3F193FD19A222C7000829FD /* HxUserModel.m in Sources */,
 				15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */,
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
@@ -1716,7 +1722,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1756,7 +1762,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1779,7 +1785,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1819,7 +1825,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

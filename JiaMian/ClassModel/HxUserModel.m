@@ -6,8 +6,8 @@
 // Copyright (c) 2013 yang. All rights reserved.
 //
 
-#import "HXUserModel.h"
+#import "HxUserModel.h"
 
 
-@implementation HXUserModel
+@implementation HxUserModel
 @end

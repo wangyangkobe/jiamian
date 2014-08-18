@@ -651,7 +651,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userGetByMsgId:(long)MsgId {
+- (HxUserModel*)userGetByMsgId:(long)MsgId {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByMsgId?message_id=%ld", HOME_PAGE, MsgId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
@@ -659,7 +659,7 @@ static ASIDownloadCache* myCache;
     [request startSynchronous];
 
     if ( 200 == [request responseStatusCode] )
-        return [[HXUserModel alloc] initWithString:[request responseString] error:nil];
+        return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
@@ -672,7 +672,7 @@ static ASIDownloadCache* myCache;
     }
 
 }
-- (UserModel*)userGetByCommentId:(log)CommentId {
+- (HxUserModel*)userGetByCommentId:(long)CommentId {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/uers/getByCommentId?comment_id=%ld", HOME_PAGE, CommentId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
@@ -680,7 +680,7 @@ static ASIDownloadCache* myCache;
     [request startSynchronous];
 
     if ( 200 == [request responseStatusCode] )
-        return [[HXUserModel alloc] initWithString:[request responseString] error:nil];
+        return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
