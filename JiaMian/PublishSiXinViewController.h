@@ -15,6 +15,5 @@
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UITableView *bubbleTable;
-@property (copy, nonatomic) NSString* emChatUserName;
 @property (copy, nonatomic) HxUserModel* hxUserInfo;
 @end

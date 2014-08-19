@@ -678,7 +678,7 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    
+
     if ( 200 == [request responseStatusCode] )
         return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {

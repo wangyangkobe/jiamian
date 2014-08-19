@@ -356,8 +356,7 @@
                                                object:nil];
 }
 #pragma mark 监听键盘的显示与隐藏
-- (void)keyboardWillShow:(NSNotification*)note
-{
+- (void)keyboardWillShow:(NSNotification*)note {
     // get keyboard size and loctaion
 	CGRect keyboardBounds;
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
@@ -392,8 +391,7 @@
 	[UIView commitAnimations];
 }
 
-- (void)keyboardWillHide:(NSNotification *)note
-{
+- (void)keyboardWillHide:(NSNotification *)note {
     NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
 	
@@ -432,7 +430,6 @@
         return NO;
     else
         return YES;
-    
 }
 - (void)sendBtnPressed:(id)sender
 {

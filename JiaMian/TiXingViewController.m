@@ -43,24 +43,11 @@
     [self.view addSubview:segmentedControl];
     
     _currentVC = [self viewControllerForSegmentIndex:_selectSegementIndex];
-    if (_selectSegementIndex == 0)
-    {
-        UnReadMsgViewController* unreadMsgVC = (UnReadMsgViewController*)_currentVC;
-        CGRect oldFrame = unreadMsgVC.view.frame;
-        [unreadMsgVC.view setFrame:CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 100)];
-        [self addChildViewController:unreadMsgVC];
-        [self.view addSubview:unreadMsgVC.view];
-        [unreadMsgVC didMoveToParentViewController:self];
-    }
-    else if (1 == _selectSegementIndex)
-    {
-        SiXinViewController* siXinVC = (SiXinViewController*)_currentVC;
-        CGRect oldFrame = siXinVC.view.frame;
-        [siXinVC.view setFrame:CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 100)];
-        [self addChildViewController:siXinVC];
-        [self.view addSubview:siXinVC.view];
-        [siXinVC didMoveToParentViewController:self];
-    }
+    CGRect oldFrame = self.view.bounds;
+    [_currentVC.view setFrame:CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 40)];
+    [self addChildViewController:_currentVC];
+    [self.view addSubview:_currentVC.view];
+    [_currentVC didMoveToParentViewController:self];
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,7 +63,8 @@
     [self transitionFromViewController:self.currentVC toViewController:vc duration:0.5
                                options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                                    [self.currentVC.view removeFromSuperview];
-                                   vc.view.frame = CGRectMake(0, 40, SCREEN_WIDTH, 300);
+                                    CGRect oldFrame = self.view.bounds;
+                                   vc.view.frame = CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 40);
                                    [self.view addSubview:vc.view];
                                } completion:^(BOOL finished) {
                                    [vc didMoveToParentViewController:self];
@@ -85,6 +73,7 @@
                                }];
     self.navigationItem.title = vc.title;
 }
+
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
     UIViewController *vc;
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];

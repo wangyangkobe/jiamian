@@ -242,8 +242,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     NSLog(@"%s", __FUNCTION__);
-    if (application.applicationState == UIApplicationStateInactive)
-    {
+    if (application.applicationState == UIApplicationStateInactive) {
         [self analyseRemoteNotification:userInfo];
     }
     [APService handleRemoteNotification:userInfo];
@@ -262,8 +261,7 @@
 - (void)clearDefaults
 {
     NSUserDefaults * defs = [NSUserDefaults standardUserDefaults];
-	if ([defs boolForKey:@"donotclearme1.5.3"] == NO)
-	{
+	if ([defs boolForKey:@"donotclearme1.5.3"] == NO) {
 		NSString *appDomain = [[NSBundle mainBundle] bundleIdentifier];
 		[defs removePersistentDomainForName:appDomain];
 		[defs setBool:YES forKey:@"donotclearme1.5.3"];
