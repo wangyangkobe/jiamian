@@ -65,16 +65,21 @@
     for (EMMessage* element in chats) {
         [self addChatDataToMessage:element];
     }
-    //  [self.bubbleTable reloadData];
+    [self.bubbleTable reloadData];
     //[self loadMoreMessages];
 }
 
 -(void)addChatDataToMessage:(EMMessage *)message {
     EMTextMessageBody* msgBody = (EMTextMessageBody*)[message.messageBodies lastObject];
     NSDictionary *attribute = [message.ext objectForKey:@"attribute"];
+    NSString* customFlag = [attribute objectForKey:@"customFlag"];
+    if (customFlag.integerValue != _customFlag) {
+        return;
+    }
+    
     NSBubbleData* bubbleData;
     NSDate* msgDate = [NSDate dateWithTimeIntervalSince1970:message.timestamp/1000];
-    if (message.to != _hxUserInfo.user.easemob_name) {
+    if ([message.from isEqualToString:_hxUserInfo.user.easemob_name]) {
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeSomeoneElse];
         bubbleData.avatarUrl = [attribute objectForKey:@"headerUrl"];
     } else {
@@ -98,11 +103,15 @@
     [attribute setObject:_hxUserInfo.chat_head_image forKey:@"headerUrl"];
     sendMsg.ext = @{@"attribute": attribute};
     
-    EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:nil];
-    [self addChatDataToMessage:returnMsg];
-    [self.bubbleTable reloadData];
+    EMError* error;
+    EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:&error];
+    if (!error) {
+        [textView setText:@""];
+        [self addChatDataToMessage:returnMsg];
+        [self.bubbleTable reloadData];
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+    }
     NSLog(@"%s, %@", __FUNCTION__, returnMsg);
-    [textView setText:@""];
     [textView resignFirstResponder];
 }
 
@@ -136,6 +145,13 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if ([_dataSource count] > 4)
+    {
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+        self.bubbleTable.contentInset = contentInsets;
+        self.bubbleTable.scrollIndicatorInsets = contentInsets;
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+    }
     //给键盘注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(inputKeyboardWillShow:)
@@ -168,6 +184,11 @@
     return _dataSource;
 }
 
+#pragma mark - UITextFieldDelegate method
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self sendPrivateMessage];
+    return YES;
+}
 #pragma mark - UIBubbleTableViewDataSource implementation
 - (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView {
     return [self.dataSource count];
@@ -201,6 +222,13 @@
     toolBarFrame.origin.y = self.view.bounds.size.height - (keyboardEndRect.size.height + toolBarFrame.size.height);
     
     [UIView animateWithDuration:animationTime animations:^{
+        // set the content insets
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardEndRect.size.height + 130, 0.0);
+        self.bubbleTable.contentInset = contentInsets;
+        self.bubbleTable.scrollIndicatorInsets = contentInsets;
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
         self.toolBar.frame = toolBarFrame;
     }];
 }
@@ -211,6 +239,12 @@
     toolBarFrame.origin.y = self.view.bounds.size.height - toolBarFrame.size.height;
     
     [UIView animateWithDuration:animationTime animations:^{
+        // set the content insets
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+        self.bubbleTable.contentInset = contentInsets;
+        self.bubbleTable.scrollIndicatorInsets = contentInsets;
+        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
+        
         self.toolBar.frame = toolBarFrame;
     }];
 }
