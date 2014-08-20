@@ -8,11 +8,10 @@
 
 #import "PublishSiXinViewController.h"
 
-@interface PublishSiXinViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate>
+@interface PublishSiXinViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate, UIBubbleTableViewDataSource>
 {
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
-    
     dispatch_queue_t _messageQueue;
 }
 @property (strong, nonatomic) NSMutableArray* dataSource;   //tableView数据源
@@ -36,6 +35,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"私信";
     NSLog(@"easemob_name = %@", _hxUserInfo.user.easemob_name);
     //根据接收者的username获取当前会话的管理者
     _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_hxUserInfo.user.easemob_name isGroup:NO];
@@ -56,9 +56,56 @@
     
     _messageQueue = dispatch_queue_create("easemob.com", NULL);
     
+    self.bubbleTable.bubbleDataSource = self;
+    self.bubbleTable.snapInterval = 120;
+    self.bubbleTable.showAvatars = YES;
     //通过会话管理者获取已收发消息
-    [self loadMoreMessages];
+    NSArray *chats = [_conversation loadNumbersOfMessages:KPageCount before:[_conversation latestMessage].timestamp + 1];
+    NSLog(@"chats = %@", chats);
+    for (EMMessage* element in chats) {
+        [self addChatDataToMessage:element];
+    }
+    //  [self.bubbleTable reloadData];
+    //[self loadMoreMessages];
 }
+
+-(void)addChatDataToMessage:(EMMessage *)message {
+    EMTextMessageBody* msgBody = (EMTextMessageBody*)[message.messageBodies lastObject];
+    NSDictionary *attribute = [message.ext objectForKey:@"attribute"];
+    NSBubbleData* bubbleData;
+    NSDate* msgDate = [NSDate dateWithTimeIntervalSince1970:message.timestamp/1000];
+    if (message.to != _hxUserInfo.user.easemob_name) {
+        bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeSomeoneElse];
+        bubbleData.avatarUrl = [attribute objectForKey:@"headerUrl"];
+    } else {
+        bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeMine];
+        bubbleData.avatarUrl = [attribute objectForKey:@"myHeaderUrl"];
+    }
+    [self.dataSource addObject:bubbleData];
+}
+
+- (void)sendPrivateMessage {
+    if (0 == [textView.text length])
+        return;
+    
+    EMChatText *text = [[EMChatText alloc] initWithText:textView.text];
+    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithChatObject:text];
+    EMMessage* sendMsg = [[EMMessage alloc] initWithReceiver:_hxUserInfo.user.easemob_name bodies:@[body]];
+    
+    NSMutableDictionary* attribute = [NSMutableDictionary dictionary];
+    [attribute setObject:[NSString stringWithFormat:@"%ld", (long)_customFlag] forKey:@"customFlag"];
+    [attribute setObject:_hxUserInfo.my_head_image forKey:@"myHeaderUrl"];
+    [attribute setObject:_hxUserInfo.chat_head_image forKey:@"headerUrl"];
+    sendMsg.ext = @{@"attribute": attribute};
+    
+    EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:nil];
+    [self addChatDataToMessage:returnMsg];
+    [self.bubbleTable reloadData];
+    NSLog(@"%s, %@", __FUNCTION__, returnMsg);
+    [textView setText:@""];
+    [textView resignFirstResponder];
+}
+
 - (void)loadMoreMessages {
     __weak typeof(self) weakSelf = self;
     dispatch_async(_messageQueue, ^{
@@ -103,7 +150,10 @@
     [super viewWillDisappear:animated];
     // 设置当前conversation的所有message为已读
     [_conversation markMessagesAsRead:YES];
+}
+- (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //以下第一行代码必须写，将self从ChatManager的代理中移除
     [[EaseMob sharedInstance].chatManager removeDelegate:self];
     [[[EaseMob sharedInstance] deviceManager] removeDelegate:self];
 }
@@ -118,9 +168,17 @@
     return _dataSource;
 }
 
+#pragma mark - UIBubbleTableViewDataSource implementation
+- (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView {
+    return [self.dataSource count];
+}
+- (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row {
+    return [self.dataSource objectAtIndex:row];
+}
+
 #pragma mark - IChatManagerDelegate
 - (void)didReceiveMessage:(EMMessage *)message {
-    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s %@", __FUNCTION__, message);
     if ([_conversation.chatter isEqualToString:message.conversation.chatter]) {
         [self addChatDataToMessage:message];
     }
@@ -129,20 +187,6 @@
     NSLog(@"%s", __FUNCTION__);
     // [self reloadTableViewDataWithMessage:message];
 }
-
--(void)addChatDataToMessage:(EMMessage *)message {
-}
-
-- (void)sendPrivateMessage {
-    EMChatText *text = [[EMChatText alloc] initWithText:textView.text];
-    EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithChatObject:text];
-    EMMessage* msg = [[EMMessage alloc] initWithReceiver:_hxUserInfo.user.easemob_name bodies:@[body]];
-    EMMessage* message = [[EaseMob sharedInstance].chatManager sendMessage:msg progress:nil error:nil];
-    NSLog(@"%s, %@", __FUNCTION__, message);
-    [textView setText:@""];
-    [textView resignFirstResponder];
-}
-
 
 #pragma mark - UIKeyboardWillShowNotification
 - (void)inputKeyboardWillShow:(NSNotification *)notification {
@@ -165,12 +209,11 @@
     // get a rect for the textView frame
 	CGRect toolBarFrame = self.toolBar.frame;
     toolBarFrame.origin.y = self.view.bounds.size.height - toolBarFrame.size.height;
-
+    
     [UIView animateWithDuration:animationTime animations:^{
         self.toolBar.frame = toolBarFrame;
     }];
 }
-
 
 #pragma mark - HPGrowingTextViewDelegate
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height {
@@ -222,7 +265,7 @@
     UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     
 	UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 8, 63, 27);
+	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 10, 63, 27);
     sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
 	[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
     

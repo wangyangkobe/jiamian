@@ -286,6 +286,7 @@
                              HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
                              PublishSiXinViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
                              publishVC.hxUserInfo = hxUserInfo;
+                             publishVC.customFlag = currComment.message_id;
                              [self.navigationController pushViewController:publishVC animated:YES];
                          }
                          

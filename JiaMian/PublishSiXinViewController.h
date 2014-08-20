@@ -14,6 +14,7 @@
 @interface PublishSiXinViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
-@property (weak, nonatomic) IBOutlet UITableView *bubbleTable;
+@property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;
 @property (copy, nonatomic) HxUserModel* hxUserInfo;
+@property (assign, nonatomic) NSInteger customFlag;
 @end
