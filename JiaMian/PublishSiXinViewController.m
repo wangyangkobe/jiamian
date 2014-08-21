@@ -12,6 +12,7 @@
 {
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
+    UIRefreshControl* refreshControl;
     dispatch_queue_t _messageQueue;
 }
 @property (strong, nonatomic) NSMutableArray* dataSource;   //tableView数据源
@@ -36,6 +37,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"私信";
+    refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefreshAction:) forControlEvents:UIControlEventValueChanged];
+    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
+    refreshControl.tintColor = [UIColor lightGrayColor];
+    [self.bubbleTable addSubview:refreshControl];
+
     NSLog(@"easemob_name = %@", _hxUserInfo.user.easemob_name);
     //根据接收者的username获取当前会话的管理者
     _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_hxUserInfo.user.easemob_name isGroup:NO];
@@ -114,31 +121,26 @@
     NSLog(@"%s, %@", __FUNCTION__, returnMsg);
     [textView resignFirstResponder];
 }
-
+- (void)handleRefreshAction {
+    [self loadMoreMessages];
+    [self.bubbleTable reloadData];
+}
 - (void)loadMoreMessages {
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(_messageQueue, ^{
-        NSInteger currentCount = [weakSelf.dataSource count];
-        EMMessage *latestMessage = [weakSelf.conversation latestMessage];
-        NSTimeInterval beforeTime = 0;
-        if (latestMessage) {
-            beforeTime = latestMessage.timestamp + 1;
-        }else{
-            beforeTime = [[NSDate date] timeIntervalSince1970] * 1000 + 1;
-        }
-        
-        NSArray *chats = [weakSelf.conversation loadNumbersOfMessages:(currentCount + KPageCount) before:beforeTime];
-        NSLog(@"%s %@", __FUNCTION__, chats);
-        if ([chats count] > currentCount) {
-            [weakSelf.dataSource removeAllObjects];
-            [weakSelf.dataSource addObjectsFromArray:chats];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [weakSelf.bubbleTable reloadData];
-                [weakSelf.bubbleTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:[weakSelf.dataSource count] - currentCount - 1 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            });
-        }
-    });
+    NSInteger currentCount = [self.dataSource count]; 
+    EMMessage *latestMessage = [_conversation latestMessage];
+    NSTimeInterval beforeTime = 0;
+    if (latestMessage) {
+        beforeTime = latestMessage.timestamp + 1;
+    } else {
+         beforeTime = [[NSDate date] timeIntervalSince1970] * 1000 + 1;
+    } 
+    NSArray *chats = [_conversation loadNumbersOfMessages:(currentCount + KPageCount) before:beforeTime];
+    if ([chats count] > currentCount) {
+        [self.dataSource removeAllObjects];
+        for (EMMessage* element in chats) {
+            [self addChatDataToMessage:element];
+        }      
+    }
 }
 - (void)handleBackGroundTapped {
     [textView resignFirstResponder];
