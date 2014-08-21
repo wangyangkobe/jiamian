@@ -6,14 +6,17 @@
 //  Copyright (c) 2014年 wy. All rights reserved.
 //
 
-#import "SiXinViewController.h"
+#import "ChatListViewController.h"
+#import "ChaViewController.h"
 
-@interface SiXinViewController () <UITableViewDelegate, UITableViewDataSource, IChatManagerDelegate>
+#define kHeadImageTag 5000
+
+@interface ChatListViewController () <UITableViewDelegate, UITableViewDataSource, IChatManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
 @end
 
-@implementation SiXinViewController
+@implementation ChatListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -59,16 +62,17 @@
     NSMutableArray *ret = nil;
     NSArray *conversations = [[EaseMob sharedInstance].chatManager conversations];
     NSArray* sorte = [conversations sortedArrayUsingComparator:
-           ^(EMConversation *obj1, EMConversation* obj2){
-               EMMessage *message1 = [obj1 latestMessage];
-               EMMessage *message2 = [obj2 latestMessage];
-               if(message1.timestamp > message2.timestamp) {
-                   return(NSComparisonResult)NSOrderedAscending;
-               }else {
-                   return(NSComparisonResult)NSOrderedDescending;
-               }
-           }];
+                      ^(EMConversation *obj1, EMConversation* obj2) {
+                          EMMessage *message1 = [obj1 latestMessage];
+                          EMMessage *message2 = [obj2 latestMessage];
+                          if(message1.timestamp > message2.timestamp) {
+                              return(NSComparisonResult)NSOrderedAscending;
+                          } else {
+                              return(NSComparisonResult)NSOrderedDescending;
+                          }
+                      }];
     ret = [[NSMutableArray alloc] initWithArray:sorte];
+    NSLog(@"%@", ret);
     return ret;
 }
 #pragma mark - registerNotifications
@@ -96,27 +100,33 @@
     return self.dataSource.count;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString* cellIdentifier = @"SiXinCellIdentifier";
+    static NSString* cellIdentifier = @"ChatListCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"私信";
+    EMConversation* conversion = (EMConversation*)[_dataSource objectAtIndex:indexPath.row];
+    EMMessage* latestMsg = conversion.latestMessage;
+    NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
+                               
+    NSLog(@"latestMsg = %@", latestMsg);
+    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
+    [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
-    PublishSiXinViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"]; 
+    ChaViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
     
     [conversation markMessagesAsRead:YES];
     [self.navigationController pushViewController:chatController animated:YES];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-        return YES;
- }
+    return YES;
+}
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         EMConversation *converation = [self.dataSource objectAtIndex:indexPath.row];

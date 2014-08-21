@@ -5,25 +5,31 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
-        <!--Si Xin View Controller-->
+        <!--Chat List View Controller-->
         <scene sceneID="WV3-1k-eWq">
             <objects>
-                <viewController storyboardIdentifier="SiXinVCIdentifier" id="RM7-8a-psk" customClass="SiXinViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SiXinVCIdentifier" id="RM7-8a-psk" customClass="ChatListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BM4-J3-cbm">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vdd-3G-SX9">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="82" sectionHeaderHeight="22" sectionFooterHeight="22" id="vdd-3G-SX9">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SiXinCellIdentifier" id="BGf-QJ-ZmO">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                    <tableViewCell contentMode="scaleToFill" restorationIdentifier="Chat" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ChatListCellIdentifier" rowHeight="80" id="BGf-QJ-ZmO">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BGf-QJ-ZmO" id="n5I-6g-sbs">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" tag="5000" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="rzt-9j-kHR">
+                                                    <rect key="frame" x="10" y="20" width="40" height="40"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </imageView>
+                                            </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </prototypes>
@@ -411,10 +417,10 @@
             </objects>
             <point key="canvasLocation" x="1362" y="39"/>
         </scene>
-        <!--Publish Si Xin View Controller-->
+        <!--Cha View Controller-->
         <scene sceneID="2CH-7E-ImP">
             <objects>
-                <viewController storyboardIdentifier="PublishSiXinVCIndentifier" id="jgv-bC-xsM" customClass="PublishSiXinViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PublishSiXinVCIndentifier" id="jgv-bC-xsM" customClass="ChaViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="rnp-G5-9Nh">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

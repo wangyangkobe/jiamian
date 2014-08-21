@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 wy. All rights reserved.
 //
 
-#import "PublishSiXinViewController.h"
+#import "ChaViewController.h"
 
-@interface PublishSiXinViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate, UIBubbleTableViewDataSource>
+@interface ChaViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate, UIBubbleTableViewDataSource>
 {
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
@@ -21,7 +21,7 @@
 
 #define KPageCount 20
 
-@implementation PublishSiXinViewController
+@implementation ChaViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,7 +42,7 @@
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
     refreshControl.tintColor = [UIColor lightGrayColor];
     [self.bubbleTable addSubview:refreshControl];
-
+    
     NSLog(@"easemob_name = %@", _hxUserInfo.user.easemob_name);
     //根据接收者的username获取当前会话的管理者
     _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_hxUserInfo.user.easemob_name isGroup:NO];
@@ -68,20 +68,21 @@
     self.bubbleTable.showAvatars = YES;
     //通过会话管理者获取已收发消息
     NSArray *chats = [_conversation loadNumbersOfMessages:KPageCount before:[_conversation latestMessage].timestamp + 1];
-    NSLog(@"chats = %@", chats);
     for (EMMessage* element in chats) {
-        [self addChatDataToMessage:element];
+        NSBubbleData* bubbleData = [self convert2BubbleData:element];
+        if (bubbleData) {
+            [self.dataSource addObject:bubbleData];
+        }
     }
     [self.bubbleTable reloadData];
-    //[self loadMoreMessages];
 }
 
--(void)addChatDataToMessage:(EMMessage *)message {
+-(NSBubbleData*)convert2BubbleData:(EMMessage *)message {
     EMTextMessageBody* msgBody = (EMTextMessageBody*)[message.messageBodies lastObject];
     NSDictionary *attribute = [message.ext objectForKey:@"attribute"];
     NSString* customFlag = [attribute objectForKey:@"customFlag"];
     if (customFlag.integerValue != _customFlag) {
-        return;
+        return nil;
     }
     
     NSBubbleData* bubbleData;
@@ -93,7 +94,7 @@
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeMine];
         bubbleData.avatarUrl = [attribute objectForKey:@"myHeaderUrl"];
     }
-    [self.dataSource addObject:bubbleData];
+    return bubbleData;
 }
 
 - (void)sendPrivateMessage {
@@ -114,34 +115,38 @@
     EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:&error];
     if (!error) {
         [textView setText:@""];
-        [self addChatDataToMessage:returnMsg];
+        [_dataSource addObject:[self convert2BubbleData:returnMsg]];
         [self.bubbleTable reloadData];
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
     }
     NSLog(@"%s, %@", __FUNCTION__, returnMsg);
     [textView resignFirstResponder];
 }
-- (void)handleRefreshAction {
-    [self loadMoreMessages];
-    [self.bubbleTable reloadData];
-}
-- (void)loadMoreMessages {
-    NSInteger currentCount = [self.dataSource count]; 
-    EMMessage *latestMessage = [_conversation latestMessage];
-    NSTimeInterval beforeTime = 0;
-    if (latestMessage) {
-        beforeTime = latestMessage.timestamp + 1;
-    } else {
-         beforeTime = [[NSDate date] timeIntervalSince1970] * 1000 + 1;
-    } 
-    NSArray *chats = [_conversation loadNumbersOfMessages:(currentCount + KPageCount) before:beforeTime];
-    if ([chats count] > currentCount) {
-        [self.dataSource removeAllObjects];
-        for (EMMessage* element in chats) {
-            [self addChatDataToMessage:element];
-        }      
+- (void)handleRefreshAction:(UIRefreshControl*)sender {
+    if (sender.refreshing) {
+        refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading data..."];
+        [self performSelector:@selector(handleLoadData) withObject:nil afterDelay:2.0f];
     }
 }
+- (void)handleLoadData {
+    NSInteger currentCount = [_dataSource count];
+    EMMessage *latestMessage = [_conversation latestMessage];
+    NSArray* chats = [_conversation loadNumbersOfMessages:KPageCount before:latestMessage.timestamp + 1];
+    if (chats.count > currentCount) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_dataSource removeAllObjects];
+            for (EMMessage* element in chats) {
+                NSBubbleData* bubbleData = [self convert2BubbleData:element];
+                if (bubbleData) {
+                    [self.dataSource addObject:bubbleData];
+                }
+            }
+            [refreshControl endRefreshing];
+            [_bubbleTable reloadData];
+        });
+    }
+}
+
 - (void)handleBackGroundTapped {
     [textView resignFirstResponder];
 }
@@ -203,7 +208,10 @@
 - (void)didReceiveMessage:(EMMessage *)message {
     NSLog(@"%s %@", __FUNCTION__, message);
     if ([_conversation.chatter isEqualToString:message.conversation.chatter]) {
-        [self addChatDataToMessage:message];
+        NSBubbleData* bubbleData = [self convert2BubbleData:message];
+        if (bubbleData) {
+            [_dataSource addObject:bubbleData];
+        }
     }
 }
 -(void)didSendMessage:(EMMessage *)message error:(EMError *)error {
@@ -229,7 +237,7 @@
         self.bubbleTable.contentInset = contentInsets;
         self.bubbleTable.scrollIndicatorInsets = contentInsets;
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
-
+        
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
         self.toolBar.frame = toolBarFrame;
     }];

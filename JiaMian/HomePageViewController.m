@@ -83,6 +83,10 @@
                                              selector:@selector(handleRemoteNotification:)
                                                  name:@"showRomoteNotification"
                                                object:nil];
+    
+    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:@"54"
+                                                        password:@"2.00VXrxUD0Jcq2w955d9f5d5a7oKoBE"
+                                                      completion:nil onQueue:nil];
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
 {

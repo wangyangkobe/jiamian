@@ -11,7 +11,7 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "NSBubbleData.h"
 
-@interface PublishSiXinViewController : UIViewController
+@interface ChaViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;

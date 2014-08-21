@@ -38,6 +38,6 @@
     #import "EaseMob.h"
     #import "TiXingViewController.h"
     #import "UnReadMsgViewController.h"
-    #import "SiXinViewController.h"
+    #import "ChatListViewController.h"
     #import "HxUserModel.h"
 #endif

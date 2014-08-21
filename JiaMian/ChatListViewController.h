@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SiXinViewController : UIViewController
+@interface ChatListViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

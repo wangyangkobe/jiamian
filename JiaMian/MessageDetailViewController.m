@@ -10,7 +10,7 @@
 #import "TableHeaderView.h"
 #import "SVProgressHUD.h"
 #import "UIActionSheet+Blocks.h"
-#import "PublishSiXinViewController.h"
+#import "ChaViewController.h"
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -284,7 +284,7 @@
                          } else if(1 == buttonIndex) {
                              CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
                              HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
-                             PublishSiXinViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+                             ChaViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
                              publishVC.hxUserInfo = hxUserInfo;
                              publishVC.customFlag = currComment.message_id;
                              [self.navigationController pushViewController:publishVC animated:YES];

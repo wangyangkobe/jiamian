@@ -590,14 +590,18 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)topicList:(long)SinceId maxId:(long)MaxId type:(int)Type count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/list?since_id=%ld&max_id=%ld&type=%d&count=%d", HOME_PAGE, SinceId, MaxId, Type, Count];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/list?type=%d&count=%d", HOME_PAGE, Type, Count];
+    if (SinceId != 0)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
+    if (MaxId != INT_MAX)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&max_id=%ld", MaxId];
     
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-   // NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Topics * result = [[Topics alloc] initWithString:[request responseString] error:nil];
@@ -626,8 +630,13 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/getMessages?topic_id=%ld&since_id=%ld&max_id=%ld&count=%d",
-                            HOME_PAGE, topicId, SinceId, MaxId, Count];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/getMessages?max_id=%ld&count=%d",
+                            HOME_PAGE, topicId, Count];
+    if (SinceId != 0)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
+    if (MaxId != INT_MAX)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&max_id=%ld", MaxId];
+    
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
