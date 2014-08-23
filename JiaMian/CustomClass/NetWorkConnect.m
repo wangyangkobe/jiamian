@@ -601,7 +601,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"url = %@, %@", requestUrl, request.responseString);
+  //  NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Topics * result = [[Topics alloc] initWithString:[request responseString] error:nil];
@@ -630,7 +630,7 @@ static ASIDownloadCache* myCache;
 //////////////////////////////////////////////////////////////////
 - (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/getMessages?max_id=%ld&count=%d",
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/topics/getMessages?topic_id=%ld&count=%d",
                             HOME_PAGE, topicId, Count];
     if (SinceId != 0)
         requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
