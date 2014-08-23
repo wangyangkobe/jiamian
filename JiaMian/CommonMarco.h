@@ -22,6 +22,8 @@
 #define kCongigureDict @"kCongigureDict"
 
 #define kSelfUserModel @"kSelfUserModel"
+#define kSelfHuanXinId @"kSelfHuanXinId"
+#define kSelfHuanXinPW @"kSelfHuanXinPW"
 
 // Alert Config
 #define kAlertShake  @"kAlertShake"

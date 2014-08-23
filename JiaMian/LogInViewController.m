@@ -94,6 +94,19 @@
                                                                      userIdentity:nil];
         if (userSelf) //login successful
         {
+            [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userSelf.easemob_name
+                                                                password:userSelf.easemob_pwd
+                                                              completion:^(NSDictionary *loginInfo, EMError *error) {
+                                                                  if (error) {
+                                                                      NSLog(@"环信-登录失败");
+                                                                  }else {
+                                                                      NSLog(@"环信-登录成功");
+                                                                  }
+                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_name forKey:kSelfHuanXinId];
+                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_pwd  forKey:kSelfHuanXinPW];
+                                                                  [[NSUserDefaults standardUserDefaults] synchronize];
+                                                              } onQueue:nil];
+            
             [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kUserLogIn];
             [[NSUserDefaults standardUserDefaults] setObject:_tencentOAuth.accessToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];

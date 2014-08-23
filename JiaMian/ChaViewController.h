@@ -20,5 +20,4 @@
 @property (copy, nonatomic) NSString* chatter;
 @property (copy, nonatomic) NSString* myHeadImage;
 @property (copy, nonatomic) NSString* chatterHeadImage;
-
 @end

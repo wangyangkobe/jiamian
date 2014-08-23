@@ -136,6 +136,9 @@
                                                                   }else {
                                                                       NSLog(@"环信-登录成功");
                                                                   }
+                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_name forKey:kSelfHuanXinId];
+                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_pwd  forKey:kSelfHuanXinPW];
+                                                                  [[NSUserDefaults standardUserDefaults] synchronize];
                                                               } onQueue:nil];
             
             NSMutableSet *tags = [NSMutableSet set];

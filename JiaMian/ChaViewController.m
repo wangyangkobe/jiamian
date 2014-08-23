@@ -13,7 +13,6 @@
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
     UIRefreshControl* refreshControl;
-    dispatch_queue_t _messageQueue;
 }
 @property (strong, nonatomic) NSMutableArray* dataSource;   //tableView数据源
 @property (strong, nonatomic) EMConversation* conversation; //会话管理者
@@ -39,7 +38,6 @@
     self.title = @"私信";
     refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefreshAction:) forControlEvents:UIControlEventValueChanged];
-    refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to load more."];
     refreshControl.tintColor = [UIColor lightGrayColor];
     [self.bubbleTable addSubview:refreshControl];
     
@@ -60,8 +58,6 @@
                                       action:@selector(handleBackGroundTapped)];
     oneTap.numberOfTouchesRequired = 1;
     [self.view addGestureRecognizer:oneTap]; //通过鼠标手势来实现键盘的隐藏
-    
-    _messageQueue = dispatch_queue_create("easemob.com", NULL);
     
     self.bubbleTable.bubbleDataSource = self;
     self.bubbleTable.snapInterval = 120;
@@ -85,9 +81,10 @@
         return nil;
     }
     
+    NSString* selfHuanXinId = [[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId];
     NSBubbleData* bubbleData;
     NSDate* msgDate = [NSDate dateWithTimeIntervalSince1970:message.timestamp/1000];
-    if ([message.from isEqualToString:_chatter]) {
+    if ([message.to isEqualToString:selfHuanXinId]) {
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeSomeoneElse];
         bubbleData.avatarUrl = [attribute objectForKey:@"headerUrl"];
     } else {
@@ -107,24 +104,22 @@
     
     NSMutableDictionary* attribute = [NSMutableDictionary dictionary];
     [attribute setObject:[NSString stringWithFormat:@"%ld", (long)_customFlag] forKey:@"customFlag"];
+    
     [attribute setObject:_myHeadImage forKey:@"myHeaderUrl"];
     [attribute setObject:_chatterHeadImage forKey:@"headerUrl"];
+    
     sendMsg.ext = @{@"attribute": attribute};
     
-    EMError* error;
-    EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:&error];
-    if (!error) {
-        [textView setText:@""];
-        [_dataSource addObject:[self convert2BubbleData:returnMsg]];
-        [self.bubbleTable reloadData];
-        [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
-    }
+    EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:nil];
+    [textView setText:@""];
+    [_dataSource addObject:[self convert2BubbleData:returnMsg]];
+    [self.bubbleTable reloadData];
+    [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
     NSLog(@"%s, %@", __FUNCTION__, returnMsg);
     [textView resignFirstResponder];
 }
 - (void)handleRefreshAction:(UIRefreshControl*)sender {
     if (sender.refreshing) {
-        refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"loading data..."];
         [self performSelector:@selector(handleLoadData) withObject:nil afterDelay:2.0f];
     }
 }
@@ -211,6 +206,7 @@
         NSBubbleData* bubbleData = [self convert2BubbleData:message];
         if (bubbleData) {
             [_dataSource addObject:bubbleData];
+            [_bubbleTable reloadData];
         }
     }
 }

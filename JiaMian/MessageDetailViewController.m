@@ -269,6 +269,13 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSString* huanXinId = [[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId];
+    CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
+    HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
+    if ( [hxUserInfo.user.easemob_name isEqualToString:huanXinId] ) {
+        return;
+    }
+    
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     [UIActionSheet showInView:self.tableView
                     withTitle:nil
@@ -282,8 +289,6 @@
                              tiXingVC.selectSegementIndex = buttonIndex;
                              [self.navigationController pushViewController:tiXingVC animated:YES];
                          } else if(1 == buttonIndex) {
-                             CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
-                             HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
                              ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
                              
                              chatVC.chatter = hxUserInfo.user.easemob_name;

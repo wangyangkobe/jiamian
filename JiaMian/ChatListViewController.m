@@ -115,25 +115,30 @@
     EMConversation* conversion = (EMConversation*)[_dataSource objectAtIndex:indexPath.row];
     EMMessage* latestMsg = conversion.latestMessage;
     EMTextMessageBody* msgBody = [latestMsg.messageBodies lastObject];
-    NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
-    
-    NSLog(@"latestMsg = %@", latestMsg);
-    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
     UILabel* textLabel = (UILabel*)[cell.contentView  viewWithTag:kTextLabelTag];
     [textLabel setText:msgBody.text];
+    
+    EMMessage* latestMsgFromOther = conversion.latestMessageFromOthers;
+    NSDictionary *attribute = [latestMsgFromOther.ext objectForKey:@"attribute"];
+    UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
     [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
-    NSDictionary* attribute = [conversation.latestMessage.ext objectForKey:@"attribute"];
+    NSDictionary* attribute = [conversation.latestMessageFromOthers.ext objectForKey:@"attribute"];
     ChaViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+    
     chatController.chatter = conversation.chatter;
+    chatController.customFlag = [attribute[@"customFlag"] integerValue];
+    
+    NSLog(@"%@, %@", conversation.chatter, conversation.latestMessage);
+    
     chatController.myHeadImage = attribute[@"headerUrl"];
     chatController.chatterHeadImage = attribute[@"myHeaderUrl"];
-    chatController.customFlag = [attribute[@"customFlag"] integerValue];
+
     [conversation markMessagesAsRead:YES];
     [self.navigationController pushViewController:chatController animated:YES];
 }
