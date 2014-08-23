@@ -19,7 +19,7 @@
 @property (strong, nonatomic) EMConversation* conversation; //会话管理者
 @end
 
-#define KPageCount 20
+#define KPageCount 10
 
 @implementation ChaViewController
 
@@ -43,9 +43,9 @@
     refreshControl.tintColor = [UIColor lightGrayColor];
     [self.bubbleTable addSubview:refreshControl];
     
-    NSLog(@"easemob_name = %@", _hxUserInfo.user.easemob_name);
+    NSLog(@"easemob_name = %@", _chatter);
     //根据接收者的username获取当前会话的管理者
-    _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_hxUserInfo.user.easemob_name isGroup:NO];
+    _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_chatter isGroup:NO];
     
     // 以下三行代码必须写，注册为SDK的ChatManager的delegate
     [[[EaseMob sharedInstance] deviceManager] addDelegate:self onQueue:nil];
@@ -87,7 +87,7 @@
     
     NSBubbleData* bubbleData;
     NSDate* msgDate = [NSDate dateWithTimeIntervalSince1970:message.timestamp/1000];
-    if ([message.from isEqualToString:_hxUserInfo.user.easemob_name]) {
+    if ([message.from isEqualToString:_chatter]) {
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeSomeoneElse];
         bubbleData.avatarUrl = [attribute objectForKey:@"headerUrl"];
     } else {
@@ -103,12 +103,12 @@
     
     EMChatText *text = [[EMChatText alloc] initWithText:textView.text];
     EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithChatObject:text];
-    EMMessage* sendMsg = [[EMMessage alloc] initWithReceiver:_hxUserInfo.user.easemob_name bodies:@[body]];
+    EMMessage* sendMsg = [[EMMessage alloc] initWithReceiver:_chatter bodies:@[body]];
     
     NSMutableDictionary* attribute = [NSMutableDictionary dictionary];
     [attribute setObject:[NSString stringWithFormat:@"%ld", (long)_customFlag] forKey:@"customFlag"];
-    [attribute setObject:_hxUserInfo.my_head_image forKey:@"myHeaderUrl"];
-    [attribute setObject:_hxUserInfo.chat_head_image forKey:@"headerUrl"];
+    [attribute setObject:_myHeadImage forKey:@"myHeaderUrl"];
+    [attribute setObject:_chatterHeadImage forKey:@"headerUrl"];
     sendMsg.ext = @{@"attribute": attribute};
     
     EMError* error;
@@ -131,8 +131,8 @@
 - (void)handleLoadData {
     NSInteger currentCount = [_dataSource count];
     EMMessage *latestMessage = [_conversation latestMessage];
-    NSArray* chats = [_conversation loadNumbersOfMessages:KPageCount before:latestMessage.timestamp + 1];
-    if (chats.count > currentCount) {
+    NSArray* chats = [_conversation loadNumbersOfMessages:KPageCount + currentCount before:latestMessage.timestamp + 1];
+    if (chats.count >= currentCount) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_dataSource removeAllObjects];
             for (EMMessage* element in chats) {

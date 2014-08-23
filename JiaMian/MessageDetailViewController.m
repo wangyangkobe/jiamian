@@ -284,10 +284,13 @@
                          } else if(1 == buttonIndex) {
                              CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
                              HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
-                             ChaViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
-                             publishVC.hxUserInfo = hxUserInfo;
-                             publishVC.customFlag = currComment.message_id;
-                             [self.navigationController pushViewController:publishVC animated:YES];
+                             ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+                             
+                             chatVC.chatter = hxUserInfo.user.easemob_name;
+                             chatVC.myHeadImage = hxUserInfo.my_head_image;
+                             chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
+                             chatVC.customFlag = currComment.message_id;
+                             [self.navigationController pushViewController:chatVC animated:YES];
                          }
                          
                      }];

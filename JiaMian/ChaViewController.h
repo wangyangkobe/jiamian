@@ -15,6 +15,10 @@
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;
-@property (copy, nonatomic) HxUserModel* hxUserInfo;
+//@property (copy, nonatomic) HxUserModel* hxUserInfo;
 @property (assign, nonatomic) NSInteger customFlag;
+@property (copy, nonatomic) NSString* chatter;
+@property (copy, nonatomic) NSString* myHeadImage;
+@property (copy, nonatomic) NSString* chatterHeadImage;
+
 @end

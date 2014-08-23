@@ -10,7 +10,7 @@
 #import "ChaViewController.h"
 
 #define kHeadImageTag 5000
-
+#define kTextLabelTag 5001
 @interface ChatListViewController () <UITableViewDelegate, UITableViewDataSource, IChatManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
@@ -60,15 +60,21 @@
 #pragma mark - private
 - (NSMutableArray *)loadDataSource {
     NSMutableArray *ret = nil;
-    NSArray *conversations = [[EaseMob sharedInstance].chatManager conversations];
+    NSArray* result = [[EaseMob sharedInstance].chatManager conversations];
+    NSMutableArray *conversations = [NSMutableArray array];
+    for (EMConversation* element in result) {
+        if (element.latestMessage) {
+            [conversations addObject:element];
+        }
+    }
     NSArray* sorte = [conversations sortedArrayUsingComparator:
                       ^(EMConversation *obj1, EMConversation* obj2) {
                           EMMessage *message1 = [obj1 latestMessage];
                           EMMessage *message2 = [obj2 latestMessage];
                           if(message1.timestamp > message2.timestamp) {
-                              return(NSComparisonResult)NSOrderedAscending;
+                              return (NSComparisonResult)NSOrderedAscending;
                           } else {
-                              return(NSComparisonResult)NSOrderedDescending;
+                              return (NSComparisonResult)NSOrderedDescending;
                           }
                       }];
     ret = [[NSMutableArray alloc] initWithArray:sorte];
@@ -108,10 +114,13 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     EMConversation* conversion = (EMConversation*)[_dataSource objectAtIndex:indexPath.row];
     EMMessage* latestMsg = conversion.latestMessage;
+    EMTextMessageBody* msgBody = [latestMsg.messageBodies lastObject];
     NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
-                               
+    
     NSLog(@"latestMsg = %@", latestMsg);
     UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
+    UILabel* textLabel = (UILabel*)[cell.contentView  viewWithTag:kTextLabelTag];
+    [textLabel setText:msgBody.text];
     [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
     return cell;
 }
@@ -119,8 +128,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
+    NSDictionary* attribute = [conversation.latestMessage.ext objectForKey:@"attribute"];
     ChaViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
-    
+    chatController.chatter = conversation.chatter;
+    chatController.myHeadImage = attribute[@"headerUrl"];
+    chatController.chatterHeadImage = attribute[@"myHeaderUrl"];
+    chatController.customFlag = [attribute[@"customFlag"] integerValue];
     [conversation markMessagesAsRead:YES];
     [self.navigationController pushViewController:chatController animated:YES];
 }
