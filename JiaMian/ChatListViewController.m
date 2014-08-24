@@ -78,7 +78,6 @@
                           }
                       }];
     ret = [[NSMutableArray alloc] initWithArray:sorte];
-    NSLog(@"%@", ret);
     return ret;
 }
 #pragma mark - registerNotifications
@@ -118,27 +117,38 @@
     UILabel* textLabel = (UILabel*)[cell.contentView  viewWithTag:kTextLabelTag];
     [textLabel setText:msgBody.text];
     
-    EMMessage* latestMsgFromOther = conversion.latestMessageFromOthers;
-    NSDictionary *attribute = [latestMsgFromOther.ext objectForKey:@"attribute"];
+    NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
     UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
-    [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
+    
+    if ([latestMsg.to isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId]]) //收到
+         [headImage setImageWithURL:attribute[@"myHeaderUrl"] placeholderImage:nil];
+    else
+        [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
     
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
-    NSDictionary* attribute = [conversation.latestMessageFromOthers.ext objectForKey:@"attribute"];
+    NSDictionary* attribute = [conversation.latestMessage.ext objectForKey:@"attribute"];
     ChaViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
     
     chatController.chatter = conversation.chatter;
     chatController.customFlag = [attribute[@"customFlag"] integerValue];
     
+    EMMessage* latestMsg = conversation.latestMessage;
     NSLog(@"%@, %@", conversation.chatter, conversation.latestMessage);
+    if( [latestMsg.to isEqualToString:[USER_DEFAULT objectForKey:kSelfHuanXinId]] )
+    {
+        chatController.myHeadImage = attribute[@"headerUrl"];
+        chatController.chatterHeadImage = attribute[@"myHeaderUrl"];
+    }
+    else
+    {
+        chatController.myHeadImage = attribute[@"myHeaderUrl"];
+        chatController.chatterHeadImage = attribute[@"headerUrl"];
+    }
     
-    chatController.myHeadImage = attribute[@"headerUrl"];
-    chatController.chatterHeadImage = attribute[@"myHeaderUrl"];
-
     [conversation markMessagesAsRead:YES];
     [self.navigationController pushViewController:chatController animated:YES];
 }

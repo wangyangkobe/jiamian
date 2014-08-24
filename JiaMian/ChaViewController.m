@@ -41,7 +41,7 @@
     refreshControl.tintColor = [UIColor lightGrayColor];
     [self.bubbleTable addSubview:refreshControl];
     
-    NSLog(@"easemob_name = %@", _chatter);
+    NSLog(@"easemob_name = %@, myHeadImage = %@, other = %@", _chatter, _myHeadImage, _chatterHeadImage);
     //根据接收者的username获取当前会话的管理者
     _conversation = [[EaseMob sharedInstance].chatManager conversationForChatter:_chatter isGroup:NO];
     
@@ -84,9 +84,9 @@
     NSString* selfHuanXinId = [[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId];
     NSBubbleData* bubbleData;
     NSDate* msgDate = [NSDate dateWithTimeIntervalSince1970:message.timestamp/1000];
-    if ([message.to isEqualToString:selfHuanXinId]) {
+    if ([message.to isEqualToString:selfHuanXinId]) { //收到
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeSomeoneElse];
-        bubbleData.avatarUrl = [attribute objectForKey:@"headerUrl"];
+        bubbleData.avatarUrl = [attribute objectForKey:@"myHeaderUrl"];
     } else {
         bubbleData = [[NSBubbleData alloc] initWithText:msgBody.text date:msgDate type:BubbleTypeMine];
         bubbleData.avatarUrl = [attribute objectForKey:@"myHeaderUrl"];
@@ -111,11 +111,11 @@
     sendMsg.ext = @{@"attribute": attribute};
     
     EMMessage* returnMsg = [[EaseMob sharedInstance].chatManager sendMessage:sendMsg progress:nil error:nil];
+    NSLog(@"%@", returnMsg);
     [textView setText:@""];
     [_dataSource addObject:[self convert2BubbleData:returnMsg]];
     [self.bubbleTable reloadData];
     [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
-    NSLog(@"%s, %@", __FUNCTION__, returnMsg);
     [textView resignFirstResponder];
 }
 - (void)handleRefreshAction:(UIRefreshControl*)sender {
@@ -207,12 +207,12 @@
         if (bubbleData) {
             [_dataSource addObject:bubbleData];
             [_bubbleTable reloadData];
+            [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
         }
     }
 }
 -(void)didSendMessage:(EMMessage *)message error:(EMError *)error {
     NSLog(@"%s", __FUNCTION__);
-    // [self reloadTableViewDataWithMessage:message];
 }
 
 #pragma mark - UIKeyboardWillShowNotification
@@ -229,7 +229,7 @@
     
     [UIView animateWithDuration:animationTime animations:^{
         // set the content insets
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardEndRect.size.height + 130, 0.0);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardEndRect.size.height + 30, 0.0);
         self.bubbleTable.contentInset = contentInsets;
         self.bubbleTable.scrollIndicatorInsets = contentInsets;
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
@@ -246,7 +246,7 @@
     
     [UIView animateWithDuration:animationTime animations:^{
         // set the content insets
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 44, 0.0);
+        UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 30, 0.0);
         self.bubbleTable.contentInset = contentInsets;
         self.bubbleTable.scrollIndicatorInsets = contentInsets;
         [self.bubbleTable scrollBubbleViewToBottomAnimated:YES];
