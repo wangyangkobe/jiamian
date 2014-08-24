@@ -84,8 +84,8 @@
                                                  name:@"showRomoteNotification"
                                                object:nil];
     
-    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId]
-                                                        password:[[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinPW]
+    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[USER_DEFAULT objectForKey:kSelfHuanXinId]
+                                                        password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
                                                         completion:nil onQueue:nil];
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
@@ -169,7 +169,6 @@
     topicArray   = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        //  long areaId = [[NSUserDefaults standardUserDefaults] integerForKey:kUserAreaId];
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
                                                                    sinceId:0
                                                                      maxId:INT_MAX
