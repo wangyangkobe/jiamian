@@ -173,6 +173,11 @@
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 		15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0CC195CFA980033AD23 /* SAMTextView.m */; };
 		15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */; };
+		D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB2A19A986EF00AB08DB /* BannerModel.m */; };
+		D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB2D19A988DA00AB08DB /* CategoryModel.m */; };
+		D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3019A9AD9100AB08DB /* BannerViewController.m */; };
+		D313DB3419AA1C2000AB08DB /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3319AA1C2000AB08DB /* CategoryCell.m */; };
+		D313DB3619AA1C7000AB08DB /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D313DB3519AA1C7000AB08DB /* CategoryCell.xib */; };
 		D3688EE7197A9D7C006B5CE3 /* MoreTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */; };
 		D388404119A0A9BA00823ACA /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D388403E19A0A9BA00823ACA /* libEaseMobClientSDKLite.a */; };
 		D388404219A0A9BA00823ACA /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D388404019A0A9BA00823ACA /* EaseMob.bundle */; };
@@ -474,6 +479,15 @@
 		15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDetailViewController.h; sourceTree = "<group>"; };
 		15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDetailViewController.m; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D313DB2919A986EF00AB08DB /* BannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerModel.h; sourceTree = "<group>"; };
+		D313DB2A19A986EF00AB08DB /* BannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerModel.m; sourceTree = "<group>"; };
+		D313DB2C19A988DA00AB08DB /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
+		D313DB2D19A988DA00AB08DB /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryModel.m; sourceTree = "<group>"; };
+		D313DB2F19A9AD9100AB08DB /* BannerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerViewController.h; sourceTree = "<group>"; };
+		D313DB3019A9AD9100AB08DB /* BannerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerViewController.m; sourceTree = "<group>"; };
+		D313DB3219AA1C2000AB08DB /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
+		D313DB3319AA1C2000AB08DB /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
+		D313DB3519AA1C7000AB08DB /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
 		D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicViewController.h; sourceTree = "<group>"; };
 		D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicViewController.m; sourceTree = "<group>"; };
 		D3883FEB19A0A9BA00823ACA /* IChatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IChatManagerDelegate.h; sourceTree = "<group>"; };
@@ -877,6 +891,11 @@
 				15596708190E71BE00FB760A /* ClassModel */,
 				1558CFDD190BF00600E6B543 /* HomePageViewController.h */,
 				1558CFDE190BF00600E6B543 /* HomePageViewController.m */,
+				D313DB2F19A9AD9100AB08DB /* BannerViewController.h */,
+				D313DB3019A9AD9100AB08DB /* BannerViewController.m */,
+				D313DB3219AA1C2000AB08DB /* CategoryCell.h */,
+				D313DB3519AA1C7000AB08DB /* CategoryCell.xib */,
+				D313DB3319AA1C2000AB08DB /* CategoryCell.m */,
 				1592099B196B4E90000A1F0E /* TopicDetailViewController.h */,
 				1592099C196B4E90000A1F0E /* TopicDetailViewController.m */,
 				1558CFCA190BAA0F00E6B543 /* CommonMarco.h */,
@@ -1066,6 +1085,10 @@
 				15596712190E71BE00FB760A /* UserModel.m */,
 				152031E919693579006E8E88 /* TopicModel.h */,
 				152031EA19693579006E8E88 /* TopicModel.m */,
+				D313DB2919A986EF00AB08DB /* BannerModel.h */,
+				D313DB2A19A986EF00AB08DB /* BannerModel.m */,
+				D313DB2C19A988DA00AB08DB /* CategoryModel.h */,
+				D313DB2D19A988DA00AB08DB /* CategoryModel.m */,
 			);
 			path = ClassModel;
 			sourceTree = "<group>";
@@ -1512,6 +1535,7 @@
 				D3DA699D197A44CE00D48864 /* qq_login_push.png in Resources */,
 				153B35001976A222000EC30D /* bar_return.png in Resources */,
 				D3F1941919A23094000829FD /* bubbleSomeone@2x.png in Resources */,
+				D313DB3619AA1C7000AB08DB /* CategoryCell.xib in Resources */,
 				D3DA69BC197A597900D48864 /* bg_drawable_14.png in Resources */,
 				1508980E1972635E00039E33 /* ic_next@2x.png in Resources */,
 				15278134190D510F00C15419 /* MessageEntryBackground.png in Resources */,
@@ -1675,6 +1699,7 @@
 				1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */,
 				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */,
+				D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */,
 				D3F1942719A23381000829FD /* ChaViewController.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
 				15596717190E71BE00FB760A /* UserModel.m in Sources */,
@@ -1691,6 +1716,7 @@
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
 				D3F1942219A23094000829FD /* UIBubbleTableView.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
+				D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */,
 				151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */,
 				D388404B19A0C6E800823ACA /* TiXingViewController.m in Sources */,
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
@@ -1698,6 +1724,7 @@
 				15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */,
 				D3F1942019A23094000829FD /* NSBubbleData.m in Sources */,
 				153C70361943DB860045A0FC /* SVProgressHUD.m in Sources */,
+				D313DB3419AA1C2000AB08DB /* CategoryCell.m in Sources */,
 				15F80F5B19509644008072AD /* ShowInfoViewController.m in Sources */,
 				15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
@@ -1718,6 +1745,7 @@
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
 				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
 				152031EB19693579006E8E88 /* TopicModel.m in Sources */,
+				D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
@@ -1804,7 +1832,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1844,7 +1872,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1867,7 +1895,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1907,7 +1935,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
