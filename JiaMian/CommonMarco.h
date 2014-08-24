@@ -107,8 +107,8 @@ typedef NS_ENUM(NSInteger, ZoneType)
 static NSInteger COLOR_ARR[] = {0, 0x6683c4, 0x2bad94, 0x8ab147, 0xacc551, 0xeac851, 0xe4847f, 0xeb977a, 0xb086c1, 0x505050, 0x7bc3c7};
 
 #define FONT(x) [UIFont systemFontOfSize:x]
-#define USER_DEFAULT [NSUserDefaults standardUserDefaults];
-
+#define USER_DEFAULT [NSUserDefaults standardUserDefaults]
+#define NOTIFICATION_CENTER [NSNotificationCenter defaultCenter]
 
 #define AlertContent(content) \
 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" \
