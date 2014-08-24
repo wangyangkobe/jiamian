@@ -9,15 +9,18 @@
 #import "BannerViewController.h"
 #import "CategoryCell.h"
 
-@interface BannerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface BannerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 {
     NSMutableArray* bannerArr;
     NSMutableArray* categroyArr;
+    
+    UIPageControl* pageControl;
 }
 
 @end
 
 #define kScrollViewTag 6001
+#define kPageControllTag 6002
 #define kCategoryCellIdentifier @"CategoryCell"
 @implementation BannerViewController
 
@@ -68,6 +71,10 @@
 {
     
 }
+#pragma mark UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    pageControl.currentPage = floorf(scrollView.contentOffset.x/320);
+}
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -89,11 +96,15 @@
 {
     if ( [kind isEqualToString:UICollectionElementKindSectionHeader] )
     {
-        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"BannerHeaderIdentifier" forIndexPath:indexPath];
+        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind          withReuseIdentifier:@"BannerHeaderIdentifier" forIndexPath:indexPath];
+        [headerView addSubview:[self configurePageControl]];
+        
         UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
         NSInteger banerCount = [bannerArr count];
         CGSize scrollVSize =scrollV.bounds.size;
         [scrollV setContentSize:CGSizeMake(scrollVSize.width * banerCount, scrollVSize.height)];
+        [scrollV setDelegate:self];
+        
         for (int i = 0; i < banerCount; i++)
         {
             UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollVSize.width * i, 0,
@@ -107,6 +118,17 @@
         return headerView;
     }
     return nil;
+}
+- (UIPageControl*)configurePageControl
+{
+    if (pageControl == nil) {
+        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 140, 40, 20)];
+        pageControl.backgroundColor = [UIColor clearColor];
+        pageControl.currentPageIndicatorTintColor = [UIColor blueColor];
+        pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    }
+    pageControl.numberOfPages = bannerArr.count;
+    return pageControl;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
