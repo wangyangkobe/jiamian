@@ -128,6 +128,8 @@
         if (userSelf) //login successful
         {
             NSLog(@"user sina log in successful!, userId = %ld", userSelf.user_id);
+            [USER_DEFAULT setObject:userSelf.easemob_name forKey:kSelfHuanXinId];
+            [USER_DEFAULT setObject:userSelf.easemob_pwd  forKey:kSelfHuanXinPW];
             [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:userSelf.easemob_name
                                                                 password:userSelf.easemob_pwd
                                                               completion:^(NSDictionary *loginInfo, EMError *error) {
@@ -136,9 +138,6 @@
                                                                   }else {
                                                                       NSLog(@"环信-登录成功");
                                                                   }
-                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_name forKey:kSelfHuanXinId];
-                                                                  [[NSUserDefaults standardUserDefaults] setObject:userSelf.easemob_pwd  forKey:kSelfHuanXinPW];
-                                                                  [[NSUserDefaults standardUserDefaults] synchronize];
                                                               } onQueue:nil];
             
             NSMutableSet *tags = [NSMutableSet set];
