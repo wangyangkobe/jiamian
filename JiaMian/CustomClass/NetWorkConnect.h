@@ -10,6 +10,8 @@
 #import "CommonMarco.h"
 #import "TopicModel.h"
 #import "HxUserModel.h"
+#import "BannerModel.h"
+#import "CategoryModel.h"
 
 @interface NetWorkConnect : NSObject
 
@@ -55,4 +57,7 @@
 //SinceId: 0 MaxId: INT_MAX; Type:0 Count: 3
 - (NSArray*)topicList:(long)SinceId maxId:(long)MaxId type:(int)Type count:(int)Count;
 - (NSArray*)topicGetMessages:(long)topicId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
+
+- (NSArray*)getBannersByCount:(NSInteger)Count;
+- (NSArray*)getCategoriesByCount:(NSInteger)Cout orderId:(NSInteger)OrderId;
 @end

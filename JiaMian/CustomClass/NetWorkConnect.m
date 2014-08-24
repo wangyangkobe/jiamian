@@ -681,6 +681,7 @@ static ASIDownloadCache* myCache;
     }
 
 }
+//////////////////////////////////////////////////////////////////
 - (HxUserModel*)userGetByCommentId:(long)CommentId {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/users/getByCommentId?comment_id=%ld", HOME_PAGE, CommentId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
@@ -700,5 +701,77 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return nil;
     } 
+}
+//////////////////////////////////////////////////////////////////
+- (NSArray*)getBannersByCount:(NSInteger)Count
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/navigation/banners?count=%ld", HOME_PAGE, (long)Count];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    
+  //  NSLog(@"%@", request.responseString);
+    if (200 == request.responseStatusCode)
+    {
+        Banners * result = [[Banners alloc] initWithString:[request responseString] error:nil];
+        if(result)
+            return [result.banners copy];
+        else
+        {
+            ErrorAlertView;
+            return [NSArray array];
+        }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
+}
+//////////////////////////////////////////////////////////////////
+- (NSArray*)getCategoriesByCount:(NSInteger)Count orderId:(NSInteger)OrderId
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/navigation/categories?count=%ld",
+                            HOME_PAGE, (long)Count];
+    if (OrderId != 0)
+       requestUrl = [requestUrl stringByAppendingFormat:@"&order_id=%d", OrderId];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    NSLog(@"%@", request.responseString);
+    if (200 == request.responseStatusCode)
+    {
+        Categories * result = [[Categories alloc] initWithString:[request responseString] error:nil];
+        if(result)
+            return [result.categories copy];
+        else
+        {
+            ErrorAlertView;
+            return [NSArray array];
+        }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
 }
 @end
