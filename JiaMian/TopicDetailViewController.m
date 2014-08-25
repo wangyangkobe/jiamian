@@ -19,6 +19,7 @@
 #define kVisibleNumberLabel 8007
 #define kBackgroundImageView 8008
 #define kMaskImageView  8009
+#define kMoreImageView 8010
 @interface TopicDetailViewController ()<UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* messageArray;
@@ -109,7 +110,7 @@ static NSString* CellStr = @"TopicDetalCell";
     UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
     
     UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    
+    UIImageView* moreImageV   = (UIImageView*)[cell.contentView viewWithTag:kMoreImageView];
     textLabel.text = currentMsg.text;
     areaLabel.text = currentMsg.area.area_name;
     commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
@@ -125,6 +126,12 @@ static NSString* CellStr = @"TopicDetalCell";
                                                                                     action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
     [likeImage addGestureRecognizer:likeImageTap];
+    
+    UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
+    moreImageTap.numberOfTapsRequired = 1;
+   // [moreImageTap setCancelsTouchesInView:YES];
+    [moreImageV setUserInteractionEnabled:YES];
+    [moreImageV addGestureRecognizer:moreImageTap];
     
     return cell;
 }
@@ -192,6 +199,33 @@ static NSString* CellStr = @"TopicDetalCell";
     {
         [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
     }
+}
+- (void)handleMoreImageTapped:(UITapGestureRecognizer*)gestureRecognizer
+{
+    NSLog(@"%s", __FUNCTION__);
+    UIImageView* tappedView = (UIImageView*)[gestureRecognizer view];
+    UITableViewCell* tappedCell;
+    if (IOS_NEWER_OR_EQUAL_TO_7) {
+        tappedCell = (UITableViewCell*)tappedView.superview.superview.superview;
+    }else{
+        tappedCell = (UITableViewCell*)tappedView.superview.superview;
+    }
+    
+    UIView* moreView = [[UIView alloc] initWithFrame:CGRectMake(195, 180, 120, 100)];
+    [moreView setBackgroundColor:[UIColor lightGrayColor]];
+    UIButton* btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, 120, 20)];
+    [btn1.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
+    UIButton* btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 40, 120, 20)];
+    [btn2.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    [btn2 setTitle:@"私信" forState:UIControlStateNormal];
+    UIButton* btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 70, 120, 20)];
+    [btn3.titleLabel setTextAlignment:NSTextAlignmentLeft];
+    [btn3 setTitle:@"举报或屏蔽" forState:UIControlStateNormal];
+    [moreView addSubview:btn1];
+    [moreView addSubview:btn2];
+    [moreView addSubview:btn3];
+    [tappedCell.contentView addSubview:moreView];
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {
