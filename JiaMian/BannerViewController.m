@@ -47,16 +47,7 @@
     self.collectionView.delegate = self;
     bannerArr = [NSMutableArray array];
     categroyArr = [NSMutableArray array];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:5];
-        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:5 orderId:0];
-        [bannerArr addObjectsFromArray:banners];
-        [categroyArr addObjectsFromArray:categories];
-       dispatch_async(dispatch_get_main_queue(), ^{
-           [self.collectionView reloadData];
-       });
-    });
+    [self fetchDataFromServer:nil];
     
     UIView *bgView = [[UIView alloc]init];
     bgView.backgroundColor = UIColorFromRGB(0xf6f5f1);
@@ -67,9 +58,32 @@
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCategoryCellIdentifier];
 }
 
-- (void)refershControlAction:(id)sender
+- (void)refershControlAction:(UIRefreshControl*)sender
 {
+    [self performSelector:@selector(fetchDataFromServer:) withObject:sender
+               afterDelay:2.0];
+}
+- (void)fetchDataFromServer:(UIRefreshControl*)object
+{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:5];
+        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:5 orderId:0];
+        if (banners.count > 0) {
+            [bannerArr removeAllObjects];
+            [bannerArr addObjectsFromArray:banners];
+        }
+        if (categories.count > 0) {
+            [categroyArr removeAllObjects];
+            [categroyArr addObjectsFromArray:categories];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.collectionView reloadData];
+        });
+    });
     
+    if (object && object.isRefreshing) {
+        [object endRefreshing];
+    }
 }
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -86,6 +100,7 @@
                                                                    forIndexPath:indexPath];
     CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
     [cell.titleLabel setText:category.title];
+    [cell.descriptionLabel setText:category.description];
     return cell;
 }
 #pragma mark UICollectionViewDelegate
@@ -113,8 +128,6 @@
             [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
             [scrollV addSubview:imageView];
         }
-        
-        
         return headerView;
     }
     return nil;
@@ -122,7 +135,7 @@
 - (UIPageControl*)configurePageControl
 {
     if (pageControl == nil) {
-        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 140, 40, 20)];
+        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 150, 40, 10)];
         pageControl.backgroundColor = [UIColor clearColor];
         pageControl.currentPageIndicatorTintColor = [UIColor blueColor];
         pageControl.pageIndicatorTintColor = [UIColor grayColor];
@@ -141,7 +154,7 @@
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f);
+    return UIEdgeInsetsMake(15.0f, 10.0f, 15.0f, 10.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {

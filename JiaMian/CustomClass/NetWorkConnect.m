@@ -748,7 +748,7 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    NSLog(@"%@", request.responseString);
+   // NSLog(@"%@", request.responseString);
     if (200 == request.responseStatusCode)
     {
         Categories * result = [[Categories alloc] initWithString:[request responseString] error:nil];
