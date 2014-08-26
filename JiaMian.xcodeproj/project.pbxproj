@@ -74,7 +74,6 @@
 		15326B9119281AC80008AAE1 /* ico-to-do-list_ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */; };
 		15326B96192827D10008AAE1 /* libc++abi.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15326B95192827D10008AAE1 /* libc++abi.dylib */; };
 		15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9719282E560008AAE1 /* congruent_pentagon.png */; };
-		15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15326B9A192832A20008AAE1 /* SelectAreaViewController.m */; };
 		15326BA119289F1F0008AAE1 /* ic_eyes_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */; };
 		15326BA219289F1F0008AAE1 /* ic_eyes.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9D19289F1F0008AAE1 /* ic_eyes.png */; };
 		15326BA319289F1F0008AAE1 /* ic_like_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 15326B9E19289F1F0008AAE1 /* ic_like_grey.png */; };
@@ -219,6 +218,7 @@
 		D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F27D83197D477B00737A63 /* UIView+Extensions.m */; };
 		D3F6A974197B5DE6002300C8 /* qz_select_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */; };
 		D3F6A976197B5FF3002300C8 /* qz_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A975197B5FF3002300C8 /* qz_select.png */; };
+		D3F709AA19ACC7150083D8F6 /* UtilityLib.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F709A919ACC7150083D8F6 /* UtilityLib.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -320,8 +320,6 @@
 		15326B8F19281AC80008AAE1 /* ico-to-do-list_ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list_ios7@2x.png"; sourceTree = "<group>"; };
 		15326B95192827D10008AAE1 /* libc++abi.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++abi.dylib"; path = "usr/lib/libc++abi.dylib"; sourceTree = SDKROOT; };
 		15326B9719282E560008AAE1 /* congruent_pentagon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = congruent_pentagon.png; sourceTree = "<group>"; };
-		15326B99192832A20008AAE1 /* SelectAreaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectAreaViewController.h; sourceTree = "<group>"; };
-		15326B9A192832A20008AAE1 /* SelectAreaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectAreaViewController.m; sourceTree = "<group>"; };
 		15326B9C19289F1F0008AAE1 /* ic_eyes_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_eyes_grey.png; sourceTree = "<group>"; };
 		15326B9D19289F1F0008AAE1 /* ic_eyes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_eyes.png; sourceTree = "<group>"; };
 		15326B9E19289F1F0008AAE1 /* ic_like_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_like_grey.png; sourceTree = "<group>"; };
@@ -615,6 +613,8 @@
 		D3F27D83197D477B00737A63 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extensions.m"; sourceTree = "<group>"; };
 		D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select_pressed.png; sourceTree = "<group>"; };
 		D3F6A975197B5FF3002300C8 /* qz_select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select.png; sourceTree = "<group>"; };
+		D3F709A819ACC7150083D8F6 /* UtilityLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilityLib.h; sourceTree = "<group>"; };
+		D3F709A919ACC7150083D8F6 /* UtilityLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UtilityLib.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -916,8 +916,6 @@
 				D3DA69A1197A50FB00D48864 /* SettingViewController.m */,
 				15F80F5919509644008072AD /* ShowInfoViewController.h */,
 				15F80F5A19509644008072AD /* ShowInfoViewController.m */,
-				15326B99192832A20008AAE1 /* SelectAreaViewController.h */,
-				15326B9A192832A20008AAE1 /* SelectAreaViewController.m */,
 				1559671C190E740800FB760A /* UnReadMsgViewController.h */,
 				1559671D190E740800FB760A /* UnReadMsgViewController.m */,
 				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
@@ -1106,6 +1104,8 @@
 				153DCA741917DD8100072F4F /* UILabel+Extensions.m */,
 				D3F27D82197D477B00737A63 /* UIView+Extensions.h */,
 				D3F27D83197D477B00737A63 /* UIView+Extensions.m */,
+				D3F709A819ACC7150083D8F6 /* UtilityLib.h */,
+				D3F709A919ACC7150083D8F6 /* UtilityLib.m */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -1717,6 +1717,7 @@
 				D3F1942219A23094000829FD /* UIBubbleTableView.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
 				D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */,
+				D3F709AA19ACC7150083D8F6 /* UtilityLib.m in Sources */,
 				151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */,
 				D388404B19A0C6E800823ACA /* TiXingViewController.m in Sources */,
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
@@ -1736,7 +1737,6 @@
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
 				15503E12193784E200CD737D /* QiniuUtils.m in Sources */,
 				D3DA69A2197A50FB00D48864 /* SettingViewController.m in Sources */,
-				15326B9B192832A20008AAE1 /* SelectAreaViewController.m in Sources */,
 				1558D012190BF34300E6B543 /* ASIFormDataRequest.m in Sources */,
 				1558D011190BF34300E6B543 /* ASIDownloadCache.m in Sources */,
 				1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */,
