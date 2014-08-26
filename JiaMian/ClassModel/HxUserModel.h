@@ -12,7 +12,7 @@
 @interface HxUserModel : JSONModel <NSCopying, NSCoding>
 
 @property(nonatomic, strong) UserModel* user;
-@property(nonatomic, strong) NSString*  chat_head_image;
-@property(nonatomic, strong) NSString*  my_head_image;
+@property(nonatomic, strong) NSString<Optional>*  chat_head_image;
+@property(nonatomic, strong) NSString<Optional>*  my_head_image;
 
 @end
