@@ -8,7 +8,6 @@
 
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
-#import "SelectAreaViewController.h"
 #import "RegisterViewController.h"
 #import "ShowInfoViewController.h"
 @interface LogInViewController () <TencentSessionDelegate>
