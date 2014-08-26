@@ -203,29 +203,14 @@ static NSString* CellStr = @"TopicDetalCell";
 - (void)handleMoreImageTapped:(UITapGestureRecognizer*)gestureRecognizer
 {
     NSLog(@"%s", __FUNCTION__);
-    UIImageView* tappedView = (UIImageView*)[gestureRecognizer view];
-    UITableViewCell* tappedCell;
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        tappedCell = (UITableViewCell*)tappedView.superview.superview.superview;
-    }else{
-        tappedCell = (UITableViewCell*)tappedView.superview.superview;
-    }
+    UITableViewCell* tappedCell = [UIView tableViewCellFromTapGestture:gestureRecognizer];
     
-    UIView* moreView = [[UIView alloc] initWithFrame:CGRectMake(195, 180, 120, 100)];
-    [moreView setBackgroundColor:[UIColor lightGrayColor]];
-    UIButton* btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, 120, 20)];
-    [btn1.titleLabel setTextAlignment:NSTextAlignmentLeft];
-    [btn1 setTitle:@"分享" forState:UIControlStateNormal];
-    UIButton* btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, 40, 120, 20)];
-    [btn2.titleLabel setTextAlignment:NSTextAlignmentLeft];
-    [btn2 setTitle:@"私信" forState:UIControlStateNormal];
-    UIButton* btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, 70, 120, 20)];
-    [btn3.titleLabel setTextAlignment:NSTextAlignmentLeft];
-    [btn3 setTitle:@"举报或屏蔽" forState:UIControlStateNormal];
-    [moreView addSubview:btn1];
-    [moreView addSubview:btn2];
-    [moreView addSubview:btn3];
-    [tappedCell.contentView addSubview:moreView];
+    NSArray* btnsConf = @[
+        @{@"target": self, @"title": @"分享", @"selector": NSStringFromSelector(@selector(handleShare:))},
+        @{@"target": self, @"title": @"私信", @"selector": NSStringFromSelector(@selector(handleSiXin:))},
+        @{@"target": self, @"title": @"举报或屏蔽", @"selector": NSStringFromSelector(@selector(handleJuBao:))}
+                         ];
+    UIView* moreView = [UIView configureMoreViewWithBtns:btnsConf];    
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {

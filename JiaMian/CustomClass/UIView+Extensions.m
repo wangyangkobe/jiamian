@@ -27,4 +27,33 @@
         [label removeFromSuperview];
     }];
 }
++ (UITableViewCell*)tableViewCellFromTapGestture:(UITapGestureRecognizer*)gesture
+{
+    UIView* view = (UIView*)[gestureRecognizer view]; 
+    while (view != nil) {
+        if ([view isKindOfClass:[UITableViewCell class]]) {
+            return (UITableViewCell*)view;
+        } else {
+            view = [view superview];
+        }
+    }
+    return nil;    
+}
++ (UIView*)configureMoreViewWithBtns:(NSArray*)btnsConf
+{
+    UIView* moreView = [[self alloc] initWithFrame:CGRectMake(195, 180, 120, 100)];
+    [moreView setBackgroundColor:[UIColor lightGrayColor]];
+    for (int i = 0; i < btns.count; i++) {
+        NSDictionary* confDict = btnsConf[i];
+
+        UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(0, i*30 + 10, 120, 20)];
+        btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [btn setTitle:confDict[@"title"] forState:UIControlStateNormal];
+        [btn addTarget:self 
+                action:NSSelectorFromString(confDict[@"selector"] 
+    forControlEvents:UIControlEventTouchUpInside];
+        [moreView addSubView:btn];        
+    }     
+    return moreView;
+}
 @end

@@ -10,4 +10,6 @@
 
 @interface UIView (Extensions)
 + (void)animateForVisibleNumberInView:(UIView*)view;
++ (UITableViewCell*)tableViewCellFromTapGestture:(UITapGestureRecognizer*)gesture;
++ (UIView*)configureMoreViewWithBtns:(NSArray*)btnsConf;
 @end
