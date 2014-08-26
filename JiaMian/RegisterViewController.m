@@ -8,7 +8,6 @@
 
 #import "RegisterViewController.h"
 #import "LogInViewController.h"
-#import "SelectAreaViewController.h"
 #import "HomePageViewController.h"
 #import "SVProgressHUD.h"
 @interface RegisterViewController ()
