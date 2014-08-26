@@ -29,7 +29,7 @@
 }
 + (UITableViewCell*)tableViewCellFromTapGestture:(UITapGestureRecognizer*)gesture
 {
-    UIView* view = (UIView*)[gestureRecognizer view]; 
+    UIView* view = (UIView*)[gesture view];
     while (view != nil) {
         if ([view isKindOfClass:[UITableViewCell class]]) {
             return (UITableViewCell*)view;
@@ -37,23 +37,45 @@
             view = [view superview];
         }
     }
-    return nil;    
+    return nil;
 }
-+ (UIView*)configureMoreViewWithBtns:(NSArray*)btnsConf
++ (UIView*)configureMoreView:(NSArray*)btnsConf
 {
-    UIView* moreView = [[self alloc] initWithFrame:CGRectMake(195, 180, 120, 100)];
+    UIView* moreView = [[self alloc] initWithFrame:CGRectMake(195, 190, 120, 100)];
     [moreView setBackgroundColor:[UIColor lightGrayColor]];
-    for (int i = 0; i < btns.count; i++) {
+    for (int i = 0; i < btnsConf.count; i++) {
         NSDictionary* confDict = btnsConf[i];
-
+        
         UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(0, i*30 + 10, 120, 20)];
         btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [btn setTitle:confDict[@"title"] forState:UIControlStateNormal];
-        [btn addTarget:self 
-                action:NSSelectorFromString(confDict[@"selector"] 
-    forControlEvents:UIControlEventTouchUpInside];
-        [moreView addSubView:btn];        
-    }     
+        [btn addTarget:confDict[@"target"]
+                action:NSSelectorFromString(confDict[@"selector"])
+      forControlEvents:UIControlEventTouchUpInside];
+        [moreView addSubview:btn];
+    }
     return moreView;
+}
++ (UIView*)configureJuBaoView:(NSArray *)btnsConf
+{
+    UIView* view = [[UIView alloc] initWithFrame:CGRectMake(80, 80, 160, 160)];
+    [view setBackgroundColor:[UIColor lightGrayColor]];
+    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 160, 50)];
+    [label setText:@"举报与屏蔽"];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    [view addSubview:label];
+    for (int i = 0; i < btnsConf.count; i++)
+    {
+        NSDictionary* confDict = btnsConf[i];
+        UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 50 + i*40, 160, 30)];
+        [[btn layer] setBorderWidth:1.0f];
+        [[btn layer] setBorderColor:[UIColor greenColor].CGColor];
+        [btn setTitle:confDict[@"title"] forState:UIControlStateNormal];
+        [btn addTarget:confDict[@"target"]
+                action:NSSelectorFromString(confDict[@"selector"])
+      forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:btn];
+    }
+    return view;
 }
 @end
