@@ -8,6 +8,7 @@
 
 #import "TopicDetailViewController.h"
 #import "MessageDetailViewController.h"
+#import "ChaViewController.h"
 
 #define kTextLabel    8000
 #define kAreaLabel    8001
@@ -23,6 +24,7 @@
 @interface TopicDetailViewController ()<UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* messageArray;
+    UIView* moreBtnView;
 }
 
 @end
@@ -129,7 +131,7 @@ static NSString* CellStr = @"TopicDetalCell";
     
     UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
     moreImageTap.numberOfTapsRequired = 1;
-   // [moreImageTap setCancelsTouchesInView:YES];
+    // [moreImageTap setCancelsTouchesInView:YES];
     [moreImageV setUserInteractionEnabled:YES];
     [moreImageV addGestureRecognizer:moreImageTap];
     
@@ -204,13 +206,51 @@ static NSString* CellStr = @"TopicDetalCell";
 {
     NSLog(@"%s", __FUNCTION__);
     UITableViewCell* tappedCell = [UIView tableViewCellFromTapGestture:gestureRecognizer];
-    
-    NSArray* btnsConf = @[
-        @{@"target": self, @"title": @"分享", @"selector": NSStringFromSelector(@selector(handleShare:))},
-        @{@"target": self, @"title": @"私信", @"selector": NSStringFromSelector(@selector(handleSiXin:))},
-        @{@"target": self, @"title": @"举报或屏蔽", @"selector": NSStringFromSelector(@selector(handleJuBao:))}
-                         ];
-    UIView* moreView = [UIView configureMoreViewWithBtns:btnsConf];    
+    NSIndexPath* tapIndexPath = [self.pullTableView indexPathForCell:tappedCell];
+    NSArray* btnsConf =
+    @[
+      @{@"target": self, @"title": @"分享", @"selector": NSStringFromSelector(@selector(handleMoreAction:))},
+      @{@"target": self, @"title": @"私信", @"selector": NSStringFromSelector(@selector(handleMoreAction:))},
+      @{@"target": self, @"title": @"举报或屏蔽", @"selector": NSStringFromSelector(@selector(handleMoreAction:))}
+      ];
+    moreBtnView = [UIView configureMoreView:btnsConf];
+    moreBtnView.tag = tapIndexPath.row;
+    [tappedCell.contentView addSubview:moreBtnView];
+}
+- (void)handleMoreAction:(UIButton*)sender
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSInteger tapRow = sender.superview.tag;
+    MessageModel* curMsg = (MessageModel*)[messageArray objectAtIndex:tapRow];
+    [moreBtnView removeFromSuperview];
+    NSString* btnTitle = sender.titleLabel.text;
+    if ([btnTitle isEqualToString:@"分享"])
+    {
+        
+    }
+    else if ([btnTitle isEqualToString:@"私信"])
+    {
+        HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:curMsg.message_id];
+        ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+        
+        chatVC.chatter = hxUserInfo.user.easemob_name;
+        chatVC.myHeadImage = hxUserInfo.my_head_image;
+        chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
+        chatVC.customFlag = curMsg.message_id;
+        [self.navigationController pushViewController:chatVC animated:YES];
+    }
+    else
+    {
+        NSArray* btnsConf =
+        @[
+          @{@"target": self, @"title": @"分享", @"selector": NSStringFromSelector(@selector(handleMoreAction:))},
+          @{@"target": self, @"title": @"私信", @"selector": NSStringFromSelector(@selector(handleMoreAction:))},
+          @{@"target": self, @"title": @"举报或屏蔽", @"selector": NSStringFromSelector(@selector(handleMoreAction:))}
+          ];
+        UIView* juBaoView = [UIView configureJuBaoView:btnsConf];
+        UITableViewCell* cell = [self.pullTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:tapRow inSection:0]];
+        [cell.contentView addSubview:juBaoView];
+    }
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {
@@ -270,11 +310,11 @@ static NSString* CellStr = @"TopicDetalCell";
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-	   NSArray* result = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id 
-								    sinceId:sinceId 
-								      maxId:INT_MAX 
-								      count:15];     
-
+        NSArray* result = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id
+                                                                    sinceId:sinceId
+                                                                      maxId:INT_MAX
+                                                                      count:15];
+        
         for (MessageModel* message in [result reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
@@ -293,10 +333,10 @@ static NSString* CellStr = @"TopicDetalCell";
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-	NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id 
-									 sinceId:0 
-									   maxId:lastMessage.message_id
-									   count:15];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] topicGetMessages:_topic.topic_id
+                                                                         sinceId:0
+                                                                           maxId:lastMessage.message_id
+                                                                           count:15];
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];
         
