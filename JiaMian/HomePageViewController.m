@@ -15,7 +15,6 @@
 #import "CommonMarco.h"
 #import "UILabel+Extensions.h"
 #import "UMFeedback.h"
-#import "SelectAreaViewController.h"
 #import "SelectZoneViewController.h"
 #import "TopicDetailViewController.h"
 #import "SettingViewController.h"
@@ -228,51 +227,51 @@
     SettingViewController* settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingVCIdentifier"];
     [self.navigationController pushViewController:settingVC animated:YES];
 }
-- (void)menuItemPressed:(id)sender
-{
-    KxMenuItem* menuItem = (KxMenuItem*)sender;
-    if ([menuItem.title isEqualToString:@"邀请朋友"])
-    {
-        //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
-        [UMSocialSnsService presentSnsIconSheetView:self
-                                             appKey:kUMengAppKey
-                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
-                                         shareImage:nil
-                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                           delegate:nil];
-    }
-    else if([menuItem.title isEqualToString:@"选择校园"])
-    {
-        SelectAreaViewController* selectAreaVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-        selectAreaVC.firstSelect = NO;
-        [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
-    }
-    else if([menuItem.title isEqualToString:@"意见反馈"])
-    {
-        [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
-    }
-    else if([menuItem.title isEqualToString:@"检查更新"])
-    {
-        [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
-    }
-    else if([menuItem.title isEqualToString:@"选择圈子"])
-    {
-        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
-        selectZoneVC.firstSelect = NO;
-        [self presentViewController:selectZoneVC animated:YES completion:nil];
-    }
-    else
-    {
-        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-        if (result)
-        {
-            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-        }
-    }
-}
+//- (void)menuItemPressed:(id)sender
+//{
+//    KxMenuItem* menuItem = (KxMenuItem*)sender;
+//    if ([menuItem.title isEqualToString:@"邀请朋友"])
+//    {
+//        //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
+//        [UMSocialSnsService presentSnsIconSheetView:self
+//                                             appKey:kUMengAppKey
+//                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
+//                                         shareImage:nil
+//                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+//                                           delegate:nil];
+//    }
+//    else if([menuItem.title isEqualToString:@"选择校园"])
+//    {
+//        SelectZoneViewController* selectAreaVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
+//        selectAreaVC.firstSelect = NO;
+//        [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
+//    }
+//    else if([menuItem.title isEqualToString:@"意见反馈"])
+//    {
+//        [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
+//    }
+//    else if([menuItem.title isEqualToString:@"检查更新"])
+//    {
+//        [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
+//    }
+//    else if([menuItem.title isEqualToString:@"选择圈子"])
+//    {
+//        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
+//        selectZoneVC.firstSelect = NO;
+//        [self presentViewController:selectZoneVC animated:YES completion:nil];
+//    }
+//    else
+//    {
+//        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
+//        if (result)
+//        {
+//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
+//            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+//            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
+//        }
+//    }
+//}
 -(void)unReadMessagePressed:(id)sender
 {
     NSLog(@"Bar Button Item Pressed");
