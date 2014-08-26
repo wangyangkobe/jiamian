@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "LogInViewController.h"
 #import "HomePageViewController.h"
-#import "SelectAreaViewController.h"
 #import "UMSocialQQHandler.h"
 
 @implementation AppDelegate
@@ -17,7 +16,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSLog(@"%s", __FUNCTION__);
     [self clearDefaults];
     
     if (IOS_NEWER_OR_EQUAL_TO_7)
