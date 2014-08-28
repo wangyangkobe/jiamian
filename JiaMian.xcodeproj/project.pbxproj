@@ -216,6 +216,8 @@
 		D3F1942419A23094000829FD /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1941519A23094000829FD /* UIBubbleTypingTableViewCell.m */; };
 		D3F1942719A23381000829FD /* ChaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1942619A23381000829FD /* ChaViewController.m */; };
 		D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F27D83197D477B00737A63 /* UIView+Extensions.m */; };
+		D3F60E9B19AE93B700BA91BF /* MsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */; };
+		D3F60E9E19AE93EB00BA91BF /* MsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F60E9D19AE93EB00BA91BF /* MsgTableViewCell.m */; };
 		D3F6A974197B5DE6002300C8 /* qz_select_pressed.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */; };
 		D3F6A976197B5FF3002300C8 /* qz_select.png in Resources */ = {isa = PBXBuildFile; fileRef = D3F6A975197B5FF3002300C8 /* qz_select.png */; };
 		D3F709AA19ACC7150083D8F6 /* UtilityLib.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F709A919ACC7150083D8F6 /* UtilityLib.m */; };
@@ -611,6 +613,9 @@
 		D3F1942619A23381000829FD /* ChaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaViewController.m; sourceTree = "<group>"; };
 		D3F27D82197D477B00737A63 /* UIView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extensions.h"; sourceTree = "<group>"; };
 		D3F27D83197D477B00737A63 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extensions.m"; sourceTree = "<group>"; };
+		D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MsgTableViewCell.xib; sourceTree = "<group>"; };
+		D3F60E9C19AE93EB00BA91BF /* MsgTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MsgTableViewCell.h; sourceTree = "<group>"; };
+		D3F60E9D19AE93EB00BA91BF /* MsgTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MsgTableViewCell.m; sourceTree = "<group>"; };
 		D3F6A973197B5DE6002300C8 /* qz_select_pressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select_pressed.png; sourceTree = "<group>"; };
 		D3F6A975197B5FF3002300C8 /* qz_select.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qz_select.png; sourceTree = "<group>"; };
 		D3F709A819ACC7150083D8F6 /* UtilityLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UtilityLib.h; sourceTree = "<group>"; };
@@ -887,6 +892,7 @@
 		1558CF8D190B9C5400E6B543 /* JiaMian */ = {
 			isa = PBXGroup;
 			children = (
+				D3F60E9919AE937E00BA91BF /* CustomCell */,
 				15596718190E71C700FB760A /* CustomClass */,
 				15596708190E71BE00FB760A /* ClassModel */,
 				1558CFDD190BF00600E6B543 /* HomePageViewController.h */,
@@ -918,11 +924,8 @@
 				15F80F5A19509644008072AD /* ShowInfoViewController.m */,
 				1559671C190E740800FB760A /* UnReadMsgViewController.h */,
 				1559671D190E740800FB760A /* UnReadMsgViewController.m */,
-				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
 				152BFF2B193F4424000D8E1F /* RegisterViewController.h */,
 				152BFF2C193F4424000D8E1F /* RegisterViewController.m */,
-				155AC4A5190CE07200A8F252 /* TableHeaderView.h */,
-				155AC4A6190CE07200A8F252 /* TableHeaderView.m */,
 				155AC499190CC2B000A8F252 /* MessageDetailViewController.h */,
 				155AC49A190CC2B000A8F252 /* MessageDetailViewController.m */,
 				155AC496190C9D8800A8F252 /* PublishMsgViewController.h */,
@@ -931,11 +934,8 @@
 				1558CFBD190BA56700E6B543 /* LogInViewController.m */,
 				15E42904194412DB00641635 /* SelectZoneViewController.h */,
 				15E42905194412DB00641635 /* SelectZoneViewController.m */,
-				15E429071944137500641635 /* CustomCollectionCell.xib */,
 				15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */,
 				15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */,
-				15E42909194413DF00641635 /* CustomCollectionCell.h */,
-				15E4290A194413DF00641635 /* CustomCollectionCell.m */,
 				155AC491190C836400A8F252 /* ResourceImage */,
 				1558CFE0190BF34300E6B543 /* ThirdLibary */,
 				1558CF9F190B9C5400E6B543 /* Images.xcassets */,
@@ -1449,6 +1449,22 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		D3F60E9919AE937E00BA91BF /* CustomCell */ = {
+			isa = PBXGroup;
+			children = (
+				D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */,
+				D3F60E9C19AE93EB00BA91BF /* MsgTableViewCell.h */,
+				D3F60E9D19AE93EB00BA91BF /* MsgTableViewCell.m */,
+				15E42909194413DF00641635 /* CustomCollectionCell.h */,
+				15E429071944137500641635 /* CustomCollectionCell.xib */,
+				15E4290A194413DF00641635 /* CustomCollectionCell.m */,
+				155AC4A5190CE07200A8F252 /* TableHeaderView.h */,
+				155AC4A6190CE07200A8F252 /* TableHeaderView.m */,
+				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
+			);
+			name = CustomCell;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1616,6 +1632,7 @@
 				15278139190D511000C15419 /* MessageEntrySendButton@2x.png in Resources */,
 				D3DA69BE197A597900D48864 /* bg_drawable_16.png in Resources */,
 				D3DA69BD197A597900D48864 /* bg_drawable_15.png in Resources */,
+				D3F60E9B19AE93B700BA91BF /* MsgTableViewCell.xib in Resources */,
 				15278137190D511000C15419 /* MessageEntryInputField@2x.png in Resources */,
 				D3F1941819A23094000829FD /* bubbleSomeone.png in Resources */,
 				1558CF92190B9C5400E6B543 /* InfoPlist.strings in Resources */,
@@ -1714,6 +1731,7 @@
 				D3F193FD19A222C7000829FD /* HxUserModel.m in Sources */,
 				15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */,
 				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
+				D3F60E9E19AE93EB00BA91BF /* MsgTableViewCell.m in Sources */,
 				D3F1942219A23094000829FD /* UIBubbleTableView.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
 				D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */,
