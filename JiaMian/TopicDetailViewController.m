@@ -9,18 +9,10 @@
 #import "TopicDetailViewController.h"
 #import "MessageDetailViewController.h"
 #import "ChaViewController.h"
+#import "MsgTableViewCell.h"
 
-#define kTextLabel    8000
-#define kAreaLabel    8001
-#define kCommentLabel 8002
-#define kCommentImage 8003
-#define kLikeImage    8004
-#define kLikeNumberLabel 8005
-#define kVisibleImage 8006
-#define kVisibleNumberLabel 8007
-#define kBackgroundImageView 8008
-#define kMaskImageView  8009
-#define kMoreImageView 8010
+static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
+
 @interface TopicDetailViewController ()<UITableViewDataSource, UITableViewDelegate, PullTableViewDelegate>
 {
     NSMutableArray* messageArray;
@@ -48,6 +40,7 @@ static NSString* CellStr = @"TopicDetalCell";
     _pullTableView.delegate = self;
     _pullTableView.dataSource = self;
     _pullTableView.pullDelegate = self;
+    [self.pullTableView registerNib:[UINib nibWithNibName:@"MsgTableViewCell" bundle:nil] forCellReuseIdentifier:msgCellIdentifier];
     messageArray = [NSMutableArray array];
     
     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 50)];
@@ -100,42 +93,31 @@ static NSString* CellStr = @"TopicDetalCell";
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellStr];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellStr];
-    }
+    MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
+                                                                                 forIndexPath:indexPath];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel          = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
-    UILabel* likeNumerLabel     = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UILabel* commentNumLabel    = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-    
-    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    UIImageView* moreImageV   = (UIImageView*)[cell.contentView viewWithTag:kMoreImageView];
-    textLabel.text = currentMsg.text;
-    areaLabel.text = currentMsg.area.area_name;
-    commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
-    likeNumerLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
-    visibleNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.visible_count];
+    cell.msgTextLabel.text = currentMsg.text;
+    cell.areaLabel.text = currentMsg.area.area_name;
+    cell.commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+    cell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
     if (currentMsg.is_official)
     {
-        visibleNumberLabel.text = @"all";
-        areaLabel.text = @"假面官方团队";
+        cell.likeNumLabel.text = @"all";
+        cell.areaLabel.text = @"假面官方团队";
     }
-    [likeImage setUserInteractionEnabled:YES];
+    [cell.likeImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
-    [likeImage addGestureRecognizer:likeImageTap];
-    
-    UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
-    moreImageTap.numberOfTapsRequired = 1;
-    // [moreImageTap setCancelsTouchesInView:YES];
-    [moreImageV setUserInteractionEnabled:YES];
-    [moreImageV addGestureRecognizer:moreImageTap];
-    
+    [cell.likeImageView setUserInteractionEnabled:YES];
+    [cell.likeImageView addGestureRecognizer:likeImageTap];
     return cell;
+    
+//    UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
+//    moreImageTap.numberOfTapsRequired = 1;
+//    // [moreImageTap setCancelsTouchesInView:YES];
+//    [moreImageV setUserInteractionEnabled:YES];
+//    [moreImageV addGestureRecognizer:moreImageTap];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -145,38 +127,17 @@ static NSString* CellStr = @"TopicDetalCell";
 {
     [cell.contentView setBackgroundColor:[UIColor clearColor]];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    
-    UILabel* textLabel       = (UILabel*)[cell.contentView viewWithTag:kTextLabel];
-    UILabel* areaLabel       = (UILabel*)[cell.contentView viewWithTag:kAreaLabel];
-    UILabel* commentNumLabel = (UILabel*)[cell.contentView viewWithTag:kCommentLabel];
-    UILabel* likeNumerLabel  = (UILabel*)[cell.contentView viewWithTag:kLikeNumberLabel];
-    UILabel* visibleNumberLabel = (UILabel*)[cell.contentView viewWithTag:kVisibleNumberLabel];
-    
-    UIImageView* commentImage = (UIImageView*)[cell.contentView viewWithTag:kCommentImage];
-    UIImageView* likeImage    = (UIImageView*)[cell.contentView viewWithTag:kLikeImage];
-    UIImageView* visibleImage = (UIImageView*)[cell.contentView viewWithTag:kVisibleImage];
-    UIImageView* bgImageView  = (UIImageView*)[cell.contentView viewWithTag:kBackgroundImageView];
-    UIImageView* maskImageView  = (UIImageView*)[cell.contentView viewWithTag:kMaskImageView];
-    
+    MsgTableViewCell* msgCell = (MsgTableViewCell*)cell;
     if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
-        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
-        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
-        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
-        
-        [bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
+        [msgCell.bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
         UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
-        [maskImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
+        [msgCell.blackImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
     }
     else
     {
-        [maskImageView setBackgroundColor:[UIColor clearColor]];
-        [bgImageView setImage:nil];
+        [msgCell.blackImageView setBackgroundColor:[UIColor clearColor]];
+        [msgCell.bgImageView setImage:nil];
         int bgImageNo = currentMsg.background_no2;
         if (bgImageNo >=1 && bgImageNo <= 10)
         {
@@ -188,18 +149,13 @@ static NSString* CellStr = @"TopicDetalCell";
             UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
             [cell.contentView setBackgroundColor:picColor];
         }
-        [commentImage setImage:[UIImage imageNamed:@"comment_white"]];
-        [likeImage setImage:[UIImage imageNamed:@"ic_like"]];
-        [visibleImage setImage:[UIImage imageNamed:@"ic_eyes"]];
-        [areaLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [likeNumerLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [textLabel setTextColor:UIColorFromRGB(0xffffff)];
     }
+    
+    [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
+    [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
     if (currentMsg.has_like)
     {
-        [likeImage setImage:[UIImage imageNamed:@"ic_liked"]];
+        [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     }
 }
 - (void)handleMoreImageTapped:(UITapGestureRecognizer*)gestureRecognizer
@@ -254,32 +210,21 @@ static NSString* CellStr = @"TopicDetalCell";
 }
 - (void)likeImageTap:(UITapGestureRecognizer*)gestureRecognizer
 {
-    UIImageView* tappedView = (UIImageView*)[gestureRecognizer view];
-    UITableViewCell* tappedCell;
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        tappedCell = (UITableViewCell*)tappedView.superview.superview.superview;
-    }else{
-        tappedCell = (UITableViewCell*)tappedView.superview.superview;
-    }
-    
+    MsgTableViewCell* tappedCell = (MsgTableViewCell*)[UIView tableViewCellFromTapGestture:gestureRecognizer];
     NSIndexPath* tapIndexPath = [self.pullTableView indexPathForCell:tappedCell];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
     if (currentMsg.has_like)
         return;
-    
-    UIImageView* likeImageView = (UIImageView*)[tappedCell viewWithTag:kLikeImage];
-    [likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
-    UILabel* likeNumberLabel = (UILabel*)[tappedCell viewWithTag:kLikeNumberLabel];
-    likeNumberLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
+
+    [tappedCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    tappedCell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
     if (message)
     {
-        UILabel* visibleNumberLabel = (UILabel*)[tappedCell viewWithTag:kVisibleNumberLabel];
         if (message.is_official == NO)
         {
             [UIView animateForVisibleNumberInView:tappedCell.contentView];
-            visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
