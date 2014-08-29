@@ -11,6 +11,7 @@
 @interface UIView (Extensions)
 + (void)animateForVisibleNumberInView:(UIView*)view;
 + (UITableViewCell*)tableViewCellFromTapGestture:(UITapGestureRecognizer*)gesture;
++ (UITableViewCell*)tableViewCellFromView:(UIView*)view;
 + (UIView*)configureMoreView:(NSArray*)btnsConf;
 + (UIView*)configureJuBaoView:(NSArray*)btnsConf;
 @end

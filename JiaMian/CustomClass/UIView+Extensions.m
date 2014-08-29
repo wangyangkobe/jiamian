@@ -30,6 +30,10 @@
 + (UITableViewCell*)tableViewCellFromTapGestture:(UITapGestureRecognizer*)gesture
 {
     UIView* view = (UIView*)[gesture view];
+    return [self tableViewCellFromView:view];
+}
++ (UITableViewCell*)tableViewCellFromView:(UIView*)view
+{
     while (view != nil) {
         if ([view isKindOfClass:[UITableViewCell class]]) {
             return (UITableViewCell*)view;
