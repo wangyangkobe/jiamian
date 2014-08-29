@@ -28,11 +28,12 @@
 
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
-@interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
 {
     NSMutableArray* messageArray;
     NSMutableArray* topicArray;
 }
+@property (strong, nonatomic) UIView* moreBtnView;
 @end
 
 @implementation HomePageViewController
@@ -78,6 +79,94 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[USER_DEFAULT objectForKey:kSelfHuanXinId]
                                                         password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
                                                       completion:nil onQueue:nil];
+    
+    //Add a left swipe gesture recognizer
+    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                                     action:@selector(handleSwipeLeft:)];
+    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+    [self.pullTableView addGestureRecognizer:recognizer];
+}
+- (void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
+{
+    CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
+    NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
+    if(indexPath.section == 1)
+    {
+        UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
+        [cell.contentView addSubview:self.moreBtnView];
+    }
+}
+- (UIView*)moreBtnView
+{
+    if (_moreBtnView == nil) {
+        _moreBtnView = [[UIView alloc] initWithFrame:CGRectMake(240, 0, 320, 320)];
+        [_moreBtnView setBackgroundColor:[UIColor lightGrayColor]];
+        UIButton* shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [shareBtn setFrame:CGRectMake(10, 30, 60, 60)];
+        shareBtn.layer.cornerRadius = 30;
+        [shareBtn setBackgroundColor:[UIColor redColor]];
+        [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
+        [shareBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_moreBtnView addSubview:shareBtn];
+        
+        UIButton* privateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [privateBtn setFrame:CGRectMake(10, 130, 60, 60)];
+        privateBtn.layer.cornerRadius = 30;
+        [privateBtn setBackgroundColor:[UIColor redColor]];
+        [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
+        [privateBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_moreBtnView addSubview:privateBtn];
+        
+        UIButton* juBaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [juBaoBtn setFrame:CGRectMake(10, 230, 60, 60)];
+        juBaoBtn.layer.cornerRadius = 30;
+        [juBaoBtn setBackgroundColor:[UIColor redColor]];
+        [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
+        [juBaoBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [_moreBtnView addSubview:juBaoBtn];
+    }
+    return _moreBtnView;
+}
+- (void)handleMoreBtnAction:(UIButton*)sender
+{
+    UITableViewCell* cell = [UIView tableViewCellFromView:sender];
+    NSIndexPath *indexPath = [self.pullTableView indexPathForCell:cell];
+    MessageModel* currentMsg = [messageArray objectAtIndex:indexPath.row];
+    NSString* btnTitle = sender.titleLabel.text;
+    if ([btnTitle isEqual:@"分享"])
+    {
+        NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK",
+                               currentMsg.text, currentMsg.area.area_name];
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMengAppKey
+                                          shareText:shareText
+                                         shareImage:nil
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+                                           delegate:nil];
+    }
+    else if ([btnTitle isEqual:@"私信"]) {
+        HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:currentMsg.message_id];
+        ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+        
+        chatVC.chatter = hxUserInfo.user.easemob_name;
+        chatVC.myHeadImage = hxUserInfo.my_head_image;
+        chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
+        chatVC.customFlag = currentMsg.message_id;
+        [self.navigationController pushViewController:chatVC animated:YES];
+        
+    } else {
+        
+    }
+    [_moreBtnView removeFromSuperview];
+}
+#pragma mark - MsgTableViewCellDelegate
+- (void)removeMoreBtnViewFromCell
+{
+    [self.moreBtnView removeFromSuperview];
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.moreBtnView removeFromSuperview];
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
 {
@@ -95,7 +184,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (void)handleMsgChanged:(NSNotification*)notification
 {
-    NSLog(@"%s", __FUNCTION__);
     MessageModel* tappedMsg = (MessageModel*)[notification.userInfo objectForKey:@"changedMsg"];
     NSUInteger index = [messageArray indexOfObjectPassingTest:^BOOL(id obj, NSUInteger idx, BOOL *stop) {
         MessageModel* msg = (MessageModel*)obj;
@@ -266,7 +354,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 //}
 -(void)unReadMessagePressed:(id)sender
 {
-    NSLog(@"Bar Button Item Pressed");
     BBBadgeBarButtonItem *barButton = (BBBadgeBarButtonItem *)self.navigationItem.rightBarButtonItems[1];
     barButton.badgeValue = @"0";
     barButton.shouldHideBadgeAtZero = YES;
@@ -274,8 +361,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     TiXingViewController* tiXinfVC = [[TiXingViewController alloc] init];
     tiXinfVC.selectSegementIndex = 0;
     [self.navigationController pushViewController:tiXinfVC animated:YES];
-    //    UnReadMsgViewController* unReadMsgVC = [self.storyboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
-    //    [self.navigationController pushViewController:unReadMsgVC animated:YES];
 }
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -288,20 +373,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    if (section == 0){
-        return [topicArray count];
-    }else{
-        return [messageArray count];
-    }
+    return ( section == 0 ? topicArray.count : messageArray.count );
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        return 92;
-    }else{
-        return SCREEN_WIDTH;
-    }
+    return ( indexPath.section == 0 ? 92 : SCREEN_WIDTH );
 }
 - (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
@@ -356,6 +432,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                                                         action:@selector(likeImageTap:)];
         [likeImageTap setNumberOfTapsRequired:1];
         [cell.likeImageView addGestureRecognizer:likeImageTap];
+        
+        cell.selectionStyle = UITableViewCellAccessoryNone;
+        cell.delegate = self;
         return cell;
     }
     else
@@ -398,12 +477,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             [msgCell.blackImageView setBackgroundColor:[UIColor clearColor]];
             [msgCell.bgImageView setImage:nil];
             int bgImageNo = currentMsg.background_no2;
-            if (bgImageNo >=1 && bgImageNo <= 10)
-            {
+            if (bgImageNo >=1 && bgImageNo <= 10) {
                 [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-            else
-            {
+            } else {
                 NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
                 UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
                 [cell.contentView setBackgroundColor:picColor];
