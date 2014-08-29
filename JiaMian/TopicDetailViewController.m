@@ -111,13 +111,16 @@ static NSString* CellStr = @"TopicDetalCell";
     [likeImageTap setNumberOfTapsRequired:1];
     [cell.likeImageView setUserInteractionEnabled:YES];
     [cell.likeImageView addGestureRecognizer:likeImageTap];
+    
+    cell.selectionStyle = UITableViewCellAccessoryNone;
+    
     return cell;
     
-//    UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
-//    moreImageTap.numberOfTapsRequired = 1;
-//    // [moreImageTap setCancelsTouchesInView:YES];
-//    [moreImageV setUserInteractionEnabled:YES];
-//    [moreImageV addGestureRecognizer:moreImageTap];
+    //    UITapGestureRecognizer* moreImageTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleMoreImageTapped:)];
+    //    moreImageTap.numberOfTapsRequired = 1;
+    //    // [moreImageTap setCancelsTouchesInView:YES];
+    //    [moreImageV setUserInteractionEnabled:YES];
+    //    [moreImageV addGestureRecognizer:moreImageTap];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -215,7 +218,7 @@ static NSString* CellStr = @"TopicDetalCell";
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
     if (currentMsg.has_like)
         return;
-
+    
     [tappedCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     tappedCell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
     
