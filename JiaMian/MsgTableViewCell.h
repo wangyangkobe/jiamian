@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MsgTableViewCellDelegate <NSObject>
+@optional
+- (void)removeMoreBtnViewFromCell;
+@end
+
 @interface MsgTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *blackImageView;
@@ -19,4 +24,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *likeNumLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
 
+@property (weak, nonatomic) id<MsgTableViewCellDelegate> delegate;
 @end

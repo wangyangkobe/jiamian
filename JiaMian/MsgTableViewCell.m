@@ -32,13 +32,21 @@
 }
 - (void)prepareForReuse
 {
-    [super prepareForReuse];    
-    self.selectionStyle = UITableViewCellAccessoryNone;
+    [super prepareForReuse];
     [self.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
     [self.msgTextLabel setTextColor:UIColorFromRGB(0xffffff)];
     [self.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
     [self.likeNumLabel setTextColor:UIColorFromRGB(0xffffff)];
     
     [self.likeImageView setUserInteractionEnabled:YES];
+}
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+{
+    NSLog(@"%s", __FUNCTION__);
+    if (highlighted) {
+        if (_delegate && [_delegate respondsToSelector:@selector(removeMoreBtnViewFromCell)]) {
+            [_delegate removeMoreBtnViewFromCell];
+        }
+    }
 }
 @end
