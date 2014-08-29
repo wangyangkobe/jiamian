@@ -41,4 +41,5 @@
     #import "ChatListViewController.h"
     #import "HxUserModel.h"
     #import "BannerViewController.h"
+    #import "ChaViewController.h"
 #endif
