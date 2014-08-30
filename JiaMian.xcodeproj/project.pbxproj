@@ -899,9 +899,6 @@
 				1558CFDE190BF00600E6B543 /* HomePageViewController.m */,
 				D313DB2F19A9AD9100AB08DB /* BannerViewController.h */,
 				D313DB3019A9AD9100AB08DB /* BannerViewController.m */,
-				D313DB3219AA1C2000AB08DB /* CategoryCell.h */,
-				D313DB3519AA1C7000AB08DB /* CategoryCell.xib */,
-				D313DB3319AA1C2000AB08DB /* CategoryCell.m */,
 				1592099B196B4E90000A1F0E /* TopicDetailViewController.h */,
 				1592099C196B4E90000A1F0E /* TopicDetailViewController.m */,
 				1558CFCA190BAA0F00E6B543 /* CommonMarco.h */,
@@ -1461,6 +1458,9 @@
 				155AC4A5190CE07200A8F252 /* TableHeaderView.h */,
 				155AC4A6190CE07200A8F252 /* TableHeaderView.m */,
 				155AC4A3190CDD0F00A8F252 /* HeaderView.xib */,
+				D313DB3219AA1C2000AB08DB /* CategoryCell.h */,
+				D313DB3519AA1C7000AB08DB /* CategoryCell.xib */,
+				D313DB3319AA1C2000AB08DB /* CategoryCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";

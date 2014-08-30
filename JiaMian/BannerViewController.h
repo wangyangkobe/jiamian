@@ -10,5 +10,4 @@
 
 @interface BannerViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-
 @end

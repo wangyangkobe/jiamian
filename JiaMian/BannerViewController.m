@@ -14,9 +14,11 @@
     NSMutableArray* bannerArr;
     NSMutableArray* categroyArr;
     
-    UIPageControl* pageControl;
+    NSTimer* timer;
+    UICollectionReusableView* headerView;
 }
-
+@property (retain, nonatomic) UIPageControl* pageControl;
+@property (retain, nonatomic) UILabel* bannerTitleLabel;
 @end
 
 #define kScrollViewTag 6001
@@ -56,8 +58,17 @@
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([CategoryCell class])
                                 bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCategoryCellIdentifier];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
 }
-
+- (void)handleScrollByTime
+{
+    UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
+    NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
+    [self.pageControl setCurrentPage:newPage];
+    [scrollV setContentOffset:CGPointMake(320 * newPage, 0) animated:YES];
+    [self.bannerTitleLabel setText:[self bannerTitleLabelText:self.pageControl]];
+}
 - (void)refershControlAction:(UIRefreshControl*)sender
 {
     [self performSelector:@selector(fetchDataFromServer:) withObject:sender
@@ -87,11 +98,17 @@
 }
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    pageControl.currentPage = floorf(scrollView.contentOffset.x/320);
+    self.pageControl.currentPage = floorf(scrollView.contentOffset.x / 320);
+    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
+    
+    [self.bannerTitleLabel setText:[self bannerTitleLabelText:self.pageControl]];
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [timer invalidate];
+    timer  = nil;
 }
 #pragma mark UICollectionViewDataSource
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
-{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return categroyArr.count;
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -101,6 +118,7 @@
     CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
     [cell.titleLabel setText:category.title];
     [cell.descriptionLabel setText:category.description];
+    [cell.bgImageView setImageWithURL:[NSURL URLWithString:category.background_url] placeholderImage:nil];
     return cell;
 }
 #pragma mark UICollectionViewDelegate
@@ -111,8 +129,11 @@
 {
     if ( [kind isEqualToString:UICollectionElementKindSectionHeader] )
     {
-        UICollectionReusableView* headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind          withReuseIdentifier:@"BannerHeaderIdentifier" forIndexPath:indexPath];
-        [headerView addSubview:[self configurePageControl]];
+        headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                        withReuseIdentifier:@"BannerHeaderIdentifier"
+                                                               forIndexPath:indexPath];
+        [headerView addSubview:self.bannerTitleLabel];
+        [headerView addSubview:self.pageControl];
         
         UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
         NSInteger banerCount = [bannerArr count];
@@ -123,7 +144,7 @@
         for (int i = 0; i < banerCount; i++)
         {
             UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollVSize.width * i, 0,
-                                                                                    scrollVSize.width, scrollVSize.height)];
+                                                                                   scrollVSize.width, scrollVSize.height)];
             BannerModel* banner = (BannerModel*)[bannerArr objectAtIndex:i];
             [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
             [scrollV addSubview:imageView];
@@ -132,16 +153,29 @@
     }
     return nil;
 }
-- (UIPageControl*)configurePageControl
+- (UIPageControl*)pageControl
 {
-    if (pageControl == nil) {
-        pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 150, 40, 10)];
-        pageControl.backgroundColor = [UIColor clearColor];
-        pageControl.currentPageIndicatorTintColor = [UIColor blueColor];
-        pageControl.pageIndicatorTintColor = [UIColor grayColor];
+    if (_pageControl == nil) {
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 150, 40, 10)];
+        _pageControl.backgroundColor = [UIColor clearColor];
+        _pageControl.currentPageIndicatorTintColor = [UIColor blueColor];
+        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
     }
-    pageControl.numberOfPages = bannerArr.count;
-    return pageControl;
+    _pageControl.numberOfPages = bannerArr.count;
+    return _pageControl;
+}
+- (UILabel*)bannerTitleLabel {
+    if (_bannerTitleLabel == nil) {
+        _bannerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 140, 250, 20)];
+        [_bannerTitleLabel setTextColor:[UIColor whiteColor]];
+        [_bannerTitleLabel setBackgroundColor:[UIColor clearColor]];
+        [_bannerTitleLabel setFont:[UIFont systemFontOfSize:14]];
+    }
+    return _bannerTitleLabel;
+}
+- (NSString*)bannerTitleLabelText:(UIPageControl*)pageControl {
+    BannerModel* banner = [bannerArr objectAtIndex:pageControl.currentPage];
+    return banner.title;
 }
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
@@ -168,9 +202,6 @@
 {
     return CGSizeMake(320, 170);
 }
-
-
-
 
 - (void)didReceiveMemoryWarning
 {

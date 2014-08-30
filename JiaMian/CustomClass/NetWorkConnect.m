@@ -743,7 +743,7 @@ static ASIDownloadCache* myCache;
     NSString* requestUrl = [NSString stringWithFormat:@"%@/navigation/categories?count=%ld",
                             HOME_PAGE, (long)Count];
     if (OrderId != 0)
-       requestUrl = [requestUrl stringByAppendingFormat:@"&order_id=%d", OrderId];
+       requestUrl = [requestUrl stringByAppendingFormat:@"&order_id=%ld", (long)OrderId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
