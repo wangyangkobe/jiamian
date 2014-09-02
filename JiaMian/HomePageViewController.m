@@ -7,18 +7,11 @@
 //
 
 #import "HomePageViewController.h"
-#import "BBBadgeBarButtonItem.h"
 #import "PublishMsgViewController.h"
 #import "MessageDetailViewController.h"
-#import "UnReadMsgViewController.h"
-#import "LogInViewController.h"
 #import "CommonMarco.h"
 #import "UILabel+Extensions.h"
 #import "UMFeedback.h"
-#import "SelectZoneViewController.h"
-#import "TopicDetailViewController.h"
-#import "SettingViewController.h"
-#import "MoreTopicViewController.h"
 #import "MsgTableViewCell.h"
 
 
@@ -31,7 +24,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
 {
     NSMutableArray* messageArray;
-    NSMutableArray* topicArray;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
 @end
@@ -54,13 +46,13 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
-    self.title = @"假面";
     self.pullTableView.delegate = self;
     self.pullTableView.dataSource = self;
     self.pullTableView.pullDelegate = self;
     [self.pullTableView registerNib:[UINib nibWithNibName:@"MsgTableViewCell" bundle:nil] forCellReuseIdentifier:msgCellIdentifier];
     
     [self fetchDataFromServer];
+    [[NetWorkConnect sharedInstance] messageForCategotry:1 categoryId:3 sinceId:0 maxId:INT_MAX count:15];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable)
@@ -90,11 +82,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
     NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
-    if(indexPath.section == 1)
-    {
-        UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
-        [cell.contentView addSubview:self.moreBtnView];
-    }
+    UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
+    [cell.contentView addSubview:self.moreBtnView];
 }
 - (UIView*)moreBtnView
 {
@@ -201,42 +190,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
-    
-    UIButton *publishButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [publishButton setBackgroundImage:[UIImage imageNamed:@"publish_msg"] forState:UIControlStateNormal];
-    [publishButton addTarget:self action:@selector(publishMessage:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* publistBtnItem = [[UIBarButtonItem alloc] initWithCustomView:publishButton];
-    [self.navigationItem setLeftBarButtonItem:publistBtnItem];
-    
-    //创建BarButtonItem
-    UIButton *customButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [customButton addTarget:self action:@selector(unReadMessagePressed:) forControlEvents:UIControlEventTouchUpInside];
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list_ios7"] forState:UIControlStateNormal];
-    } else {
-        [customButton setImage:[UIImage imageNamed:@"ico-to-do-list_ios7"] forState:UIControlStateNormal];
-    }
-    
-    BBBadgeBarButtonItem *unReadMsgBarButton = [[BBBadgeBarButtonItem alloc] initWithCustomUIButton:customButton];
-    unReadMsgBarButton.shouldHideBadgeAtZero = YES;
-    unReadMsgBarButton.badgeOriginX = 5;
-    unReadMsgBarButton.badgeOriginY = -9;
-    UIBarButtonItem *settingBarButton = [[UIBarButtonItem alloc] initWithTitle:@"设置"
-                                                                         style:UIBarButtonItemStylePlain
-                                                                        target:self
-                                                                        action:@selector(showSettingVC)];
-    if (IOS_NEWER_OR_EQUAL_TO_7) {
-        [settingBarButton setTintColor:[UIColor whiteColor]];
-    }
-    
-    [self.navigationItem setRightBarButtonItems:[NSArray arrayWithObjects:settingBarButton, unReadMsgBarButton, nil]];
-    
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        long unreadCount = [[NetWorkConnect sharedInstance] notificationUnreadCount];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            unReadMsgBarButton.badgeValue = [NSString stringWithFormat:@"%ld", unreadCount];
-        });
-    });
 }
 - (void)fetchDataFromServer
 {
@@ -245,7 +198,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [SVProgressHUD showWithStatus:@"刷新中..."];
     
     messageArray = [NSMutableArray array];
-    topicArray   = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
@@ -258,8 +210,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         
         // type = 1-热门话题
         requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
-        [topicArray addObjectsFromArray:requestRes];
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             [self.pullTableView reloadData];
@@ -269,7 +219,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)fetchDataFromServerForAreaChange
 {
     messageArray = [NSMutableArray array];
-    topicArray   = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
@@ -279,10 +228,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                                   trimArea:NO
                                                                 filterType:0];
         [messageArray addObjectsFromArray:requestRes];
-        
-        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
-        [topicArray addObjectsFromArray:requestRes];
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.pullTableView reloadData];
         });
@@ -296,227 +241,85 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-- (void)showSettingVC
-{
-    SettingViewController* settingVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SettingVCIdentifier"];
-    [self.navigationController pushViewController:settingVC animated:YES];
-}
-//- (void)menuItemPressed:(id)sender
-//{
-//    KxMenuItem* menuItem = (KxMenuItem*)sender;
-//    if ([menuItem.title isEqualToString:@"邀请朋友"])
-//    {
-//        //[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, UMShareToQQ, UMShareToQzone, nil]
-//        [UMSocialSnsService presentSnsIconSheetView:self
-//                                             appKey:kUMengAppKey
-//                                          shareText:@"亲，来玩玩假面吧!下载链接:http://www.jiamiantech.com"
-//                                         shareImage:nil
-//                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-//                                           delegate:nil];
-//    }
-//    else if([menuItem.title isEqualToString:@"选择校园"])
-//    {
-//        SelectZoneViewController* selectAreaVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectAreaVCIdentifier"];
-//        selectAreaVC.firstSelect = NO;
-//        [[UIApplication sharedApplication].keyWindow setRootViewController:selectAreaVC];
-//    }
-//    else if([menuItem.title isEqualToString:@"意见反馈"])
-//    {
-//        [UMFeedback showFeedback:self withAppkey:kUMengAppKey];
-//    }
-//    else if([menuItem.title isEqualToString:@"检查更新"])
-//    {
-//        [MobClick checkUpdate:@"New version" cancelButtonTitle:@"Skip" otherButtonTitles:@"Goto Store"];
-//    }
-//    else if([menuItem.title isEqualToString:@"选择圈子"])
-//    {
-//        SelectZoneViewController* selectZoneVC = [self.storyboard instantiateViewControllerWithIdentifier:@"SelectZoneVCIdentifier"];
-//        selectZoneVC.firstSelect = NO;
-//        [self presentViewController:selectZoneVC animated:YES completion:nil];
-//    }
-//    else
-//    {
-//        BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-//        if (result)
-//        {
-//            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-//            [[NSUserDefaults standardUserDefaults] synchronize];
-//            LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-//            [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-//        }
-//    }
-//}
--(void)unReadMessagePressed:(id)sender
-{
-    BBBadgeBarButtonItem *barButton = (BBBadgeBarButtonItem *)self.navigationItem.rightBarButtonItems[1];
-    barButton.badgeValue = @"0";
-    barButton.shouldHideBadgeAtZero = YES;
-    
-    TiXingViewController* tiXinfVC = [[TiXingViewController alloc] init];
-    tiXinfVC.selectSegementIndex = 0;
-    [self.navigationController pushViewController:tiXinfVC animated:YES];
-}
+
 #pragma mark - UITableView Delegate
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 30.0f;
-}
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 2;
-}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return ( section == 0 ? topicArray.count : messageArray.count );
+    return messageArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ( indexPath.section == 0 ? 92 : SCREEN_WIDTH );
+    return SCREEN_WIDTH;
 }
-- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
-    UIImageView* image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 5, 20, 20)];
-    
-    UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(30, 0, 90, 30)];
-    view.backgroundColor = UIColorFromRGB(0xf4f4f4);
-    label.backgroundColor = UIColorFromRGB(0xf4f4f4);
-    //  view.opaque = NO;
-    
-    UIButton* btn = [[UIButton alloc] initWithFrame:CGRectMake(110, 2, 40, 26)];
-    [btn setBackgroundImage:[UIImage imageNamed:@"gointolist"] forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(showMoreTopic:) forControlEvents:UIControlEventTouchUpInside];
-    [view addSubview:image];
-    [view addSubview:label];
-    
-    if (section == 0) {
-        [image setImage:[UIImage imageNamed:@"topic"]];
-        [label setTextColor:UIColorFromRGB(0xfd5b00)];
-        [view addSubview:btn];
-        [label setText:@"  热门话题"];
-    } else {
-        [image setImage:[UIImage imageNamed:@"secret"]];
-        [label setTextColor:UIColorFromRGB(0xffb50b)];
-        [label setText:@"  圈内秘密"];
-    }
-    return view;
-}
-- (void)showMoreTopic:(id)sender
-{
-    MoreTopicViewController* moreTopicVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MoreTopicVCIdentifier"];
-    [self.navigationController pushViewController:moreTopicVC animated:YES];
-}
+
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1) {
-        MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
-                                                                                     forIndexPath:indexPath];
-        MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-        cell.msgTextLabel.text = currentMsg.text;
-        cell.areaLabel.text = currentMsg.area.area_name;
-        cell.commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
-        cell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
-        if (currentMsg.is_official)
-        {
-            cell.likeNumLabel.text = @"all";
-            cell.areaLabel.text = @"假面官方团队";
-        }
-        [cell.likeImageView setUserInteractionEnabled:YES];
-        UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                        action:@selector(likeImageTap:)];
-        [likeImageTap setNumberOfTapsRequired:1];
-        [cell.likeImageView addGestureRecognizer:likeImageTap];
-        
-        cell.selectionStyle = UITableViewCellAccessoryNone;
-        cell.delegate = self;
-        return cell;
-    }
-    else
+    MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
+                                                                                 forIndexPath:indexPath];
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    cell.msgTextLabel.text = currentMsg.text;
+    cell.areaLabel.text = currentMsg.area.area_name;
+    cell.commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+    cell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
+    if (currentMsg.is_official)
     {
-        static NSString* CellIdentifier = @"HotTopicCellIdentifier";
-        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        if (nil == cell) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        };
-        
-        [cell setBackgroundColor:UIColorFromRGB(0xf7f6f4)];
-        
-        TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
-        UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kTopicTextLabel];
-        [textLabel setText:topic.topic_title];
-        
-        UILabel* numberLabel = (UILabel*)[cell.contentView viewWithTag:kTopicNumberLabel];
-        [numberLabel setText:[NSString stringWithFormat:@"%d", topic.message_count]];
-        [numberLabel setTextColor:UIColorFromRGB(0xfc5d20)];
-        cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ic_next"]];;
-        [cell.accessoryView setFrame:CGRectMake(0, 0, 24, 24)];
-        return cell;
+        cell.likeNumLabel.text = @"all";
+        cell.areaLabel.text = @"假面官方团队";
     }
+    [cell.likeImageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(likeImageTap:)];
+    [likeImageTap setNumberOfTapsRequired:1];
+    [cell.likeImageView addGestureRecognizer:likeImageTap];
+    
+    cell.selectionStyle = UITableViewCellAccessoryNone;
+    cell.delegate = self;
+    return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1)
+    
+    [cell.contentView setBackgroundColor:[UIColor clearColor]];
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    MsgTableViewCell* msgCell = (MsgTableViewCell*)cell;
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
-        [cell.contentView setBackgroundColor:[UIColor clearColor]];
-        MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-        MsgTableViewCell* msgCell = (MsgTableViewCell*)cell;
-        if (currentMsg.background_url && currentMsg.background_url.length > 0)
-        {
-            [msgCell.bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
-            UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
-            [msgCell.blackImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
-        }
-        else
-        {
-            [msgCell.blackImageView setBackgroundColor:[UIColor clearColor]];
-            [msgCell.bgImageView setImage:nil];
-            int bgImageNo = currentMsg.background_no2;
-            if (bgImageNo >=1 && bgImageNo <= 10) {
-                [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            } else {
-                NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
-                [cell.contentView setBackgroundColor:picColor];
-            }
-        }
-        
-        [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
-        [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
-        if (currentMsg.has_like)
-        {
-            [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+        [msgCell.bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
+        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
+        [msgCell.blackImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
+    }
+    else
+    {
+        [msgCell.blackImageView setBackgroundColor:[UIColor clearColor]];
+        [msgCell.bgImageView setImage:nil];
+        int bgImageNo = currentMsg.background_no2;
+        if (bgImageNo >=1 && bgImageNo <= 10) {
+            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
+        } else {
+            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
+            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
+            [cell.contentView setBackgroundColor:picColor];
         }
     }
-    else  //设置topic
+    
+    [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
+    [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
+    if (currentMsg.has_like)
     {
-        TopicModel* topic = (TopicModel*)[topicArray objectAtIndex:indexPath.row];
-        UIImageView* topicImageView = (UIImageView*)[cell.contentView viewWithTag:kTopicImageView];
-        NSURL* imageUrl = [NSURL URLWithString:topic.img_url];
-        [topicImageView setImageWithURL:imageUrl placeholderImage:nil];
+        [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 1)
-    {
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-        msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-        [self.navigationController pushViewController:msgDetailVC animated:YES];
-    }
-    else
-    {
-        TopicModel* topic = [topicArray objectAtIndex:indexPath.row];
-        TopicDetailViewController* topicDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TopicDetailVCIdentifier"];
-        topicDetailVC.topic = topic;
-        [self.navigationController pushViewController:topicDetailVC animated:YES];
-    }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+    msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:msgDetailVC animated:YES];
 }
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
@@ -547,15 +350,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
-        NSArray* topics = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
-        NSInteger currentIndex = 0;
-        for (TopicModel* element in topics) {
-            if (currentIndex < 3) {
-                [topicArray replaceObjectAtIndex:currentIndex withObject:element];
-                currentIndex += 1;
-            }
-        }
-        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {
@@ -585,7 +379,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             
             for(id result __unused in loadMoreRes)
             {
-                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:1]];
+                [indexPaths addObject:[NSIndexPath indexPathForRow:fromIndex inSection:0]];
                 fromIndex++;
             }
             
@@ -636,55 +430,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             [UIView animateForVisibleNumberInView:tappedCell.contentView];
         }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
-    }
-}
-
-- (void)configureTopicMsgView:(UIView*)view textLabel:(UILabel*)label message:(MessageModel*)message
-{
-    if (message.background_url && message.background_url.length > 0)
-    {
-        SDWebImageManager *manager = [SDWebImageManager sharedManager];
-        NSURL* imageUrl = [NSURL URLWithString:[NSString stringWithFormat:@"%@?imageView/2/w/%d/h/%d/q/100",
-                                                message.background_url, 92, 92]];
-        [manager downloadWithURL:imageUrl
-                         options:0
-                        progress:nil
-                       completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished){
-                           if (image && finished)
-                           {
-                               [view setBackgroundColor:[UIColor colorWithPatternImage:image]];
-                           }
-                       }];
-    }
-    else
-    {
-        int bgImageNo = message.background_no;
-        if ( (1 == bgImageNo) || (2 == bgImageNo) )
-        {
-            [label setTextColor:UIColorFromRGB(0x000000)];
-            if (2 == bgImageNo)
-            {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"congruent_pentagon"]];
-                [view setBackgroundColor:picColor];
-            }
-            else
-            {
-                [view setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-        }
-        else
-        {
-            [label setTextColor:UIColorFromRGB(0xffffff)];
-            if (9 == bgImageNo)
-            {
-                UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"food"]];
-                [view setBackgroundColor:picColor];
-            }
-            else
-            {
-                [view setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-            }
-        }
     }
 }
 @end

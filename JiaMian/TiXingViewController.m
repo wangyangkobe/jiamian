@@ -23,12 +23,6 @@
     }
     return self;
 }
-- (void)loadView
-{
-    UIView *view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
-    [view setBackgroundColor:[UIColor whiteColor]];
-    self.view = view;
-}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
@@ -36,15 +30,15 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"回复", @"私信", @"通知"]];
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"回复", @"私信"]];
+    segmentedControl.segmentedControlStyle = UISegmentedControlStyleBar;
     [segmentedControl setFrame:CGRectMake(30, 5, 260, 30)];
     [segmentedControl setSelectedSegmentIndex:_selectSegementIndex];
     [segmentedControl addTarget:self action:@selector(segmentedControlHasChangedValue:) forControlEvents:UIControlEventValueChanged];
-    [self.view addSubview:segmentedControl];
+    self.navigationItem.titleView = segmentedControl;
     
     _currentVC = [self viewControllerForSegmentIndex:_selectSegementIndex];
-    CGRect oldFrame = self.view.bounds;
-    [_currentVC.view setFrame:CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 40)];
+    [_currentVC.view setFrame:CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.bounds) - 44)];
     [self addChildViewController:_currentVC];
     [self.view addSubview:_currentVC.view];
     [_currentVC didMoveToParentViewController:self];
@@ -63,15 +57,13 @@
     [self transitionFromViewController:self.currentVC toViewController:vc duration:0.5
                                options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                                    [self.currentVC.view removeFromSuperview];
-                                    CGRect oldFrame = self.view.bounds;
-                                   vc.view.frame = CGRectMake(0, 40, SCREEN_WIDTH, oldFrame.size.height - 40);
+                                   vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.bounds) - 44);
                                    [self.view addSubview:vc.view];
                                } completion:^(BOOL finished) {
                                    [vc didMoveToParentViewController:self];
                                    [self.currentVC removeFromParentViewController];
                                    self.currentVC = vc;
                                }];
-    self.navigationItem.title = vc.title;
 }
 
 - (UIViewController *)viewControllerForSegmentIndex:(NSInteger)index {
@@ -83,9 +75,6 @@
             break;
         case 1:
             vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SiXinVCIdentifier"];
-            break;
-        case 2:
-            vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
             break;
     }
     return vc;

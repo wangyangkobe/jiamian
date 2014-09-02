@@ -9,10 +9,15 @@
 #import <UIKit/UIKit.h>
 
 @interface LogInViewController : UIViewController
+
 - (IBAction)sinaWBLogIn:(id)sender;
 - (IBAction)tencentQQLogIn:(id)sender;
-- (IBAction)logInWithUserName:(id)sender;
+- (IBAction)logInWithForOldUser:(id)sender;  //老用户登录
+- (IBAction)jonInNowPressed:(id)sender;      //立即加入
+- (IBAction)enterBtnPress:(id)sender;
+
+
 @property (weak, nonatomic) IBOutlet UIButton *sinaBtn;
 @property (weak, nonatomic) IBOutlet UIButton *qqBtn;
-- (IBAction)showUserInfo:(id)sender;
+
 @end

@@ -42,4 +42,6 @@
     #import "HxUserModel.h"
     #import "BannerViewController.h"
     #import "ChaViewController.h"
+    #import "RegAndLoginViewController.h"
+    #import "HomePageViewController.h"
 #endif

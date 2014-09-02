@@ -172,19 +172,21 @@
 		15FB3434190FC9D600EBD9DF /* sina_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 15FB3432190FC9D600EBD9DF /* sina_login.png */; };
 		15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0CC195CFA980033AD23 /* SAMTextView.m */; };
 		15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */; };
+		D303A4CF19B4B5C700FCF0F8 /* VoteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D303A4CE19B4B5C700FCF0F8 /* VoteModel.m */; };
 		D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB2A19A986EF00AB08DB /* BannerModel.m */; };
 		D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB2D19A988DA00AB08DB /* CategoryModel.m */; };
 		D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3019A9AD9100AB08DB /* BannerViewController.m */; };
 		D313DB3419AA1C2000AB08DB /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3319AA1C2000AB08DB /* CategoryCell.m */; };
 		D313DB3619AA1C7000AB08DB /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D313DB3519AA1C7000AB08DB /* CategoryCell.xib */; };
+		D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D365471A19B1F52C007B7FD9 /* TiXingViewController.m */; };
 		D3688EE7197A9D7C006B5CE3 /* MoreTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */; };
 		D388404119A0A9BA00823ACA /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D388403E19A0A9BA00823ACA /* libEaseMobClientSDKLite.a */; };
 		D388404219A0A9BA00823ACA /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D388404019A0A9BA00823ACA /* EaseMob.bundle */; };
 		D388404419A0AA3100823ACA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404319A0AA3100823ACA /* libxml2.dylib */; };
 		D388404619A0AA4600823ACA /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404519A0AA4600823ACA /* AddressBook.framework */; };
 		D388404819A0AA5800823ACA /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404719A0AA5800823ACA /* libresolv.dylib */; };
-		D388404B19A0C6E800823ACA /* TiXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D388404A19A0C6E800823ACA /* TiXingViewController.m */; };
 		D388404E19A0EC8600823ACA /* ChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D388404D19A0EC8600823ACA /* ChatListViewController.m */; };
+		D3AD331019B201FD0056D165 /* RegAndLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */; };
 		D3DA699D197A44CE00D48864 /* qq_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699C197A44CE00D48864 /* qq_login_push.png */; };
 		D3DA699F197A44DC00D48864 /* sina_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699E197A44DC00D48864 /* sina_login_push.png */; };
 		D3DA69A2197A50FB00D48864 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA69A1197A50FB00D48864 /* SettingViewController.m */; };
@@ -479,6 +481,8 @@
 		15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDetailViewController.h; sourceTree = "<group>"; };
 		15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDetailViewController.m; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D303A4CD19B4B5C700FCF0F8 /* VoteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoteModel.h; sourceTree = "<group>"; };
+		D303A4CE19B4B5C700FCF0F8 /* VoteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoteModel.m; sourceTree = "<group>"; };
 		D313DB2919A986EF00AB08DB /* BannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BannerModel.h; sourceTree = "<group>"; };
 		D313DB2A19A986EF00AB08DB /* BannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BannerModel.m; sourceTree = "<group>"; };
 		D313DB2C19A988DA00AB08DB /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryModel.h; sourceTree = "<group>"; };
@@ -488,6 +492,7 @@
 		D313DB3219AA1C2000AB08DB /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		D313DB3319AA1C2000AB08DB /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		D313DB3519AA1C7000AB08DB /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
+		D365471A19B1F52C007B7FD9 /* TiXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiXingViewController.m; sourceTree = "<group>"; };
 		D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicViewController.h; sourceTree = "<group>"; };
 		D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicViewController.m; sourceTree = "<group>"; };
 		D3883FEB19A0A9BA00823ACA /* IChatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IChatManagerDelegate.h; sourceTree = "<group>"; };
@@ -568,9 +573,10 @@
 		D388404519A0AA4600823ACA /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		D388404719A0AA5800823ACA /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 		D388404919A0C6E800823ACA /* TiXingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TiXingViewController.h; sourceTree = "<group>"; };
-		D388404A19A0C6E800823ACA /* TiXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiXingViewController.m; sourceTree = "<group>"; };
 		D388404C19A0EC8600823ACA /* ChatListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatListViewController.h; sourceTree = "<group>"; };
 		D388404D19A0EC8600823ACA /* ChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatListViewController.m; sourceTree = "<group>"; };
+		D3AD330E19B201FD0056D165 /* RegAndLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegAndLoginViewController.h; sourceTree = "<group>"; };
+		D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegAndLoginViewController.m; sourceTree = "<group>"; };
 		D3DA699C197A44CE00D48864 /* qq_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login_push.png; sourceTree = "<group>"; };
 		D3DA699E197A44DC00D48864 /* sina_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login_push.png; sourceTree = "<group>"; };
 		D3DA69A0197A50FB00D48864 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -905,12 +911,16 @@
 				1558CF96190B9C5400E6B543 /* AppDelegate.h */,
 				1558CF97190B9C5400E6B543 /* AppDelegate.m */,
 				1558CF99190B9C5400E6B543 /* Main.storyboard */,
+				1558CFBC190BA56700E6B543 /* LogInViewController.h */,
+				1558CFBD190BA56700E6B543 /* LogInViewController.m */,
+				D3AD330E19B201FD0056D165 /* RegAndLoginViewController.h */,
+				D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */,
 				D3F1942519A23381000829FD /* ChaViewController.h */,
 				D3F1942619A23381000829FD /* ChaViewController.m */,
 				D388404C19A0EC8600823ACA /* ChatListViewController.h */,
 				D388404D19A0EC8600823ACA /* ChatListViewController.m */,
 				D388404919A0C6E800823ACA /* TiXingViewController.h */,
-				D388404A19A0C6E800823ACA /* TiXingViewController.m */,
+				D365471A19B1F52C007B7FD9 /* TiXingViewController.m */,
 				D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */,
 				D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */,
 				D3DA69BF197A5FAB00D48864 /* AboutViewController.h */,
@@ -927,8 +937,6 @@
 				155AC49A190CC2B000A8F252 /* MessageDetailViewController.m */,
 				155AC496190C9D8800A8F252 /* PublishMsgViewController.h */,
 				155AC497190C9D8800A8F252 /* PublishMsgViewController.m */,
-				1558CFBC190BA56700E6B543 /* LogInViewController.h */,
-				1558CFBD190BA56700E6B543 /* LogInViewController.m */,
 				15E42904194412DB00641635 /* SelectZoneViewController.h */,
 				15E42905194412DB00641635 /* SelectZoneViewController.m */,
 				15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */,
@@ -1084,6 +1092,8 @@
 				D313DB2A19A986EF00AB08DB /* BannerModel.m */,
 				D313DB2C19A988DA00AB08DB /* CategoryModel.h */,
 				D313DB2D19A988DA00AB08DB /* CategoryModel.m */,
+				D303A4CD19B4B5C700FCF0F8 /* VoteModel.h */,
+				D303A4CE19B4B5C700FCF0F8 /* VoteModel.m */,
 			);
 			path = ClassModel;
 			sourceTree = "<group>";
@@ -1737,7 +1747,6 @@
 				D313DB2E19A988DA00AB08DB /* CategoryModel.m in Sources */,
 				D3F709AA19ACC7150083D8F6 /* UtilityLib.m in Sources */,
 				151C900E193E109C00203AE1 /* UIAlertView+Blocks.m in Sources */,
-				D388404B19A0C6E800823ACA /* TiXingViewController.m in Sources */,
 				15596716190E71BE00FB760A /* NotificationModel.m in Sources */,
 				1558D023190BF34300E6B543 /* KxMenu.m in Sources */,
 				15FFC0D5195D474D0033AD23 /* ZoneDetailViewController.m in Sources */,
@@ -1760,8 +1769,10 @@
 				1558D019190BF34300E6B543 /* MessageInterceptor.m in Sources */,
 				1558D014190BF34300E6B543 /* ASIInputStream.m in Sources */,
 				1558D018190BF34300E6B543 /* LoadMoreTableFooterView.m in Sources */,
+				D3AD331019B201FD0056D165 /* RegAndLoginViewController.m in Sources */,
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
 				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
+				D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */,
 				152031EB19693579006E8E88 /* TopicModel.m in Sources */,
 				D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
@@ -1774,6 +1785,7 @@
 				D3DA69C1197A5FAB00D48864 /* AboutViewController.m in Sources */,
 				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
 				1592099D196B4E90000A1F0E /* TopicDetailViewController.m in Sources */,
+				D303A4CF19B4B5C700FCF0F8 /* VoteModel.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,
 			);
@@ -1850,7 +1862,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1890,7 +1902,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: weifan xu (57R954LW37)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1913,7 +1925,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1953,7 +1965,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 039441761BD14D36B95936E2 /* Pods.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution: weifan xu (57R954LW37)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: owen xu (RR6N637B89)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

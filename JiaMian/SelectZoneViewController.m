@@ -312,19 +312,19 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     if ([kind isEqualToString:UICollectionElementKindSectionFooter])
     {
         UICollectionReusableView* footerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind      withReuseIdentifier:@"CollectionFooter" forIndexPath:indexPath];
-//        for (UIView* view in footerView.subviews)
-//        {
-//            if ([view isKindOfClass:[UIButton class]])
-//            {
-//                UIButton* btn = (UIButton*)view;
-//                [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
-//                btn.showsTouchWhenHighlighted = YES;
-//                if (_firstSelect == NO)
-//                {
-//                    [btn setTitle:@"确定" forState:UIControlStateNormal];
-//                }
-//            }
-//        }
+        //        for (UIView* view in footerView.subviews)
+        //        {
+        //            if ([view isKindOfClass:[UIButton class]])
+        //            {
+        //                UIButton* btn = (UIButton*)view;
+        //                [btn setBackgroundColor:UIColorFromRGB(0x3094fa)];
+        //                btn.showsTouchWhenHighlighted = YES;
+        //                if (_firstSelect == NO)
+        //                {
+        //                    [btn setTitle:@"确定" forState:UIControlStateNormal];
+        //                }
+        //            }
+        //        }
         return footerView;
     }
     if ( (_firstSelect == NO) && [kind isEqualToString:UICollectionElementKindSectionHeader] )
@@ -400,8 +400,8 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     if (self.isFirstSelect)
     {
-        HomePageViewController* homeVC = [self.storyboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-        [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+        BannerViewController* bannerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:bannerVC];
     }
     else
     {

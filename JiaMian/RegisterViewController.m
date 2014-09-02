@@ -112,17 +112,17 @@
     NSString* passWord = _passWord.text;
     
     UserModel* userSelf = nil;
-    if (sender.tag == 6998)
-        userSelf = [NetWorkConnect.sharedInstance userRegisterWithName:userName
-                                                              passWord:[NSString md5HexDigest:passWord]
-                                                              userType:UserTypeRegister
-                                                                gender:GenderTypeBoy
-                                                               headImg:nil
-                                                           description:nil];
-    else
-        userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
-                                                              userType:UserTypeRegister
-                                                          userIdentity:userName];
+//    if (sender.tag == 6998)
+//        userSelf = [NetWorkConnect.sharedInstance userRegisterWithName:userName
+//                                                              passWord:[NSString md5HexDigest:passWord]
+//                                                              userType:UserTypeRegister
+//                                                                gender:GenderTypeBoy
+//                                                               headImg:nil
+//                                                           description:nil];
+//    else
+//        userSelf = [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:passWord]
+//                                                              userType:UserTypeRegister
+//                                                          userIdentity:userName];
     
     [SVProgressHUD dismiss];
     if (userSelf) //login successful

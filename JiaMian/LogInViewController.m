@@ -26,7 +26,6 @@
     }
     return self;
 }
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -51,15 +50,16 @@
         self.sinaBtn.frame = self.qqBtn.frame;
         self.qqBtn.hidden = YES;
     }
+    [self.navigationController setNavigationBarHidden:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (IBAction)sinaWBLogIn:(id)sender
-{
+- (IBAction)sinaWBLogIn:(id)sender {
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kSinaRedirectURI;
     request.scope = @"all";
@@ -70,8 +70,7 @@
     [WeiboSDK sendRequest:request];
 }
 
-- (IBAction)tencentQQLogIn:(id)sender
-{
+- (IBAction)tencentQQLogIn:(id)sender {
     [_tencentOAuth authorize:_permissions];
 }
 
@@ -109,7 +108,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:_tencentOAuth.accessToken forKey:kLogInToken];
             [[NSUserDefaults standardUserDefaults] setInteger:UserTypeQQ forKey:kLogInType];
             [[NSUserDefaults standardUserDefaults] synchronize];
-           
+            
             NSMutableSet *tags = [NSMutableSet set];
             [tags addObject:@"online"];
             for(AreaModel* area in userSelf.areas)
@@ -135,8 +134,8 @@
                 
                 [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-                [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
+                BannerViewController* bannerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+                [[UIApplication sharedApplication].keyWindow setRootViewController:bannerVC];
             }
         }
     }
@@ -145,22 +144,30 @@
         NSLog(@"Tencent QQ登录不成功, 没有获取accesstoken.");
     }
 }
-- (IBAction)logInWithUserName:(id)sender
-{
-    RegisterViewController* registerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"RegisterVCIdentifier"];
-    [[UIApplication sharedApplication].keyWindow setRootViewController:registerVC];
+- (void)tencentDidNotLogin:(BOOL)cancelled {
 }
-- (void)tencentDidNotLogin:(BOOL)cancelled
-{
-}
--( void)tencentDidNotNetWork
-{
+-( void)tencentDidNotNetWork {
 }
 
-- (IBAction)showUserInfo:(id)sender
+- (IBAction)logInWithForOldUser:(id)sender
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    ShowInfoViewController* showInfoVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"ShowInfoVCIdentifier"];
-    [self presentViewController:showInfoVC animated:YES completion:nil];
+    RegAndLoginViewController* loginVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
+    [self.navigationController pushViewController:loginVC animated:YES];
+}
+
+- (IBAction)jonInNowPressed:(id)sender
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    RegAndLoginViewController* regVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
+    regVC.isRegister = YES;
+    [self.navigationController pushViewController:regVC animated:YES];
+}
+
+- (IBAction)enterBtnPress:(id)sender
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    BannerViewController* bannerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+    [self presentViewController:bannerVC animated:YES completion:nil];
 }
 @end

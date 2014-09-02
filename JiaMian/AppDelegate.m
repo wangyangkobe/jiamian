@@ -170,8 +170,8 @@
                 [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
-                HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-                [self.window setRootViewController:homeVC];
+                BannerViewController* bannerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+                [self.window setRootViewController:bannerVC];
             }
         }
     }

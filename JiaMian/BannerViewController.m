@@ -34,17 +34,20 @@
     }
     return self;
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
+}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+    [timer invalidate];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    refreshControl.tintColor = [UIColor grayColor];
-    [refreshControl addTarget:self action:@selector(refershControlAction:) forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:refreshControl];
-    self.collectionView.alwaysBounceVertical = YES;
-    
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     bannerArr = [NSMutableArray array];
@@ -58,8 +61,6 @@
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([CategoryCell class])
                                 bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCategoryCellIdentifier];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
 }
 - (void)handleScrollByTime
 {
@@ -68,11 +69,6 @@
     [self.pageControl setCurrentPage:newPage];
     [scrollV setContentOffset:CGPointMake(320 * newPage, 0) animated:YES];
     [self.bannerTitleLabel setText:[self bannerTitleLabelText:self.pageControl]];
-}
-- (void)refershControlAction:(UIRefreshControl*)sender
-{
-    [self performSelector:@selector(fetchDataFromServer:) withObject:sender
-               afterDelay:2.0];
 }
 - (void)fetchDataFromServer:(UIRefreshControl*)object
 {
@@ -124,6 +120,22 @@
 #pragma mark UICollectionViewDelegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
+    if (101 == category.category_type) //圈内八卦
+    {
+        BOOL isLogIn = [USER_DEFAULT boolForKey:kUserLogIn];
+        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        if ( NO == isLogIn )
+        {
+            RegAndLoginViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+            [self presentViewController:logInVC animated:YES completion:nil];
+        }
+        else
+        {
+            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            [self.navigationController pushViewController:homeVC animated:YES];
+        }
+    }
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
@@ -188,7 +200,7 @@
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(15.0f, 10.0f, 15.0f, 10.0f);
+    return UIEdgeInsetsMake(15.0f, 10.0f, 15.0f, 20.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
