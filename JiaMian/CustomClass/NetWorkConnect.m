@@ -99,7 +99,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userRegisterWithName:(NSString *)UserName passWord:(NSString *)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString *)HeadImg description:(NSString *)Description
+- (NSDictionary*)userRegisterWithName:(NSString *)UserName passWord:(NSString *)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString *)HeadImg description:(NSString *)Description
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -119,15 +119,14 @@ static ASIDownloadCache* myCache;
         [request setPostValue:Description forKey:@"description"];
     
     [request startSynchronous];
-    if ( 200 == [request responseStatusCode] )
-        return [[UserModel alloc] initWithString:[request responseString] error:nil];
+    if ( 200 == [request responseStatusCode] ) {
+        UserModel* user = [[UserModel alloc] initWithString:[request responseString] error:nil];
+        return @{@"userModel": user};
+    }
     else if(500 == [request responseStatusCode])
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
-            AlertContent(errorDict[@"err_msg"]);
-        });
-        return nil;
+        NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        return @{@"error": errorDict[@"err_msg"]};
     }
     else
     {
@@ -135,7 +134,32 @@ static ASIDownloadCache* myCache;
         return nil;
     }
 }
-
+- (NSDictionary*)userLogInWithUserNameAndPassWord:(NSString*)userName password:(NSString*)passWord {
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/users/login", HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:passWord forKey:@"access_token"];
+    [request setPostValue:userName forKey:@"user_identity"];
+    
+    [request setNumberOfTimesToRetryOnTimeout:2];
+    [request startSynchronous];
+    
+    if (200 == request.responseStatusCode)
+    {
+        UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:nil];
+        return @{@"userModel": userInfo};
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        return @{@"error": errorDict[@"err_msg"]};
+    }
+    else
+    {
+        ErrorAlertView;
+        return nil;
+    }
+}
 //////////////////////////////////////////////////////////////////
 - (UserModel*)userShowById:(int)UserId
 {
@@ -601,7 +625,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-  //  NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    //  NSLog(@"url = %@, %@", requestUrl, request.responseString);
     if (200 == request.responseStatusCode)
     {
         Topics * result = [[Topics alloc] initWithString:[request responseString] error:nil];
@@ -642,7 +666,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-   // NSLog(@"url = %@, %@", requestUrl, request.responseString);
+    // NSLog(@"url = %@, %@", requestUrl, request.responseString);
     
     if (200 == request.responseStatusCode) {
         Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
@@ -666,7 +690,7 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( 200 == [request responseStatusCode] )
         return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {
@@ -679,7 +703,7 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return nil;
     }
-
+    
 }
 //////////////////////////////////////////////////////////////////
 - (HxUserModel*)userGetByCommentId:(long)CommentId {
@@ -688,19 +712,19 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-
+    
     if ( 200 == [request responseStatusCode] )
         return [[HxUserModel alloc] initWithString:[request responseString] error:nil];
     else if(500 == request.responseStatusCode) {
         dispatch_async(dispatch_get_main_queue(), ^{
             NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
             AlertContent(errorDict[@"err_msg"]);
-        });         
+        });
         return nil;
     } else {
         ErrorAlertView;
         return nil;
-    } 
+    }
 }
 //////////////////////////////////////////////////////////////////
 - (NSArray*)getBannersByCount:(NSInteger)Count
@@ -711,7 +735,7 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-  //  NSLog(@"%@", request.responseString);
+    //  NSLog(@"%@", request.responseString);
     if (200 == request.responseStatusCode)
     {
         Banners * result = [[Banners alloc] initWithString:[request responseString] error:nil];
@@ -743,12 +767,12 @@ static ASIDownloadCache* myCache;
     NSString* requestUrl = [NSString stringWithFormat:@"%@/navigation/categories?count=%ld",
                             HOME_PAGE, (long)Count];
     if (OrderId != 0)
-       requestUrl = [requestUrl stringByAppendingFormat:@"&order_id=%ld", (long)OrderId];
+        requestUrl = [requestUrl stringByAppendingFormat:@"&order_id=%ld", (long)OrderId];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-   // NSLog(@"%@", request.responseString);
+    // NSLog(@"%@", request.responseString);
     if (200 == request.responseStatusCode)
     {
         Categories * result = [[Categories alloc] initWithString:[request responseString] error:nil];
@@ -759,6 +783,42 @@ static ASIDownloadCache* myCache;
             ErrorAlertView;
             return [NSArray array];
         }
+    }
+    else if(500 == request.responseStatusCode)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+            AlertContent(errorDict[@"err_msg"]);
+        });
+        return [NSArray array];
+    }
+    else
+    {
+        ErrorAlertView;
+        return [NSArray array];
+    }
+}
+
+- (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/category?type=%d&category_id=%ld&count=%d",
+                            HOME_PAGE, type, CategoryId, Count];
+    if (SinceId != 0)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&since_id=%ld", SinceId];
+    if (MaxId != INT_MAX)
+        requestUrl = [requestUrl stringByAppendingFormat:@"&max_id=%ld", MaxId];
+    
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setDownloadCache:myCache];
+    [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+    [request startSynchronous];
+    
+    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+    
+    if (200 == request.responseStatusCode)
+    {
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
+        return [result.messages copy];
     }
     else if(500 == request.responseStatusCode)
     {

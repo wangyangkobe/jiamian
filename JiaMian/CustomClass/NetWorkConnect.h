@@ -24,7 +24,8 @@
 - (HxUserModel*)userGetByCommentId:(long)CommentId;
 
 //Gender: 1; HeadImg: nil; Description: nil
-- (UserModel*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
+- (NSDictionary*)userRegisterWithName:(NSString*)UserName passWord:(NSString*)PassWord userType:(int)Type gender:(int)Gender headImg:(NSString*)HeadImg description:(NSString*)Description;
+- (NSDictionary*)userLogInWithUserNameAndPassWord:(NSString*)userName password:(NSString*)passWord;
 
 //UserId: 0; 默认使用当前用户id，若指定此参数，则查询该id对应用户的详情.
 - (UserModel*)userShowById:(int)UserId;
@@ -34,6 +35,10 @@
 
 //AreaId: 0; SinceId: 0; MaxId: INT_MAX; Count: 20; TrimArea: NO; FilterType: 0
 - (NSArray*)messageList:(long)AreaId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count trimArea:(BOOL) TrimArea filterType:(int)FilterType;
+
+// message/category	获取首页消息列表
+// tyoe: 1-Hots  2-latest; CategoryId: 消息板块Id; SinceId: 0; MaxId: INT_MAX; Count: 15
+- (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
 - (MessageModel*)messageLikeByMsgId:(long)MsgId;
