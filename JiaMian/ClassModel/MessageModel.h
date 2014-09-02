@@ -8,6 +8,8 @@
 #import "JSONModel.h"
 #import "AreaModel.h"
 #import "UserModel.h"
+#import "CommentModel.h"
+#import "VoteModel.h"
 
 @protocol MessageModel
 @end
@@ -29,6 +31,10 @@
 @property(nonatomic, strong) UserModel<Optional>* user;
 @property(nonatomic, assign) BOOL                is_official;
 @property(nonatomic, assign) BOOL                has_like;
+@property(nonatomic, assign) BOOL                voted;
+@property(nonatomic, strong) NSArray<VoteModel, Optional>*   votes;
+@property(nonatomic, strong) NSString<Optional>* topics;
+@property(nonatomic, strong) CommentModel <Optional>* hots_comment;
 
 @end
 
