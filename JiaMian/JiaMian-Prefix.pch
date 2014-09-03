@@ -44,4 +44,5 @@
     #import "ChaViewController.h"
     #import "RegAndLoginViewController.h"
     #import "HomePageViewController.h"
+    #import "UIActionSheet+Blocks.h"
 #endif

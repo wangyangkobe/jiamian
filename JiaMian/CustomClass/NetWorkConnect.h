@@ -42,9 +42,12 @@
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
 - (MessageModel*)messageLikeByMsgId:(long)MsgId;
+- (NSDictionary*)reportMessageByMsgId:(long)MsgId;
+- (NSDictionary*)reportUserByMsgId:(long)MsgId;
 
-//MsgType: 1; AreaId: 1; lat: 0.0; lom: 0.0
-- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(long)AreaId bgType:(int)BGType bgNumber:(int)BGNumer bgUrl:(NSString*)BGUrl lat:(double)Lat lon:(double)Long;
+//MsgType: 1; AreaId: 1; lat: 0.0; lom: 0.0; CategoryId: 1
+- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(long)AreaId categoryId:(long)CategoryId votes:(NSString*)Votes
+                         topic:(NSString*)Topic bgType:(int)BGType bgNumber:(int)BGNumer bgUrl:(NSString*)BGUrl lat:(double)Lat lon:(double)Long;
 
 //SinceId: 0; MaxId: INT_MAX; Count: 20
 - (NSArray*)commentShowByMsgId:(long)MsgId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;

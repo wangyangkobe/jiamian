@@ -16,5 +16,5 @@
 
 @property (weak, nonatomic) IBOutlet SAMTextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
-
+@property (assign, nonatomic) BOOL isTouPiao;
 @end

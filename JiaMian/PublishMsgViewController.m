@@ -10,7 +10,6 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UIImage+Extensions.h"
 #import "SVProgressHUD.h"
-#import "UIActionSheet+Blocks.h"
 
 static NSString* placeHolderText = @"匿名发表心中所想吧";
 
@@ -272,15 +271,32 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     {
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 320, 320, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                        //  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                          [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"huati.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
                           nil];
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [_toolBar sizeToFit];
     }
 }
-
+- (void)huaTiBtnPressed:(id)sender
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加标签(限8个字)"
+                              message:nil
+                              delegate:self
+                              cancelButtonTitle:@"取消"
+                              otherButtonTitles:@"确定", nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+   // textField.delegate = self;
+    [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    [alertView show];
+}
+- (void)textFieldDidChange:(UITextField*)textField {
+    if (textField.text.length > 8) {
+        textField.text = [textField.text substringToIndex:8];
+    }
+}
 - (void)cameraBtnPressed:(id)sender
 {
     UIActionSheet* chooseImageSheet = [[UIActionSheet alloc] initWithTitle:nil
@@ -404,21 +420,21 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
-    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
-                                                                   msgType:MessageTypeText
-                                                                    areaId:selectZoneId
-                                                                    bgType:backgroudType
-                                                                  bgNumber:-1
-                                                                     bgUrl:qiNiuImagePath
-                                                                       lat:0.0
-                                                                       lon:0.0];
-    [SVProgressHUD dismiss];
-    if (message)
-    {
-        //通知父视图获取最新数据
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-        [self.navigationController popViewControllerAnimated:YES ];
-    }
+//    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
+//    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
+//                                                                   msgType:MessageTypeText
+//                                                                    areaId:selectZoneId
+//                                                                    bgType:backgroudType
+//                                                                  bgNumber:-1
+//                                                                     bgUrl:qiNiuImagePath
+//                                                                       lat:0.0
+//                                                                       lon:0.0];
+//    [SVProgressHUD dismiss];
+//    if (message)
+//    {
+//        //通知父视图获取最新数据
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+//        [self.navigationController popViewControllerAnimated:YES ];
+//    }
 }
 @end

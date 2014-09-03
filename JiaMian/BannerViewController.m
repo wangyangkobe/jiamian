@@ -133,6 +133,7 @@
         else
         {
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            homeVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:homeVC animated:YES];
         }
     }

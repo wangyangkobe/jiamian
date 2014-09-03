@@ -18,14 +18,21 @@
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
 #define kTopicNumberLabel 8993
-
+#define kFaYanBtnTag      8990
+#define kTouPiaoBtnTag    8991
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
 @interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
 {
     NSMutableArray* messageArray;
+    UIView* parentView;
+    UIImageView* plusImageView;
+    
+    BOOL flag; //是否点击加号
 }
 @property (strong, nonatomic) UIView* moreBtnView;
+@property (strong, nonatomic) UIButton* fayanBtn;
+@property (strong, nonatomic) UIButton* toupiaoBtn;
 @end
 
 @implementation HomePageViewController
@@ -38,7 +45,36 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     return self;
 }
-
+- (UIButton*)fayanBtn {
+    if (_fayanBtn == nil) {
+        _fayanBtn =[[UIButton alloc]initWithFrame:CGRectMake(50, 0, 50, 50)];
+        [_fayanBtn addTarget:self action:@selector(handleBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_fayanBtn setTitle:@"发言" forState:UIControlStateNormal];
+        [_fayanBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _fayanBtn.titleLabel.font = [UIFont systemFontOfSize: 18.0];
+        _fayanBtn.tag = kFaYanBtnTag;
+        _fayanBtn.backgroundColor=[UIColor clearColor];
+    }
+    return _fayanBtn;
+}
+- (UIButton*)toupiaoBtn {
+    if (_toupiaoBtn == nil) {
+        _toupiaoBtn =[[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
+        [_toupiaoBtn addTarget:self action:@selector(handleBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [_toupiaoBtn setTitle:@"投票" forState:UIControlStateNormal];
+        [_toupiaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _toupiaoBtn.titleLabel.font = [UIFont systemFontOfSize: 18.0];
+        _toupiaoBtn.tag = kTouPiaoBtnTag;
+        _toupiaoBtn.backgroundColor=[UIColor clearColor];
+    }
+    return _toupiaoBtn;
+}
+- (void)handleBtnPressed:(UIButton*)sender {
+    [self handlePlusTapped];
+    PublishMsgViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
+    publishVC.isTouPiao = (sender.tag == kTouPiaoBtnTag);
+    [self.navigationController pushViewController:publishVC animated:YES];
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -77,6 +113,45 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                                                      action:@selector(handleSwipeLeft:)];
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [self.pullTableView addGestureRecognizer:recognizer];
+    
+    parentView = [[UIView alloc] initWithFrame:CGRectMake(0, 280, 50, 50)];
+    parentView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 280, 50, 50)];
+    [plusImageView setImage:[UIImage imageNamed:@"plus.png"]];
+    [plusImageView setBackgroundColor:[UIColor clearColor]];
+    
+    [self.view addSubview:parentView];
+    [self.view addSubview:plusImageView];
+    UITapGestureRecognizer* plusTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePlusTapped)];
+    plusTapGesture.numberOfTapsRequired = 1;
+    [plusImageView setUserInteractionEnabled:YES];
+    [plusImageView addGestureRecognizer:plusTapGesture];
+}
+- (void)handlePlusTapped
+{
+    if (NO == flag)
+    {
+        [UIView transitionWithView:parentView duration:0.1 options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:^{
+                            parentView.frame = CGRectMake(0, 280, 150, 50);
+                            plusImageView.transform = CGAffineTransformMakeRotation(0.8);
+                            [parentView addSubview:self.fayanBtn];
+                            [parentView addSubview:self.toupiaoBtn];
+                        } completion:^(BOOL finish){
+                            flag = YES;
+                        }];
+    }
+    else
+    {
+        [UIView animateWithDuration:0.1 animations:^{
+            plusImageView.transform = CGAffineTransformMakeRotation(0);
+            [self.fayanBtn removeFromSuperview];
+            [self.toupiaoBtn removeFromSuperview];
+            parentView.frame = CGRectMake(0, 280, 50, 50);
+        } completion:^(BOOL finished) {
+            flag = NO;
+        }];
+    }
 }
 - (void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
 {
@@ -144,7 +219,18 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [self.navigationController pushViewController:chatVC animated:YES];
         
     } else {
-        
+        [UIActionSheet showInView:self.pullTableView
+                        withTitle:@"举报"
+                cancelButtonTitle:@"Cancel"
+           destructiveButtonTitle:nil
+                otherButtonTitles:@[@"举报消息", @"举报用户"]
+                         tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                             if (0 == buttonIndex) {
+                                 [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                             } else if (1 == buttonIndex) {
+                                 [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                             }
+                         }];
     }
     [_moreBtnView removeFromSuperview];
 }

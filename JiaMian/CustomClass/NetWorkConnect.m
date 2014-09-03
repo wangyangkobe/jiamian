@@ -286,7 +286,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (MessageModel*)messageCreate:(NSString*)Text msgType:(int)MsgType areaId:(long)AreaId bgType:(int)BGType bgNumber:(int)BGNumer bgUrl:(NSString *)BGUrl lat:(double)Lat lon:(double)Long
+- (MessageModel*)messageCreate:(NSString *)Text msgType:(int)MsgType areaId:(long)AreaId categoryId:(long)CategoryId votes:(NSString *)Votes topic:(NSString *)Topic bgType:(int)BGType bgNumber:(int)BGNumer bgUrl:(NSString *)BGUrl lat:(double)Lat lon:(double)Long
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -298,9 +298,9 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithInt:MsgType]  forKey:@"message_type"];
-    [request setPostValue:[NSNumber numberWithLong:AreaId]   forKey:@"area_id"];
+    [request setPostValue:[NSNumber numberWithLong:AreaId]  forKey:@"area_id"];
     [request setPostValue:[NSNumber numberWithInt:BGType]   forKey:@"background_type"];
-    [request setPostValue:[NSNumber numberWithInt:BGNumer]   forKey:@"background_no"];
+    [request setPostValue:[NSNumber numberWithInt:BGNumer]  forKey:@"background_no"];
     if (BGUrl)
     {
         [request setPostValue:BGUrl forKey:@"background_url"];
@@ -308,6 +308,11 @@ static ASIDownloadCache* myCache;
     [request setPostValue:[NSNumber numberWithDouble:Lat]   forKey:@"lat"];
     [request setPostValue:[NSNumber numberWithDouble:Long]  forKey:@"long"];
     
+    [request setPostValue:[NSNumber numberWithLong:CategoryId] forKey:@"category_id"];
+    if (Votes)
+        [request setPostValue:Votes forKey:@"votes"];
+    if (Topic)
+         [request setPostValue:Topic forKey:@"topic"];
     [request startSynchronous];
     
     if ( 200 == [request responseStatusCode] )
@@ -799,6 +804,7 @@ static ASIDownloadCache* myCache;
     }
 }
 
+//////////////////////////////////////////////////////////////////
 - (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/category?type=%d&category_id=%ld&count=%d",
@@ -833,5 +839,37 @@ static ASIDownloadCache* myCache;
         ErrorAlertView;
         return [NSArray array];
     }
+}
+//////////////////////////////////////////////////////////////////
+- (NSDictionary*)reportMessageByMsgId:(long)MsgId {
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportmessage",  HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:MsgId] forKey:@"message_id"];
+    [request startSynchronous];
+    NSLog(@"%@, %@", requestUrl, request.responseString);
+    if ( 200 == [request responseStatusCode] )
+    {
+        NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
+        return [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    }
+    else
+        return nil;
+}
+//////////////////////////////////////////////////////////////////
+- (NSDictionary*)reportUserByMsgId:(long)MsgId {
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportuser",  HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:MsgId] forKey:@"message_id"];
+    [request startSynchronous];
+    NSLog(@"%@, %@", requestUrl, request.responseString);
+    if ( 200 == [request responseStatusCode] )
+    {
+        NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];
+        return [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    }
+    else
+        return nil;
 }
 @end
