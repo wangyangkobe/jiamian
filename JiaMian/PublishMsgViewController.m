@@ -26,6 +26,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     
     NSMutableArray* selectZones;
     NSMutableDictionary* indexMapZoneName;
+    
+    UILabel* huaTiLabel;
 }
 @property (nonatomic, strong) UIToolbar* toolBar;
 @end
@@ -243,7 +245,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                              {
                                  [self publishMessageToServer];
                              }
-                             
                          }
                      }];
 }
@@ -269,11 +270,16 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     if (_toolBar == nil)
     {
+        huaTiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+        [huaTiLabel setFont:[UIFont systemFontOfSize:15]];
+        [huaTiLabel setBackgroundColor:[UIColor clearColor]];
+        
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 320, 320, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
                           [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
                         //  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
                           [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"huati.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
+                          [[UIBarButtonItem alloc] initWithCustomView:huaTiLabel],
                           nil];
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         [_toolBar sizeToFit];
@@ -288,7 +294,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                               otherButtonTitles:@"确定", nil];
     [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
     UITextField *textField = [alertView textFieldAtIndex:0];
-   // textField.delegate = self;
     [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
     [alertView show];
 }
@@ -310,6 +315,14 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 -(void)doneWithKeyboard:(id)sender
 {
     
+}
+#pragma mark - UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+     UITextField *textField = [alertView textFieldAtIndex:0];
+    NSLog(@"%@", textField.text);
+    if (1 == buttonIndex) {
+        [huaTiLabel setText:textField.text];
+    }
 }
 #pragma mark - UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -348,7 +361,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.backgroundImageView setImage:selectedImage];
     [self.textView setTextColor:UIColorFromRGB(0xffffff)];
     
-    // [self.textView resignFirstResponder];
     [self.textView becomeFirstResponder];
     
     if (!IOS_NEWER_OR_EQUAL_TO_7) // for ios6
