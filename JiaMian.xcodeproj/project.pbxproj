@@ -51,7 +51,6 @@
 		152031E619693217006E8E88 /* ic_index_star3.png in Resources */ = {isa = PBXBuildFile; fileRef = 152031E119693217006E8E88 /* ic_index_star3.png */; };
 		152031E719693217006E8E88 /* ic_index_star2.png in Resources */ = {isa = PBXBuildFile; fileRef = 152031E219693217006E8E88 /* ic_index_star2.png */; };
 		152031E819693217006E8E88 /* ic_index_star1.png in Resources */ = {isa = PBXBuildFile; fileRef = 152031E319693217006E8E88 /* ic_index_star1.png */; };
-		152031EB19693579006E8E88 /* TopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152031EA19693579006E8E88 /* TopicModel.m */; };
 		152031EC19693D0C006E8E88 /* NetWorkConnect.m in Sources */ = {isa = PBXBuildFile; fileRef = 1559671A190E71C700FB760A /* NetWorkConnect.m */; };
 		1524CE381920E52F00CAB103 /* unread_head.png in Resources */ = {isa = PBXBuildFile; fileRef = 1524CE371920E52F00CAB103 /* unread_head.png */; };
 		1524CE3C1920F27100CAB103 /* libPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1524CE3B1920F27100CAB103 /* libPushSDK.a */; };
@@ -187,6 +186,7 @@
 		D388404819A0AA5800823ACA /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404719A0AA5800823ACA /* libresolv.dylib */; };
 		D388404E19A0EC8600823ACA /* ChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D388404D19A0EC8600823ACA /* ChatListViewController.m */; };
 		D3AD331019B201FD0056D165 /* RegAndLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */; };
+		D3AE8B8419BDE72A00A40BE6 /* TopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */; };
 		D3DA699D197A44CE00D48864 /* qq_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699C197A44CE00D48864 /* qq_login_push.png */; };
 		D3DA699F197A44DC00D48864 /* sina_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699E197A44DC00D48864 /* sina_login_push.png */; };
 		D3DA69A2197A50FB00D48864 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA69A1197A50FB00D48864 /* SettingViewController.m */; };
@@ -301,8 +301,6 @@
 		152031E119693217006E8E88 /* ic_index_star3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_index_star3.png; sourceTree = "<group>"; };
 		152031E219693217006E8E88 /* ic_index_star2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_index_star2.png; sourceTree = "<group>"; };
 		152031E319693217006E8E88 /* ic_index_star1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_index_star1.png; sourceTree = "<group>"; };
-		152031E919693579006E8E88 /* TopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicModel.h; sourceTree = "<group>"; };
-		152031EA19693579006E8E88 /* TopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicModel.m; sourceTree = "<group>"; };
 		1524CE371920E52F00CAB103 /* unread_head.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unread_head.png; sourceTree = "<group>"; };
 		1524CE3A1920F27100CAB103 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		1524CE3B1920F27100CAB103 /* libPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPushSDK.a; sourceTree = "<group>"; };
@@ -579,6 +577,8 @@
 		D388404D19A0EC8600823ACA /* ChatListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatListViewController.m; sourceTree = "<group>"; };
 		D3AD330E19B201FD0056D165 /* RegAndLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegAndLoginViewController.h; sourceTree = "<group>"; };
 		D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegAndLoginViewController.m; sourceTree = "<group>"; };
+		D3AE8B8219BDE72A00A40BE6 /* TopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicModel.h; sourceTree = "<group>"; };
+		D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicModel.m; sourceTree = "<group>"; };
 		D3DA699C197A44CE00D48864 /* qq_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login_push.png; sourceTree = "<group>"; };
 		D3DA699E197A44DC00D48864 /* sina_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login_push.png; sourceTree = "<group>"; };
 		D3DA69A0197A50FB00D48864 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
@@ -1078,6 +1078,8 @@
 		15596708190E71BE00FB760A /* ClassModel */ = {
 			isa = PBXGroup;
 			children = (
+				D3AE8B8219BDE72A00A40BE6 /* TopicModel.h */,
+				D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */,
 				D3F193FB19A222C7000829FD /* HxUserModel.h */,
 				D3F193FC19A222C7000829FD /* HxUserModel.m */,
 				15596709190E71BE00FB760A /* AreaModel.h */,
@@ -1090,8 +1092,6 @@
 				15596710190E71BE00FB760A /* NotificationModel.m */,
 				15596711190E71BE00FB760A /* UserModel.h */,
 				15596712190E71BE00FB760A /* UserModel.m */,
-				152031E919693579006E8E88 /* TopicModel.h */,
-				152031EA19693579006E8E88 /* TopicModel.m */,
 				D313DB2919A986EF00AB08DB /* BannerModel.h */,
 				D313DB2A19A986EF00AB08DB /* BannerModel.m */,
 				D313DB2C19A988DA00AB08DB /* CategoryModel.h */,
@@ -1731,6 +1731,7 @@
 				152031EC19693D0C006E8E88 /* NetWorkConnect.m in Sources */,
 				150ED9D619149EE500175728 /* Reachability.m in Sources */,
 				D388404E19A0EC8600823ACA /* ChatListViewController.m in Sources */,
+				D3AE8B8419BDE72A00A40BE6 /* TopicModel.m in Sources */,
 				1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */,
 				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */,
@@ -1781,7 +1782,6 @@
 				1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */,
 				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
 				D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */,
-				152031EB19693579006E8E88 /* TopicModel.m in Sources */,
 				D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,

@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONModel.h"
+#import "MessageModel.h"
+
+@class MessageModel;
 
 @protocol TopicModel
 @end
-
 
 @interface TopicModel : JSONModel <NSCopying, NSCoding>
 
@@ -20,7 +22,7 @@
 @property (nonatomic, assign) int message_count;
 @property (nonatomic, strong) NSString* background_color;
 @property (nonatomic, strong) NSString<Optional>* img_url;
-@property (nonatomic, copy) MessageModel<Optional>* latest_message;
+@property (nonatomic, copy)   MessageModel<Optional>* latest_message;
 
 @end
 

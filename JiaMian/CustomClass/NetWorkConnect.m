@@ -824,7 +824,7 @@ static ASIDownloadCache* myCache;
     if (200 == request.responseStatusCode)
     {
         Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
-        return [result.messages copy];
+        return [NSArray arrayWithArray:result.messages];
     }
     else if(500 == request.responseStatusCode)
     {

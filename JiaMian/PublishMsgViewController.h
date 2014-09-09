@@ -13,6 +13,7 @@
 #import "SAMTextView.h"
 
 @interface PublishMsgViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @property (weak, nonatomic) IBOutlet SAMTextView *textView;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;

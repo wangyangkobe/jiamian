@@ -80,15 +80,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [hiddenKeyBoard setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.textView addGestureRecognizer:hiddenKeyBoard];
     
-    //    CGRect oldFrame = self.textView.frame;
-    //    [self.textView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
-    //    self.backgroundImageView.frame = self.textView.frame;
-    
-    //    [self.textView.layer setBorderColor: [[UIColor grayColor] CGColor]];
-    //    [self.textView.layer setBorderWidth: 1.0];
-    //    [self.textView.layer setCornerRadius:8.0f];
-    //    [self.textView.layer setMasksToBounds:YES];
-    
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
@@ -121,6 +112,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                 [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
     }
+    
+    [_scrollView setContentSize:CGSizeMake(320, SCREEN_HEIGHT*2)];
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
@@ -129,22 +122,15 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)keyboardWillShow:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);
-    
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
-    [UIView animateWithDuration:animationTime animations:^{
-        CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-        NSLog(@"键盘即将出现：%@", NSStringFromCGRect(keyBoardFrame));
-        
+    CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    [UIView animateWithDuration:animationTime animations:^{        
         float keyBoardHeight = keyBoardFrame.size.height;
         CGRect oldFrame = _textView.frame;
         CGFloat viewHeight = self.view.bounds.size.height;
         
         _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH,  viewHeight - keyBoardHeight - 44);
         _toolBar.frame = CGRectMake(0, _textView.frame.size.height, 320, 44);
-        //    if (IOS_NEWER_OR_EQUAL_TO_7)
-        //    {
-        //        _textView.contentSize = _textView.frame.size;
-        //    }
         _textView.contentSize = _textView.frame.size;
     }];
 }
