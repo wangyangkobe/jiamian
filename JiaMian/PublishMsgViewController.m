@@ -12,8 +12,9 @@
 #import "SVProgressHUD.h"
 
 static NSString* placeHolderText = @"匿名发表心中所想吧";
+#define kVoteLableTag 9999
 
-@interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, QiniuUploadDelegate>
+@interface PublishMsgViewController () <UITextViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, QiniuUploadDelegate, UITableViewDataSource, UITableViewDelegate>
 {
     UIImage* selectedImage;
     QiniuSimpleUploader* qiNiuUpLoader;
@@ -28,8 +29,11 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     NSMutableDictionary* indexMapZoneName;
     
     UILabel* huaTiLabel;
+    NSMutableArray* votesArr;
 }
-@property (nonatomic, strong) UIToolbar* toolBar;
+@property (nonatomic, strong) UIView* headerView;
+@property (nonatomic, strong) UIImageView* maskImageView;
+@property (nonatomic, strong) SAMTextView* inputTextView;
 @end
 
 @implementation PublishMsgViewController
@@ -46,10 +50,6 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
-    
-    CGRect oldFrame = _textView.frame;
-    _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, 320, 320);
-    _textView.contentSize = _textView.frame.size;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -63,22 +63,17 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
+    self.tableView.tableHeaderView = [self configureHeaderView];
+    [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    
+    [self configureToolBar];
+    votesArr = [NSMutableArray array];
+    [votesArr addObject:@"添加一个选项"];
+    
     previouRect = CGRectZero;
     lineNumbers = 0;
-    
-    self.textView.delegate = self;
-    [self.textView setScrollEnabled:YES];
-    [self.textView setUserInteractionEnabled:YES];
-    
-    [self.textView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
-    [self configurePlaceHolderText:placeHolderText withColor:[UIColor darkGrayColor]];
-    [self configureToolBar];
-    [self.view addSubview:_toolBar];
-    
-    UISwipeGestureRecognizer* hiddenKeyBoard = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                         action:@selector(hiddenKeyBoard:)];
-    [hiddenKeyBoard setDirection:UISwipeGestureRecognizerDirectionRight];
-    [self.textView addGestureRecognizer:hiddenKeyBoard];
     
     UIBarButtonItem* sendMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"发送"
                                                                           style:UIBarButtonItemStylePlain
@@ -98,10 +93,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    //  selectZones = [NSMutableArray array];
     indexMapZoneName = [NSMutableDictionary dictionary];
     
     NSData* zoneData = [[NSUserDefaults standardUserDefaults] objectForKey:kSelectZones];
+    
     selectZones = [NSKeyedUnarchiver unarchiveObjectWithData:zoneData];
     for (id element in selectZones)
     {
@@ -112,26 +107,75 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                 [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
     }
-    
-    [_scrollView setContentSize:CGSizeMake(320, SCREEN_HEIGHT*2)];
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
-    [self.textView resignFirstResponder];
+    [self.inputTextView resignFirstResponder];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60.0;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.isTouPiao)
+        return ( (votesArr.count > 4) ? 4 : votesArr.count);
+    else
+        return 0;
+}
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString* cellIdentifier = @"VoteCellIdentifier";
+    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    UILabel *voteLabel = (UILabel*)[cell.contentView viewWithTag:kVoteLableTag];
+    [voteLabel setText:[votesArr objectAtIndex:indexPath.row]];
+    
+    return cell;
+}
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加投票选项"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    alertView.tag = 5678;
+    [alertView show];
+}
+- (UIView*)configureHeaderView {
+    if (_headerView == nil) {
+        _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+        _inputTextView = [[SAMTextView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+        [_inputTextView setFont:[UIFont systemFontOfSize:20]];
+        _inputTextView.delegate = self;
+        [_inputTextView setScrollEnabled:YES];
+        [_inputTextView setUserInteractionEnabled:YES];
+        [_inputTextView addObserver:self forKeyPath:@"contentSize" options:(NSKeyValueObservingOptionNew) context:NULL];
+        _maskImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 320)];
+        [_headerView addSubview:_maskImageView];
+        [_headerView addSubview:_inputTextView];
+        
+        _inputTextView.layer.borderWidth = 1.0f;
+        _inputTextView.layer.borderColor = [[UIColor grayColor] CGColor];
+    }
+    return _headerView;
 }
 - (void)keyboardWillShow:(NSNotification*)notification
 {
     NSLog(@"call %s", __FUNCTION__);
-    CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
+    NSDictionary* info = [notification userInfo];
+    double duration = [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     CGRect keyBoardFrame = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    [UIView animateWithDuration:animationTime animations:^{        
-        float keyBoardHeight = keyBoardFrame.size.height;
-        CGRect oldFrame = _textView.frame;
+    [UIView animateWithDuration:duration animations:^{
+        _toolBar.frame = CGRectMake(0, SCREEN_HEIGHT - 44*2 - 20 - CGRectGetHeight(keyBoardFrame), 320, 44);
+        CGRect oldFrame = _inputTextView.frame;
         CGFloat viewHeight = self.view.bounds.size.height;
         
-        _textView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH,  viewHeight - keyBoardHeight - 44);
-        _toolBar.frame = CGRectMake(0, _textView.frame.size.height, 320, 44);
-        _textView.contentSize = _textView.frame.size;
+        self.inputTextView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH,
+                                              viewHeight - CGRectGetHeight(keyBoardFrame) - 44);
+        _inputTextView.contentSize = _inputTextView.frame.size;
     }];
 }
 - (void)keyboardWillHide:(NSNotification*)notification
@@ -142,11 +186,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     
     [UIView animateWithDuration:duration animations:^{
         if (IOS_NEWER_OR_EQUAL_TO_7)
-        {
-            _textView.contentSize = _textView.frame.size;
-        }
-        [self.textView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
-        [self.toolBar setFrame:CGRectMake(0, _textView.frame.size.height, SCREEN_WIDTH, 44)];
+            _inputTextView.contentSize = _inputTextView.frame.size;
+        
+        [self.inputTextView setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH)];
+        [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44*2 - 20, 320, 44)];
     }];
 }
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -164,18 +207,15 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSLog(@"%@, %lu", NSStringFromRange(range), (unsigned long)textView.text.length);
     if (range.length == 1) //删除
-    {
         return YES;
-    }
     if (IOS_NEWER_OR_EQUAL_TO_7 && [self numberOfLinesInTextView:textView] > 9)
         return NO;
     else
     {
         if (lineNumbers > 8) return NO;  // ios 6
     }
-
+    
     if ( (range.location > 140) || (textView.text.length > 140) )  //控制输入文本的长度
         return NO;
     else
@@ -185,26 +225,18 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     UITextPosition* pos = textView.endOfDocument;
     CGRect currentRect = [textView caretRectForPosition:pos];
-    if (currentRect.origin.y > previouRect.origin.y)
-    {
-        //new line reached, write your code
+    if (currentRect.origin.y > previouRect.origin.y) // new line reached, write your code
         lineNumbers++;
-    }
     else if(currentRect.origin.y < previouRect.origin.y)
-    {
         lineNumbers--;
-    }
     else
-    {
-    }
+    {}
     previouRect = currentRect;
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    [self.textView resignFirstResponder];
-    
     NSLog(@"%@", selectZones);
-    [UIActionSheet showInView:self.textView
+    [UIActionSheet showInView:self.inputTextView
                     withTitle:@"请选择圈子"
             cancelButtonTitle:@"Cancel"
        destructiveButtonTitle:nil
@@ -236,7 +268,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)dealloc
 {
-    [self.textView removeObserver:self forKeyPath:@"contentSize"];
+    [self.inputTextView removeObserver:self forKeyPath:@"contentSize"];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 }
@@ -249,35 +281,32 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [paragraphStyle setAlignment:NSTextAlignmentCenter];
     [hoderText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [hoderText length])];
     if (IOS_NEWER_OR_EQUAL_TO_7)
-        [self.textView  setTextContainerInset:UIEdgeInsetsMake(0, 10, 0, 10)];
-    self.textView.attributedPlaceholder = hoderText;
+        [self.inputTextView  setTextContainerInset:UIEdgeInsetsMake(0, 10, 0, 10)];
+    self.inputTextView.attributedPlaceholder = hoderText;
 }
 - (void)configureToolBar
 {
-    if (_toolBar == nil)
-    {
-        huaTiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-        [huaTiLabel setFont:[UIFont systemFontOfSize:15]];
-        [huaTiLabel setBackgroundColor:[UIColor clearColor]];
-        
-        _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 320, 320, 44)];
-        _toolBar.items = [NSArray arrayWithObjects:
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
-                        //  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"huati.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
-                          [[UIBarButtonItem alloc] initWithCustomView:huaTiLabel],
-                          nil];
-        _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        [_toolBar sizeToFit];
-    }
+    [self.toolBar setFrame:CGRectMake(0, SCREEN_HEIGHT - 44*2 - 20, 320, 44)];
+    huaTiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+    [huaTiLabel setFont:[UIFont systemFontOfSize:15]];
+    [huaTiLabel setBackgroundColor:[UIColor clearColor]];
+    
+    _toolBar.items = [NSArray arrayWithObjects:
+                      [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
+                      //  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+                      [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"huati.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
+                      [[UIBarButtonItem alloc] initWithCustomView:huaTiLabel],
+                      nil];
+    _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [_toolBar sizeToFit];
 }
 - (void)huaTiBtnPressed:(id)sender
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"添加标签(限8个字)"
-                              message:nil
-                              delegate:self
-                              cancelButtonTitle:@"取消"
-                              otherButtonTitles:@"确定", nil];
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"取消"
+                                              otherButtonTitles:@"确定", nil];
     [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
     UITextField *textField = [alertView textFieldAtIndex:0];
     [textField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
@@ -304,10 +333,22 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 #pragma mark - UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-     UITextField *textField = [alertView textFieldAtIndex:0];
-    NSLog(@"%@", textField.text);
-    if (1 == buttonIndex) {
-        [huaTiLabel setText:textField.text];
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    if (5678 == alertView.tag)
+    {
+        if (1 == buttonIndex) {
+            [votesArr insertObject:textField.text atIndex:votesArr.count-1];
+            [self.tableView reloadData];
+            NSInteger row = ( (votesArr.count == 5) ? 3 : votesArr.count-1 );
+            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]
+                                  atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+    }
+    else
+    {
+        if (1 == buttonIndex) {
+            [huaTiLabel setText:textField.text];
+        }
     }
 }
 #pragma mark - UIActionSheetDelegate
@@ -340,20 +381,12 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     NSDictionary* mediaInfoArray = (NSDictionary *)info;
     selectedImage = [mediaInfoArray objectForKey:UIImagePickerControllerEditedImage];
     
-    CGRect oldFrame = self.textView.frame;
-    [self.backgroundImageView setFrame:CGRectMake(oldFrame.origin.x, oldFrame.origin.y, SCREEN_WIDTH, SCREEN_WIDTH)];
-    self.textView.frame = self.backgroundImageView.frame;
+    [self.maskImageView setImage:selectedImage];
+    [self.inputTextView setTextColor:UIColorFromRGB(0xffffff)];
     
-    [self.backgroundImageView setImage:selectedImage];
-    [self.textView setTextColor:UIColorFromRGB(0xffffff)];
+    [self.inputTextView becomeFirstResponder];
     
-    [self.textView becomeFirstResponder];
-    
-    if (!IOS_NEWER_OR_EQUAL_TO_7) // for ios6
-    {
-        [self.textView setFrame:CGRectMake(0, 0, 320, 200 - 44)];
-    }
-    [self.textView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
+    [self.inputTextView setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"blackalpha"]]];
     [self configurePlaceHolderText:placeHolderText withColor:[UIColor whiteColor]];
     
     imagePath = [UIImage saveImage:selectedImage withName:@"fuck"];
@@ -361,7 +394,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self dismissViewControllerAnimated:YES completion:^{
-        [self.textView becomeFirstResponder];
+        [self.inputTextView becomeFirstResponder];
     }];
 }
 #pragma mark - QiniuUploadDelegate
@@ -418,21 +451,21 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-//    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
-//    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
-//                                                                   msgType:MessageTypeText
-//                                                                    areaId:selectZoneId
-//                                                                    bgType:backgroudType
-//                                                                  bgNumber:-1
-//                                                                     bgUrl:qiNiuImagePath
-//                                                                       lat:0.0
-//                                                                       lon:0.0];
-//    [SVProgressHUD dismiss];
-//    if (message)
-//    {
-//        //通知父视图获取最新数据
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-//        [self.navigationController popViewControllerAnimated:YES ];
-//    }
+    //    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
+    //    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
+    //                                                                   msgType:MessageTypeText
+    //                                                                    areaId:selectZoneId
+    //                                                                    bgType:backgroudType
+    //                                                                  bgNumber:-1
+    //                                                                     bgUrl:qiNiuImagePath
+    //                                                                       lat:0.0
+    //                                                                       lon:0.0];
+    //    [SVProgressHUD dismiss];
+    //    if (message)
+    //    {
+    //        //通知父视图获取最新数据
+    //        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+    //        [self.navigationController popViewControllerAnimated:YES ];
+    //    }
 }
 @end

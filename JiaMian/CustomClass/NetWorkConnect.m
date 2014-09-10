@@ -805,7 +805,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)categoryMsgWithType:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/category?type=%d&category_id=%ld&count=%d",
                             HOME_PAGE, type, CategoryId, Count];

@@ -134,7 +134,6 @@
         {
             HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             homeVC.hidesBottomBarWhenPushed = YES;
-            homeVC.categoryType = category.category_type;
             homeVC.categoryId = category.category_id;
             [self.navigationController pushViewController:homeVC animated:YES];
         }

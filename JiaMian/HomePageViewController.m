@@ -285,16 +285,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageForCategotry:1
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
         NSLog(@"%@", requestRes);
         [messageArray addObjectsFromArray:requestRes];
-        
-        // type = 1-热门话题
-        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
+
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             [self.pullTableView reloadData];
@@ -306,7 +304,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageForCategotry:1
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX

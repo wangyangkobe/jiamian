@@ -38,7 +38,7 @@
 
 // message/category	获取首页消息列表
 // tyoe: 1-Hots  2-latest; CategoryId: 消息板块Id; SinceId: 0; MaxId: INT_MAX; Count: 15
-- (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
+- (NSArray*)categoryMsgWithType:(int)Type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count;
 
 - (MessageModel*)messageShowByMsgId:(long)MsgId;
 - (MessageModel*)messageLikeByMsgId:(long)MsgId;

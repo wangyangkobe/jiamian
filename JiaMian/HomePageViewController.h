@@ -12,6 +12,5 @@
 
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;
 - (IBAction)publishMessage:(id)sender;
-@property (nonatomic, assign) NSInteger categoryType;
 @property (nonatomic, assign) NSInteger categoryId;
 @end
