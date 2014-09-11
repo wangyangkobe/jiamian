@@ -79,8 +79,14 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
                                                                          action:@selector(sendMsgBtnPressed:)];
+    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" 
+                                                                      style:UIBarButtonItemStyleBordered 
+                                                                     target:self 
+                                                                     action:@selector(handlePopToBack)];
+    self.navigationItem.leftBarButtonItem = leftBarButton;
     if (IOS_NEWER_OR_EQUAL_TO_7) {
         [sendMessageBarBtn setTintColor:[UIColor whiteColor]];
+        [leftBarButton setTintColor:[UIColor whiteColor]];
     }
     self.navigationItem.rightBarButtonItem = sendMessageBarBtn;
     
@@ -107,6 +113,16 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                 [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
     }
+}
+- (void)handlePopToBack {
+   [UIAlertView showWithTitle:@"提示"
+                               message:@"您已编辑了内容，是否放弃?"
+                     cancelButtonTitle:@"取消"
+                     otherButtonTitles:@[@"放弃"]
+                              tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (1 ==  buttonIndex) 
+           [self.navigationController popViewControllerAnimated:NO];
+    } 
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
@@ -451,21 +467,39 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
-    //    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
-    //    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.textView.text
-    //                                                                   msgType:MessageTypeText
-    //                                                                    areaId:selectZoneId
-    //                                                                    bgType:backgroudType
-    //                                                                  bgNumber:-1
-    //                                                                     bgUrl:qiNiuImagePath
-    //                                                                       lat:0.0
-    //                                                                       lon:0.0];
-    //    [SVProgressHUD dismiss];
-    //    if (message)
-    //    {
-    //        //通知父视图获取最新数据
-    //        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-    //        [self.navigationController popViewControllerAnimated:YES ];
-    //    }
+    NSInteger msgType;
+    NSString votesJsonStr;
+    NSString topicStr = (huaTiLabel.text.length == 0) ? nil : huaTiLabel.text;
+    if (isTouPiao) {
+        msgType = 3;
+        int votesLen = ( (votesArr.count > 4) ? 4 : votesArr.count - 1 );
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[votesArr subarrayWithRange:NSMakeRange(0, votesLen)]
+                                                         options:NSJSONWritingPrettyPrinted error:nil];
+        votesJsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    else
+    {
+        msgType = 1;
+        votesJsonStr = nil;
+    } 
+    BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.inputTextView.text
+                                                                   msgType:msgType
+                                                                    areaId:selectZoneId
+                                                                categoryId:1  //消息板块id. 默认值:1
+                                                                     votes:votesJsonStr
+                                                                     topic:topicStr
+                                                                    bgType:backgroudType
+                                                                  bgNumber:-1
+                                                                    bgUrl:qiNiuImagePath
+                                                                      lat:0.0
+                                                                      lon:0.0];
+    [SVProgressHUD dismiss];
+    if (message)
+    {
+           //通知父视图获取最新数据
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+           [self.navigationController popViewControllerAnimated:YES ];
+    }
 }
 @end
