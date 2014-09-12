@@ -71,6 +71,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self configureToolBar];
     votesArr = [NSMutableArray array];
     [votesArr addObject:@"添加一个选项"];
+    if (!_isTouPiao)
+        self.tableView.scrollEnabled = NO;
     
     previouRect = CGRectZero;
     lineNumbers = 0;
@@ -79,9 +81,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
                                                                          action:@selector(sendMsgBtnPressed:)];
-    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" 
-                                                                      style:UIBarButtonItemStyleBordered 
-                                                                     target:self 
+    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+                                                                      style:UIBarButtonItemStyleBordered
+                                                                     target:self
                                                                      action:@selector(handlePopToBack)];
     self.navigationItem.leftBarButtonItem = leftBarButton;
     if (IOS_NEWER_OR_EQUAL_TO_7) {
@@ -115,14 +117,14 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     }
 }
 - (void)handlePopToBack {
-   [UIAlertView showWithTitle:@"提示"
-                               message:@"您已编辑了内容，是否放弃?"
-                     cancelButtonTitle:@"取消"
-                     otherButtonTitles:@[@"放弃"]
-                              tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (1 ==  buttonIndex) 
-           [self.navigationController popViewControllerAnimated:NO];
-    } 
+    [UIAlertView showWithTitle:@"提示"
+                       message:@"您已编辑了内容，是否放弃?"
+             cancelButtonTitle:@"取消"
+             otherButtonTitles:@[@"放弃"]
+                      tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                          if (1 ==  buttonIndex)
+                              [self.navigationController popViewControllerAnimated:NO];
+                      } ];
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
@@ -468,20 +470,24 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)publishMessageToServer
 {
     NSInteger msgType;
-    NSString votesJsonStr;
-    NSString topicStr = (huaTiLabel.text.length == 0) ? nil : huaTiLabel.text;
-    if (isTouPiao) {
+    NSString *votesJsonStr;
+    NSString *topicStr = (huaTiLabel.text.length == 0) ? nil : huaTiLabel.text;
+    if (_isTouPiao) {
+        if (votesArr.count <= 1) {
+            AlertContent(@"亲，至少要有一个投票项!");
+            return;
+        }
         msgType = 3;
         int votesLen = ( (votesArr.count > 4) ? 4 : votesArr.count - 1 );
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[votesArr subarrayWithRange:NSMakeRange(0, votesLen)]
-                                                         options:NSJSONWritingPrettyPrinted error:nil];
+                                                           options:NSJSONWritingPrettyPrinted error:nil];
         votesJsonStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     else
     {
         msgType = 1;
         votesJsonStr = nil;
-    } 
+    }
     BackGroundImageType backgroudType = ( (imagePath == nil) ? BackGroundWithoutImage : BackGroundWithImage );
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.inputTextView.text
                                                                    msgType:msgType
@@ -491,15 +497,15 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                                      topic:topicStr
                                                                     bgType:backgroudType
                                                                   bgNumber:-1
-                                                                    bgUrl:qiNiuImagePath
-                                                                      lat:0.0
-                                                                      lon:0.0];
+                                                                     bgUrl:qiNiuImagePath
+                                                                       lat:0.0
+                                                                       lon:0.0];
     [SVProgressHUD dismiss];
     if (message)
     {
-           //通知父视图获取最新数据
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
-           [self.navigationController popViewControllerAnimated:YES ];
+        //通知父视图获取最新数据
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"publishMessageSuccess" object:self userInfo:nil];
+        [self.navigationController popViewControllerAnimated:YES ];
     }
 }
 @end

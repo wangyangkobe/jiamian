@@ -819,11 +819,13 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+  //  NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
     
     if (200 == request.responseStatusCode)
     {
-        Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
+        NSError* error;
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
+        NSLog(@"error = %@", error);
         return [NSArray arrayWithArray:result.messages];
     }
     else if(500 == request.responseStatusCode)

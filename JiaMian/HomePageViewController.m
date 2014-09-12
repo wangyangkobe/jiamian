@@ -75,6 +75,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     publishVC.isTouPiao = (sender.tag == kTouPiaoBtnTag);
     [self.navigationController pushViewController:publishVC animated:YES];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -292,7 +293,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                                              count:20];
         NSLog(@"%@", requestRes);
         [messageArray addObjectsFromArray:requestRes];
-
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             [self.pullTableView reloadData];
@@ -423,12 +424,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
-                                                                    sinceId:sinceId
-                                                                      maxId:INT_MAX
-                                                                      count:20
-                                                                   trimArea:NO
-                                                                 filterType:0];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
+        
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
@@ -447,12 +444,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
-                                                                    sinceId:0
-                                                                      maxId:lastMessage.message_id
-                                                                      count:20
-                                                                   trimArea:NO
-                                                                 filterType:0];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:0 maxId:lastMessage.message_id count:20];
+        
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];
         
