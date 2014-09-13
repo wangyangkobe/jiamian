@@ -10,6 +10,8 @@
 #import "UserModel.h"
 #import "CommentModel.h"
 #import "VoteModel.h"
+#import "TopicModel.h"
+#import "CategoryModel.h"
 
 @protocol MessageModel
 @end
@@ -27,19 +29,27 @@
 @property(nonatomic, assign) int                 background_no;   //背景图片序号（仅当type为1有效，否则null）
 @property(nonatomic, assign) int                 background_no2;
 @property(nonatomic, strong) NSString<Optional>* background_url;  //背景图片序号（仅当type为2有效，否则null）
-@property(nonatomic, strong) AreaModel*          area;
+@property(nonatomic, strong) AreaModel<Optional>*  area;
 @property(nonatomic, strong) UserModel<Optional>* user;
 @property(nonatomic, assign) BOOL                is_official;
+@property(nonatomic, assign) BOOL                is_owner;
 @property(nonatomic, assign) BOOL                has_like;
 @property(nonatomic, assign) BOOL                voted;
 @property(nonatomic, strong) NSArray<VoteModel, Optional>*   votes;
 @property(nonatomic, strong) NSArray<Optional>* topics;
 @property(nonatomic, strong) CommentModel <Optional>* hots_comment;
+@property(nonatomic, strong) NSString<Optional>* message_key;
+@property(nonatomic, assign) int                 real_like_count;
+@property(nonatomic, assign) int                 report_count;
+@property(nonatomic, assign) int                 real_comment_count;
+@property(nonatomic, assign) int                 message_status;
+@property(nonatomic, strong) CategoryModel<Optional>*      category;
 
 @end
 
 @interface Messages : JSONModel
 
+@property(strong, nonatomic) NSString* categoryName;
 @property(strong, nonatomic) NSArray<MessageModel>* messages;
 
 @end

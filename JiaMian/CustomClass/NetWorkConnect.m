@@ -420,7 +420,9 @@ static ASIDownloadCache* myCache;
     
     if (200 == request.responseStatusCode)
     {
-        Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:nil];
+        NSError* error;
+        Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
+        NSLog(@"%s, error = %@", __func__, error);
         if (result)
             return  [result.notifications copy];
         else
@@ -805,7 +807,7 @@ static ASIDownloadCache* myCache;
 }
 
 //////////////////////////////////////////////////////////////////
-- (NSArray*)messageForCategotry:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
+- (NSArray*)categoryMsgWithType:(int)type categoryId:(long)CategoryId sinceId:(long)SinceId maxId:(long)MaxId count:(int)Count
 {
     NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/category?type=%d&category_id=%ld&count=%d",
                             HOME_PAGE, type, CategoryId, Count];
@@ -819,12 +821,14 @@ static ASIDownloadCache* myCache;
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
     
-    NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
+  //  NSLog(@"URL = %@, code = %d, %@", requestUrl, request.responseStatusCode, request.responseString);
     
     if (200 == request.responseStatusCode)
     {
-        Messages* result = [[Messages alloc] initWithString:[request responseString] error:nil];
-        return [result.messages copy];
+        NSError* error;
+        Messages* result = [[Messages alloc] initWithString:[request responseString] error:&error];
+        NSLog(@"error = %@", error);
+        return [NSArray arrayWithArray:result.messages];
     }
     else if(500 == request.responseStatusCode)
     {

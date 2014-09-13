@@ -79,6 +79,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     publishVC.isTouPiao = (sender.tag == kTouPiaoBtnTag);
     [self.navigationController pushViewController:publishVC animated:YES];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -95,7 +96,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [self.pullTableView registerNib:[UINib nibWithNibName:@"MsgTableViewCell" bundle:nil] forCellReuseIdentifier:msgCellIdentifier];
     
     [self fetchDataFromServer];
-    [[NetWorkConnect sharedInstance] messageForCategotry:1 categoryId:3 sinceId:0 maxId:INT_MAX count:15];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(refreshTable)
@@ -306,16 +306,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
-                                                                   sinceId:0
-                                                                     maxId:INT_MAX
-                                                                     count:20
-                                                                  trimArea:NO
-                                                                filterType:0];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
+                                                                        categoryId:_categoryId
+                                                                           sinceId:0
+                                                                             maxId:INT_MAX
+                                                                             count:20];
+        NSLog(@"%@", requestRes);
         [messageArray addObjectsFromArray:requestRes];
         
-        // type = 1-热门话题
-        requestRes = [[NetWorkConnect sharedInstance] topicList:0 maxId:INT_MAX type:1 count:3];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             [self.pullTableView reloadData];
@@ -327,12 +325,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] messageList:0
-                                                                   sinceId:0
-                                                                     maxId:INT_MAX
-                                                                     count:20
-                                                                  trimArea:NO
-                                                                filterType:0];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1
+                                                                        categoryId:_categoryId
+                                                                           sinceId:0
+                                                                             maxId:INT_MAX
+                                                                             count:20];
         [messageArray addObjectsFromArray:requestRes];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.pullTableView reloadData];
@@ -447,12 +444,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] messageList:0
-                                                                    sinceId:sinceId
-                                                                      maxId:INT_MAX
-                                                                      count:20
-                                                                   trimArea:NO
-                                                                 filterType:0];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
+        
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
         }
@@ -471,12 +464,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] messageList:0
-                                                                    sinceId:0
-                                                                      maxId:lastMessage.message_id
-                                                                      count:20
-                                                                   trimArea:NO
-                                                                 filterType:0];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:0 maxId:lastMessage.message_id count:20];
+        
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];
         

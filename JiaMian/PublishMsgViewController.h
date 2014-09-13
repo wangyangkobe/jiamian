@@ -14,7 +14,8 @@
 
 @interface PublishMsgViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet SAMTextView *textView;
-@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (assign, nonatomic) BOOL isTouPiao;
+
 @end
