@@ -27,8 +27,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     NSMutableArray* messageArray;
     UIView* parentView;
     UIImageView* plusImageView;
-    
     BOOL flag; //是否点击加号
+    
+    int messageType;
+    NSMutableArray* hotMsgArray;
+    NSMutableArray* latestMsgArray;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
 @property (strong, nonatomic) UIButton* fayanBtn;
@@ -83,10 +86,24 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    messageType = 1;
+    hotMsgArray = [NSMutableArray array];
+    latestMsgArray = [NSMutableArray array];
+    
+    HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
+    [segmentedControl setSelectionIndicatorHeight:2.0f];
+    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+    segmentedControl.frame = CGRectMake(80, 40, 130, 30);
+    segmentedControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    segmentedControl.selectedSegmentIndex = 0;
+    [segmentedControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView=segmentedControl;
     
     if (IOS_NEWER_OR_EQUAL_TO_7)
         self.navigationController.navigationBar.translucent = NO;
-       // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -136,6 +153,17 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [plusImageView setUserInteractionEnabled:YES];
     [plusImageView addGestureRecognizer:plusTapGesture];
     
+}
+- (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
+    messageType = (sender.selectedSegmentIndex == 0) ? 1 : 2;
+    if (messageType == 1) {
+        [messageArray removeAllObjects];
+        [messageArray addObjectsFromArray:hotMsgArray];
+    } else {
+        [messageArray removeAllObjects];
+        [messageArray addObjectsFromArray:latestMsgArray];
+    }
+    [self.pullTableView reloadData];
 }
 - (void)handlePlusTapped
 {
@@ -306,13 +334,16 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
-        NSLog(@"%@", requestRes);
         [messageArray addObjectsFromArray:requestRes];
+        [hotMsgArray addObjectsFromArray:requestRes];
+        
+        NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:0 maxId:INT_MAX count:20];
+        [latestMsgArray addObjectsFromArray:latestMsgs];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
@@ -325,11 +356,16 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:(int)messageType
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
+        if (messageType == 1) {
+            [hotMsgArray addObjectsFromArray:requestRes];
+        } else {
+            [latestMsgArray addObjectsFromArray:requestRes];
+        }
         [messageArray addObjectsFromArray:requestRes];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [self.pullTableView reloadData];
@@ -444,7 +480,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
         
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];
@@ -464,7 +500,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* lastMessage = [messageArray lastObject];
-        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 categoryId:_categoryId sinceId:0 maxId:lastMessage.message_id count:20];
+        NSArray* loadMoreRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType categoryId:_categoryId sinceId:0 maxId:lastMessage.message_id count:20];
         
         __block NSInteger fromIndex = [messageArray count];
         [messageArray addObjectsFromArray:loadMoreRes];

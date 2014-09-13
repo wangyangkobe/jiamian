@@ -224,11 +224,7 @@
 		D388404819A0AA5800823ACA /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404719A0AA5800823ACA /* libresolv.dylib */; };
 		D388404E19A0EC8600823ACA /* ChatListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D388404D19A0EC8600823ACA /* ChatListViewController.m */; };
 		D3AD331019B201FD0056D165 /* RegAndLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */; };
-
 		D3AE8B8419BDE72A00A40BE6 /* TopicModel.m in Sources */ = {isa = PBXBuildFile; fileRef = D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */; };
-		D3DA699D197A44CE00D48864 /* qq_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699C197A44CE00D48864 /* qq_login_push.png */; };
-		D3DA699F197A44DC00D48864 /* sina_login_push.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA699E197A44DC00D48864 /* sina_login_push.png */; };
-
 		D3DA69A2197A50FB00D48864 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3DA69A1197A50FB00D48864 /* SettingViewController.m */; };
 		D3DA69B9197A597900D48864 /* bg_drawable_11.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69B3197A597900D48864 /* bg_drawable_11.png */; };
 		D3DA69BA197A597900D48864 /* bg_drawable_12.png in Resources */ = {isa = PBXBuildFile; fileRef = D3DA69B4197A597900D48864 /* bg_drawable_12.png */; };
@@ -508,8 +504,8 @@
 		15FFC0D3195D474D0033AD23 /* ZoneDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoneDetailViewController.h; sourceTree = "<group>"; };
 		15FFC0D4195D474D0033AD23 /* ZoneDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoneDetailViewController.m; sourceTree = "<group>"; };
 		1C47598134FC4338B1A545FC /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HMSegmentedControl.h; sourceTree = "<group>"; };
-		CF0B30DA19B950C2000B53DC /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMSegmentedControl.m; sourceTree = "<group>"; };
+		CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HMSegmentedControl.h; path = ../ClassModel/HMSegmentedControl.h; sourceTree = "<group>"; };
+		CF0B30DA19B950C2000B53DC /* HMSegmentedControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HMSegmentedControl.m; path = ../ClassModel/HMSegmentedControl.m; sourceTree = "<group>"; };
 		CF0B30E019B956CF000B53DC /* topic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = topic.png; sourceTree = "<group>"; };
 		CF0B30E419B956DE000B53DC /* camera.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera.png; sourceTree = "<group>"; };
 		CF0B30E619B95866000B53DC /* camera@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera@2x.png"; sourceTree = "<group>"; };
@@ -653,8 +649,6 @@
 		D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegAndLoginViewController.m; sourceTree = "<group>"; };
 		D3AE8B8219BDE72A00A40BE6 /* TopicModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopicModel.h; sourceTree = "<group>"; };
 		D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopicModel.m; sourceTree = "<group>"; };
-		D3DA699C197A44CE00D48864 /* qq_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qq_login_push.png; sourceTree = "<group>"; };
-		D3DA699E197A44DC00D48864 /* sina_login_push.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sina_login_push.png; sourceTree = "<group>"; };
 		D3DA69A0197A50FB00D48864 /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		D3DA69A1197A50FB00D48864 /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		D3DA69B3197A597900D48864 /* bg_drawable_11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_drawable_11.png; sourceTree = "<group>"; };
@@ -1055,6 +1049,8 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */,
+				CF0B30DA19B950C2000B53DC /* HMSegmentedControl.m */,
 				D3F193FE19A23094000829FD /* UIBubbleTableView */,
 				15FFC0CA195CFA980033AD23 /* SAMTextView */,
 				153C70301943DB860045A0FC /* SVProgressHUD */,
@@ -1147,8 +1143,6 @@
 		15596708190E71BE00FB760A /* ClassModel */ = {
 			isa = PBXGroup;
 			children = (
-				CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */,
-				CF0B30DA19B950C2000B53DC /* HMSegmentedControl.m */,
 				D3AE8B8219BDE72A00A40BE6 /* TopicModel.h */,
 				D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */,
 				D3F193FB19A222C7000829FD /* HxUserModel.h */,

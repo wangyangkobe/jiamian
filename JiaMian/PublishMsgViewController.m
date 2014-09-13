@@ -81,7 +81,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                                                                           style:UIBarButtonItemStylePlain
                                                                          target:self
                                                                          action:@selector(sendMsgBtnPressed:)];
-    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"Back"
+    UIBarButtonItem* leftBarButton = [[UIBarButtonItem alloc] initWithTitle:@"返回"
                                                                       style:UIBarButtonItemStyleBordered
                                                                      target:self
                                                                      action:@selector(handlePopToBack)];

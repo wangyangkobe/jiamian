@@ -21,5 +21,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *qqBtn;
 @property (weak, nonatomic) IBOutlet UIButton *joinIn;
 
+@property (weak, nonatomic) IBOutlet UIImageView *enterImageView;
 
 @end

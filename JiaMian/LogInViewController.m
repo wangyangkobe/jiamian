@@ -20,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *tencentQQLogIn;
 @property (weak, nonatomic) IBOutlet UIButton *jonInNowPressed;
 
-
 @end
 
 @implementation LogInViewController
@@ -64,8 +63,16 @@
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
     //_tencentOAuth.redirectURI = kTencentQQRedirectURI;
     _permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
+    
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipleLeftEnter:)];
+    [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.enterImageView addGestureRecognizer:swipeLeft];
 }
-
+- (void)swipleLeftEnter:(UISwipeGestureRecognizer *)recognizer {
+    NSLog(@"%s", __FUNCTION__);
+    BannerViewController* bannerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
+    [[UIApplication sharedApplication].keyWindow setRootViewController:bannerVC];
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -201,9 +208,6 @@
     RegAndLoginViewController* regVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
     regVC.isRegister = YES;
     [self.navigationController pushViewController:regVC animated:YES];
-   
-    
-   
 }
 
 //右滑直接进入板块

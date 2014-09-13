@@ -53,8 +53,6 @@
     statusBarView.backgroundColor=UIColorFromRGB(0x293645);
     [self.view addSubview:statusBarView];
     
-  
-    
     //透明View
     UIView* scView=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
     scView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
@@ -64,8 +62,6 @@
     _scView1=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
     _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
     [self.collectionView addSubview:_scView1];
-
-    
     
     // Do any additional setup after loading the view.
     self.collectionView.dataSource = self;
@@ -82,19 +78,17 @@
                                 bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCategoryCellIdentifier];
     
-    
-    
     //tabbar不透明
     if (IOS_NEWER_OR_EQUAL_TO_7)
         self.tabBarController.tabBar.translucent = NO;
     //tabar整个的图片
     UIImage *image = [UIImage imageNamed:@"button.png"];
-     [self.tabBarController.tabBar setBackgroundImage:image];
+    [self.tabBarController.tabBar setBackgroundImage:image];
     
-     //tabar选中后的图片
-     self.tabBarController.tabBar.selectedImageTintColor=[UIColor whiteColor];
+    //tabar选中后的图片
+    self.tabBarController.tabBar.selectedImageTintColor=[UIColor whiteColor];
     //self.tabBarController.tabBar.selectionIndicatorImage = [UIImage imageNamed:@"gointolist.png.jpg"];
-
+    
 }
 - (void)handleScrollByTime
 {

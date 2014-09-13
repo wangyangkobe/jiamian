@@ -686,7 +686,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ApJ-NM-pcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2394" y="-1300"/>
+            <point key="canvasLocation" x="2133" y="-1300"/>
         </scene>
         <!--Message Detail View Controller-->
         <scene sceneID="rh8-go-sAK">
@@ -1015,12 +1015,17 @@
                                     <action selector="jonInNowPressed:" destination="gKw-bS-p2U" eventType="touchUpInside" id="gDL-Ia-gbb"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="V9O-hi-4Vk">
+                                <rect key="frame" x="200" y="428" width="100" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="F3d-oN-GxK"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="enterImageView" destination="V9O-hi-4Vk" id="Jp5-K5-qdM"/>
                         <outlet property="joinIn" destination="rGf-iy-eZ7" id="kcd-sD-Avs"/>
                         <outlet property="jonInNowPressed" destination="rGf-iy-eZ7" id="r0L-q4-cjL"/>
                         <outlet property="qqBtn" destination="ErB-Ma-KrF" id="8x8-7U-ig4"/>
@@ -1031,7 +1036,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eyR-I0-ib7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1895" y="-1300"/>
+            <point key="canvasLocation" x="1757" y="-1300"/>
         </scene>
     </scenes>
     <resources>

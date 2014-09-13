@@ -31,18 +31,17 @@
 {
     [super viewDidLoad];
     
-    
     // Do any additional setup after loading the view.
-    HMSegmentedControl *segmentedControl1 = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"回复", @"私信"]];
-    [segmentedControl1 setSelectionIndicatorHeight:2.0f];
-    segmentedControl1.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    segmentedControl1.frame = CGRectMake(80, 40, 130, 30);
-    segmentedControl1.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    segmentedControl1.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-    segmentedControl1.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-    //    [segmentedControl1 addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+    HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"回复", @"私信"]];
+    [segmentedControl setSelectionIndicatorHeight:2.0f];
+    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+    segmentedControl.frame = CGRectMake(80, 40, 130, 30);
+    segmentedControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
+    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    [segmentedControl addTarget:self action:@selector(segmentedControlHasChangedValue:) forControlEvents:UIControlEventValueChanged];
+    self.navigationItem.titleView=segmentedControl;
     
-    self.navigationItem.titleView=segmentedControl1;
     //设置不透明
     if (IOS_NEWER_OR_EQUAL_TO_7)
         self.navigationController.navigationBar.translucent = NO;
@@ -52,9 +51,6 @@
     [self addChildViewController:_currentVC];
     [self.view addSubview:_currentVC.view];
     [_currentVC didMoveToParentViewController:self];
-    
-    
-    
 }
 
 - (void)didReceiveMemoryWarning

@@ -45,4 +45,5 @@
     #import "RegAndLoginViewController.h"
     #import "HomePageViewController.h"
     #import "UIActionSheet+Blocks.h"
+    #import "HMSegmentedControl.h"
 #endif
