@@ -60,9 +60,6 @@
     [logo setImage:[UIImage imageNamed:@"logo.png"]];
     [self.view addSubview:logo];
    
-    
-
-    
     // Do any additional setup after loading the view.
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
     //_tencentOAuth.redirectURI = kTencentQQRedirectURI;

@@ -282,7 +282,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tah-3u-nbe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2414" y="39"/>
+            <point key="canvasLocation" x="2674" y="-525"/>
         </scene>
         <!--Cha View Controller-->
         <scene sceneID="2CH-7E-ImP">
@@ -642,14 +642,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="haS-5U-NnG">
-                                <rect key="frame" x="16.5" y="143" width="231" height="18"/>
+                                <rect key="frame" x="17" y="143" width="231" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ej8-b4-d2H">
-                                <rect key="frame" x="22.5" y="321" width="127" height="37"/>
+                                <rect key="frame" x="23" y="321" width="127" height="37"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="QQ登陆" backgroundImage="qq.png">
@@ -660,7 +660,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hxB-Sp-lHM">
-                                <rect key="frame" x="170.5" y="321" width="127" height="37"/>
+                                <rect key="frame" x="171" y="321" width="127" height="37"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="微博登陆" backgroundImage="weibo.png">
@@ -668,7 +668,7 @@
                                 </state>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gengduodenglu.png" id="OIi-ga-oI0">
-                                <rect key="frame" x="44" y="269.5" width="216" height="11"/>
+                                <rect key="frame" x="44" y="270" width="216" height="11"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </imageView>
                         </subviews>
@@ -970,7 +970,7 @@
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ErB-Ma-KrF">
-                                <rect key="frame" x="29" y="352.5" width="127" height="37"/>
+                                <rect key="frame" x="29" y="352" width="127" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="QQ登陆" backgroundImage="qq.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -982,7 +982,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="B2f-r9-Fio">
-                                <rect key="frame" x="164" y="352.5" width="127" height="37"/>
+                                <rect key="frame" x="164" y="352" width="127" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                 <state key="normal" title="微博登陆" backgroundImage="weibo.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
