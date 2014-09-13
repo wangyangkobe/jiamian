@@ -420,7 +420,9 @@ static ASIDownloadCache* myCache;
     
     if (200 == request.responseStatusCode)
     {
-        Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:nil];
+        NSError* error;
+        Notifications* result = [[Notifications alloc] initWithString:[request responseString] error:&error];
+        NSLog(@"%s, error = %@", __func__, error);
         if (result)
             return  [result.notifications copy];
         else
