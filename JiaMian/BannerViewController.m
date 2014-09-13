@@ -19,6 +19,7 @@
 }
 @property (retain, nonatomic) UIPageControl* pageControl;
 @property (retain, nonatomic) UILabel* bannerTitleLabel;
+@property (retain, nonatomic) UIView* scView1;
 @end
 
 #define kScrollViewTag 6001
@@ -47,6 +48,25 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //改变状态栏颜色
+    UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
+    statusBarView.backgroundColor=UIColorFromRGB(0x293645);
+    [self.view addSubview:statusBarView];
+    
+  
+    
+    //透明View
+    UIView* scView=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
+    scView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [self.collectionView addSubview:scView];
+    
+    //显示View
+    _scView1=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
+    _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    [self.collectionView addSubview:_scView1];
+
+    
+    
     // Do any additional setup after loading the view.
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
@@ -55,12 +75,26 @@
     [self fetchDataFromServer:nil];
     
     UIView *bgView = [[UIView alloc]init];
-    bgView.backgroundColor = UIColorFromRGB(0xf6f5f1);
+    bgView.backgroundColor = UIColorFromRGB(0x344c62);
     self.collectionView.backgroundView = bgView;
     
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([CategoryCell class])
                                 bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCategoryCellIdentifier];
+    
+    
+    
+    //tabbar不透明
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        self.tabBarController.tabBar.translucent = NO;
+    //tabar整个的图片
+    UIImage *image = [UIImage imageNamed:@"button.png"];
+     [self.tabBarController.tabBar setBackgroundImage:image];
+    
+     //tabar选中后的图片
+     self.tabBarController.tabBar.selectedImageTintColor=[UIColor whiteColor];
+    //self.tabBarController.tabBar.selectionIndicatorImage = [UIImage imageNamed:@"gointolist.png.jpg"];
+
 }
 - (void)handleScrollByTime
 {
@@ -145,8 +179,8 @@
         headerView = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                         withReuseIdentifier:@"BannerHeaderIdentifier"
                                                                forIndexPath:indexPath];
-        [headerView addSubview:self.bannerTitleLabel];
-        [headerView addSubview:self.pageControl];
+        [_scView1 addSubview:self.bannerTitleLabel];
+        [_scView1 addSubview:self.pageControl];
         
         UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
         NSInteger banerCount = [bannerArr count];
@@ -156,8 +190,8 @@
         
         for (int i = 0; i < banerCount; i++)
         {
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollVSize.width * i, 0,
-                                                                                   scrollVSize.width, scrollVSize.height)];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollVSize.width * i, 6,
+                                                                                   scrollVSize.width, 144)];
             BannerModel* banner = (BannerModel*)[bannerArr objectAtIndex:i];
             [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
             [scrollV addSubview:imageView];
@@ -169,20 +203,23 @@
 - (UIPageControl*)pageControl
 {
     if (_pageControl == nil) {
-        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 150, 40, 10)];
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(260, 19, 40, 10)];
         _pageControl.backgroundColor = [UIColor clearColor];
-        _pageControl.currentPageIndicatorTintColor = [UIColor blueColor];
+        _pageControl.currentPageIndicatorTintColor = UIColorFromRGB(0x0a91d7);
         _pageControl.pageIndicatorTintColor = [UIColor grayColor];
+        
     }
     _pageControl.numberOfPages = bannerArr.count;
     return _pageControl;
 }
 - (UILabel*)bannerTitleLabel {
     if (_bannerTitleLabel == nil) {
-        _bannerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 140, 250, 20)];
+        _bannerTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 9, 250, 20)];
         [_bannerTitleLabel setTextColor:[UIColor whiteColor]];
         [_bannerTitleLabel setBackgroundColor:[UIColor clearColor]];
         [_bannerTitleLabel setFont:[UIFont systemFontOfSize:14]];
+        
+        
     }
     return _bannerTitleLabel;
 }
@@ -193,19 +230,19 @@
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10.0f;
+    return 6.0f;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10.0f;
+    return 6.0f;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(15.0f, 10.0f, 15.0f, 20.0f);
+    return UIEdgeInsetsMake(6, 6, 6, 6);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(140.0f, 140.0f);
+    return CGSizeMake(151.0f, 151.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
@@ -213,7 +250,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(320, 170);
+    return CGSizeMake(320, 151);
 }
 
 - (void)didReceiveMemoryWarning

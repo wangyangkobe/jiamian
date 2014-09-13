@@ -29,13 +29,24 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"设置";
+    UILabel*titleLabel=[UILabel alloc];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+    titleLabel.backgroundColor = [UIColor clearColor];  //设置Label背景透明
+    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:18.0f];//设置文本字体与大小
+    titleLabel.textColor = [UIColor whiteColor];//设置文本颜色
+    titleLabel.text = @"设置";  //设置标题
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = titleLabel;
+    
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        self.navigationController.navigationBar.translucent = NO;
     
     UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 150)];
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setFrame:CGRectMake(80, 75, 160, 40)];
+    //[button setFrame:CGRectMake(80, 70, 160, 40)];
+    [button setFrame:CGRectMake(10, 35, 300, 40)];
     [button setBackgroundColor:UIColorFromRGB(0xff6f6f)];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setTitle:@"注销登录" forState:UIControlStateNormal];
@@ -44,6 +55,7 @@
     [footerView addSubview:button];
     
     _tableView.tableFooterView = footerView;
+    
 }
 - (void)logOut:(id)sender
 {

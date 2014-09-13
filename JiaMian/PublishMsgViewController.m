@@ -270,15 +270,16 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     if (_toolBar == nil)
     {
-        huaTiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
-        [huaTiLabel setFont:[UIFont systemFontOfSize:15]];
+        huaTiLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,180,44)];
+        [huaTiLabel setFont:[UIFont systemFontOfSize:19]];
         [huaTiLabel setBackgroundColor:[UIColor clearColor]];
+        huaTiLabel.textColor=UIColorFromRGB(0x0e77f4);
         
         _toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 320, 320, 44)];
         _toolBar.items = [NSArray arrayWithObjects:
-                          [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCamera target:self action:@selector(cameraBtnPressed:)],
-                        //  [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
-                          [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"huati.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
+                          [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"camera.png"] style:UIBarButtonItemStylePlain target:self action:@selector(cameraBtnPressed:)],
+                          
+                          [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"topic.png"] style:UIBarButtonItemStylePlain target:self action:@selector(huaTiBtnPressed:)],
                           [[UIBarButtonItem alloc] initWithCustomView:huaTiLabel],
                           nil];
         _toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -298,7 +299,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [alertView show];
 }
 - (void)textFieldDidChange:(UITextField*)textField {
-    if (textField.text.length > 8) {
+    if (textField.text.length > 16) {
         textField.text = [textField.text substringToIndex:8];
     }
 }

@@ -10,10 +10,17 @@
 #import "HomePageViewController.h"
 #import "RegisterViewController.h"
 #import "ShowInfoViewController.h"
+
+
 @interface LogInViewController () <TencentSessionDelegate>
 
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
 @property (nonatomic, retain) NSArray* permissions;
+@property (weak, nonatomic) IBOutlet UIButton *sinaWBLogIn;
+@property (weak, nonatomic) IBOutlet UIButton *tencentQQLogIn;
+@property (weak, nonatomic) IBOutlet UIButton *jonInNowPressed;
+
+
 @end
 
 @implementation LogInViewController
@@ -29,6 +36,33 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //启动界面慢慢消失
+    UIImageView* under=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 320, 640)];
+    under.backgroundColor=UIColorFromRGB(0x344c62);
+    under.alpha=1.0;
+    [UIView beginAnimations:@"Fade in" context:nil];
+    [UIView setAnimationDuration:5];
+    under.alpha=0;
+    [UIView commitAnimations];
+    [self.view addSubview:under];
+    
+    
+    UIImageView*slower=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+    [slower setImage:[UIImage imageNamed:@"logo.png"]];
+    slower.alpha=1.0;
+    [UIView beginAnimations:@"Fade in" context:nil];
+    [UIView setAnimationDuration:5];
+    slower.alpha=0;
+    [UIView commitAnimations];
+    [under addSubview:slower];
+    
+    UIImageView*logo=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+    [logo setImage:[UIImage imageNamed:@"logo.png"]];
+    [self.view addSubview:logo];
+   
+    
+
+    
     // Do any additional setup after loading the view.
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
     //_tencentOAuth.redirectURI = kTencentQQRedirectURI;
@@ -60,6 +94,7 @@
 }
 
 - (IBAction)sinaWBLogIn:(id)sender {
+    [self.sinaBtn setImage:[UIImage imageNamed:@"weibo-after.png"] forState:UIControlStateHighlighted];
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kSinaRedirectURI;
     request.scope = @"all";
@@ -68,10 +103,15 @@
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
+
+    
 }
 
 - (IBAction)tencentQQLogIn:(id)sender {
+    [self.qqBtn setImage:[UIImage imageNamed:@"QQafter.png"] forState:UIControlStateHighlighted];
     [_tencentOAuth authorize:_permissions];
+    
+    
 }
 
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -153,17 +193,23 @@
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     RegAndLoginViewController* loginVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
+    loginVC.isRegister =YES;
     [self.navigationController pushViewController:loginVC animated:YES];
 }
 
 - (IBAction)jonInNowPressed:(id)sender
 {
+    [self.joinIn setImage:[UIImage imageNamed:@"join-after.png"] forState:UIControlStateHighlighted];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     RegAndLoginViewController* regVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
     regVC.isRegister = YES;
     [self.navigationController pushViewController:regVC animated:YES];
+   
+    
+   
 }
 
+//右滑直接进入板块
 - (IBAction)enterBtnPress:(id)sender
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];

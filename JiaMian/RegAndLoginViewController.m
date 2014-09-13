@@ -8,6 +8,7 @@
 
 #import "RegAndLoginViewController.h"
 
+
 #define kUserNameTFTag 9000
 #define kPassWordTFTag 8999
 @interface RegAndLoginViewController () <UITextFieldDelegate> {
@@ -30,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.zhangHaoTextfield becomeFirstResponder];
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        self.navigationController.navigationBar.translucent = NO;
     // Do any additional setup after loading the view.
     if (_isRegister) {
         [_actionBtn setTitle:@"加入" forState:UIControlStateNormal];
@@ -50,6 +54,15 @@
     [_userNameTF addTarget:self action:@selector(validateField:) forControlEvents:UIControlEventEditingChanged];
     [_passWordTF setTag:kPassWordTFTag];
     [_passWordTF addTarget:self action:@selector(validateField:) forControlEvents:UIControlEventEditingChanged];
+}
+- (IBAction)zhangHaoTextfield:(id)sender {
+    [self.miMaTextfield becomeFirstResponder];
+}
+- (IBAction)miMaTexefield:(id)sender {
+    [self.miMaTextfield resignFirstResponder];
+}
+- (IBAction)QQdown:(id)sender {
+    NSLog(@"QQ dengru ");
 }
 
 - (void)didReceiveMemoryWarning

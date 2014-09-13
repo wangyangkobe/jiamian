@@ -16,6 +16,8 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *userNameHintLabel;
 @property (weak, nonatomic) IBOutlet UILabel *passWordHintLabel;
+@property (weak, nonatomic) IBOutlet UITextField *zhangHaoTextfield;
+@property (weak, nonatomic) IBOutlet UITextField *miMaTextfield;
 
 
 - (IBAction)handleBtnPressed:(id)sender;

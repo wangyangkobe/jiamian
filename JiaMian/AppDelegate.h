@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate, WeiboSDKDelegate>
+
 
 @property (strong, nonatomic) UIWindow *window;
 

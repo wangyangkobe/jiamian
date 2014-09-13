@@ -33,7 +33,7 @@
 @property(nonatomic, assign) BOOL                has_like;
 @property(nonatomic, assign) BOOL                voted;
 @property(nonatomic, strong) NSArray<VoteModel, Optional>*   votes;
-@property(nonatomic, strong) NSString<Optional>* topics;
+@property(nonatomic, strong) NSArray<Optional>* topics;
 @property(nonatomic, strong) CommentModel <Optional>* hots_comment;
 
 @end

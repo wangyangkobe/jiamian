@@ -33,6 +33,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @property (strong, nonatomic) UIView* moreBtnView;
 @property (strong, nonatomic) UIButton* fayanBtn;
 @property (strong, nonatomic) UIButton* toupiaoBtn;
+@property (strong, nonatomic) UIView* lineView1;
+@property (strong, nonatomic) UIView* lineView2;
 @end
 
 @implementation HomePageViewController
@@ -47,11 +49,12 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (UIButton*)fayanBtn {
     if (_fayanBtn == nil) {
-        _fayanBtn =[[UIButton alloc]initWithFrame:CGRectMake(50, 0, 50, 50)];
+        _fayanBtn =[[UIButton alloc]initWithFrame:CGRectMake(45, 0, 60, 45)];
         [_fayanBtn addTarget:self action:@selector(handleBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_fayanBtn setTitle:@"发言" forState:UIControlStateNormal];
         [_fayanBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _fayanBtn.titleLabel.font = [UIFont systemFontOfSize: 18.0];
+        _fayanBtn.titleLabel.font = [UIFont systemFontOfSize: 16.0];//gray
+        _fayanBtn.titleLabel.textColor=[UIColor whiteColor];
         _fayanBtn.tag = kFaYanBtnTag;
         _fayanBtn.backgroundColor=[UIColor clearColor];
     }
@@ -59,11 +62,12 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (UIButton*)toupiaoBtn {
     if (_toupiaoBtn == nil) {
-        _toupiaoBtn =[[UIButton alloc]initWithFrame:CGRectMake(100, 0, 50, 50)];
+        _toupiaoBtn =[[UIButton alloc]initWithFrame:CGRectMake(105, 0, 60, 45)];
         [_toupiaoBtn addTarget:self action:@selector(handleBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_toupiaoBtn setTitle:@"投票" forState:UIControlStateNormal];
         [_toupiaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _toupiaoBtn.titleLabel.font = [UIFont systemFontOfSize: 18.0];
+        _toupiaoBtn.titleLabel.font = [UIFont systemFontOfSize: 16.0];
+        _toupiaoBtn.titleLabel.textColor=[UIColor whiteColor];
         _toupiaoBtn.tag = kTouPiaoBtnTag;
         _toupiaoBtn.backgroundColor=[UIColor clearColor];
     }
@@ -78,7 +82,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    if (IOS_NEWER_OR_EQUAL_TO_7)
+        self.navigationController.navigationBar.translucent = NO;
+       // Do any additional setup after loading the view.
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -114,40 +121,53 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
     [self.pullTableView addGestureRecognizer:recognizer];
     
-    parentView = [[UIView alloc] initWithFrame:CGRectMake(0, 280, 50, 50)];
-    parentView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 280, 50, 50)];
-    [plusImageView setImage:[UIImage imageNamed:@"plus.png"]];
+    parentView = [[UIView alloc] initWithFrame:CGRectMake(0,350, 45, 45)];
+    //parentView.backgroundColor = [UIColor colorWithWhite:(0x263645) alpha:0.8];
+    parentView.backgroundColor =UIColorFromRGB(0x263645);
+    parentView.alpha=0.8;
+    plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(13.5, 13.5, 18, 18)];
+    [plusImageView setImage:[UIImage imageNamed:@"plus2.png"]];
     [plusImageView setBackgroundColor:[UIColor clearColor]];
     
     [self.view addSubview:parentView];
-    [self.view addSubview:plusImageView];
+    [parentView addSubview:plusImageView];
     UITapGestureRecognizer* plusTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePlusTapped)];
     plusTapGesture.numberOfTapsRequired = 1;
     [plusImageView setUserInteractionEnabled:YES];
     [plusImageView addGestureRecognizer:plusTapGesture];
+    
 }
 - (void)handlePlusTapped
 {
     if (NO == flag)
     {
-        [UIView transitionWithView:parentView duration:0.1 options:UIViewAnimationOptionTransitionCrossDissolve
+        [UIView transitionWithView:parentView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:^{
-                            parentView.frame = CGRectMake(0, 280, 150, 50);
-                            plusImageView.transform = CGAffineTransformMakeRotation(0.8);
+                            parentView.frame = CGRectMake(0,350,165,45);
+                            plusImageView.transform = CGAffineTransformMakeRotation(2.38);
                             [parentView addSubview:self.fayanBtn];
                             [parentView addSubview:self.toupiaoBtn];
                         } completion:^(BOOL finish){
                             flag = YES;
                         }];
+        //画线的
+        self.lineView1 = [[UIView alloc] initWithFrame:CGRectMake(45,8,1.0f,30.0f)];
+        [self.lineView1 setBackgroundColor:[UIColor whiteColor]];//lightGrayColor
+        [parentView addSubview:self.lineView1];
+        
+        self.lineView2 = [[UIView alloc] initWithFrame:CGRectMake(105,8,1.0f,30.0f)];
+        [self.lineView2 setBackgroundColor:[UIColor whiteColor]];
+        [parentView addSubview:self.lineView2];
     }
     else
     {
-        [UIView animateWithDuration:0.1 animations:^{
+        [UIView animateWithDuration:0.3 animations:^{
             plusImageView.transform = CGAffineTransformMakeRotation(0);
             [self.fayanBtn removeFromSuperview];
             [self.toupiaoBtn removeFromSuperview];
-            parentView.frame = CGRectMake(0, 280, 50, 50);
+            [self.lineView1 removeFromSuperview];
+            [self.lineView2 removeFromSuperview];
+            parentView.frame = CGRectMake(0,350,45,45);
         } completion:^(BOOL finished) {
             flag = NO;
         }];
