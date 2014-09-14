@@ -33,11 +33,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     // Do any additional setup after loading the view.
-    // UIView *blueView = [[UIView alloc]init];
-    // blueView.backgroundColor = UIColorFromRGB(0xf6f5f1);
-    // self.collectionView.backgroundView = blueView;
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
@@ -94,14 +90,11 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSLog(@"%s, %d", __FUNCTION__, huiFuArr.count);
-    NSLog(@"%@", huiFuArr);
     return huiFuArr.count;
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     self.collectionView.backgroundColor=UIColorFromRGB(0x344c62);
-    NSLog(@"%s", __FUNCTION__);
     HuiFuCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier
                                                                            forIndexPath:indexPath];
     NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
@@ -127,7 +120,6 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
         [cell.bgImageView setImage:[UIImage imageNamed:imageName]];
     }
     [cell.textLabel setText:notification.message.text];
-
     return cell;
 }
 
@@ -136,6 +128,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
     msgDetailVC.selectedMsg = notification.message;
+    msgDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:msgDetailVC animated:YES];
 }
 @end

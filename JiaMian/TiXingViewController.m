@@ -66,7 +66,7 @@
     [self transitionFromViewController:self.currentVC toViewController:vc duration:0.5
                                options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                                    [self.currentVC.view removeFromSuperview];
-                                   vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.bounds) - 44);
+                                   vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetHeight(self.view.bounds));
                                    [self.view addSubview:vc.view];
                                } completion:^(BOOL finished) {
                                    [vc didMoveToParentViewController:self];

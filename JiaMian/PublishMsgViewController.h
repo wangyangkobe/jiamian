@@ -17,5 +17,5 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (assign, nonatomic) BOOL isTouPiao;
-
+@property (assign, nonatomic) int categoryId;
 @end
