@@ -965,7 +965,7 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ios.png" id="68D-m2-Fzc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iosNew.png" id="68D-m2-Fzc">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                             </imageView>
@@ -1007,6 +1007,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rGf-iy-eZ7">
                                 <rect key="frame" x="29" y="307" width="263" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <state key="normal" title="立即加入" backgroundImage="zhuce.png">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -1042,7 +1043,7 @@
     <resources>
         <image name="first.png" width="21" height="22"/>
         <image name="gengduodenglu.png" width="251" height="13"/>
-        <image name="ios.png" width="320" height="480"/>
+        <image name="iosNew.png" width="320" height="480"/>
         <image name="loading.png" width="296" height="42"/>
         <image name="mima.png" width="296" height="40"/>
         <image name="name.png" width="296" height="40"/>
