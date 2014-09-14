@@ -51,6 +51,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
             [huiFuArr addObjectsFromArray:requestRes];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"requestRes = %@", requestRes);
             [SVProgressHUD dismiss];
             [self.collectionView reloadData];
         });
@@ -112,7 +113,12 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     cell.warningLabel.backgroundColor=UIColorFromRGB(0xf54646);
     if (notification.unread_count != 0)
     {
+        [cell.warningLabel setHidden:NO];
         [cell.warningLabel setText:[NSString stringWithFormat:@"%d", notification.unread_count]];
+    }
+    else
+    {
+        [cell.warningLabel setHidden:YES];
     }
     if (message.background_url && message.background_url.length > 0)
     {
@@ -134,8 +140,18 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
+    MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:notification.message.message_id];
+    if (!message)
+        return;
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    msgDetailVC.selectedMsg = notification.message;
+    msgDetailVC.selectedMsg = message;
     [self.navigationController pushViewController:msgDetailVC animated:YES];
-}
+    
+    
+    notification.status = 2; //置为已读
+    notification.unread_count = 0;
+    [huiFuArr replaceObjectAtIndex:indexPath.row withObject:notification];
+  //  [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    [self.collectionView reloadData];
+   }
 @end

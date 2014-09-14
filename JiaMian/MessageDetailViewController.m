@@ -134,7 +134,7 @@
         [myHeader.bgImageView setImage:nil];
         
         int bgImageNo = self.selectedMsg.background_no2;
-        if (bgImageNo >=1 && bgImageNo <= 10)
+        if (bgImageNo >=1 && bgImageNo <= 23)
         {
             [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
         }

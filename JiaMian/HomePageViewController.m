@@ -435,23 +435,15 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if (currentMsg.background_url && currentMsg.background_url.length > 0)
     {
         [msgCell.bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
-        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
-        [msgCell.blackImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
     }
     else
     {
-        [msgCell.blackImageView setBackgroundColor:[UIColor clearColor]];
         [msgCell.bgImageView setImage:nil];
         int bgImageNo = currentMsg.background_no2;
-        if (bgImageNo >=1 && bgImageNo <= 10) {
-            [cell.contentView setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        } else {
-            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
-            [cell.contentView setBackgroundColor:picColor];
-        }
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
+        [msgCell.bgImageView setImage:[UIImage imageNamed:imageName]];
     }
-    
+
     [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
     [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
     if (currentMsg.has_like)

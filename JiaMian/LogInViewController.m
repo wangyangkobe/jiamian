@@ -46,16 +46,16 @@
     [self.view addSubview:under];
     
     
-    UIImageView*slower=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+    UIImageView*slower=[[UIImageView alloc]initWithFrame:CGRectMake(99, 138, 122,95)];
     [slower setImage:[UIImage imageNamed:@"logo.png"]];
     slower.alpha=1.0;
     [UIView beginAnimations:@"Fade in" context:nil];
-    [UIView setAnimationDuration:5];
+    [UIView setAnimationDuration:1.5];
     slower.alpha=0;
     [UIView commitAnimations];
     [under addSubview:slower];
     
-    UIImageView*logo=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+    UIImageView*logo=[[UIImageView alloc]initWithFrame:CGRectMake(99, 138, 122,95)];
     [logo setImage:[UIImage imageNamed:@"logo.png"]];
     [self.view addSubview:logo];
    
@@ -186,7 +186,7 @@
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     RegAndLoginViewController* loginVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
-    loginVC.isRegister =YES;
+    loginVC.isRegister =NO;
     [self.navigationController pushViewController:loginVC animated:YES];
 }
 

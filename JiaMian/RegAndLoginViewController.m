@@ -56,8 +56,14 @@
     [_passWordTF addTarget:self action:@selector(validateField:) forControlEvents:UIControlEventEditingChanged];
     [_passWordTF setDelegate:self];
     
-    [self.scrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT * 1.5)];
+    [self.scrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
     [self.scrollView setScrollEnabled:YES];
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
+    tapGestureRecognizer.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGestureRecognizer];
+}
+-(void)keyboardHide:(UITapGestureRecognizer*)tap{
+    [self.view endEditing:YES];
 }
 - (IBAction)zhangHaoTextfield:(id)sender {
     [self.miMaTextfield becomeFirstResponder];
