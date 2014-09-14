@@ -1034,14 +1034,11 @@
                                     <action selector="logInWithForOldUser:" destination="gKw-bS-p2U" eventType="touchUpInside" id="EDK-uw-hWF"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rGf-iy-eZ7">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rGf-iy-eZ7">
                                 <rect key="frame" x="29" y="307" width="263" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <state key="normal" title="立即加入" backgroundImage="zhuce.png">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
+                                <state key="normal" title="立即加入" backgroundImage="zhuce.png"/>
+                                <state key="highlighted" title="立即加入" backgroundImage="zhuceAfter.png"/>
                                 <connections>
                                     <action selector="jonInNowPressed:" destination="gKw-bS-p2U" eventType="touchUpInside" id="gDL-Ia-gbb"/>
                                 </connections>
@@ -1052,7 +1049,6 @@
                     <navigationItem key="navigationItem" id="F3d-oN-GxK"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="joinIn" destination="rGf-iy-eZ7" id="kcd-sD-Avs"/>
                         <outlet property="jonInNowPressed" destination="rGf-iy-eZ7" id="r0L-q4-cjL"/>
                         <outlet property="qqBtn" destination="ErB-Ma-KrF" id="8x8-7U-ig4"/>
                         <outlet property="sinaBtn" destination="B2f-r9-Fio" id="eKB-du-cQm"/>
@@ -1082,6 +1078,7 @@
         <image name="tiXing.png" width="20" height="21"/>
         <image name="weibo.png" width="127" height="37"/>
         <image name="zhuce.png" width="263" height="37"/>
+        <image name="zhuceAfter.png" width="263" height="37"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

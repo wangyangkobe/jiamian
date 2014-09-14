@@ -47,4 +47,5 @@
     #import "UIActionSheet+Blocks.h"
     #import "HMSegmentedControl.h"
     #import "HuiFuViewController.h"
+    #import "MessageDetailViewController.h"
 #endif

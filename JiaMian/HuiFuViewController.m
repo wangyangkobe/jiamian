@@ -8,10 +8,13 @@
 
 #import "HuiFuViewController.h"
 #import "HuiFuCollectionCell.h"
+#import "MessageModel.h"
+
 
 @interface HuiFuViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
     NSMutableArray* huiFuArr;
+    NSMutableArray* messageArray;
 }
 
 @end
@@ -92,16 +95,47 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     NSLog(@"%s, %d", __FUNCTION__, huiFuArr.count);
+    NSLog(@"%@", huiFuArr);
     return huiFuArr.count;
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.collectionView.backgroundColor=UIColorFromRGB(0x344c62);
     NSLog(@"%s", __FUNCTION__);
     HuiFuCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier
                                                                            forIndexPath:indexPath];
     NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
-    [cell.bgImageView setImageWithURL:[NSURL URLWithString:notification.message.background_url] placeholderImage:nil];
+    MessageModel* message = notification.message;
+    
+    //提醒label
+    cell.warningLabel.layer.cornerRadius = 10;
+    cell.warningLabel.backgroundColor=UIColorFromRGB(0xf54646);
+    if (notification.unread_count != 0)
+    {
+        [cell.warningLabel setText:[NSString stringWithFormat:@"%d", notification.unread_count]];
+    }
+    if (message.background_url && message.background_url.length > 0)
+    {
+        [cell.bgImageView setImageWithURL:[NSURL URLWithString:notification.message.background_url] placeholderImage:nil];
+    }
+    else
+    {
+        [cell.bgImageView setImage:nil];
+        int bgImageNo = message.background_no2;
+        
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
+        [cell.bgImageView setImage:[UIImage imageNamed:imageName]];
+    }
     [cell.textLabel setText:notification.message.text];
+
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
+    MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+    msgDetailVC.selectedMsg = notification.message;
+    [self.navigationController pushViewController:msgDetailVC animated:YES];
 }
 @end

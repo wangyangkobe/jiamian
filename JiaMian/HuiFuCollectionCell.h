@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *bgImageView;
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *maskImageView;
+@property (weak, nonatomic) IBOutlet UILabel *warningLabel;
 
 @end
