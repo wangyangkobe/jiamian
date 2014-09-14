@@ -103,7 +103,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     if (IOS_NEWER_OR_EQUAL_TO_7)
         self.navigationController.navigationBar.translucent = NO;
-    // Do any additional setup after loading the view.
+ 
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
