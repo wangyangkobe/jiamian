@@ -192,7 +192,7 @@
 
 - (IBAction)jonInNowPressed:(id)sender
 {
-    [self.joinIn setImage:[UIImage imageNamed:@"join-after.png"] forState:UIControlStateHighlighted];
+    [self.joinIn setImage:[UIImage imageNamed:@"zhuceAfter.png"] forState:UIControlStateHighlighted];
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     RegAndLoginViewController* regVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
     regVC.isRegister = YES;
