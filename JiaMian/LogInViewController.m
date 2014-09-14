@@ -63,15 +63,6 @@
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
     //_tencentOAuth.redirectURI = kTencentQQRedirectURI;
     _permissions = [NSArray arrayWithObjects:@"get_user_info", @"add_t", nil];
-    
-    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipleLeftEnter:)];
-    [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [self.enterImageView addGestureRecognizer:swipeLeft];
-}
-- (void)swipleLeftEnter:(UISwipeGestureRecognizer *)recognizer {
-    NSLog(@"%s", __FUNCTION__);
-    BannerViewController* bannerVC = [self.storyboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-    [[UIApplication sharedApplication].keyWindow setRootViewController:bannerVC];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -107,8 +98,6 @@
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
-
-    
 }
 
 - (IBAction)tencentQQLogIn:(id)sender {

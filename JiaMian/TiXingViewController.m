@@ -80,7 +80,7 @@
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
     switch (index) {
         case 0:
-            vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"UnReadMsgVCIdentifier"];
+            vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"HuiFuVCIdentifier"];
             break;
         case 1:
             vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SiXinVCIdentifier"];

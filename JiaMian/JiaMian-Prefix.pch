@@ -46,4 +46,5 @@
     #import "HomePageViewController.h"
     #import "UIActionSheet+Blocks.h"
     #import "HMSegmentedControl.h"
+    #import "HuiFuViewController.h"
 #endif

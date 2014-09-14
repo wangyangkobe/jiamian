@@ -233,6 +233,36 @@
             </objects>
             <point key="canvasLocation" x="1341" y="-730"/>
         </scene>
+        <!--Hui Fu View Controller-->
+        <scene sceneID="vas-2O-rf0">
+            <objects>
+                <viewController storyboardIdentifier="HuiFuVCIdentifier" id="zcb-jK-EwX" customClass="HuiFuViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ztW-1n-A93">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" id="YwK-UO-4DG">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="qnv-k4-UgN">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="collectionView" destination="YwK-UO-4DG" id="7V2-5d-qxa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h0t-iz-JPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1757" y="-730"/>
+        </scene>
         <!--Topic Detail View Controller-->
         <scene sceneID="Cq4-3b-QgJ">
             <objects>
@@ -1015,17 +1045,12 @@
                                     <action selector="jonInNowPressed:" destination="gKw-bS-p2U" eventType="touchUpInside" id="gDL-Ia-gbb"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="V9O-hi-4Vk">
-                                <rect key="frame" x="200" y="428" width="100" height="20"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="F3d-oN-GxK"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="enterImageView" destination="V9O-hi-4Vk" id="Jp5-K5-qdM"/>
                         <outlet property="joinIn" destination="rGf-iy-eZ7" id="kcd-sD-Avs"/>
                         <outlet property="jonInNowPressed" destination="rGf-iy-eZ7" id="r0L-q4-cjL"/>
                         <outlet property="qqBtn" destination="ErB-Ma-KrF" id="8x8-7U-ig4"/>

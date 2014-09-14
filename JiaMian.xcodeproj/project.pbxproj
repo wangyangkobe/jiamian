@@ -215,6 +215,9 @@
 		D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3019A9AD9100AB08DB /* BannerViewController.m */; };
 		D313DB3419AA1C2000AB08DB /* CategoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D313DB3319AA1C2000AB08DB /* CategoryCell.m */; };
 		D313DB3619AA1C7000AB08DB /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D313DB3519AA1C7000AB08DB /* CategoryCell.xib */; };
+		D317DB0F19C54DBB00689F7F /* HuiFuCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D317DB0E19C54DBB00689F7F /* HuiFuCollectionCell.xib */; };
+		D317DB1219C54F3300689F7F /* HuiFuCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D317DB1119C54F3300689F7F /* HuiFuCollectionCell.m */; };
+		D317DB1519C5523000689F7F /* HuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D317DB1419C5523000689F7F /* HuiFuViewController.m */; };
 		D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D365471A19B1F52C007B7FD9 /* TiXingViewController.m */; };
 		D3688EE7197A9D7C006B5CE3 /* MoreTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */; };
 		D388404119A0A9BA00823ACA /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D388403E19A0A9BA00823ACA /* libEaseMobClientSDKLite.a */; };
@@ -562,6 +565,11 @@
 		D313DB3219AA1C2000AB08DB /* CategoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CategoryCell.h; sourceTree = "<group>"; };
 		D313DB3319AA1C2000AB08DB /* CategoryCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CategoryCell.m; sourceTree = "<group>"; };
 		D313DB3519AA1C7000AB08DB /* CategoryCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
+		D317DB0E19C54DBB00689F7F /* HuiFuCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HuiFuCollectionCell.xib; sourceTree = "<group>"; };
+		D317DB1019C54F3300689F7F /* HuiFuCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiFuCollectionCell.h; sourceTree = "<group>"; };
+		D317DB1119C54F3300689F7F /* HuiFuCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiFuCollectionCell.m; sourceTree = "<group>"; };
+		D317DB1319C5523000689F7F /* HuiFuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiFuViewController.h; sourceTree = "<group>"; };
+		D317DB1419C5523000689F7F /* HuiFuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiFuViewController.m; sourceTree = "<group>"; };
 		D365471A19B1F52C007B7FD9 /* TiXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiXingViewController.m; sourceTree = "<group>"; };
 		D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicViewController.h; sourceTree = "<group>"; };
 		D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicViewController.m; sourceTree = "<group>"; };
@@ -968,6 +976,8 @@
 				D3F60E9919AE937E00BA91BF /* CustomCell */,
 				15596718190E71C700FB760A /* CustomClass */,
 				15596708190E71BE00FB760A /* ClassModel */,
+				D317DB1319C5523000689F7F /* HuiFuViewController.h */,
+				D317DB1419C5523000689F7F /* HuiFuViewController.m */,
 				1558CFDD190BF00600E6B543 /* HomePageViewController.h */,
 				1558CFDE190BF00600E6B543 /* HomePageViewController.m */,
 				D313DB2F19A9AD9100AB08DB /* BannerViewController.h */,
@@ -1572,6 +1582,9 @@
 				D313DB3219AA1C2000AB08DB /* CategoryCell.h */,
 				D313DB3519AA1C7000AB08DB /* CategoryCell.xib */,
 				D313DB3319AA1C2000AB08DB /* CategoryCell.m */,
+				D317DB0E19C54DBB00689F7F /* HuiFuCollectionCell.xib */,
+				D317DB1019C54F3300689F7F /* HuiFuCollectionCell.h */,
+				D317DB1119C54F3300689F7F /* HuiFuCollectionCell.m */,
 			);
 			name = CustomCell;
 			sourceTree = "<group>";
@@ -1713,6 +1726,7 @@
 				15326B9819282E560008AAE1 /* congruent_pentagon.png in Resources */,
 				CF9C272619C31A4500104D89 /* loginbackground.png in Resources */,
 				15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */,
+				D317DB0F19C54DBB00689F7F /* HuiFuCollectionCell.xib in Resources */,
 				CF9C270A19C2EEEE00104D89 /* mima.png in Resources */,
 				CF9C271C19C3028700104D89 /* qqafter@2x.png in Resources */,
 				CFE4E3CB19BED3D100B0B099 /* tiXing@2x.png in Resources */,
@@ -1909,7 +1923,9 @@
 				152BFF2D193F4424000D8E1F /* RegisterViewController.m in Sources */,
 				D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */,
 				D313DB2B19A986EF00AB08DB /* BannerModel.m in Sources */,
+				D317DB1219C54F3300689F7F /* HuiFuCollectionCell.m in Sources */,
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
+				D317DB1519C5523000689F7F /* HuiFuViewController.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
 				1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */,
