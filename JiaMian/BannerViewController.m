@@ -87,8 +87,6 @@
     
     //tabar选中后的图片
     self.tabBarController.tabBar.selectedImageTintColor=[UIColor whiteColor];
-    //self.tabBarController.tabBar.selectionIndicatorImage = [UIImage imageNamed:@"gointolist.png.jpg"];
-    
 }
 - (void)handleScrollByTime
 {
@@ -149,23 +147,21 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
-    if (101 == category.category_type) //圈内八卦
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+    if (3 == category.category_id) //圈内八卦
     {
         BOOL isLogIn = [USER_DEFAULT boolForKey:kUserLogIn];
-        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
         if ( NO == isLogIn )
         {
             RegAndLoginViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
             [self presentViewController:logInVC animated:YES completion:nil];
-        }
-        else
-        {
-            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
-            homeVC.hidesBottomBarWhenPushed = YES;
-            homeVC.categoryId = category.category_id;
-            [self.navigationController pushViewController:homeVC animated:YES];
+            return;
         }
     }
+    HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+    homeVC.hidesBottomBarWhenPushed = YES;
+    homeVC.categoryId = category.category_id;
+    [self.navigationController pushViewController:homeVC animated:YES];
 }
 - (UICollectionReusableView*)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
@@ -213,8 +209,6 @@
         [_bannerTitleLabel setTextColor:[UIColor whiteColor]];
         [_bannerTitleLabel setBackgroundColor:[UIColor clearColor]];
         [_bannerTitleLabel setFont:[UIFont systemFontOfSize:14]];
-        
-        
     }
     return _bannerTitleLabel;
 }

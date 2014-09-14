@@ -636,71 +636,77 @@
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  用户名：" minimumFontSize="17" background="name.png" id="wPt-Gp-WDC">
-                                <rect key="frame" x="14" y="34" width="286" height="40"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="aPu-Ua-h3i">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                <connections>
-                                    <action selector="zhangHaoTextfield:" destination="vbd-uo-oU0" eventType="editingDidEndOnExit" id="SpE-UM-88e"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  密码：" minimumFontSize="17" background="mima.png" id="avG-Hq-jBM">
-                                <rect key="frame" x="14" y="102" width="286" height="40"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
-                                <connections>
-                                    <action selector="miMaTexefield:" destination="vbd-uo-oU0" eventType="editingDidEndOnExit" id="fYc-ly-kAt"/>
-                                </connections>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HuW-hU-ALP">
-                                <rect key="frame" x="12" y="194" width="296" height="42"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <state key="normal" title="加入" backgroundImage="loading.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="handleBtnPressed:" destination="vbd-uo-oU0" eventType="touchUpInside" id="RU7-ps-Iuy"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pvt-3a-Re5">
-                                <rect key="frame" x="17" y="76" width="231" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="haS-5U-NnG">
-                                <rect key="frame" x="17" y="143" width="231" height="18"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ej8-b4-d2H">
-                                <rect key="frame" x="23" y="321" width="127" height="37"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="QQ登陆" backgroundImage="qq.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="QQdown:" destination="vbd-uo-oU0" eventType="touchUpInside" id="2QC-g9-M2Y"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hxB-Sp-lHM">
-                                <rect key="frame" x="171" y="321" width="127" height="37"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <state key="normal" title="微博登陆" backgroundImage="weibo.png">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gengduodenglu.png" id="OIi-ga-oI0">
-                                <rect key="frame" x="44" y="270" width="216" height="11"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </imageView>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  用户名：" minimumFontSize="17" background="name.png" id="wPt-Gp-WDC">
+                                        <rect key="frame" x="22" y="28" width="286" height="40"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                        <connections>
+                                            <action selector="zhangHaoTextfield:" destination="vbd-uo-oU0" eventType="editingDidEndOnExit" id="SpE-UM-88e"/>
+                                        </connections>
+                                    </textField>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="  密码：" minimumFontSize="17" background="mima.png" id="avG-Hq-jBM">
+                                        <rect key="frame" x="22" y="133" width="286" height="40"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
+                                        <connections>
+                                            <action selector="miMaTexefield:" destination="vbd-uo-oU0" eventType="editingDidEndOnExit" id="fYc-ly-kAt"/>
+                                        </connections>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hxB-Sp-lHM">
+                                        <rect key="frame" x="96" y="212" width="127" height="37"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="微博登陆" backgroundImage="weibo.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ej8-b4-d2H">
+                                        <rect key="frame" x="96" y="212" width="127" height="37"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="QQ登陆" backgroundImage="qq.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="QQdown:" destination="vbd-uo-oU0" eventType="touchUpInside" id="2QC-g9-M2Y"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pvt-3a-Re5">
+                                        <rect key="frame" x="44" y="221" width="231" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="HuW-hU-ALP">
+                                        <rect key="frame" x="17" y="306" width="296" height="42"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <state key="normal" title="加入" backgroundImage="loading.png">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="handleBtnPressed:" destination="vbd-uo-oU0" eventType="touchUpInside" id="RU7-ps-Iuy"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="haS-5U-NnG">
+                                        <rect key="frame" x="50" y="84" width="231" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gengduodenglu.png" id="OIi-ga-oI0">
+                                        <rect key="frame" x="44" y="156" width="216" height="11"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -709,6 +715,7 @@
                         <outlet property="miMaTextfield" destination="avG-Hq-jBM" id="5b5-76-Px0"/>
                         <outlet property="passWordHintLabel" destination="haS-5U-NnG" id="1cv-Qa-k98"/>
                         <outlet property="passWordTF" destination="avG-Hq-jBM" id="fXv-hy-ta4"/>
+                        <outlet property="scrollView" destination="aPu-Ua-h3i" id="nOp-PE-j4U"/>
                         <outlet property="userNameHintLabel" destination="pvt-3a-Re5" id="Is1-04-Dbu"/>
                         <outlet property="userNameTF" destination="wPt-Gp-WDC" id="IbQ-W2-UTU"/>
                         <outlet property="zhangHaoTextfield" destination="wPt-Gp-WDC" id="eqy-BR-N5B"/>
