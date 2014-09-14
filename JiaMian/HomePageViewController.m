@@ -80,6 +80,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [self handlePlusTapped];
     PublishMsgViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
     publishVC.isTouPiao = (sender.tag == kTouPiaoBtnTag);
+    publishVC.categoryId = self.categoryId;
     [self.navigationController pushViewController:publishVC animated:YES];
 }
 
@@ -92,6 +93,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if (3 == _categoryId) //圈内八卦
     {
         self.title = @"圈内八卦";
+        messageType = 2; //@"最新"
     }
     else
     {
@@ -478,7 +480,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
+        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
         
         for (MessageModel* message in [newMessages reverseObjectEnumerator]){
             [messageArray insertObject:message atIndex:0];

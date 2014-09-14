@@ -493,7 +493,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     MessageModel* message = [[NetWorkConnect sharedInstance] messageCreate:self.inputTextView.text
                                                                    msgType:msgType
                                                                     areaId:selectZoneId
-                                                                categoryId:1  //消息板块id. 默认值:1
+                                                                categoryId:_categoryId  //消息板块id. 默认值:1
                                                                      votes:votesJsonStr
                                                                      topic:topicStr
                                                                     bgType:backgroudType
