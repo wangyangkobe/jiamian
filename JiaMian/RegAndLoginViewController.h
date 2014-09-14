@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *zhangHaoTextfield;
 @property (weak, nonatomic) IBOutlet UITextField *miMaTextfield;
 
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 - (IBAction)handleBtnPressed:(id)sender;
 @end

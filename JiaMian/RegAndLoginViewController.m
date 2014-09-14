@@ -54,6 +54,10 @@
     [_userNameTF addTarget:self action:@selector(validateField:) forControlEvents:UIControlEventEditingChanged];
     [_passWordTF setTag:kPassWordTFTag];
     [_passWordTF addTarget:self action:@selector(validateField:) forControlEvents:UIControlEventEditingChanged];
+    [_passWordTF setDelegate:self];
+    
+    [self.scrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT * 1.5)];
+    [self.scrollView setScrollEnabled:YES];
 }
 - (IBAction)zhangHaoTextfield:(id)sender {
     [self.miMaTextfield becomeFirstResponder];
@@ -161,5 +165,11 @@
             _passWordHintLabel.text = result[@"error"];
         }
     }
+}
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%@", _scrollView.subviews);
+    [self.scrollView setContentOffset:CGPointMake(0, 50) animated:YES];
 }
 @end

@@ -89,21 +89,27 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageType = 1;
     hotMsgArray = [NSMutableArray array];
     latestMsgArray = [NSMutableArray array];
-    
-    HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
-    [segmentedControl setSelectionIndicatorHeight:2.0f];
-    segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-    segmentedControl.frame = CGRectMake(80, 40, 130, 30);
-    segmentedControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
-    segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
-    segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
-    segmentedControl.selectedSegmentIndex = 0;
-    [segmentedControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
-    self.navigationItem.titleView=segmentedControl;
+    if (3 == _categoryId) //圈内八卦
+    {
+        self.title = @"圈内八卦";
+    }
+    else
+    {
+        HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
+        [segmentedControl setSelectionIndicatorHeight:2.0f];
+        segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
+        segmentedControl.frame = CGRectMake(80, 40, 130, 30);
+        segmentedControl.segmentEdgeInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+        segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+        segmentedControl.selectedSegmentIndex = 0;
+        [segmentedControl addTarget:self action:@selector(segmentedControlChangedValue:) forControlEvents:UIControlEventValueChanged];
+        self.navigationItem.titleView=segmentedControl;
+    }
     
     if (IOS_NEWER_OR_EQUAL_TO_7)
         self.navigationController.navigationBar.translucent = NO;
- 
+    
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -334,7 +340,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
