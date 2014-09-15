@@ -29,6 +29,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     UIImageView* plusImageView;
     BOOL flag; //是否点击加号
     
+    BOOL isMoreViewOpen;
+
     int messageType;
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
@@ -215,6 +217,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
     UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
     [cell.contentView addSubview:self.moreBtnView];
+    isMoreViewOpen = YES;
 }
 - (UIView*)moreBtnView
 {
@@ -289,6 +292,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                          }];
     }
     [_moreBtnView removeFromSuperview];
+    isMoreViewOpen = NO;
 }
 #pragma mark - MsgTableViewCellDelegate
 - (void)removeMoreBtnViewFromCell
@@ -463,6 +467,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(isMoreViewOpen) {
+        [_moreBtnView removeFromSuperview];
+        isMoreViewOpen = NO;
+        return;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
     msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
