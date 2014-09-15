@@ -137,6 +137,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
         return;
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
     msgDetailVC.selectedMsg = message;
+    msgDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:msgDetailVC animated:YES];
     
     

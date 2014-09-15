@@ -57,6 +57,7 @@
     [_passWordTF setDelegate:self];
     
     [self.scrollView setContentSize:CGSizeMake(SCREEN_WIDTH, SCREEN_HEIGHT)];
+    
     [self.scrollView setScrollEnabled:YES];
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     tapGestureRecognizer.cancelsTouchesInView = NO;

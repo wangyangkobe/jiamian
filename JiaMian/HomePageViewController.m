@@ -28,10 +28,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     UIView* parentView;
     UIImageView* plusImageView;
     BOOL flag; //是否点击加号
-    
     int messageType;
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
+    int i;//爱心点赞特效
 }
 @property (strong, nonatomic) UIView* moreBtnView;
 @property (strong, nonatomic) UIButton* fayanBtn;
@@ -550,7 +550,20 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if (currentMsg.has_like)
         return;
     
-    [tappedCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    
+    //爱心特效
+    tappedCell.likeImageView.layer.contents = (id)[UIImage imageNamed:(i%2==0?@"2":@"1")].CGImage;
+    CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    k.values = @[@(0.1),@(1.0),@(1.5)];
+    k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+    k.calculationMode = kCAAnimationLinear;
+    
+    i++;
+    [tappedCell.likeImageView.layer addAnimation:k forKey:@"SHOW"];
+    [tappedCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked.png"]];
+    
+    
+    
     tappedCell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];

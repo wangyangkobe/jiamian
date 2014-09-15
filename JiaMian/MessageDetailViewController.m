@@ -125,25 +125,15 @@
     if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
     {
         [myHeader.bgImageView setImageWithURL:[NSURL URLWithString:_selectedMsg.background_url] placeholderImage:nil];
-        UIImage* maskImage = [UIImage imageNamed:@"blackalpha.png"];
-        [myHeader.maskImageView setBackgroundColor:[UIColor colorWithPatternImage:maskImage]];
     }
     else
     {
-        [myHeader.maskImageView setBackgroundColor:[UIColor clearColor]];
         [myHeader.bgImageView setImage:nil];
-        
         int bgImageNo = self.selectedMsg.background_no2;
-        if (bgImageNo >=1 && bgImageNo <= 23)
-        {
-            [myHeader setBackgroundColor:UIColorFromRGB(COLOR_ARR[bgImageNo])];
-        }
-        else
-        {
-            NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d.png", bgImageNo];
-            UIColor* picColor = [UIColor colorWithPatternImage:[UIImage imageNamed:imageName]];
-            [myHeader setBackgroundColor:picColor];
-        }
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
+        [myHeader.bgImageView setImage:[UIImage imageNamed:imageName]];
+        
+        
         [myHeader.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
         [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];

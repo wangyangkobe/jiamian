@@ -678,7 +678,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="pvt-3a-Re5">
-                                        <rect key="frame" x="72" y="267" width="231" height="18"/>
+                                        <rect key="frame" x="20" y="63" width="231" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -695,7 +695,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="haS-5U-NnG">
-                                        <rect key="frame" x="50" y="84" width="231" height="18"/>
+                                        <rect key="frame" x="20" y="132" width="231" height="18"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -1082,7 +1082,7 @@
         <image name="set.png" width="21" height="22"/>
         <image name="sina_login_pressed.png" width="320" height="480"/>
         <image name="sina_login_push.png" width="260" height="68"/>
-        <image name="tiXing.png" width="20" height="21"/>
+        <image name="tiXing.png" width="21" height="22"/>
         <image name="weibo.png" width="127" height="37"/>
         <image name="zhuce.png" width="263" height="37"/>
         <image name="zhuceAfter.png" width="263" height="37"/>
