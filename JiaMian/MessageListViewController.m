@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 wy. All rights reserved.
 //
 
-#import "HomePageViewController.h"
+#import "MessageListViewController.h"
 #import "PublishMsgViewController.h"
 #import "MessageDetailViewController.h"
 #import "CommonMarco.h"
@@ -22,7 +22,7 @@
 #define kTouPiaoBtnTag    8991
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
-@interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
+@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
 {
     NSMutableArray* messageArray;
     UIView* parentView;
@@ -31,7 +31,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     BOOL isMoreViewOpen;
 
-    int messageType;
+    int messageType;  //热门 或 最新
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
 }
@@ -42,7 +42,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @property (strong, nonatomic) UIView* lineView2;
 @end
 
-@implementation HomePageViewController
+@implementation MessageListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -162,18 +162,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     plusTapGesture.numberOfTapsRequired = 1;
     [plusImageView setUserInteractionEnabled:YES];
     [plusImageView addGestureRecognizer:plusTapGesture];
-    
 }
 - (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
     messageType = (sender.selectedSegmentIndex == 0) ? 1 : 2;
-    if (messageType == 1) {
-        [messageArray removeAllObjects];
-        [messageArray addObjectsFromArray:hotMsgArray];
-    } else {
-        [messageArray removeAllObjects];
-        [messageArray addObjectsFromArray:latestMsgArray];
+    [self.pullTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    if(!self.pullTableView.pullTableIsRefreshing) {
+        self.pullTableView.pullTableIsRefreshing = YES;
+        [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.5f];
     }
-    [self.pullTableView reloadData];
 }
 - (void)handlePlusTapped
 {
@@ -346,7 +342,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
@@ -354,7 +350,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [messageArray addObjectsFromArray:requestRes];
         [hotMsgArray addObjectsFromArray:requestRes];
         
-        NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:0 maxId:INT_MAX count:20];
+        NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2  //最新
+                                                                        categoryId:_categoryId
+                                                                           sinceId:0
+                                                                             maxId:INT_MAX
+                                                                             count:20];
         [latestMsgArray addObjectsFromArray:latestMsgs];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -368,14 +368,16 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:(int)messageType
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
         if (messageType == 1) {
+            [hotMsgArray removeAllObjects];
             [hotMsgArray addObjectsFromArray:requestRes];
         } else {
+            [latestMsgArray removeAllObjects];
             [latestMsgArray addObjectsFromArray:requestRes];
         }
         [messageArray addObjectsFromArray:requestRes];
@@ -494,14 +496,23 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if (0 == [messageArray count])
         return;
     self.pullTableView.pullTableIsRefreshing = YES;
-    long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
-        
-        for (MessageModel* message in [newMessages reverseObjectEnumerator]){
-            [messageArray insertObject:message atIndex:0];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType
+                                                                         categoryId:_categoryId
+                                                                            sinceId:0
+                                                                              maxId:INT_MAX
+                                                                              count:20];
+        if (messageType == 1) {
+            [hotMsgArray removeAllObjects];
+            [hotMsgArray addObjectsFromArray:requestRes];
+        } else {
+            [latestMsgArray removeAllObjects];
+            [latestMsgArray addObjectsFromArray:requestRes];
         }
+        [messageArray removeAllObjects];
+        [messageArray addObjectsFromArray:requestRes];
+
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {

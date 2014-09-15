@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageViewController : UIViewController
+@interface MessageListViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;
 - (IBAction)publishMessage:(id)sender;
 @property (nonatomic, assign) NSInteger categoryId;
+
 @end
