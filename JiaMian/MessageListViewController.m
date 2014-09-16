@@ -157,17 +157,22 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [parentView addGestureRecognizer:plusTapGesture];
     
 }
-- (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
-    messageType = (sender.selectedSegmentIndex == 0) ? 1 : 2;
+- (void)doRefreshAutomaticly { //自动触发下拉刷新
     [self.pullTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     if(!self.pullTableView.pullTableIsRefreshing) {
         self.pullTableView.pullTableIsRefreshing = YES;
         [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.5f];
     }
 }
+- (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
+    messageType = (sender.selectedSegmentIndex == 0) ? 1 : 2;
+    [self doRefreshAutomaticly];
+}
 - (void)handlePublishMsgSuccess {
-    segmentedControl.selectedSegmentIndex = 1; // 最新消息
-    [segmentedControl sendActionsForControlEvents:UIControlEventValueChanged];
+    if (self.categoryId != 3) {
+        messageType = 2; //最新
+    }
+    [self doRefreshAutomaticly];
 }
 - (void)handlePlusTapped
 {
@@ -233,8 +238,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [privateBtn setFrame:CGRectMake(10, 120, 60, 60)];
         privateBtn.layer.cornerRadius = 30;
         [privateBtn setImage:[UIImage imageNamed:@"emai.png"] forState:UIControlStateNormal];
-//      [privateBtn setBackgroundColor:[UIColor redColor]];
-//       [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
+        //      [privateBtn setBackgroundColor:[UIColor redColor]];
+        //       [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
         [privateBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:privateBtn];
         
@@ -322,7 +327,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     } completion:^(BOOL finished) {
         flag = NO;
     }];
-    
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
 {
@@ -439,7 +443,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
                                                                                  forIndexPath:indexPath];
-    cell.backgroundColor=UIColorFromRGB(0x344c62);
+    cell.backgroundColor = UIColorFromRGB(0x344c62);
     tableView.separatorStyle = NO;
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     cell.msgTextLabel.text = currentMsg.text;
@@ -596,7 +600,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:tapIndexPath.row];
     if (currentMsg.has_like)
         return;
-    
     
     //爱心特效
     tappedCell.likeImageView.layer.contents = (id)[UIImage imageNamed:(i%2==0?@"2":@"1")].CGImage;

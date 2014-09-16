@@ -95,14 +95,8 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     }
     self.navigationItem.rightBarButtonItem = sendMessageBarBtn;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     indexMapZoneName = [NSMutableDictionary dictionary];
     
@@ -118,6 +112,10 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                 [indexMapZoneName setObject:[NSNumber numberWithInt:zone.area_id] forKey:zone.area_name];
         }
     }
+}
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    [self.inputTextView resignFirstResponder];
 }
 - (void)handlePopToBack {
     [UIAlertView showWithTitle:@"提示"
@@ -473,14 +471,15 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)publishMessageToServer
 {
+    if ( _isTouPiao && (votesArr.count <= 1) ) {
+        [SVProgressHUD dismiss];
+        AlertContent(@"亲，至少要有一个投票项!");
+        return;
+    }
     NSInteger msgType;
     NSString *votesJsonStr;
     NSString *topicStr = (huaTiLabel.text.length == 0) ? nil : huaTiLabel.text;
     if (_isTouPiao) {
-        if (votesArr.count <= 1) {
-            AlertContent(@"亲，至少要有一个投票项!");
-            return;
-        }
         msgType = 3;
         int votesLen = ( (votesArr.count > 4) ? 4 : votesArr.count - 1 );
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[votesArr subarrayWithRange:NSMakeRange(0, votesLen)]
