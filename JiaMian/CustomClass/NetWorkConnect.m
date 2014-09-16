@@ -454,7 +454,7 @@ static ASIDownloadCache* myCache;
     [request setDownloadCache:myCache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request startSynchronous];
-    NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
+   //NSLog(@"%s, result = %@", __FUNCTION__, request.responseString);
     if ( 200 == [request responseStatusCode] )
     {
         NSData *jsonData = [[request responseString] dataUsingEncoding:NSUTF8StringEncoding];

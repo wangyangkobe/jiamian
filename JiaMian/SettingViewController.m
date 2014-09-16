@@ -55,44 +55,37 @@
     [footerView addSubview:button];
     
     _tableView.tableFooterView = footerView;
-    
 }
 - (void)logOut:(id)sender
 {
+    [UIActionSheet showInView:self.tableView
+                    withTitle:@"确定要注销吗?"
+            cancelButtonTitle:nil
+       destructiveButtonTitle:@"确定"
+            otherButtonTitles:@[@"取消"]
+                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                         if (0 == buttonIndex) {
+                             BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
+                             if (result)
+                             {
+                                 [[EaseMob sharedInstance].chatManager asyncLogoff];
+                                 
+                                 [APService setTags:[NSSet setWithObjects:@"offline", nil]
+                                              alias:@""
+                                   callbackSelector:nil
+                                             target:nil];
+                                 
+                                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+                                 [[NSUserDefaults standardUserDefaults] synchronize];
+                                 dispatch_async(dispatch_get_main_queue(), ^{
+                                     LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+                                     [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
+                                 });
+                             }
+                         }
+                     }];
     
-    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"注销"
-                                                   message:@"确定要注销吗?"
-                                                  delegate:self
-                                        cancelButtonTitle:@"取消"
-                                        otherButtonTitles:@"确定", nil];
-    [alert show];
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-
-{
-    if (buttonIndex == 0) {
-        NSLog(@"取消了");
-    }else if(buttonIndex == 1){
-            BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-            if (result)
-            {
-                [[EaseMob sharedInstance].chatManager asyncLogoff];
-        
-                [APService setTags:[NSSet setWithObjects:@"offline", nil]
-                             alias:@""
-                  callbackSelector:nil
-                            target:nil];
-        
-                [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-                [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-            }
-
-    }
-}
-
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
@@ -156,8 +149,8 @@
     
     if (indexPath.section == 0)
     {
-         cell.textLabel.text = @"选择圈子";
-         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.text = @"选择圈子";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if (indexPath.section == 1)
     {
@@ -211,7 +204,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
- 
+    
     NSInteger row     = indexPath.row;
     NSInteger section = indexPath.section;
     if (section == 0)

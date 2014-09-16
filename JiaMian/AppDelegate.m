@@ -173,7 +173,7 @@
                 [[NSUserDefaults standardUserDefaults] synchronize];
                 
                 BannerViewController* bannerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-                [self.window setRootViewController:bannerVC];
+                [[UIApplication sharedApplication].keyWindow setRootViewController:bannerVC];
             }
         }
     }

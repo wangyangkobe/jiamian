@@ -37,7 +37,6 @@
     #import "UIView+Extensions.h"
     #import "EaseMob.h"
     #import "TiXingViewController.h"
-    #import "UnReadMsgViewController.h"
     #import "ChatListViewController.h"
     #import "HxUserModel.h"
     #import "BannerViewController.h"

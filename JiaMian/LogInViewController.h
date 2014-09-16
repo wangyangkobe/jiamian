@@ -14,8 +14,6 @@
 - (IBAction)tencentQQLogIn:(id)sender;
 - (IBAction)logInWithForOldUser:(id)sender;  //老用户登录
 - (IBAction)jonInNowPressed:(id)sender;      //立即加入
-- (IBAction)enterBtnPress:(id)sender;
-
 
 @property (weak, nonatomic) IBOutlet UIButton *sinaBtn;
 @property (weak, nonatomic) IBOutlet UIButton *qqBtn;

@@ -97,15 +97,11 @@
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
-    
-
 }
 
 - (IBAction)tencentQQLogIn:(id)sender {
     [self.qqBtn setImage:[UIImage imageNamed:@"QQafter.png"] forState:UIControlStateHighlighted];
     [_tencentOAuth authorize:_permissions];
-    
-    
 }
 
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
@@ -197,13 +193,5 @@
     RegAndLoginViewController* regVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"RegAndLogInVCIdentifier"];
     regVC.isRegister = YES;
     [self.navigationController pushViewController:regVC animated:YES];
-}
-
-//右滑直接进入板块
-- (IBAction)enterBtnPress:(id)sender
-{
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    BannerViewController* bannerVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"TabBarVCIdentifier"];
-    [self presentViewController:bannerVC animated:YES completion:nil];
 }
 @end

@@ -135,7 +135,6 @@
 		15596715190E71BE00FB760A /* MessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1559670E190E71BE00FB760A /* MessageModel.m */; };
 		15596716190E71BE00FB760A /* NotificationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15596710190E71BE00FB760A /* NotificationModel.m */; };
 		15596717190E71BE00FB760A /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 15596712190E71BE00FB760A /* UserModel.m */; };
-		1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1559671D190E740800FB760A /* UnReadMsgViewController.m */; };
 		155AC494190C836400A8F252 /* ico-to-do-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 155AC492190C836400A8F252 /* ico-to-do-list.png */; };
 		155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 155AC493190C836400A8F252 /* ico-to-do-list@2x.png */; };
 		155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC497190C9D8800A8F252 /* PublishMsgViewController.m */; };
@@ -148,7 +147,6 @@
 		156985541913631B00923E85 /* comment_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985531913631B00923E85 /* comment_grey.png */; };
 		156985561913816200923E85 /* comment_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 156985551913816200923E85 /* comment_white.png */; };
 		157875CA1911AAA300CBA513 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 157875C81911AAA300CBA513 /* libMobClickLibrary.a */; };
-		1592099D196B4E90000A1F0E /* TopicDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1592099C196B4E90000A1F0E /* TopicDetailViewController.m */; };
 		15B035D3191A4D3F00C31D39 /* Icon-80.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D0191A4D3F00C31D39 /* Icon-80.png */; };
 		15B035D4191A4D3F00C31D39 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D1191A4D3F00C31D39 /* Icon-Small.png */; };
 		15B035D5191A4D3F00C31D39 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */; };
@@ -285,7 +283,6 @@
 		D317DB1219C54F3300689F7F /* HuiFuCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D317DB1119C54F3300689F7F /* HuiFuCollectionCell.m */; };
 		D317DB1519C5523000689F7F /* HuiFuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D317DB1419C5523000689F7F /* HuiFuViewController.m */; };
 		D365471B19B1F52C007B7FD9 /* TiXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D365471A19B1F52C007B7FD9 /* TiXingViewController.m */; };
-		D3688EE7197A9D7C006B5CE3 /* MoreTopicViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */; };
 		D388404119A0A9BA00823ACA /* libEaseMobClientSDKLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D388403E19A0A9BA00823ACA /* libEaseMobClientSDKLite.a */; };
 		D388404219A0A9BA00823ACA /* EaseMob.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D388404019A0A9BA00823ACA /* EaseMob.bundle */; };
 		D388404419A0AA3100823ACA /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D388404319A0AA3100823ACA /* libxml2.dylib */; };
@@ -526,8 +523,6 @@
 		15596712190E71BE00FB760A /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		15596719190E71C700FB760A /* NetWorkConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkConnect.h; sourceTree = "<group>"; };
 		1559671A190E71C700FB760A /* NetWorkConnect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkConnect.m; sourceTree = "<group>"; };
-		1559671C190E740800FB760A /* UnReadMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnReadMsgViewController.h; sourceTree = "<group>"; };
-		1559671D190E740800FB760A /* UnReadMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnReadMsgViewController.m; sourceTree = "<group>"; };
 		155AC492190C836400A8F252 /* ico-to-do-list.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list.png"; sourceTree = "<group>"; };
 		155AC493190C836400A8F252 /* ico-to-do-list@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico-to-do-list@2x.png"; sourceTree = "<group>"; };
 		155AC496190C9D8800A8F252 /* PublishMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishMsgViewController.h; sourceTree = "<group>"; };
@@ -545,8 +540,6 @@
 		156985551913816200923E85 /* comment_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = comment_white.png; sourceTree = "<group>"; };
 		157875C81911AAA300CBA513 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		157875C91911AAA300CBA513 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
-		1592099B196B4E90000A1F0E /* TopicDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TopicDetailViewController.h; path = JiaMian/TopicDetailViewController.h; sourceTree = SOURCE_ROOT; };
-		1592099C196B4E90000A1F0E /* TopicDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TopicDetailViewController.m; path = JiaMian/TopicDetailViewController.m; sourceTree = SOURCE_ROOT; };
 		15B035D0191A4D3F00C31D39 /* Icon-80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-80.png"; sourceTree = "<group>"; };
 		15B035D1191A4D3F00C31D39 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		15B035D2191A4D3F00C31D39 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
@@ -699,8 +692,6 @@
 		D317DB1319C5523000689F7F /* HuiFuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HuiFuViewController.h; sourceTree = "<group>"; };
 		D317DB1419C5523000689F7F /* HuiFuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HuiFuViewController.m; sourceTree = "<group>"; };
 		D365471A19B1F52C007B7FD9 /* TiXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TiXingViewController.m; sourceTree = "<group>"; };
-		D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreTopicViewController.h; sourceTree = "<group>"; };
-		D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreTopicViewController.m; sourceTree = "<group>"; };
 		D3883FEB19A0A9BA00823ACA /* IChatManagerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IChatManagerDelegate.h; sourceTree = "<group>"; };
 		D3883FED19A0A9BA00823ACA /* EMChatManagerBuddyDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatManagerBuddyDelegate.h; sourceTree = "<group>"; };
 		D3883FEE19A0A9BA00823ACA /* EMChatManagerChatDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMChatManagerChatDelegate.h; sourceTree = "<group>"; };
@@ -1106,8 +1097,6 @@
 				1558CFDE190BF00600E6B543 /* MessageListViewController.m */,
 				D313DB2F19A9AD9100AB08DB /* BannerViewController.h */,
 				D313DB3019A9AD9100AB08DB /* BannerViewController.m */,
-				1592099B196B4E90000A1F0E /* TopicDetailViewController.h */,
-				1592099C196B4E90000A1F0E /* TopicDetailViewController.m */,
 				1558CFCA190BAA0F00E6B543 /* CommonMarco.h */,
 				1558CF96190B9C5400E6B543 /* AppDelegate.h */,
 				1558CF97190B9C5400E6B543 /* AppDelegate.m */,
@@ -1122,16 +1111,12 @@
 				D388404D19A0EC8600823ACA /* ChatListViewController.m */,
 				D388404919A0C6E800823ACA /* TiXingViewController.h */,
 				D365471A19B1F52C007B7FD9 /* TiXingViewController.m */,
-				D3688EE5197A9D7C006B5CE3 /* MoreTopicViewController.h */,
-				D3688EE6197A9D7C006B5CE3 /* MoreTopicViewController.m */,
 				D3DA69BF197A5FAB00D48864 /* AboutViewController.h */,
 				D3DA69C0197A5FAB00D48864 /* AboutViewController.m */,
 				D3DA69A0197A50FB00D48864 /* SettingViewController.h */,
 				D3DA69A1197A50FB00D48864 /* SettingViewController.m */,
 				15F80F5919509644008072AD /* ShowInfoViewController.h */,
 				15F80F5A19509644008072AD /* ShowInfoViewController.m */,
-				1559671C190E740800FB760A /* UnReadMsgViewController.h */,
-				1559671D190E740800FB760A /* UnReadMsgViewController.m */,
 				152BFF2B193F4424000D8E1F /* RegisterViewController.h */,
 				152BFF2C193F4424000D8E1F /* RegisterViewController.m */,
 				155AC499190CC2B000A8F252 /* MessageDetailViewController.h */,
@@ -2133,7 +2118,6 @@
 				CF0B30DB19B950C2000B53DC /* HMSegmentedControl.m in Sources */,
 				D3F193FD19A222C7000829FD /* HxUserModel.m in Sources */,
 				15FFC0CD195CFA980033AD23 /* SAMTextView.m in Sources */,
-				1559671E190E740800FB760A /* UnReadMsgViewController.m in Sources */,
 				D3F60E9E19AE93EB00BA91BF /* MsgTableViewCell.m in Sources */,
 				D3F1942219A23094000829FD /* UIBubbleTableView.m in Sources */,
 				155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */,
@@ -2149,7 +2133,6 @@
 				15F80F5B19509644008072AD /* ShowInfoViewController.m in Sources */,
 				15E42906194412DB00641635 /* SelectZoneViewController.m in Sources */,
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
-				D3688EE7197A9D7C006B5CE3 /* MoreTopicViewController.m in Sources */,
 				15503E0D193784E200CD737D /* GTMBase64.m in Sources */,
 				D3F1942419A23094000829FD /* UIBubbleTypingTableViewCell.m in Sources */,
 				1558CFDF190BF00600E6B543 /* MessageListViewController.m in Sources */,
@@ -2178,7 +2161,6 @@
 				1558D017190BF34300E6B543 /* EGORefreshTableHeaderView.m in Sources */,
 				D3DA69C1197A5FAB00D48864 /* AboutViewController.m in Sources */,
 				153DCA751917DD8100072F4F /* UILabel+Extensions.m in Sources */,
-				1592099D196B4E90000A1F0E /* TopicDetailViewController.m in Sources */,
 				D303A4CF19B4B5C700FCF0F8 /* VoteModel.m in Sources */,
 				1558CF98190B9C5400E6B543 /* AppDelegate.m in Sources */,
 				1558CF94190B9C5400E6B543 /* main.m in Sources */,

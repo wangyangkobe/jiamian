@@ -47,7 +47,6 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
             [huiFuArr addObjectsFromArray:requestRes];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"requestRes = %@", requestRes);
             [SVProgressHUD dismiss];
             [self.collectionView reloadData];
         });
