@@ -188,11 +188,6 @@
         NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"changedMsg"];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
         self.selectedMsg = message;
-        if (message.is_official == NO)
-        {
-            [UIView animateForVisibleNumberInView:headerView];
-            headerView.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", message.visible_count];
-        }
     }
 }
 - (void)handleJuBaoBtnPress:(UIButton*)sender

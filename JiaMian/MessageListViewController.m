@@ -616,10 +616,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
     if (message)
     {
-        if (message.is_official == NO)
-        {
-            [UIView animateForVisibleNumberInView:tappedCell.contentView];
-        }
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
 }
