@@ -15,9 +15,6 @@
 #import "MsgTableViewCell.h"
 
 
-
-
-
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
 #define kTopicNumberLabel 8993
@@ -31,13 +28,17 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     UIView* parentView;
     UIImageView* plusImageView;
     BOOL flag; //是否点击加号
-    int messageType;
+    
+    BOOL isMoreViewOpen;
+    
+    int messageType;  //热门 或 最新
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
     int i;//爱心点赞特效
+    
+    HMSegmentedControl* segmentedControl;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
-@property (strong, nonatomic) UIImageView* maoBoliView;
 @property (strong, nonatomic) UIButton* fayanBtn;
 @property (strong, nonatomic) UIButton* toupiaoBtn;
 @property (strong, nonatomic) UIView* lineView1;
@@ -166,7 +167,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (void)handlePublishMsgSuccess {
     segmentedControl.selectedSegmentIndex = 1; // 最新消息
-    [segmentedControl sendActionsForControlEvents:UIControlEventValueChanged];    
+    [segmentedControl sendActionsForControlEvents:UIControlEventValueChanged];
 }
 - (void)handlePlusTapped
 {
@@ -223,8 +224,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [shareBtn setFrame:CGRectMake(10, 20, 60, 60)];
         shareBtn.layer.cornerRadius = 30;
         [shareBtn setImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-//      [shareBtn setBackgroundColor:[UIColor redColor]];
-//       [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
+        //      [shareBtn setBackgroundColor:[UIColor redColor]];
+        //       [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
         [shareBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:shareBtn];
         
@@ -241,11 +242,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [juBaoBtn setFrame:CGRectMake(10, 220, 60, 60)];
         juBaoBtn.layer.cornerRadius = 30;
         [juBaoBtn setImage:[UIImage imageNamed:@"report.png"] forState:UIControlStateNormal];
-//      [juBaoBtn setBackgroundColor:[UIColor redColor]];
-//       [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
+        //      [juBaoBtn setBackgroundColor:[UIColor redColor]];
+        //       [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
         [juBaoBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:juBaoBtn];
-        
     }
     return _moreBtnView;
 }
@@ -307,7 +307,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     } completion:^(BOOL finished) {
         flag = NO;
     }];
-
+    
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -322,7 +322,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     } completion:^(BOOL finished) {
         flag = NO;
     }];
-
+    
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
 {
@@ -368,10 +368,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* hotMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
-                                                                        categoryId:_categoryId
-                                                                           sinceId:0
-                                                                             maxId:INT_MAX
-                                                                             count:20];
+                                                                     categoryId:_categoryId
+                                                                        sinceId:0
+                                                                          maxId:INT_MAX
+                                                                          count:20];
         [messageArray addObjectsFromArray:hotMsgs];
         [hotMsgArray addObjectsFromArray:hotMsgs];
         
@@ -478,7 +478,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
         [msgCell.bgImageView setImage:[UIImage imageNamed:imageName]];
     }
-
+    
     [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
     [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
     if (currentMsg.has_like)
@@ -518,10 +518,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType
-                                                                         categoryId:_categoryId
-                                                                            sinceId:0
-                                                                              maxId:INT_MAX
-                                                                              count:20];
+                                                                        categoryId:_categoryId
+                                                                           sinceId:0
+                                                                             maxId:INT_MAX
+                                                                             count:20];
         if (messageType == 1) {
             [hotMsgArray removeAllObjects];
             [hotMsgArray addObjectsFromArray:requestRes];
@@ -531,7 +531,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         }
         [messageArray removeAllObjects];
         [messageArray addObjectsFromArray:requestRes];
-
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {
