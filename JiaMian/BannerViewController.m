@@ -99,8 +99,8 @@
 - (void)fetchDataFromServer:(UIRefreshControl*)object
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:5];
-        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:5 orderId:0];
+        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:6];
+        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:6 orderId:0];
         if (banners.count > 0) {
             [bannerArr removeAllObjects];
             [bannerArr addObjectsFromArray:banners];
