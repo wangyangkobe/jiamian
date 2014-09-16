@@ -6,7 +6,7 @@
 //  Copyright (c) 2014年 wy. All rights reserved.
 //
 
-#import "HomePageViewController.h"
+#import "MessageListViewController.h"
 #import "PublishMsgViewController.h"
 #import "MessageDetailViewController.h"
 #import "CommonMarco.h"
@@ -25,7 +25,7 @@
 #define kTouPiaoBtnTag    8991
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
-@interface HomePageViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
+@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
 {
     NSMutableArray* messageArray;
     UIView* parentView;
@@ -44,7 +44,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @property (strong, nonatomic) UIView* lineView2;
 @end
 
-@implementation HomePageViewController
+@implementation MessageListViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -101,7 +101,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     else
     {
-        HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
+        segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
         [segmentedControl setSelectionIndicatorHeight:2.0f];
         segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         segmentedControl.frame = CGRectMake(80, 40, 130, 30);
@@ -126,19 +126,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     [self fetchDataFromServer];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshTable)
-                                                 name:@"publishMessageSuccess"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(fetchDataFromServerForAreaChange)
-                                                 name:@"changeAreaSuccess"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleRemoteNotification:)
-                                                 name:@"showRomoteNotification"
-                                               object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handlePublishMsgSuccess) name:@"publishMessageSuccess" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(fetchDataFromServerForAreaChange) name:@"changeAreaSuccess" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handleRemoteNotification:) name:@"showRomoteNotification" object:nil];
     
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[USER_DEFAULT objectForKey:kSelfHuanXinId]
                                                         password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
@@ -151,9 +142,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [self.pullTableView addGestureRecognizer:recognizer];
     
     parentView = [[UIView alloc] initWithFrame:CGRectMake(0,350, 45, 45)];
-    //parentView.backgroundColor = [UIColor colorWithWhite:(0x263645) alpha:0.8];
-    parentView.backgroundColor =UIColorFromRGB(0x263645);
-    parentView.alpha=0.8;
+    parentView.backgroundColor = UIColorFromRGB(0x263645);
+    parentView.alpha = 0.8;
     plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(13.5, 13.5, 18, 18)];
     [plusImageView setImage:[UIImage imageNamed:@"plus2.png"]];
     [plusImageView setBackgroundColor:[UIColor clearColor]];
@@ -168,14 +158,15 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
     messageType = (sender.selectedSegmentIndex == 0) ? 1 : 2;
-    if (messageType == 1) {
-        [messageArray removeAllObjects];
-        [messageArray addObjectsFromArray:hotMsgArray];
-    } else {
-        [messageArray removeAllObjects];
-        [messageArray addObjectsFromArray:latestMsgArray];
+    [self.pullTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
+    if(!self.pullTableView.pullTableIsRefreshing) {
+        self.pullTableView.pullTableIsRefreshing = YES;
+        [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.5f];
     }
-    [self.pullTableView reloadData];
+}
+- (void)handlePublishMsgSuccess {
+    segmentedControl.selectedSegmentIndex = 1; // 最新消息
+    [segmentedControl sendActionsForControlEvents:UIControlEventValueChanged];    
 }
 - (void)handlePlusTapped
 {
@@ -219,6 +210,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
     UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
     [cell.contentView addSubview:self.moreBtnView];
+    isMoreViewOpen = YES;
 }
 - (UIView*)moreBtnView
 {
@@ -299,6 +291,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                          }];
     }
     [_moreBtnView removeFromSuperview];
+    isMoreViewOpen = NO;
 }
 #pragma mark - MsgTableViewCellDelegate
 - (void)removeMoreBtnViewFromCell
@@ -374,15 +367,19 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:1 // 1:热门
+        NSArray* hotMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
-        [messageArray addObjectsFromArray:requestRes];
-        [hotMsgArray addObjectsFromArray:requestRes];
+        [messageArray addObjectsFromArray:hotMsgs];
+        [hotMsgArray addObjectsFromArray:hotMsgs];
         
-        NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:0 maxId:INT_MAX count:20];
+        NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2  //最新
+                                                                        categoryId:_categoryId
+                                                                           sinceId:0
+                                                                             maxId:INT_MAX
+                                                                             count:20];
         [latestMsgArray addObjectsFromArray:latestMsgs];
         
         dispatch_sync(dispatch_get_main_queue(), ^{
@@ -396,14 +393,16 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:(int)messageType
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
         if (messageType == 1) {
+            [hotMsgArray removeAllObjects];
             [hotMsgArray addObjectsFromArray:requestRes];
         } else {
+            [latestMsgArray removeAllObjects];
             [latestMsgArray addObjectsFromArray:requestRes];
         }
         [messageArray addObjectsFromArray:requestRes];
@@ -489,6 +488,11 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(isMoreViewOpen) {
+        [_moreBtnView removeFromSuperview];
+        isMoreViewOpen = NO;
+        return;
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
     msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
@@ -511,14 +515,23 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     if (0 == [messageArray count])
         return;
     self.pullTableView.pullTableIsRefreshing = YES;
-    long sinceId = ((MessageModel*)messageArray[0]).message_id;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* newMessages = [[NetWorkConnect sharedInstance] categoryMsgWithType:2 categoryId:_categoryId sinceId:sinceId maxId:INT_MAX count:20];
-        
-        for (MessageModel* message in [newMessages reverseObjectEnumerator]){
-            [messageArray insertObject:message atIndex:0];
+        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType
+                                                                         categoryId:_categoryId
+                                                                            sinceId:0
+                                                                              maxId:INT_MAX
+                                                                              count:20];
+        if (messageType == 1) {
+            [hotMsgArray removeAllObjects];
+            [hotMsgArray addObjectsFromArray:requestRes];
+        } else {
+            [latestMsgArray removeAllObjects];
+            [latestMsgArray addObjectsFromArray:requestRes];
         }
+        [messageArray removeAllObjects];
+        [messageArray addObjectsFromArray:requestRes];
+
         dispatch_sync(dispatch_get_main_queue(), ^{
             if ( _pullTableView.pullTableIsRefreshing )
             {

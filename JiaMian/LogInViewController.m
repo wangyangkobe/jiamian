@@ -7,7 +7,7 @@
 //
 
 #import "LogInViewController.h"
-#import "HomePageViewController.h"
+#import "MessageListViewController.h"
 #import "RegisterViewController.h"
 #import "ShowInfoViewController.h"
 

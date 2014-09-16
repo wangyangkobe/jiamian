@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "LogInViewController.h"
-#import "HomePageViewController.h"
+#import "MessageListViewController.h"
 #import "UMSocialQQHandler.h"
 
 
@@ -16,8 +16,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-       
-        // Override point for customization after application launch.
+    // Override point for customization after application launch.
     [self clearDefaults];
     
     if (IOS_NEWER_OR_EQUAL_TO_7)
@@ -25,7 +24,8 @@
         [[UINavigationBar appearance] setBarTintColor:UIColorFromRGB(0x293645)];
         [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     }
-    else{
+    else
+    {
         [[UINavigationBar appearance] setTintColor:UIColorFromRGB(0x293645)];
     }
     
@@ -85,7 +85,7 @@
 	[[EaseMob sharedInstance] enableBackgroundReceiveMessage];
 	[[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
-       return YES;
+    return YES;
 }
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias
 {

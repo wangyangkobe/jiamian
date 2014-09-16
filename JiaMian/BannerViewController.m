@@ -148,17 +148,7 @@
 {
     CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
     UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
-    if (3 == category.category_id) //圈内八卦
-    {
-        BOOL isLogIn = [USER_DEFAULT boolForKey:kUserLogIn];
-        if ( NO == isLogIn )
-        {
-            RegAndLoginViewController* logInVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-            [self presentViewController:logInVC animated:YES completion:nil];
-            return;
-        }
-    }
-    HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+    MessageListViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
     homeVC.hidesBottomBarWhenPushed = YES;
     homeVC.categoryId = category.category_id;
     [self.navigationController pushViewController:homeVC animated:YES];

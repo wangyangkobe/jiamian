@@ -8,7 +8,7 @@
 
 #import "RegisterViewController.h"
 #import "LogInViewController.h"
-#import "HomePageViewController.h"
+#import "MessageListViewController.h"
 #import "SVProgressHUD.h"
 @interface RegisterViewController ()
 
@@ -174,7 +174,7 @@
             [[NSUserDefaults standardUserDefaults] setInteger:userSelf.area.area_id forKey:kUserAreaId];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
-            HomePageViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+            MessageListViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
             [[UIApplication sharedApplication].keyWindow setRootViewController:homeVC];
         }
     }

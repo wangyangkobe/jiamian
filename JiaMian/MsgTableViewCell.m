@@ -42,7 +42,6 @@
 }
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
-    NSLog(@"%s", __FUNCTION__);
     if (highlighted) {
         if (_delegate && [_delegate respondsToSelector:@selector(removeMoreBtnViewFromCell)]) {
             [_delegate removeMoreBtnViewFromCell];
