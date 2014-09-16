@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *commentImageView;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *moreImageView;
 
 @property (weak, nonatomic) id<MsgTableViewCellDelegate> delegate;
 @end

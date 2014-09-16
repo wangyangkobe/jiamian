@@ -55,14 +55,6 @@
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" tag="8008" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="SEr-EX-d3a">
-                    <rect key="frame" x="270" y="15" width="30" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                    <state key="normal" title="举报">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more.png" id="EsB-Zc-UBQ">
                     <rect key="frame" x="275" y="288" width="20" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -76,7 +68,6 @@
                 <outlet property="bgImageView" destination="r4f-ks-TI4" id="Qr9-un-ADv"/>
                 <outlet property="commentImageView" destination="9ql-JN-dEo" id="GCe-E7-Y3e"/>
                 <outlet property="commentNumLabel" destination="OaQ-Qb-oQo" id="mDO-xm-UF9"/>
-                <outlet property="juBaoButton" destination="SEr-EX-d3a" id="NQH-iJ-ygb"/>
                 <outlet property="likeImageView" destination="2Yq-kd-aJo" id="irh-jw-RvJ"/>
                 <outlet property="likeNumberLabel" destination="HD3-36-UIa" id="IDp-w2-AF9"/>
                 <outlet property="maskImageView" destination="DD3-2x-rVQ" id="SCA-uF-mKW"/>

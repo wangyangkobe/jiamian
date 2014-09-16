@@ -224,7 +224,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     if (_moreBtnView == nil) {
         _moreBtnView = [[UIView alloc] initWithFrame:CGRectMake(240, 0, 320, 320)];
-        [_moreBtnView setBackgroundColor:[UIColor clearColor]];
+        //[_moreBtnView setBackgroundColor:[UIColor clearColor]];
+        _moreBtnView.backgroundColor=[UIColor whiteColor];
+        _moreBtnView.alpha=0.7;
         UIButton* shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [shareBtn setFrame:CGRectMake(10, 20, 60, 60)];
         shareBtn.layer.cornerRadius = 30;

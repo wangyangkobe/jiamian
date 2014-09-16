@@ -41,7 +41,6 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     UIBarButtonItem* shareMessageBarBtn = [[UIBarButtonItem alloc] initWithTitle:@"分享"
                                                                            style:UIBarButtonItemStylePlain
                                                                           target:self

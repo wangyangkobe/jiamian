@@ -97,6 +97,8 @@
                          @"Other_Info_2": @[@"obj1", @"obj2"],
                          @"Other_Info_3": @{@"key1": @"obj1", @"key2": @"obj2"}};
     [WeiboSDK sendRequest:request];
+    
+
 }
 
 - (IBAction)tencentQQLogIn:(id)sender {
