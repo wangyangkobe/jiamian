@@ -1013,7 +1013,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="qq_login_pressed.png"/>
-                                <state key="highlighted" image="qq_login_push.png"/>
+                                <state key="highlighted" title="QQ登陆" backgroundImage="qqafter.png"/>
                                 <connections>
                                     <action selector="tencentQQLogIn:" destination="gKw-bS-p2U" eventType="touchUpInside" id="11t-jk-apC"/>
                                 </connections>
@@ -1025,7 +1025,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <state key="selected" image="sina_login_pressed.png"/>
-                                <state key="highlighted" image="sina_login_push.png"/>
+                                <state key="highlighted" title="微博登陆" backgroundImage="weibo-after.png"/>
                                 <connections>
                                     <action selector="sinaWBLogIn:" destination="gKw-bS-p2U" eventType="touchUpInside" id="ibB-XD-skL"/>
                                 </connections>
@@ -1078,11 +1078,11 @@
         <image name="oldPeople.png" width="106" height="14"/>
         <image name="qq.png" width="127" height="37"/>
         <image name="qq_login_pressed.png" width="320" height="480"/>
-        <image name="qq_login_push.png" width="260" height="68"/>
+        <image name="qqafter.png" width="127" height="37"/>
         <image name="set.png" width="21" height="22"/>
         <image name="sina_login_pressed.png" width="320" height="480"/>
-        <image name="sina_login_push.png" width="260" height="68"/>
         <image name="tiXing.png" width="21" height="22"/>
+        <image name="weibo-after.png" width="128" height="37"/>
         <image name="weibo.png" width="127" height="37"/>
         <image name="zhuce.png" width="263" height="37"/>
         <image name="zhuceAfter.png" width="263" height="37"/>

@@ -20,7 +20,7 @@
 {
     CGFloat headerViewHeight;
     NSMutableArray* commentArr;
-    
+    int i;
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
 }
@@ -170,8 +170,19 @@
     if (self.selectedMsg.has_like)
         return;
     TableHeaderView* headerView = (TableHeaderView*)[gestureRecognizer.view superview];
-    [headerView.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
+    
+    //爱心特效
+    headerView.likeImageView.layer.contents = (id)[UIImage imageNamed:(i%2==0?@"2":@"1")].CGImage;
+    CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    k.values = @[@(0.1),@(1.0),@(1.5)];
+    k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+    k.calculationMode = kCAAnimationLinear;
+    
+    i++;
+    [headerView.likeImageView.layer addAnimation:k forKey:@"SHOW"];
+    [headerView.likeImageView setImage:[UIImage imageNamed:@"ic_liked.png"]];
     [headerView.likeNumberLabel setText:[NSString stringWithFormat:@"%d", self.selectedMsg.likes_count + 1]];
+    
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:self.selectedMsg.message_id];
     if (message)
     {

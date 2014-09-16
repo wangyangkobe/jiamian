@@ -89,7 +89,6 @@
 }
 
 - (IBAction)sinaWBLogIn:(id)sender {
-    [self.sinaBtn setImage:[UIImage imageNamed:@"weibo-after.png"] forState:UIControlStateHighlighted];
     WBAuthorizeRequest *request = [WBAuthorizeRequest request];
     request.redirectURI = kSinaRedirectURI;
     request.scope = @"all";

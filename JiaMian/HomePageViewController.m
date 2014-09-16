@@ -15,6 +15,9 @@
 #import "MsgTableViewCell.h"
 
 
+
+
+
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
 #define kTopicNumberLabel 8993
@@ -34,6 +37,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     int i;//爱心点赞特效
 }
 @property (strong, nonatomic) UIView* moreBtnView;
+@property (strong, nonatomic) UIImageView* maoBoliView;
 @property (strong, nonatomic) UIButton* fayanBtn;
 @property (strong, nonatomic) UIButton* toupiaoBtn;
 @property (strong, nonatomic) UIView* lineView1;
@@ -159,7 +163,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     UITapGestureRecognizer* plusTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handlePlusTapped)];
     plusTapGesture.numberOfTapsRequired = 1;
     [plusImageView setUserInteractionEnabled:YES];
-    [plusImageView addGestureRecognizer:plusTapGesture];
+    [parentView addGestureRecognizer:plusTapGesture];
     
 }
 - (void)segmentedControlChangedValue:(HMSegmentedControl*)sender {
@@ -220,30 +224,34 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     if (_moreBtnView == nil) {
         _moreBtnView = [[UIView alloc] initWithFrame:CGRectMake(240, 0, 320, 320)];
-        [_moreBtnView setBackgroundColor:[UIColor lightGrayColor]];
+        [_moreBtnView setBackgroundColor:[UIColor clearColor]];
         UIButton* shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareBtn setFrame:CGRectMake(10, 30, 60, 60)];
+        [shareBtn setFrame:CGRectMake(10, 20, 60, 60)];
         shareBtn.layer.cornerRadius = 30;
-        [shareBtn setBackgroundColor:[UIColor redColor]];
-        [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
+        [shareBtn setImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
+//      [shareBtn setBackgroundColor:[UIColor redColor]];
+//       [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
         [shareBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:shareBtn];
         
         UIButton* privateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [privateBtn setFrame:CGRectMake(10, 130, 60, 60)];
+        [privateBtn setFrame:CGRectMake(10, 120, 60, 60)];
         privateBtn.layer.cornerRadius = 30;
-        [privateBtn setBackgroundColor:[UIColor redColor]];
-        [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
+        [privateBtn setImage:[UIImage imageNamed:@"emai.png"] forState:UIControlStateNormal];
+//      [privateBtn setBackgroundColor:[UIColor redColor]];
+//       [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
         [privateBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:privateBtn];
         
         UIButton* juBaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [juBaoBtn setFrame:CGRectMake(10, 230, 60, 60)];
+        [juBaoBtn setFrame:CGRectMake(10, 220, 60, 60)];
         juBaoBtn.layer.cornerRadius = 30;
-        [juBaoBtn setBackgroundColor:[UIColor redColor]];
-        [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
+        [juBaoBtn setImage:[UIImage imageNamed:@"report.png"] forState:UIControlStateNormal];
+//      [juBaoBtn setBackgroundColor:[UIColor redColor]];
+//       [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
         [juBaoBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_moreBtnView addSubview:juBaoBtn];
+        
     }
     return _moreBtnView;
 }
@@ -294,10 +302,32 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)removeMoreBtnViewFromCell
 {
     [self.moreBtnView removeFromSuperview];
+    [UIView animateWithDuration:0.3 animations:^{
+        plusImageView.transform = CGAffineTransformMakeRotation(0);
+        [self.fayanBtn removeFromSuperview];
+        [self.toupiaoBtn removeFromSuperview];
+        [self.lineView1 removeFromSuperview];
+        [self.lineView2 removeFromSuperview];
+        parentView.frame = CGRectMake(0,350,45,45);
+    } completion:^(BOOL finished) {
+        flag = NO;
+    }];
+
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.moreBtnView removeFromSuperview];
+    [UIView animateWithDuration:0.3 animations:^{
+        plusImageView.transform = CGAffineTransformMakeRotation(0);
+        [self.fayanBtn removeFromSuperview];
+        [self.toupiaoBtn removeFromSuperview];
+        [self.lineView1 removeFromSuperview];
+        [self.lineView2 removeFromSuperview];
+        parentView.frame = CGRectMake(0,350,45,45);
+    } completion:^(BOOL finished) {
+        flag = NO;
+    }];
+
 }
 - (void)handleRemoteNotification:(NSNotification*)notification
 {
@@ -401,13 +431,15 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SCREEN_WIDTH;
+    return SCREEN_WIDTH+10;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
                                                                                  forIndexPath:indexPath];
+    cell.backgroundColor=UIColorFromRGB(0x344c62);
+    tableView.separatorStyle = NO;
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     cell.msgTextLabel.text = currentMsg.text;
     cell.areaLabel.text = currentMsg.area.area_name;

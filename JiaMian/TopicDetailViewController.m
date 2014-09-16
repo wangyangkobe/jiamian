@@ -17,6 +17,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     NSMutableArray* messageArray;
     UIView* moreBtnView;
+    
 }
 
 @end

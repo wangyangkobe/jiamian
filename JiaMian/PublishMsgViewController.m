@@ -59,6 +59,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    //隐藏tableview边框
+    //self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableFooterView = [[UIView alloc]init];
     // Do any additional setup after loading the view.
     if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
         self.edgesForExtendedLayout = UIRectEdgeNone;
