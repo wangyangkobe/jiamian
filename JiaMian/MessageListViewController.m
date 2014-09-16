@@ -34,6 +34,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     int messageType;  //热门 或 最新
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
+
+    HMSegmentedControl* segmentedControl;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
 @property (strong, nonatomic) UIButton* fayanBtn;
@@ -99,7 +101,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     else
     {
-        HMSegmentedControl *segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
+        segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"热门", @"最新"]];
         [segmentedControl setSelectionIndicatorHeight:2.0f];
         segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         segmentedControl.frame = CGRectMake(80, 40, 130, 30);
@@ -124,19 +126,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     [self fetchDataFromServer];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(refreshTable)
-                                                 name:@"publishMessageSuccess"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(fetchDataFromServerForAreaChange)
-                                                 name:@"changeAreaSuccess"
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleRemoteNotification:)
-                                                 name:@"showRomoteNotification"
-                                               object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handlePublishMsgSuccess) name:@"publishMessageSuccess" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(fetchDataFromServerForAreaChange) name:@"changeAreaSuccess" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handleMsgChanged:) name:@"msgChangedNoti" object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(handleRemoteNotification:) name:@"showRomoteNotification" object:nil];
     
     [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[USER_DEFAULT objectForKey:kSelfHuanXinId]
                                                         password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
@@ -149,9 +142,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [self.pullTableView addGestureRecognizer:recognizer];
     
     parentView = [[UIView alloc] initWithFrame:CGRectMake(0,350, 45, 45)];
-    //parentView.backgroundColor = [UIColor colorWithWhite:(0x263645) alpha:0.8];
-    parentView.backgroundColor =UIColorFromRGB(0x263645);
-    parentView.alpha=0.8;
+    parentView.backgroundColor = UIColorFromRGB(0x263645);
+    parentView.alpha = 0.8;
     plusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(13.5, 13.5, 18, 18)];
     [plusImageView setImage:[UIImage imageNamed:@"plus2.png"]];
     [plusImageView setBackgroundColor:[UIColor clearColor]];
@@ -170,6 +162,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         self.pullTableView.pullTableIsRefreshing = YES;
         [self performSelector:@selector(refreshTable) withObject:nil afterDelay:0.5f];
     }
+}
+- (void)handlePublishMsgSuccess {
+    segmentedControl.selectedSegmentIndex = 1; // 最新消息
+    [segmentedControl sendActionsForControlEvents:UIControlEventValueChanged];    
 }
 - (void)handlePlusTapped
 {
@@ -342,13 +338,13 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
+        NSArray* hotMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
                                                                         categoryId:_categoryId
                                                                            sinceId:0
                                                                              maxId:INT_MAX
                                                                              count:20];
-        [messageArray addObjectsFromArray:requestRes];
-        [hotMsgArray addObjectsFromArray:requestRes];
+        [messageArray addObjectsFromArray:hotMsgs];
+        [hotMsgArray addObjectsFromArray:hotMsgs];
         
         NSArray* latestMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:2  //最新
                                                                         categoryId:_categoryId
