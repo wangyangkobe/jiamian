@@ -129,19 +129,21 @@
         [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
     
     UIImageView* bgImageView = (UIImageView*)[cell.contentView viewWithTag:kBgImageViewTag];
-    int backGroudType = [[attribute objectForKey:@"msgBackgroundType"] integerValue];
+    NSInteger backGroudType = [[attribute objectForKey:@"msgBackgroundType"] integerValue];
     if (2 == backGroudType) {
         NSString* background_url = [attribute objectForKey:@"msgBackgroundUrl"];
         [bgImageView setImageWithURL:[NSURL URLWithString:background_url] placeholderImage:nil];
     } else {
-        int bgImageNo = [[attribute objectForKey:@"msgBackgroundNoNew"] integerValue];
-        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
+        NSInteger bgImageNo = [[attribute objectForKey:@"msgBackgroundNoNew"] integerValue];
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%ld@2x.jpg", (long)bgImageNo];
         [bgImageView setImage:[UIImage imageNamed:imageName]];
     }
     
     UILabel* msgLabel = (UILabel*)[cell.contentView viewWithTag:kMsgTextLabelTag];
     [msgLabel setText:[attribute objectForKey:@"msgText"]];
-    
+    UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kTimeLabelTag];
+    [timeLabel setText:@"2014-09-14 20:30"];
+   // [timeLabel setText:[NSString convertTimeFormat:[NSString stringWithFormat:@"%lld", latestMsg.timestamp]]];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -165,7 +167,7 @@
         chatController.myHeadImage = attribute[@"myHeaderUrl"];
         chatController.chatterHeadImage = attribute[@"headerUrl"];
     }
-    int msgId = [attribute[@"msgId"] integerValue];
+    NSInteger msgId = [attribute[@"msgId"] integerValue];
     chatController.message = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
     [conversation markMessagesAsRead:YES];
     chatController.hidesBottomBarWhenPushed = YES;

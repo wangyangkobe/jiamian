@@ -15,7 +15,7 @@
 - (CGSize)sizeWithFontSize:(float)fSize constrainedToSize:(CGSize)cSize;
 - (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)cSize;
 + (NSString*)md5HexDigest:(NSString*)inputStr;
-+ (NSString*) generateQiNiuFileName;
++ (NSString*)generateQiNiuFileName;
 + (UIColor*)hexStringToColor:(NSString *)stringToConvert;
 
 + (NSString*)bool2str:(BOOL)Bool;
