@@ -23,9 +23,11 @@
     int i;
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
+    UIActivityIndicatorView *activityIndicator;
 }
+@property (nonatomic, strong) UIView* footerView;
 @end
-
+ 
 @implementation MessageDetailViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -54,12 +56,17 @@
     
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    activityIndicator.center = CGPointMake(SCREEN_WIDTH * 0.5,  50);
+    activityIndicator.hidesWhenStopped = YES;
+    [self.tableView addSubView:activityIndicator];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
     commentArr = [NSMutableArray array];
+    [activityIndicator startAnimating];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         long msgId = self.selectedMsg.message_id;
         NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:INT_MAX];
@@ -67,6 +74,11 @@
         
         MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
         dispatch_async(dispatch_get_main_queue(), ^{
+            [activityIndicator stopAnimating];
+            if (commentArr.count == 0)
+                self.tableView.footerView = self.footerView;
+            else
+                self.tableView.footerView = nil;
             [self.tableView reloadData];
             if (message) {
                 self.selectedMsg = message;
@@ -80,6 +92,15 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"PageOne"];
+}
+- (UIView*)footerView {
+    if (_footerView == nil) {
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        UILabel* footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        footerLabel.text = @"还没有评论，来一发?";
+        [_footerView addSubView:footerLabel];
+    }
+    return _footerView;
 }
 - (void)shareMsgBtnPressed:(id)sender
 {
@@ -469,6 +490,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
         
         [commentArr addObject:comment];
+        self.tableView.footerView = nil;
         [textView setText:@""];
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
