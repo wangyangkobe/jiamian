@@ -40,7 +40,7 @@
     #import "ChatListViewController.h"
     #import "HxUserModel.h"
     #import "BannerViewController.h"
-    #import "ChaViewController.h"
+    #import "ChatViewController.h"
     #import "RegAndLoginViewController.h"
     #import "MessageListViewController.h"
     #import "UIActionSheet+Blocks.h"

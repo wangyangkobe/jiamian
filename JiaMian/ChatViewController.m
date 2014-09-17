@@ -6,9 +6,9 @@
 //  Copyright (c) 2014年 wy. All rights reserved.
 //
 
-#import "ChaViewController.h"
+#import "ChatViewController.h"
 
-@interface ChaViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate, UIBubbleTableViewDataSource>
+@interface ChatViewController () <UITextFieldDelegate, IChatManagerDelegate, IDeviceManagerDelegate, HPGrowingTextViewDelegate, UIBubbleTableViewDataSource>
 {
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
@@ -20,7 +20,7 @@
 
 #define KPageCount 10
 
-@implementation ChaViewController
+@implementation ChatViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -104,9 +104,13 @@
     
     NSMutableDictionary* attribute = [NSMutableDictionary dictionary];
     [attribute setObject:[NSString stringWithFormat:@"%ld", (long)_customFlag] forKey:@"customFlag"];
-    
     [attribute setObject:_myHeadImage forKey:@"myHeaderUrl"];
     [attribute setObject:_chatterHeadImage forKey:@"headerUrl"];
+    [attribute setObject:[NSNumber numberWithInt:_message.background_no2] forKey:@"msgBackgroundNoNew"];
+    [attribute setObject:_message.background_url forKey:@"msgBackgroundUrl"];
+    [attribute setObject:[NSNumber numberWithInt:_message.background_type] forKey:@"msgBackgroundType"];
+    [attribute setObject:_message.text forKey:@"msgText"];
+    [attribute setObject:[NSNumber numberWithLong:_message.message_id] forKey:@"msgId"];
     
     sendMsg.ext = @{@"attribute": attribute};
     

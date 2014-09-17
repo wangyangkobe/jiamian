@@ -311,7 +311,7 @@
 		D3F1942219A23094000829FD /* UIBubbleTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1941019A23094000829FD /* UIBubbleTableView.m */; };
 		D3F1942319A23094000829FD /* UIBubbleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1941219A23094000829FD /* UIBubbleTableViewCell.m */; };
 		D3F1942419A23094000829FD /* UIBubbleTypingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1941519A23094000829FD /* UIBubbleTypingTableViewCell.m */; };
-		D3F1942719A23381000829FD /* ChaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1942619A23381000829FD /* ChaViewController.m */; };
+		D3F1942719A23381000829FD /* ChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F1942619A23381000829FD /* ChatViewController.m */; };
 		D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F27D83197D477B00737A63 /* UIView+Extensions.m */; };
 		D3F60E9B19AE93B700BA91BF /* MsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */; };
 		D3F60E9E19AE93EB00BA91BF /* MsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F60E9D19AE93EB00BA91BF /* MsgTableViewCell.m */; };
@@ -805,8 +805,8 @@
 		D3F1941319A23094000829FD /* UIBubbleTableViewDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTableViewDataSource.h; sourceTree = "<group>"; };
 		D3F1941419A23094000829FD /* UIBubbleTypingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIBubbleTypingTableViewCell.h; sourceTree = "<group>"; };
 		D3F1941519A23094000829FD /* UIBubbleTypingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIBubbleTypingTableViewCell.m; sourceTree = "<group>"; };
-		D3F1942519A23381000829FD /* ChaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChaViewController.h; sourceTree = "<group>"; };
-		D3F1942619A23381000829FD /* ChaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChaViewController.m; sourceTree = "<group>"; };
+		D3F1942519A23381000829FD /* ChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatViewController.h; sourceTree = "<group>"; };
+		D3F1942619A23381000829FD /* ChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatViewController.m; sourceTree = "<group>"; };
 		D3F27D82197D477B00737A63 /* UIView+Extensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extensions.h"; sourceTree = "<group>"; };
 		D3F27D83197D477B00737A63 /* UIView+Extensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extensions.m"; sourceTree = "<group>"; };
 		D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MsgTableViewCell.xib; sourceTree = "<group>"; };
@@ -1105,8 +1105,8 @@
 				1558CFBD190BA56700E6B543 /* LogInViewController.m */,
 				D3AD330E19B201FD0056D165 /* RegAndLoginViewController.h */,
 				D3AD330F19B201FD0056D165 /* RegAndLoginViewController.m */,
-				D3F1942519A23381000829FD /* ChaViewController.h */,
-				D3F1942619A23381000829FD /* ChaViewController.m */,
+				D3F1942519A23381000829FD /* ChatViewController.h */,
+				D3F1942619A23381000829FD /* ChatViewController.m */,
 				D388404C19A0EC8600823ACA /* ChatListViewController.h */,
 				D388404D19A0EC8600823ACA /* ChatListViewController.m */,
 				D388404919A0C6E800823ACA /* TiXingViewController.h */,
@@ -2104,7 +2104,7 @@
 				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */,
 				D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */,
-				D3F1942719A23381000829FD /* ChaViewController.m in Sources */,
+				D3F1942719A23381000829FD /* ChatViewController.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
 				15596717190E71BE00FB760A /* UserModel.m in Sources */,
 				15503E11193784E200CD737D /* QiniuSimpleUploader.m in Sources */,

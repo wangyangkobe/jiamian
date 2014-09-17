@@ -278,7 +278,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     else if ([btnTitle isEqual:@"私信"]) {
         HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:currentMsg.message_id];
-        ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+        ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
         
         chatVC.chatter = hxUserInfo.user.easemob_name;
         chatVC.myHeadImage = hxUserInfo.my_head_image;

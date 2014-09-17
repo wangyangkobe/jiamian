@@ -11,7 +11,7 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "NSBubbleData.h"
 
-@interface ChaViewController : UIViewController
+@interface ChatViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *bubbleTable;
@@ -20,4 +20,5 @@
 @property (copy, nonatomic) NSString* chatter;
 @property (copy, nonatomic) NSString* myHeadImage;
 @property (copy, nonatomic) NSString* chatterHeadImage;
+@property (copy, nonatomic) MessageModel* message;
 @end
