@@ -57,9 +57,9 @@
     self.tableView.tableHeaderView = [self configureTableHeaderView];
     [self configureToolBar];
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    activityIndicator.center = CGPointMake(SCREEN_WIDTH * 0.5,  50);
+    activityIndicator.center = CGPointMake(SCREEN_WIDTH * 0.5,  370);
     activityIndicator.hidesWhenStopped = YES;
-    [self.tableView addSubView:activityIndicator];
+    [self.tableView addSubview:activityIndicator];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -76,9 +76,9 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityIndicator stopAnimating];
             if (commentArr.count == 0)
-                self.tableView.footerView = self.footerView;
+                self.tableView.tableFooterView = self.footerView;
             else
-                self.tableView.footerView = nil;
+                self.tableView.tableFooterView = nil;
             [self.tableView reloadData];
             if (message) {
                 self.selectedMsg = message;
@@ -95,10 +95,12 @@
 }
 - (UIView*)footerView {
     if (_footerView == nil) {
-        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
-        UILabel* footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        _footerView = [[UIView alloc] initWithFrame:CGRectMake(0,0, 320, 40)];
+        UILabel* footerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 320, 40)];
         footerLabel.text = @"还没有评论，来一发?";
-        [_footerView addSubView:footerLabel];
+        footerLabel.textColor=UIColorFromRGB(0xadb0b2);
+        footerLabel.textAlignment = NSTextAlignmentCenter;
+        [_footerView addSubview:footerLabel];
     }
     return _footerView;
 }
@@ -490,7 +492,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
         
         [commentArr addObject:comment];
-        self.tableView.footerView = nil;
+        self.tableView.tableFooterView = nil;
         [textView setText:@""];
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]

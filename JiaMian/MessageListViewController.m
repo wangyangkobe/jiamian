@@ -30,12 +30,12 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     BOOL flag; //是否点击加号
     
     BOOL isMoreViewOpen;
+    BOOL isParentView;
     
     int messageType;  //热门 或 最新
     NSMutableArray* hotMsgArray;
     NSMutableArray* latestMsgArray;
     int i;//爱心点赞特效
-    
     HMSegmentedControl* segmentedControl;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
@@ -92,6 +92,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.pullTableView.backgroundColor=UIColorFromRGB(0x344c62);
+    self.pullTableView.separatorStyle = NO;
     messageType = 1;
     hotMsgArray = [NSMutableArray array];
     latestMsgArray = [NSMutableArray array];
@@ -186,6 +188,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                             [parentView addSubview:self.toupiaoBtn];
                         } completion:^(BOOL finish){
                             flag = YES;
+                            isMoreViewOpen = YES;
                         }];
         //画线的
         self.lineView1 = [[UIView alloc] initWithFrame:CGRectMake(45,8,1.0f,30.0f)];
@@ -207,6 +210,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             parentView.frame = CGRectMake(0,350,45,45);
         } completion:^(BOOL finished) {
             flag = NO;
+            isParentView = NO;
         }];
     }
 }
@@ -215,6 +219,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
     NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
     UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
+    
     [cell.contentView addSubview:self.moreBtnView];
     isMoreViewOpen = YES;
 }
@@ -443,8 +448,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 {
     MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
                                                                                  forIndexPath:indexPath];
-    cell.backgroundColor = UIColorFromRGB(0x344c62);
+    //cell颜色和去掉线
+    cell.backgroundColor=UIColorFromRGB(0x344c62);
     tableView.separatorStyle = NO;
+    
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     cell.msgTextLabel.text = currentMsg.text;
     cell.areaLabel.text = currentMsg.area.area_name;
