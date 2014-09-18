@@ -235,10 +235,6 @@
 		CF6039F419C6B53B007B7766 /* share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6039EE19C6B53B007B7766 /* share@2x.png */; };
 		CF81CE2619BEFE3300D271F0 /* button.png in Resources */ = {isa = PBXBuildFile; fileRef = CF81CE2519BEFE3300D271F0 /* button.png */; };
 		CF81CE2819BEFE4700D271F0 /* button@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF81CE2719BEFE4700D271F0 /* button@2x.png */; };
-		CF8E2FA619C9DBBB00AE9311 /* RNBlurModalView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF8E2FA519C9DBBB00AE9311 /* RNBlurModalView.m */; };
-		CF8E2FA819C9DCBB00AE9311 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF8E2FA719C9DCBB00AE9311 /* CoreImage.framework */; };
-		CF8E2FA919C9DCC900AE9311 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEF86F619C6C53800736CE3 /* Accelerate.framework */; };
-		CF8E2FAA19C9DCD600AE9311 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFEF86FE19C6D2BF00736CE3 /* QuartzCore.framework */; };
 		CF9A34E519C6C28A00DF83AF /* weibo-after.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9A34E319C6C28A00DF83AF /* weibo-after.png */; };
 		CF9A34E619C6C28A00DF83AF /* weibo-after@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9A34E419C6C28A00DF83AF /* weibo-after@2x.png */; };
 		CF9C26F219C2D2BF00104D89 /* plus2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C26F119C2D2BF00104D89 /* plus2.png */; };
@@ -639,9 +635,6 @@
 		CF6039EE19C6B53B007B7766 /* share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "share@2x.png"; sourceTree = "<group>"; };
 		CF81CE2519BEFE3300D271F0 /* button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = button.png; sourceTree = "<group>"; };
 		CF81CE2719BEFE4700D271F0 /* button@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "button@2x.png"; sourceTree = "<group>"; };
-		CF8E2FA419C9DBB500AE9311 /* RNBlurModalView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNBlurModalView.h; sourceTree = "<group>"; };
-		CF8E2FA519C9DBBB00AE9311 /* RNBlurModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNBlurModalView.m; sourceTree = "<group>"; };
-		CF8E2FA719C9DCBB00AE9311 /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
 		CF9A34E319C6C28A00DF83AF /* weibo-after.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weibo-after.png"; sourceTree = "<group>"; };
 		CF9A34E419C6C28A00DF83AF /* weibo-after@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "weibo-after@2x.png"; sourceTree = "<group>"; };
 		CF9C26F119C2D2BF00104D89 /* plus2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus2.png; sourceTree = "<group>"; };
@@ -828,9 +821,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF8E2FAA19C9DCD600AE9311 /* QuartzCore.framework in Frameworks */,
-				CF8E2FA919C9DCC900AE9311 /* Accelerate.framework in Frameworks */,
-				CF8E2FA819C9DCBB00AE9311 /* CoreImage.framework in Frameworks */,
 				D388404119A0A9BA00823ACA /* libEaseMobClientSDKLite.a in Frameworks */,
 				D388404819A0AA5800823ACA /* libresolv.dylib in Frameworks */,
 				D388404619A0AA4600823ACA /* AddressBook.framework in Frameworks */,
@@ -1068,7 +1058,6 @@
 		1558CF86190B9C5400E6B543 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CF8E2FA719C9DCBB00AE9311 /* CoreImage.framework */,
 				CFEF86FE19C6D2BF00736CE3 /* QuartzCore.framework */,
 				CFEF86F619C6C53800736CE3 /* Accelerate.framework */,
 				D388404719A0AA5800823ACA /* libresolv.dylib */,
@@ -1273,8 +1262,6 @@
 		15596708190E71BE00FB760A /* ClassModel */ = {
 			isa = PBXGroup;
 			children = (
-				CF8E2FA419C9DBB500AE9311 /* RNBlurModalView.h */,
-				CF8E2FA519C9DBBB00AE9311 /* RNBlurModalView.m */,
 				D3AE8B8219BDE72A00A40BE6 /* TopicModel.h */,
 				D3AE8B8319BDE72A00A40BE6 /* TopicModel.m */,
 				D3F193FB19A222C7000829FD /* HxUserModel.h */,
@@ -2117,7 +2104,6 @@
 				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */,
 				D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */,
-				CF8E2FA619C9DBBB00AE9311 /* RNBlurModalView.m in Sources */,
 				D3F1942719A23381000829FD /* ChaViewController.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
 				15596717190E71BE00FB760A /* UserModel.m in Sources */,
