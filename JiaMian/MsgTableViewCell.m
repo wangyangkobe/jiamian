@@ -39,6 +39,7 @@
     [self.likeNumLabel setTextColor:UIColorFromRGB(0xffffff)];
     
     [self.likeImageView setUserInteractionEnabled:YES];
+    [self.moreImageView setUserInteractionEnabled:YES];
 }
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {

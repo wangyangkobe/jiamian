@@ -13,6 +13,9 @@
 #import "UILabel+Extensions.h"
 #import "UMFeedback.h"
 #import "MsgTableViewCell.h"
+#import "RNBlurModalView.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 
 #define kTopicTextLabel   8999
@@ -43,6 +46,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @property (strong, nonatomic) UIButton* toupiaoBtn;
 @property (strong, nonatomic) UIView* lineView1;
 @property (strong, nonatomic) UIView* lineView2;
+
+
 @end
 
 @implementation MessageListViewController
@@ -139,10 +144,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                       completion:nil onQueue:nil];
     
     //Add a left swipe gesture recognizer
-    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                                                                     action:@selector(handleSwipeLeft:)];
-    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-    [self.pullTableView addGestureRecognizer:recognizer];
+//    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+//                                                                                     action:@selector(handleSwipeLeft:)];
+//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
+//    [self.pullTableView addGestureRecognizer:recognizer];
     
     parentView = [[UIView alloc] initWithFrame:CGRectMake(0,350, 45, 45)];
     parentView.backgroundColor = UIColorFromRGB(0x263645);
@@ -214,51 +219,30 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         }];
     }
 }
-- (void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
-{
-    CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
-    NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
-    UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
-    
-    [cell.contentView addSubview:self.moreBtnView];
-    isMoreViewOpen = YES;
-}
-- (UIView*)moreBtnView
-{
-    if (_moreBtnView == nil) {
-        _moreBtnView = [[UIView alloc] initWithFrame:CGRectMake(240, 0, 320, 320)];
-        //[_moreBtnView setBackgroundColor:[UIColor clearColor]];
-        _moreBtnView.backgroundColor=[UIColor whiteColor];
-        _moreBtnView.alpha=0.7;
-        UIButton* shareBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [shareBtn setFrame:CGRectMake(10, 20, 60, 60)];
-        shareBtn.layer.cornerRadius = 30;
-        [shareBtn setImage:[UIImage imageNamed:@"share.png"] forState:UIControlStateNormal];
-        //      [shareBtn setBackgroundColor:[UIColor redColor]];
-        //       [shareBtn setTitle:@"分享" forState:UIControlStateNormal];
-        [shareBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_moreBtnView addSubview:shareBtn];
-        
-        UIButton* privateBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [privateBtn setFrame:CGRectMake(10, 120, 60, 60)];
-        privateBtn.layer.cornerRadius = 30;
-        [privateBtn setImage:[UIImage imageNamed:@"emai.png"] forState:UIControlStateNormal];
-        //      [privateBtn setBackgroundColor:[UIColor redColor]];
-        //       [privateBtn setTitle:@"私信" forState:UIControlStateNormal];
-        [privateBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_moreBtnView addSubview:privateBtn];
-        
-        UIButton* juBaoBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [juBaoBtn setFrame:CGRectMake(10, 220, 60, 60)];
-        juBaoBtn.layer.cornerRadius = 30;
-        [juBaoBtn setImage:[UIImage imageNamed:@"report.png"] forState:UIControlStateNormal];
-        //      [juBaoBtn setBackgroundColor:[UIColor redColor]];
-        //       [juBaoBtn setTitle:@"举报" forState:UIControlStateNormal];
-        [juBaoBtn addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_moreBtnView addSubview:juBaoBtn];
-    }
-    return _moreBtnView;
-}
+//- (void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
+//{
+//    CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
+//    NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
+//    UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
+//    [cell.contentView addSubview:self.moreBtnView];
+//    isMoreViewOpen = YES;
+//}
+//- (UIView*)moreBtnView
+//{
+////    if (_moreBtnView == nil) {
+////       
+////        RNBlurModalView *modal;
+////        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, 20, 20)];
+////        view.backgroundColor = [UIColor whiteColor];
+////        view.layer.cornerRadius = 5.f;
+////        view.layer.borderColor = [UIColor whiteColor].CGColor;
+////        view.layer.borderWidth = 5.f;
+////        
+////        modal = [[RNBlurModalView alloc] initWithViewController:self view:_moreBtnView];
+////        [modal show];
+////    }
+////    return _moreBtnView;
+//}
 - (void)handleMoreBtnAction:(UIButton*)sender
 {
     UITableViewCell* cell = [UIView tableViewCellFromView:sender];
@@ -301,7 +285,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                          }];
     }
     [_moreBtnView removeFromSuperview];
-    isMoreViewOpen = NO;
+//    isMoreViewOpen = NO;
 }
 #pragma mark - MsgTableViewCellDelegate
 - (void)removeMoreBtnViewFromCell
@@ -468,6 +452,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [likeImageTap setNumberOfTapsRequired:1];
     [cell.likeImageView addGestureRecognizer:likeImageTap];
     
+    
+    [cell.moreImageView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *moreImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(onDemoButton:)];
+    [moreImageTap setNumberOfTapsRequired:1];
+    [cell.moreImageView addGestureRecognizer:moreImageTap];
+    
+    
     cell.selectionStyle = UITableViewCellAccessoryNone;
     cell.delegate = self;
     return cell;
@@ -629,4 +621,47 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [messageArray replaceObjectAtIndex:tapIndexPath.row withObject:message];
     }
 }
+
+- (IBAction)onDemoButton:(id)sender {
+    
+    
+    RNBlurModalView *modal;
+    UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
+    moreView.backgroundColor = [UIColor whiteColor];
+    moreView.layer.cornerRadius = 3.f;
+//    moreView.layer.borderColor = [UIColor whiteColor].CGColor;
+//    moreView.layer.borderWidth = 5.f;
+    modal = [[RNBlurModalView alloc] initWithViewController:self view:moreView];
+    [modal show];
+    
+    UIButton* DirectMessagesBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 200, 50)];
+    [DirectMessagesBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [DirectMessagesBt setTitle:@"私信" forState:UIControlStateNormal];
+    [DirectMessagesBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:DirectMessagesBt];
+    
+    UIButton* shareBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 50, 200, 50)];
+    [shareBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareBt setTitle:@"分享" forState:UIControlStateNormal];
+    [shareBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:shareBt];
+    
+    UIButton* ToReportBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 100, 200, 50)];
+    [ToReportBt setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [ToReportBt setTitle:@"举报" forState:UIControlStateNormal];
+    [ToReportBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:ToReportBt];
+    
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(10, 50, 180, 1.0f)];
+    [lineView1 setBackgroundColor:[UIColor lightGrayColor]];
+    [moreView addSubview:lineView1];
+    
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 180, 1.0f)];
+    [lineView2 setBackgroundColor:[UIColor lightGrayColor]];
+    [moreView addSubview:lineView2];
+
+    
+}
+
 @end
