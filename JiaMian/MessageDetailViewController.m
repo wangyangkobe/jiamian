@@ -10,7 +10,7 @@
 #import "TableHeaderView.h"
 #import "SVProgressHUD.h"
 #import "UIActionSheet+Blocks.h"
-#import "ChaViewController.h"
+#import "ChatViewController.h"
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -307,12 +307,13 @@
                              tiXingVC.selectSegementIndex = buttonIndex;
                              [self.navigationController pushViewController:tiXingVC animated:YES];
                          } else if(1 == buttonIndex) {
-                             ChaViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+                             ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
                              
                              chatVC.chatter = hxUserInfo.user.easemob_name;
                              chatVC.myHeadImage = hxUserInfo.my_head_image;
                              chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
                              chatVC.customFlag = currComment.message_id;
+                             chatVC.message = self.selectedMsg;
                              [self.navigationController pushViewController:chatVC animated:YES];
                          }
                          

@@ -7,10 +7,14 @@
 //
 
 #import "ChatListViewController.h"
-#import "ChaViewController.h"
+#import "ChatViewController.h"
 
-#define kHeadImageTag 5000
-#define kTextLabelTag 5001
+#define kHeadImageTag    6000
+#define kSiXinLabelTag   6001
+#define kMsgTextLabelTag 6002
+#define kBgImageViewTag  6003
+#define kTimeLabelTag    6004
+
 @interface ChatListViewController () <UITableViewDelegate, UITableViewDataSource, IChatManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *dataSource;
 
@@ -114,24 +118,39 @@
     EMConversation* conversion = (EMConversation*)[_dataSource objectAtIndex:indexPath.row];
     EMMessage* latestMsg = conversion.latestMessage;
     EMTextMessageBody* msgBody = [latestMsg.messageBodies lastObject];
-    UILabel* textLabel = (UILabel*)[cell.contentView  viewWithTag:kTextLabelTag];
-    [textLabel setText:msgBody.text];
+    UILabel* siXinLabel = (UILabel*)[cell.contentView  viewWithTag:kSiXinLabelTag];
+    [siXinLabel setText:msgBody.text];
     
     NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
     UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
-    
     if ([latestMsg.to isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId]]) //收到
-         [headImage setImageWithURL:attribute[@"myHeaderUrl"] placeholderImage:nil];
+        [headImage setImageWithURL:attribute[@"myHeaderUrl"] placeholderImage:nil];
     else
         [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
     
+    UIImageView* bgImageView = (UIImageView*)[cell.contentView viewWithTag:kBgImageViewTag];
+    NSInteger backGroudType = [[attribute objectForKey:@"msgBackgroundType"] integerValue];
+    if (2 == backGroudType) {
+        NSString* background_url = [attribute objectForKey:@"msgBackgroundUrl"];
+        [bgImageView setImageWithURL:[NSURL URLWithString:background_url] placeholderImage:nil];
+    } else {
+        NSInteger bgImageNo = [[attribute objectForKey:@"msgBackgroundNoNew"] integerValue];
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%ld@2x.jpg", (long)bgImageNo];
+        [bgImageView setImage:[UIImage imageNamed:imageName]];
+    }
+    
+    UILabel* msgLabel = (UILabel*)[cell.contentView viewWithTag:kMsgTextLabelTag];
+    [msgLabel setText:[attribute objectForKey:@"msgText"]];
+    UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kTimeLabelTag];
+    [timeLabel setText:@"2014-09-14 20:30"];
+   // [timeLabel setText:[NSString convertTimeFormat:[NSString stringWithFormat:@"%lld", latestMsg.timestamp]]];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
     NSDictionary* attribute = [conversation.latestMessage.ext objectForKey:@"attribute"];
-    ChaViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+    ChatViewController* chatController = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
     
     chatController.chatter = conversation.chatter;
     chatController.customFlag = [attribute[@"customFlag"] integerValue];
@@ -148,8 +167,10 @@
         chatController.myHeadImage = attribute[@"myHeaderUrl"];
         chatController.chatterHeadImage = attribute[@"headerUrl"];
     }
-    
+    NSInteger msgId = [attribute[@"msgId"] integerValue];
+    chatController.message = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
     [conversation markMessagesAsRead:YES];
+    chatController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:chatController animated:YES];
 }
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

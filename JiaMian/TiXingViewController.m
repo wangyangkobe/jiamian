@@ -83,7 +83,7 @@
             vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"HuiFuVCIdentifier"];
             break;
         case 1:
-            vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SiXinVCIdentifier"];
+            vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"ChatListVCIdentifier"];
             break;
     }
     return vc;
