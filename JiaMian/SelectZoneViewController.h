@@ -12,4 +12,5 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 - (IBAction)nextStepBtnPress:(id)sender;
 @property (assign, nonatomic, getter = isFirstSelect) BOOL firstSelect;
+
 @end

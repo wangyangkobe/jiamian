@@ -21,7 +21,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 @property (nonatomic, retain) UISearchDisplayController* searchController;
 @property (retain, nonatomic) UISearchBar *searchBar;
-
+@property (nonatomic,retain ) UIImageView *companyImView;
 @end
 
 @implementation SelectZoneViewController
@@ -41,18 +41,37 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UILabel* label=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, 250, 50)];
-    label.text=@"我们会根据学校公司，为你推荐内容请放心，我们绝对不会泄露任何信息";
+    //两个label
+    UILabel* label=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 320, 52)];
+    label.text=@"看看你的同事，同学匿名后都聊什么";
+    label.textColor = UIColorFromRGB(0x666666);
+    label.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:label];
-    label.numberOfLines=2;
-    label.adjustsFontSizeToFitWidth = YES;
+    label.font = [UIFont systemFontOfSize:19];
+    //label.numberOfLines=2;
+
     
-    UILabel* tiXingLb=[[UILabel alloc]initWithFrame:CGRectMake(55, 360, 230, 50)];
-    tiXingLb.text=@"长按住圈子可取消关注圈子";
-    tiXingLb.adjustsFontSizeToFitWidth=YES;
+    UILabel* tiXingLb=[[UILabel alloc]initWithFrame:CGRectMake(0, 320, 320, 50)];
+    tiXingLb.text=@"长按可取消关注圈子";
+    tiXingLb.font = [UIFont systemFontOfSize:12];
+    tiXingLb.textColor=UIColorFromRGB(0xadb0b2);
+    tiXingLb.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:tiXingLb];
     
+    //图片
+    self.companyImView=[[UIImageView alloc]initWithFrame:CGRectMake(55, 75, 40, 40)];
+    [_companyImView setImage:[UIImage imageNamed:@"company.png"]];
+    [self.view addSubview:_companyImView];
     
+    UIImageView* schoolImView=[[UIImageView alloc]initWithFrame:CGRectMake(55, 170, 40, 40)];
+    [schoolImView setImage:[UIImage imageNamed:@"school.png"]];
+    
+    [self.view addSubview:schoolImView];
+    
+    
+    UIImageView* industryImView=[[UIImageView alloc]initWithFrame:CGRectMake(55, 257, 40, 40)];
+    [industryImView setImage:[UIImage imageNamed:@"business.png"]];
+    [self.view addSubview:industryImView];
     
     
     // Do any additional setup after loading the view.
@@ -92,7 +111,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     }else{
         lastSelectZones = [NSKeyedUnarchiver unarchiveObjectWithData:lastSelectData];
     }
-    
     NSLog(@"%s, lastSelectZones = %@", __FUNCTION__, lastSelectZones);
     
     NSMutableDictionary* company = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+公司", @0x5cbbea, [NSNull null], nil]
@@ -106,7 +124,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
                                                        forKeys:@[[NSNumber numberWithInt:ZoneTypeCompany],
                                                                  [NSNumber numberWithInt:ZoneTypeSchool],
                                                                  [NSNumber numberWithInt:ZoneTypeIndustry] ] ];
-    
+
     for (AreaModel* zone in lastSelectZones)
     {
         NSMutableDictionary* zoneConf = [configureDict objectForKey:[NSNumber numberWithInt:zone.type]];
@@ -125,6 +143,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     NSData* data = [NSKeyedArchiver archivedDataWithRootObject:configureDict];
     [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCongigureDict];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 - (void)configureNavigationBar
@@ -346,7 +365,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 42.0f;
+    return 37.0f;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -354,11 +373,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(14.0f, 14.0f, 14.0f, 14.0f);
+    return UIEdgeInsetsMake(12.0f, 12.0f, 12.0f, 12.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(276.0f, 91.0f);
+    return CGSizeMake(245.0f, 81.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {

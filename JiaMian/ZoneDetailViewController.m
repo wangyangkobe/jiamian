@@ -8,6 +8,7 @@
 
 #import "ZoneDetailViewController.h"
 #import "AreaModel.h"
+#import "SelectZoneViewController.h"
 
 #define kZoneNameLabelTag    9000
 #define kZoneHotImageViewTag 9001
@@ -38,6 +39,8 @@
     [self configureNavigationBar];
     [self configureTableHeaderView:1];
     [self configureTableFooterView];
+
+
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -278,10 +281,10 @@
 {
     UIView* footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setFrame:CGRectMake(60, 5, 200, 40)];
+    [btn setFrame:CGRectMake(0, 5, 320, 40)];
     [btn setTitle:@"加载更多" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(loadMoreZones:) forControlEvents:UIControlEventTouchUpInside];
-    [btn setBackgroundColor:[UIColor blueColor]];
+    [btn setBackgroundColor:UIColorFromRGB(0xff6f6f)];
     [footerView addSubview:btn];
     [_tableView setTableFooterView:footerView];
     _tableView.tableFooterView.userInteractionEnabled = YES;
