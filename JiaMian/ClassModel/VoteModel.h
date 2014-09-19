@@ -11,7 +11,7 @@
 @protocol VoteModel
 @end
 
-@interface VoteModel : NSObject
+@interface VoteModel : JSONModel
 
 @property (nonatomic, assign) NSInteger voteId;
 @property (nonatomic, copy)   NSString* content;

@@ -18,6 +18,7 @@
 #define kCommentCellTextLabel  6001
 #define kCommentCellTimeLabel  6002
 
+#define kVoteCellTextLabel     6003
 @interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, HPGrowingTextViewDelegate>
 {
     CGFloat headerViewHeight;
@@ -31,7 +32,7 @@
 @property (nonatomic, strong) UIView* footerView;
 @property (nonatomic, strong) UIButton* sendBtn;
 @end
- 
+
 @implementation MessageDetailViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -76,7 +77,6 @@
         NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:INT_MAX];
         [commentArr addObjectsFromArray:requestRes];
         
-        MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:msgId];
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityIndicator stopAnimating];
             if (commentArr.count == 0)
@@ -84,11 +84,6 @@
             else
                 self.tableView.tableFooterView = nil;
             [self.tableView reloadData];
-            if (message) {
-                self.selectedMsg = message;
-                NSDictionary* userInfo = [NSDictionary dictionaryWithObject:message forKey:@"changedMsg"];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"msgChangedNoti" object:self userInfo:userInfo];
-            }
         });
     });
 }
@@ -185,7 +180,7 @@
     UITapGestureRecognizer *moreImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDemoButton:)];
     [moreImageTap setNumberOfTapsRequired:1];
     [myHeader.moreView addGestureRecognizer:moreImageTap];
-
+    
     
     
     UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
@@ -252,53 +247,89 @@
 #pragma mark UITableViewDelgate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 1;
+    if (_selectedMsg.votes.count == 0)
+        return 1;
+    else
+        return 2;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [commentArr count];
+    if ( (section == 0) && (_selectedMsg.votes.count != 0) ) {
+        return _selectedMsg.votes.count;
+    }
+    
+    return commentArr.count;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CommentModel* currentComment = (CommentModel*)[commentArr objectAtIndex:indexPath.row];
-    static NSString* CellIdentifier = @"CommentCellIdentifier";
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (nil == cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
-    }
-    UIImageView* headImageView = (UIImageView*)[cell.contentView viewWithTag:kCommentCellHeadImage];
-    UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTextLabel];
-    UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
-    textLabel.text = currentComment.text;
-    [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
-    
-    if(currentComment.is_starter) //楼主
+    if ( (indexPath.section == 0) && (_selectedMsg.votes.count != 0) )
     {
-        timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
-        [textLabel setTextColor:UIColorFromRGB(0xff9000)];
+        static NSString* CellIdentifier = @"VoteCellIdentifier";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        VoteModel* vote = (VoteModel*)[_selectedMsg.votes objectAtIndex:indexPath.row];
+        UILabel* voteLabel = (UILabel*)[cell.contentView viewWithTag:kVoteCellTextLabel];
+        [voteLabel setText:vote.content];
+        return cell;
     }
     else
-        timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1,
-                          [NSString convertTimeFormat:currentComment.create_at]];
+    {
+        CommentModel* currentComment = (CommentModel*)[commentArr objectAtIndex:indexPath.row];
+        static NSString* CellIdentifier = @"CommentCellIdentifier";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (nil == cell) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        }
+        UIImageView* headImageView = (UIImageView*)[cell.contentView viewWithTag:kCommentCellHeadImage];
+        UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTextLabel];
+        UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
+        textLabel.text = currentComment.text;
+        [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
+        
+        if(currentComment.is_starter) //楼主
+        {
+            timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
+            [textLabel setTextColor:UIColorFromRGB(0xff9000)];
+        }
+        else
+            timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1,
+                              [NSString convertTimeFormat:currentComment.create_at]];
+        
+        [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
+        [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
+        return cell;
+    }
     
-    [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
-    [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
-    return cell;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CommentModel* currentComment = [commentArr objectAtIndex:indexPath.row];
-    float textHight = [NSString textHeight:currentComment.text
-                              sizeWithFont:[UIFont systemFontOfSize:17]
-                         constrainedToSize:CGSizeMake(260, 9999)];
-    
-    if (IOS_NEWER_OR_EQUAL_TO_7)
-        return textHight + 23 + 7;
+    if ( (indexPath.section == 0) && (_selectedMsg.votes.count != 0) )
+    {
+        return 50;
+    }
     else
-        return textHight + 23;
+    {
+        CommentModel* currentComment = [commentArr objectAtIndex:indexPath.row];
+        float textHight = [NSString textHeight:currentComment.text
+                                  sizeWithFont:[UIFont systemFontOfSize:17]
+                             constrainedToSize:CGSizeMake(260, 9999)];
+        
+        if (IOS_NEWER_OR_EQUAL_TO_7)
+            return textHight + 23 + 7;
+        else
+            return textHight + 23;
+    }
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ( (indexPath.section == 0) && (_selectedMsg.votes.count != 0))
+    {
+        // TODO: 这里对点击投票选项做处理
+        return;
+    }
+    
     NSString* huanXinId = [[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId];
     CommentModel* currComment = [commentArr objectAtIndex:indexPath.row];
     HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByCommentId:currComment.comment_id];
@@ -333,7 +364,6 @@
 }
 - (void)configureToolBar
 {
-    
     self.toolBar.backgroundColor=[UIColor whiteColor];
     textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 4, 270, 40)];
     textView.isScrollable = NO;
@@ -348,13 +378,6 @@
     textView.backgroundColor = [UIColor whiteColor];
     textView.placeholder = @"匿名发表评论";
     
-    
-//    UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
-//    UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
-//    UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
-//    entryImageView.frame = CGRectMake(5, 0, 248, 40);
-//    entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-//    
     UIImage *rawBackground = [UIImage imageNamed:@"MessageEntryBackground.png"];
     UIImage *background = [rawBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:background];
@@ -364,14 +387,10 @@
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
     textView.layer.borderColor = [UIColor whiteColor].CGColor;
-//  textView.layer.borderWidth = 1.0;
-//  textView.layer.cornerRadius =5.0;
-    
+    //  textView.layer.borderWidth = 1.0;
+    //  textView.layer.cornerRadius =5.0;
     
     [self.toolBar addSubview:textView];
-    
-//    UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
-//    UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     
 	_sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
 	_sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
@@ -385,20 +404,13 @@
     
     [_sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[_sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-   // [sendBtn setBackgroundImage:sendBtnBackground forState:UIControlStateNormal];
-    //[sendBtn setBackgroundImage:selectedSendBtnBackground forState:UIControlStateSelected];
+    
 	[self.toolBar addSubview:_sendBtn];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
     //给键盘注册通知
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification
-                                               object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [NOTIFICATION_CENTER addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 #pragma mark 监听键盘的显示与隐藏
 - (void)keyboardWillShow:(NSNotification*)note {
@@ -525,8 +537,6 @@
 }
 
 - (IBAction)onDemoButton:(id)sender {
-    
-    
     RNBlurModalView *modal;
     UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
     moreView.backgroundColor = [UIColor whiteColor];

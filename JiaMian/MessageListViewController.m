@@ -16,9 +16,6 @@
 #import "RNBlurModalView.h"
 #import <QuartzCore/QuartzCore.h>
 
-
-
-
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
 #define kTopicNumberLabel 8993
@@ -661,8 +658,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 180, 1.0f)];
     [lineView2 setBackgroundColor:[UIColor lightGrayColor]];
     [moreView addSubview:lineView2];
-
-    
 }
 
 @end

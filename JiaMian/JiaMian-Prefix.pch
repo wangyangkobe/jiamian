@@ -19,7 +19,6 @@
     #import "CommonMarco.h"
     #import <TencentOpenAPI/TencentOAuth.h>
     #import "PullTableView.h"
-    #import "KxMenu.h"
     #import "ASIHTTPRequest.h"
     #import "ASIFormDataRequest.h"
     #import "SAMTextView.h"
