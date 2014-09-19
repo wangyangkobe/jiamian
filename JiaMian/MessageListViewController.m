@@ -21,9 +21,13 @@
 #define kTopicNumberLabel 8993
 #define kFaYanBtnTag      8990
 #define kTouPiaoBtnTag    8991
+
+#define kVoteViewTag      8888
+#define kVoteLabelHeight  50
+
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
-@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource, MsgTableViewCellDelegate>
+@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
 {
     NSMutableArray* messageArray;
     UIView* parentView;
@@ -141,12 +145,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                                                         password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
                                                       completion:nil onQueue:nil];
     
-    //Add a left swipe gesture recognizer
-//    UISwipeGestureRecognizer *recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self
-//                                                                                     action:@selector(handleSwipeLeft:)];
-//    [recognizer setDirection:(UISwipeGestureRecognizerDirectionLeft)];
-//    [self.pullTableView addGestureRecognizer:recognizer];
-    
     parentView = [[UIView alloc] initWithFrame:CGRectMake(0,350, 45, 45)];
     parentView.backgroundColor = UIColorFromRGB(0x263645);
     parentView.alpha = 0.8;
@@ -217,30 +215,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         }];
     }
 }
-//- (void)handleSwipeLeft:(UISwipeGestureRecognizer*)gestureRecognizer
-//{
-//    CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
-//    NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
-//    UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
-//    [cell.contentView addSubview:self.moreBtnView];
-//    isMoreViewOpen = YES;
-//}
-//- (UIView*)moreBtnView
-//{
-////    if (_moreBtnView == nil) {
-////       
-////        RNBlurModalView *modal;
-////        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, 20, 20)];
-////        view.backgroundColor = [UIColor whiteColor];
-////        view.layer.cornerRadius = 5.f;
-////        view.layer.borderColor = [UIColor whiteColor].CGColor;
-////        view.layer.borderWidth = 5.f;
-////        
-////        modal = [[RNBlurModalView alloc] initWithViewController:self view:_moreBtnView];
-////        [modal show];
-////    }
-////    return _moreBtnView;
-//}
+
 - (void)handleMoreBtnAction:(UIButton*)sender
 {
     UITableViewCell* cell = [UIView tableViewCellFromView:sender];
@@ -283,24 +258,24 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                          }];
     }
     [_moreBtnView removeFromSuperview];
-//    isMoreViewOpen = NO;
+    //    isMoreViewOpen = NO;
 }
-#pragma mark - MsgTableViewCellDelegate
-- (void)removeMoreBtnViewFromCell
-{
-    [self.moreBtnView removeFromSuperview];
-    [UIView animateWithDuration:0.3 animations:^{
-        plusImageView.transform = CGAffineTransformMakeRotation(0);
-        [self.fayanBtn removeFromSuperview];
-        [self.toupiaoBtn removeFromSuperview];
-        [self.lineView1 removeFromSuperview];
-        [self.lineView2 removeFromSuperview];
-        parentView.frame = CGRectMake(0,350,45,45);
-    } completion:^(BOOL finished) {
-        flag = NO;
-    }];
-    
-}
+//#pragma mark - MsgTableViewCellDelegate
+//- (void)removeMoreBtnViewFromCell
+//{
+//    [self.moreBtnView removeFromSuperview];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        plusImageView.transform = CGAffineTransformMakeRotation(0);
+//        [self.fayanBtn removeFromSuperview];
+//        [self.toupiaoBtn removeFromSuperview];
+//        [self.lineView1 removeFromSuperview];
+//        [self.lineView2 removeFromSuperview];
+//        parentView.frame = CGRectMake(0,350,45,45);
+//    } completion:^(BOOL finished) {
+//        flag = NO;
+//    }];
+//
+//}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     [self.moreBtnView removeFromSuperview];
@@ -423,7 +398,13 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return SCREEN_WIDTH+10;
+    MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    NSInteger voteNumber = currentMsg.votes.count;
+    if (0 == voteNumber) {
+        return SCREEN_WIDTH + 10;
+    } else {
+        return SCREEN_WIDTH + 10 + (voteNumber*50 + 10);
+    }
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -450,16 +431,20 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [likeImageTap setNumberOfTapsRequired:1];
     [cell.likeImageView addGestureRecognizer:likeImageTap];
     
-    
     [cell.moreImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *moreImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                     action:@selector(onDemoButton:)];
     [moreImageTap setNumberOfTapsRequired:1];
     [cell.moreImageView addGestureRecognizer:moreImageTap];
     
-    
     cell.selectionStyle = UITableViewCellAccessoryNone;
-    cell.delegate = self;
+    
+    if (currentMsg.votes.count != 0) {
+        [cell.contentView addSubview:[self configureVoteView:currentMsg.votes]];
+    } else {
+        UIView* voteView = (UIView*)[cell.contentView viewWithTag:kVoteViewTag];
+        [voteView removeFromSuperview];
+    }
     return cell;
 }
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -609,8 +594,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [tappedCell.likeImageView.layer addAnimation:k forKey:@"SHOW"];
     [tappedCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked.png"]];
     
-    
-    
     tappedCell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count + 1];
     
     MessageModel* message = [[NetWorkConnect sharedInstance] messageLikeByMsgId:currentMsg.message_id];
@@ -621,43 +604,40 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 }
 
 - (IBAction)onDemoButton:(id)sender {
-    
-    
     RNBlurModalView *modal;
     UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
     moreView.backgroundColor = [UIColor whiteColor];
     moreView.layer.cornerRadius = 3.f;
-//    moreView.layer.borderColor = [UIColor whiteColor].CGColor;
-//    moreView.layer.borderWidth = 5.f;
     modal = [[RNBlurModalView alloc] initWithViewController:self view:moreView];
     [modal show];
     
-    UIButton* DirectMessagesBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 200, 50)];
-    [DirectMessagesBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [DirectMessagesBt setTitle:@"私信" forState:UIControlStateNormal];
-    [DirectMessagesBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:DirectMessagesBt];
+    NSArray* btnTitles = @[@"私信", @"分享", @"举报"];
+    for (NSInteger k = 0; k < btnTitles.count; k++) {
+        UIButton* button = [[UIButton alloc]initWithFrame:CGRectMake(0, k* 50, 200, 50)];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitle:btnTitles[k] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [moreView addSubview:button];
+    }
     
-    UIButton* shareBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 50, 200, 50)];
-    [shareBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [shareBt setTitle:@"分享" forState:UIControlStateNormal];
-    [shareBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:shareBt];
-    
-    UIButton* ToReportBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 100, 200, 50)];
-    [ToReportBt setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [ToReportBt setTitle:@"举报" forState:UIControlStateNormal];
-    [ToReportBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:ToReportBt];
-    
-    
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(10, 50, 180, 1.0f)];
-    [lineView1 setBackgroundColor:[UIColor lightGrayColor]];
-    [moreView addSubview:lineView1];
-    
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 180, 1.0f)];
-    [lineView2 setBackgroundColor:[UIColor lightGrayColor]];
-    [moreView addSubview:lineView2];
+    for (NSInteger k = 1; k <= 2; ++k) {
+        UIView* lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 50 * k, 180, 1.0f)];
+        [lineView setBackgroundColor:[UIColor lightGrayColor]];
+        [moreView addSubview:lineView];
+    }
 }
 
+- (UIView*)configureVoteView:(NSArray*)votes {
+    NSInteger voteNumber = votes.count;
+    UIView* voteView = [[UIView alloc] initWithFrame:CGRectMake(10, 320 + 5, 300, kVoteLabelHeight * voteNumber + 5)];
+    voteView.tag = kVoteViewTag;
+    [voteView setBackgroundColor:[UIColor whiteColor]];
+    for (NSInteger k = 0; k < voteNumber; k++) {
+        UILabel* voteLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight, 300, kVoteLabelHeight)];
+        voteLabel.textAlignment = NSTextAlignmentCenter;
+        voteLabel.text = ((VoteModel*)[votes objectAtIndex:k]).content;
+        [voteView addSubview:voteLabel];
+    }
+    return voteView;
+}
 @end

@@ -136,10 +136,8 @@
     myHeader.areaLabel.text = self.selectedMsg.area.area_name;
     myHeader.commentNumLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.comments_count];
     myHeader.likeNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.likes_count];
-    myHeader.visibleNumberLabel.text = [NSString stringWithFormat:@"%d", self.selectedMsg.visible_count];
     if (_selectedMsg.is_official)
     {
-        myHeader.visibleNumberLabel.text = @"all";
         myHeader.areaLabel.text = @"假面官方团队";
     }
     
@@ -159,10 +157,8 @@
         [myHeader.areaLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.commentNumLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.likeNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
-        [myHeader.visibleNumberLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.textLabel setTextColor:UIColorFromRGB(0xffffff)];
         [myHeader.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
-        [myHeader.visibleImageView setImage:[UIImage imageNamed:@"ic_eyes"]];
     }
     if (self.selectedMsg.has_like)
     {
@@ -173,15 +169,11 @@
     UITapGestureRecognizer *likeImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(likeImageTap:)];
     [likeImageTap setNumberOfTapsRequired:1];
     [myHeader.likeImageView addGestureRecognizer:likeImageTap];
-    [myHeader.juBaoButton addTarget:self action:@selector(handleJuBaoBtnPress:) forControlEvents:UIControlEventTouchUpInside];
-    
     
     [myHeader.moreView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *moreImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDemoButton:)];
     [moreImageTap setNumberOfTapsRequired:1];
     [myHeader.moreView addGestureRecognizer:moreImageTap];
-    
-    
     
     UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setNumberOfTapsRequired:1];
@@ -541,39 +533,23 @@
     UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
     moreView.backgroundColor = [UIColor whiteColor];
     moreView.layer.cornerRadius = 3.f;
-    //    moreView.layer.borderColor = [UIColor whiteColor].CGColor;
-    //    moreView.layer.borderWidth = 5.f;
     modal = [[RNBlurModalView alloc] initWithViewController:self view:moreView];
     [modal show];
     
-    UIButton* DirectMessagesBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 200, 50)];
-    [DirectMessagesBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [DirectMessagesBt setTitle:@"私信" forState:UIControlStateNormal];
-    [DirectMessagesBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:DirectMessagesBt];
+    NSArray* btnTitles = @[@"私信", @"分享", @"举报"];
+    for (NSInteger k = 0; k < btnTitles.count; k++) {
+        UIButton* button = [[UIButton alloc]initWithFrame:CGRectMake(0, k* 50, 200, 50)];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitle:btnTitles[k] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        [moreView addSubview:button];
+    }
     
-    UIButton* shareBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 50, 200, 50)];
-    [shareBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [shareBt setTitle:@"分享" forState:UIControlStateNormal];
-    [shareBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:shareBt];
-    
-    UIButton* ToReportBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 100, 200, 50)];
-    [ToReportBt setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    [ToReportBt setTitle:@"举报" forState:UIControlStateNormal];
-    [ToReportBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    [moreView addSubview:ToReportBt];
-    
-    
-    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(10, 50, 180, 1.0f)];
-    [lineView1 setBackgroundColor:[UIColor lightGrayColor]];
-    [moreView addSubview:lineView1];
-    
-    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 180, 1.0f)];
-    [lineView2 setBackgroundColor:[UIColor lightGrayColor]];
-    [moreView addSubview:lineView2];
-    
-    
+    for (NSInteger k = 1; k <= 2; ++k) {
+        UIView* lineView = [[UIView alloc] initWithFrame:CGRectMake(10, 50 * k, 180, 1.0f)];
+        [lineView setBackgroundColor:[UIColor lightGrayColor]];
+        [moreView addSubview:lineView];
+    }
 }
 
 - (void)handleMoreBtnAction:(UIButton*)sender
