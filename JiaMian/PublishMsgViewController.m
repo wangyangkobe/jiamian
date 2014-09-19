@@ -50,6 +50,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 {
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageOne"];
+    self.inputTextView.layer.borderWidth=0;
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -235,7 +236,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
         if (lineNumbers > 8) return NO;  // ios 6
     }
     
-    if ( (range.location > 140) || (textView.text.length > 140) )  //控制输入文本的长度
+    if ( (range.location > 134) || (textView.text.length > 134) )  //控制输入文本的长度
         return NO;
     else
         return YES;

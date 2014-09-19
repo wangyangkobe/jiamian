@@ -25,7 +25,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    self.layer.cornerRadius = 70;
+    self.layer.cornerRadius = 10;
     self.layer.masksToBounds = YES;
     //self.layer.borderColor =[UIColor darkGrayColor].CGColor;
     //self.layer.borderWidth = 1;
@@ -49,11 +49,11 @@
         [self.layer addSublayer:_border];
         
         CGSize frameSize = self.frame.size;
-        CGRect shapeRect = CGRectMake(0.0f, 0.0f, frameSize.width, frameSize.height);
+        CGRect shapeRect = CGRectMake(0.0f, 0.0f, 100, 100);
         [_border setBounds:shapeRect];
         [_border setPosition:CGPointMake( frameSize.width/2,frameSize.height/2)];
         
-        _border.path = [UIBezierPath bezierPathWithRoundedRect:shapeRect cornerRadius:70.0].CGPath;
+        _border.path = [UIBezierPath bezierPathWithRoundedRect:shapeRect cornerRadius:50.0].CGPath;
         //  _border.frame = self.bounds;
     }
 }

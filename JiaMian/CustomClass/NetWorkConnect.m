@@ -846,7 +846,7 @@ static ASIDownloadCache* myCache;
 }
 //////////////////////////////////////////////////////////////////
 - (NSDictionary*)reportMessageByMsgId:(long)MsgId {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportmessage",  HOME_PAGE];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportMessage",  HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setRequestMethod:@"POST"];
     [request setPostValue:[NSNumber numberWithLong:MsgId] forKey:@"message_id"];
@@ -862,7 +862,7 @@ static ASIDownloadCache* myCache;
 }
 //////////////////////////////////////////////////////////////////
 - (NSDictionary*)reportUserByMsgId:(long)MsgId {
-    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportuser",  HOME_PAGE];
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/reportUser",  HOME_PAGE];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
     [request setRequestMethod:@"POST"];
     [request setPostValue:[NSNumber numberWithLong:MsgId] forKey:@"message_id"];

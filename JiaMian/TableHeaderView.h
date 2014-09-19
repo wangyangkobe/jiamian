@@ -19,6 +19,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *likeImageView;
 @property (weak, nonatomic) IBOutlet UILabel *likeNumberLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *moreView;
 @property (weak, nonatomic) IBOutlet UILabel *visibleNumberLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *visibleImageView;
 @property (weak, nonatomic) IBOutlet UIButton *juBaoButton;

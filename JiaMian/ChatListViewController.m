@@ -109,8 +109,11 @@
     return self.dataSource.count;
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     static NSString* cellIdentifier = @"ChatListCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+    
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -142,11 +145,12 @@
     UILabel* msgLabel = (UILabel*)[cell.contentView viewWithTag:kMsgTextLabelTag];
     [msgLabel setText:[attribute objectForKey:@"msgText"]];
     UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kTimeLabelTag];
-    [timeLabel setText:@"2014-09-14 20:30"];
-   // [timeLabel setText:[NSString convertTimeFormat:[NSString stringWithFormat:@"%lld", latestMsg.timestamp]]];
+    //[timeLabel setText:@"2014-09-14 20:30"];
+   [timeLabel setText:[NSString convertTimeFormat:[NSString stringWithFormat:@"%lld", latestMsg.timestamp]]];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     EMConversation *conversation = [self.dataSource objectAtIndex:indexPath.row];
     NSDictionary* attribute = [conversation.latestMessage.ext objectForKey:@"attribute"];
@@ -177,6 +181,7 @@
     return YES;
 }
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         EMConversation *converation = [self.dataSource objectAtIndex:indexPath.row];
         [[EaseMob sharedInstance].chatManager removeConversationByChatter:converation.chatter deleteMessages:NO];

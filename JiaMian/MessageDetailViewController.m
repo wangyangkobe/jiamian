@@ -11,6 +11,8 @@
 #import "SVProgressHUD.h"
 #import "UIActionSheet+Blocks.h"
 #import "ChatViewController.h"
+#import "RNBlurModalView.h"
+#import <QuartzCore/QuartzCore.h>
 
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
@@ -24,8 +26,10 @@
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
     UIActivityIndicatorView *activityIndicator;
+    NSMutableArray* messageArray;
 }
 @property (nonatomic, strong) UIView* footerView;
+@property (nonatomic, strong) UIButton* sendBtn;
 @end
  
 @implementation MessageDetailViewController
@@ -176,6 +180,14 @@
     [myHeader.likeImageView addGestureRecognizer:likeImageTap];
     [myHeader.juBaoButton addTarget:self action:@selector(handleJuBaoBtnPress:) forControlEvents:UIControlEventTouchUpInside];
     
+    
+    [myHeader.moreView setUserInteractionEnabled:YES];
+    UITapGestureRecognizer *moreImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDemoButton:)];
+    [moreImageTap setNumberOfTapsRequired:1];
+    [myHeader.moreView addGestureRecognizer:moreImageTap];
+
+    
+    
     UITapGestureRecognizer* hiddenKeyBoard = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyBoard:)];
     [hiddenKeyBoard setNumberOfTapsRequired:1];
     [myHeader addGestureRecognizer:hiddenKeyBoard];
@@ -321,7 +333,9 @@
 }
 - (void)configureToolBar
 {
-    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 3, 240, 40)];
+    
+    self.toolBar.backgroundColor=[UIColor whiteColor];
+    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 4, 270, 40)];
     textView.isScrollable = NO;
     textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     
@@ -334,12 +348,13 @@
     textView.backgroundColor = [UIColor whiteColor];
     textView.placeholder = @"匿名发表评论";
     
-    UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
-    UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
-    UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
-    entryImageView.frame = CGRectMake(5, 0, 248, 40);
-    entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     
+//    UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
+//    UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
+//    UIImageView *entryImageView = [[UIImageView alloc] initWithImage:entryBackground];
+//    entryImageView.frame = CGRectMake(5, 0, 248, 40);
+//    entryImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+//    
     UIImage *rawBackground = [UIImage imageNamed:@"MessageEntryBackground.png"];
     UIImage *background = [rawBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:background];
@@ -348,29 +363,31 @@
     
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    textView.layer.borderColor = [UIColor grayColor].CGColor;
-    textView.layer.borderWidth = 1.0;
-    textView.layer.cornerRadius =5.0;
+    textView.layer.borderColor = [UIColor whiteColor].CGColor;
+//  textView.layer.borderWidth = 1.0;
+//  textView.layer.cornerRadius =5.0;
+    
     
     [self.toolBar addSubview:textView];
     
-    UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
-    UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
+//    UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
+//    UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
     
-	UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 8, 63, 27);
-    sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-	[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
+	_sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+	_sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
+    _sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+	//[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
+    [_sendBtn setImage:[UIImage imageNamed:@"feiji.png"] forState:UIControlStateNormal];
     
-    [sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
-    sendBtn.titleLabel.shadowOffset = CGSizeMake (0.0, -1.0);
-    sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    [_sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
+    _sendBtn.titleLabel.shadowOffset = CGSizeMake (0.0, -1.0);
+    _sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     
-    [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [sendBtn setBackgroundImage:sendBtnBackground forState:UIControlStateNormal];
-    [sendBtn setBackgroundImage:selectedSendBtnBackground forState:UIControlStateSelected];
-	[self.toolBar addSubview:sendBtn];
+    [_sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	[_sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+   // [sendBtn setBackgroundImage:sendBtnBackground forState:UIControlStateNormal];
+    //[sendBtn setBackgroundImage:selectedSendBtnBackground forState:UIControlStateSelected];
+	[self.toolBar addSubview:_sendBtn];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
     //给键盘注册通知
@@ -461,6 +478,7 @@
 }
 - (void)sendBtnPressed:(id)sender
 {
+    [_sendBtn setImage:[UIImage imageNamed:@"feiji-after.png"] forState:UIControlStateHighlighted];
     NSLog(@"call: %s", __FUNCTION__);
 	[textView resignFirstResponder];
     
@@ -505,4 +523,92 @@
 {
     [self.view endEditing:YES];
 }
+
+- (IBAction)onDemoButton:(id)sender {
+    
+    
+    RNBlurModalView *modal;
+    UIView *moreView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 150)];
+    moreView.backgroundColor = [UIColor whiteColor];
+    moreView.layer.cornerRadius = 3.f;
+    //    moreView.layer.borderColor = [UIColor whiteColor].CGColor;
+    //    moreView.layer.borderWidth = 5.f;
+    modal = [[RNBlurModalView alloc] initWithViewController:self view:moreView];
+    [modal show];
+    
+    UIButton* DirectMessagesBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 200, 50)];
+    [DirectMessagesBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [DirectMessagesBt setTitle:@"私信" forState:UIControlStateNormal];
+    [DirectMessagesBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:DirectMessagesBt];
+    
+    UIButton* shareBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 50, 200, 50)];
+    [shareBt setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [shareBt setTitle:@"分享" forState:UIControlStateNormal];
+    [shareBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:shareBt];
+    
+    UIButton* ToReportBt=[[UIButton alloc]initWithFrame:CGRectMake(0, 100, 200, 50)];
+    [ToReportBt setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [ToReportBt setTitle:@"举报" forState:UIControlStateNormal];
+    [ToReportBt addTarget:self action:@selector(handleMoreBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+    [moreView addSubview:ToReportBt];
+    
+    
+    UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(10, 50, 180, 1.0f)];
+    [lineView1 setBackgroundColor:[UIColor lightGrayColor]];
+    [moreView addSubview:lineView1];
+    
+    UIView *lineView2 = [[UIView alloc] initWithFrame:CGRectMake(10, 100, 180, 1.0f)];
+    [lineView2 setBackgroundColor:[UIColor lightGrayColor]];
+    [moreView addSubview:lineView2];
+    
+    
+}
+
+- (void)handleMoreBtnAction:(UIButton*)sender
+{
+    UITableViewCell* cell = [UIView tableViewCellFromView:sender];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    MessageModel* currentMsg = [messageArray objectAtIndex:indexPath.row];
+    NSString* btnTitle = sender.titleLabel.text;
+    if ([btnTitle isEqual:@"分享"])
+    {
+        NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK",
+                               currentMsg.text, currentMsg.area.area_name];
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMengAppKey
+                                          shareText:shareText
+                                         shareImage:nil
+                                    shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
+                                           delegate:nil];
+    }
+    else if ([btnTitle isEqual:@"私信"]) {
+        HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:currentMsg.message_id];
+        ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
+        
+        chatVC.chatter = hxUserInfo.user.easemob_name;
+        chatVC.myHeadImage = hxUserInfo.my_head_image;
+        chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
+        chatVC.customFlag = currentMsg.message_id;
+        [self.navigationController pushViewController:chatVC animated:YES];
+        
+    } else {
+        [UIActionSheet showInView:self.tableView
+                        withTitle:@"举报"
+                cancelButtonTitle:@"Cancel"
+           destructiveButtonTitle:nil
+                otherButtonTitles:@[@"举报消息", @"举报用户"]
+                         tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                             if (0 == buttonIndex) {
+                                 [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                             } else if (1 == buttonIndex) {
+                                 [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                             }
+                         }];
+    }
+    
+}
+
+
 @end

@@ -41,15 +41,29 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    UILabel* label=[[UILabel alloc]initWithFrame:CGRectMake(35, 0, 250, 50)];
+    label.text=@"我们会根据学校公司，为你推荐内容请放心，我们绝对不会泄露任何信息";
+    [self.view addSubview:label];
+    label.numberOfLines=2;
+    label.adjustsFontSizeToFitWidth = YES;
+    
+    UILabel* tiXingLb=[[UILabel alloc]initWithFrame:CGRectMake(55, 360, 230, 50)];
+    tiXingLb.text=@"长按住圈子可取消关注圈子";
+    tiXingLb.adjustsFontSizeToFitWidth=YES;
+    [self.view addSubview:tiXingLb];
+    
+    
+    
+    
     // Do any additional setup after loading the view.
     UIView *blueView = [[UIView alloc]init];
-    blueView.backgroundColor = UIColorFromRGB(0xf6f5f1);
+    blueView.backgroundColor = [UIColor whiteColor];
     self.collectionView.backgroundView = blueView;
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     UILongPressGestureRecognizer *lpgr = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
-    lpgr.minimumPressDuration = 0.5; //seconds
+    lpgr.minimumPressDuration = 0.8; //seconds
     lpgr.delegate = self;
     lpgr.delaysTouchesBegan = YES;
     
@@ -81,11 +95,11 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     
     NSLog(@"%s, lastSelectZones = %@", __FUNCTION__, lastSelectZones);
     
-    NSMutableDictionary* company = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+公司", @0xadd5e6, [NSNull null], nil]
+    NSMutableDictionary* company = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+公司", @0x5cbbea, [NSNull null], nil]
                                                                       forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
-    NSMutableDictionary* school = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+学校", @0xf6d7c4, [NSNull null], nil]
+    NSMutableDictionary* school = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+学校", @0xe7a079, [NSNull null], nil]
                                                                      forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
-    NSMutableDictionary* industry = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+行业", @0xf9eca8, [NSNull null], nil]
+    NSMutableDictionary* industry = [NSMutableDictionary dictionaryWithObjects:[NSMutableArray arrayWithObjects:@0, @"+行业", @0xe1cd5c, [NSNull null], nil]
                                                                        forKeys:@[@"zoneId", @"name", @"color", @"zone"] ];
     
     configureDict = [NSMutableDictionary dictionaryWithObjects:@[company, school, industry]
@@ -102,9 +116,9 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
         if (zone.type == ZoneTypeCompany) {
             [zoneConf setValue:[NSNumber numberWithInt:0x048bcd] forKey:@"color"];
         } else if(zone.type == ZoneTypeSchool) {
-            [zoneConf setValue:[NSNumber numberWithInt:0xf7925c] forKey:@"color"];
+            [zoneConf setValue:[NSNumber numberWithInt:0xf68e55] forKey:@"color"];
         } else if(zone.type == ZoneTypeIndustry) {
-            [zoneConf setValue:[NSNumber numberWithInt:0xffd800] forKey:@"color"];
+            [zoneConf setValue:[NSNumber numberWithInt:0xe5c828] forKey:@"color"];
         }
     }
     
@@ -265,7 +279,7 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 4;
+    return 3;
 }
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -282,11 +296,6 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
     else
     {
         [cell setDashedBorder:YES];
-        UIImageView* addIV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 50, 50)];
-        addIV.center = cell.contentView.center;
-        [cell.contentView addSubview:addIV];
-        [addIV setImage:[UIImage imageNamed:@"ic_add"]];
-        [cell setBackgroundColor:UIColorFromRGB(0xf6f5f1)];
     }
     return cell;
 }
@@ -337,19 +346,19 @@ static NSString* kCollectionViewCellIdentifier = @"Cell";
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10.0f;
+    return 42.0f;
 }
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
 {
-    return 10.0f;
+    return 12.0f;
 }
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
 {
-    return UIEdgeInsetsMake(10.0f, 15.0f, 10.0f, 15.0f);
+    return UIEdgeInsetsMake(14.0f, 14.0f, 14.0f, 14.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(140.0f, 140.0f);
+    return CGSizeMake(276.0f, 91.0f);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {

@@ -58,33 +58,21 @@
 }
 - (void)logOut:(id)sender
 {
-    [UIActionSheet showInView:self.tableView
-                    withTitle:@"确定要注销吗?"
-            cancelButtonTitle:nil
-       destructiveButtonTitle:@"确定"
-            otherButtonTitles:@[@"取消"]
-                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-                         if (0 == buttonIndex) {
-                             BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
-                             if (result)
-                             {
-                                 [[EaseMob sharedInstance].chatManager asyncLogoff];
-                                 
-                                 [APService setTags:[NSSet setWithObjects:@"offline", nil]
-                                              alias:@""
-                                   callbackSelector:nil
-                                             target:nil];
-                                 
-                                 [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
-                                 [[NSUserDefaults standardUserDefaults] synchronize];
-                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                     LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
-                                     [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
-                                 });
-                             }
-                         }
-                     }];
-    
+    BOOL result = [[NetWorkConnect sharedInstance] userLogOut];
+    if (result)
+    {
+        [[EaseMob sharedInstance].chatManager asyncLogoff];
+        
+        [APService setTags:[NSSet setWithObjects:@"offline", nil]
+                     alias:@""
+          callbackSelector:nil
+                    target:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:kUserLogIn];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        LogInViewController* logInVC = [self.storyboard instantiateViewControllerWithIdentifier:@"LogInVCIdentifier"];
+        [[UIApplication sharedApplication].keyWindow setRootViewController:logInVC];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

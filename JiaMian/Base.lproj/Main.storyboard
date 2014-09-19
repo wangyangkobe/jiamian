@@ -287,35 +287,27 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="PkQ-1q-Hco">
                                     <size key="itemSize" width="108" height="80"/>
-                                    <size key="headerReferenceSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="50" height="64"/>
                                     <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells/>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionHeader" id="MMA-nq-U28">
-                                    <rect key="frame" x="0.0" y="0.0" width="324" height="50"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="324" height="64"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="按住圈子后松开可取消关注" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="N1D-su-BeY">
-                                            <rect key="frame" x="66" y="14" width="192" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                 </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionFooter" id="Vf3-xp-EV6">
-                                    <rect key="frame" x="0.0" y="50" width="324" height="50"/>
+                                    <rect key="frame" x="0.0" y="64" width="324" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" tag="9999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GNd-Lb-GOx">
-                                            <rect key="frame" x="100" y="10" width="125" height="30"/>
+                                            <rect key="frame" x="100" y="5" width="125" height="40"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <state key="normal" title="下一步">
+                                            <state key="normal" title="下一步" backgroundImage="next-groupselect-pressed.png">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
+                                            <state key="highlighted" backgroundImage="next-groupselect-pressed.png"/>
                                             <connections>
                                                 <action selector="nextStepBtnPress:" destination="zMV-JM-W87" eventType="touchUpInside" id="UBk-UW-hMf"/>
                                             </connections>
@@ -825,6 +817,7 @@
         <image name="loading.png" width="296" height="42"/>
         <image name="mima.png" width="296" height="40"/>
         <image name="name.png" width="296" height="40"/>
+        <image name="next-groupselect-pressed.png" width="175" height="61"/>
         <image name="oldPeople.png" width="106" height="14"/>
         <image name="qq.png" width="127" height="37"/>
         <image name="qq_login_pressed.png" width="320" height="480"/>

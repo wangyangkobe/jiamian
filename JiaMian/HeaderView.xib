@@ -20,7 +20,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VCb-95-Gl4">
-                    <rect key="frame" x="30" y="60" width="260" height="200"/>
+                    <rect key="frame" x="30" y="20.5" width="260" height="259"/>
                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                     <fontDescription key="fontDescription" type="system" pointSize="20"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -56,7 +56,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more.png" id="EsB-Zc-UBQ">
-                    <rect key="frame" x="273" y="288" width="20" height="24"/>
+                    <rect key="frame" x="275" y="288" width="20" height="24"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                 </imageView>
             </subviews>
@@ -71,6 +71,7 @@
                 <outlet property="likeImageView" destination="2Yq-kd-aJo" id="irh-jw-RvJ"/>
                 <outlet property="likeNumberLabel" destination="HD3-36-UIa" id="IDp-w2-AF9"/>
                 <outlet property="maskImageView" destination="DD3-2x-rVQ" id="SCA-uF-mKW"/>
+                <outlet property="moreView" destination="EsB-Zc-UBQ" id="Df4-af-VMy"/>
                 <outlet property="textLabel" destination="VCb-95-Gl4" id="IsG-3X-P9M"/>
             </connections>
         </view>
