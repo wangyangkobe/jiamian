@@ -184,6 +184,9 @@
         CGSize scrollVSize =scrollV.bounds.size;
         [scrollV setContentSize:CGSizeMake(scrollVSize.width * banerCount, scrollVSize.height)];
         [scrollV setDelegate:self];
+        [scrollV setUserInteractionEnabled:YES];
+        scrollV.delaysContentTouches = NO;
+        [scrollV setCanCancelContentTouches:YES];
         
         for (int i = 0; i < banerCount; i++)
         {
@@ -191,11 +194,22 @@
                                                                                    scrollVSize.width, 144)];
             BannerModel* banner = (BannerModel*)[bannerArr objectAtIndex:i];
             [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
+            [imageView setUserInteractionEnabled:YES];
+            
+            UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapBanner:)];
+            singleTapGesture.numberOfTapsRequired = 1;
+          //  singleTapGesture.cancelsTouchesInView = YES;
+            [imageView addGestureRecognizer:singleTapGesture];
+            
             [scrollV addSubview:imageView];
         }
         return headerView;
     }
     return nil;
+}
+- (void)handleSingleTapBanner:(UITapGestureRecognizer*)gesture {
+    BannerModel* currBanner = (BannerModel*)[bannerArr objectAtIndex:_pageControl.currentPage];
+    NSLog(@"%@", currBanner);
 }
 - (UIPageControl*)pageControl
 {
@@ -204,7 +218,6 @@
         _pageControl.backgroundColor = [UIColor clearColor];
         _pageControl.currentPageIndicatorTintColor = UIColorFromRGB(0x0a91d7);
         _pageControl.pageIndicatorTintColor = [UIColor grayColor];
-        
     }
     _pageControl.numberOfPages = bannerArr.count;
     return _pageControl;
