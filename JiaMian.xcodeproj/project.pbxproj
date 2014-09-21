@@ -1005,6 +1005,7 @@
 		1524CE391920F27100CAB103 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				15503DFB193784E200CD737D /* QiniuSDK */,
 				1524CE3A1920F27100CAB103 /* APService.h */,
 				1524CE3B1920F27100CAB103 /* libPushSDK.a */,
 			);
@@ -1038,7 +1039,8 @@
 				15503E0B193784E200CD737D /* QiniuUtils.h */,
 				15503E0C193784E200CD737D /* QiniuUtils.m */,
 			);
-			path = QiniuSDK;
+			name = QiniuSDK;
+			path = ../QiniuSDK;
 			sourceTree = "<group>";
 		};
 		15503DFC193784E200CD737D /* GTMBase64 */ = {
@@ -1064,7 +1066,6 @@
 			isa = PBXGroup;
 			children = (
 				D3883FE619A0A9BA00823ACA /* EaseMobSDK */,
-				15503DFB193784E200CD737D /* QiniuSDK */,
 				150D5E6B1927884E00BE24AB /* libWeiboSDK */,
 				150D5E2E1927866900BE24AB /* UMSocial_Sdk_3.3.7.1 */,
 				1524CE391920F27100CAB103 /* lib */,

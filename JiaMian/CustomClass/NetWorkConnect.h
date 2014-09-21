@@ -68,4 +68,8 @@
 
 - (NSArray*)getBannersByCount:(NSInteger)Count;
 - (NSArray*)getCategoriesByCount:(NSInteger)Cout orderId:(NSInteger)OrderId;
+
+//投票
+- (MessageModel*)messageVote:(long)VoteId;
+
 @end

@@ -876,4 +876,20 @@ static ASIDownloadCache* myCache;
     else
         return nil;
 }
+//投票
+- (MessageModel*)messageVote:(long)VoteId
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/vote",  HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:VoteId] forKey:@"vote_id"];
+    [request startSynchronous];
+    NSLog(@"%@, %@", requestUrl, request.responseString);
+    if ( 200 == [request responseStatusCode] )
+    {
+        return [[MessageModel alloc] initWithString:[request responseString] error:nil];
+    }
+    else
+        return nil;
+}
 @end
