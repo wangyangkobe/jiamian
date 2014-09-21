@@ -54,13 +54,13 @@
     [self.view addSubview:statusBarView];
     
     //透明View
-    UIView* scView=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
-    scView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    [self.collectionView addSubview:scView];
+//    UIView* scView=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
+//    scView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+//    [self.collectionView addSubview:scView];
     
     //显示View
     _scView1=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
-    _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+    _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     [self.collectionView addSubview:_scView1];
     
     // Do any additional setup after loading the view.
@@ -86,7 +86,7 @@
     [self.tabBarController.tabBar setBackgroundImage:image];
     
     //tabar选中后的图片
-    self.tabBarController.tabBar.selectedImageTintColor=[UIColor whiteColor];
+    self.tabBarController.tabBar.selectedImageTintColor = [UIColor whiteColor];
 }
 - (void)handleScrollByTime
 {
@@ -94,7 +94,15 @@
     NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
     [self.pageControl setCurrentPage:newPage];
     [scrollV setContentOffset:CGPointMake(320 * newPage, 0) animated:YES];
-    [self.bannerTitleLabel setText:[self bannerTitleLabelText:self.pageControl]];
+    NSString* titleStr = [self bannerTitleLabelText:self.pageControl];
+    if (titleStr.length == 0) {
+        [self.bannerTitleLabel setHidden:YES];
+        [_scView1 setHidden:YES];
+    } else {
+        [_scView1 setHidden:NO];
+        [self.bannerTitleLabel setHidden:NO];
+        [self.bannerTitleLabel setText:titleStr];
+    }
 }
 - (void)fetchDataFromServer:(UIRefreshControl*)object
 {
@@ -123,8 +131,15 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.pageControl.currentPage = floorf(scrollView.contentOffset.x / 320);
     timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
-    
-    [self.bannerTitleLabel setText:[self bannerTitleLabelText:self.pageControl]];
+    NSString* titleStr = [self bannerTitleLabelText:self.pageControl];
+    if (titleStr.length == 0) {
+        [self.bannerTitleLabel setHidden:YES];
+        [_scView1 setHidden:YES];
+    } else {
+        [_scView1 setHidden:NO];
+        [self.bannerTitleLabel setHidden:NO];
+        [self.bannerTitleLabel setText:titleStr];
+    }
 }
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [timer invalidate];

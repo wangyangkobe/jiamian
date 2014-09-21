@@ -27,7 +27,6 @@
     HPGrowingTextView *textView;
     UIButton* sendButton;  //发送按钮
     UIActivityIndicatorView *activityIndicator;
-    NSMutableArray* messageArray;
 }
 @property (nonatomic, strong) UIView* footerView;
 @property (nonatomic, strong) UIButton* sendBtn;
@@ -559,14 +558,13 @@
 
 - (void)handleMoreBtnAction:(UIButton*)sender
 {
-    UITableViewCell* cell = [UIView tableViewCellFromView:sender];
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    MessageModel* currentMsg = [messageArray objectAtIndex:indexPath.row];
+   // UITableViewCell* cell = [UIView tableViewCellFromView:sender];
+   // NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSString* btnTitle = sender.titleLabel.text;
     if ([btnTitle isEqual:@"分享"])
     {
         NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK",
-                               currentMsg.text, currentMsg.area.area_name];
+                               _selectedMsg.text, _selectedMsg.area.area_name];
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
                                           shareText:shareText
@@ -575,13 +573,14 @@
                                            delegate:nil];
     }
     else if ([btnTitle isEqual:@"私信"]) {
-        HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:currentMsg.message_id];
+        HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:_selectedMsg.message_id];
         ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
         
         chatVC.chatter = hxUserInfo.user.easemob_name;
         chatVC.myHeadImage = hxUserInfo.my_head_image;
         chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
-        chatVC.customFlag = currentMsg.message_id;
+        chatVC.customFlag = _selectedMsg.message_id;
+        chatVC.message = _selectedMsg;
         [self.navigationController pushViewController:chatVC animated:YES];
         
     } else {
@@ -592,12 +591,12 @@
                 otherButtonTitles:@[@"举报消息", @"举报用户"]
                          tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
                              if (0 == buttonIndex) {
-                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportMessageByMsgId:_selectedMsg.message_id];
                                  if (res) {
                                      AlertContent(@"举报消息成功");
                                  }
                              } else if (1 == buttonIndex) {
-                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportUserByMsgId:_selectedMsg.message_id];
                                  if (res) {
                                      AlertContent(@"举报用户成功");
                                  }

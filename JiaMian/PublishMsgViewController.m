@@ -346,7 +346,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [alertView show];
 }
 - (void)textFieldDidChange:(UITextField*)textField {
-    if (textField.text.length > 16) {
+    if (textField.text.length > 8) {
         textField.text = [textField.text substringToIndex:8];
     }
 }
@@ -365,6 +365,23 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     
 }
 #pragma mark - UIAlertViewDelegate
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    if (alertView.alertViewStyle == UIAlertViewStylePlainTextInput) 
+    {
+        UITextField* textField = [alertView textFieldAtIndex:0];
+        if( textField.text.length >= 1 )
+        {
+            return YES;
+        }
+        else
+        {
+            return NO;
+        }
+    } else {
+        return YES;
+    }
+}
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     UITextField *textField = [alertView textFieldAtIndex:0];
     if (5678 == alertView.tag)
