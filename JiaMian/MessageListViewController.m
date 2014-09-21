@@ -241,6 +241,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         chatVC.myHeadImage = hxUserInfo.my_head_image;
         chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
         chatVC.customFlag = currentMsg.message_id;
+        chatVC.message = currentMsg;
         [self.navigationController pushViewController:chatVC animated:YES];
         
     } else {
@@ -251,9 +252,15 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                 otherButtonTitles:@[@"举报消息", @"举报用户"]
                          tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
                              if (0 == buttonIndex) {
-                                 [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                                 if (res) {
+                                     AlertContent(@"举报消息成功");
+                                 }
                              } else if (1 == buttonIndex) {
-                                 [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                                 if (res) {
+                                     AlertContent(@"举报用户成功");
+                                 }
                              }
                          }];
     }

@@ -338,9 +338,8 @@
                      tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
                          
                          if (0 == buttonIndex) {
-                             TiXingViewController* tiXingVC = [[TiXingViewController alloc] init];
-                             tiXingVC.selectSegementIndex = buttonIndex;
-                             [self.navigationController pushViewController:tiXingVC animated:YES];
+                             NSString* str = [NSString stringWithFormat:@"回复%d楼:", indexPath.row + 1];
+                             [textView setText:str];
                          } else if(1 == buttonIndex) {
                              ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
                              
@@ -432,7 +431,10 @@
     self.tableView.scrollIndicatorInsets = contentInsets;
     if (commentArr.count >=1)
     {
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
+        NSInteger sectionId = 0;
+        if (_selectedMsg.votes.count != 0)
+            sectionId = 1;
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:sectionId]
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:YES];
     }
@@ -518,7 +520,10 @@
         self.tableView.tableFooterView = nil;
         [textView setText:@""];
         [self.tableView reloadData];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:0]
+        NSInteger sectionId = 0;
+        if (_selectedMsg.votes.count != 0)
+            sectionId = 1;
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:commentArr.count - 1 inSection:sectionId]
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:YES];
     }
@@ -587,14 +592,18 @@
                 otherButtonTitles:@[@"举报消息", @"举报用户"]
                          tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
                              if (0 == buttonIndex) {
-                                 [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportMessageByMsgId:currentMsg.message_id];
+                                 if (res) {
+                                     AlertContent(@"举报消息成功");
+                                 }
                              } else if (1 == buttonIndex) {
-                                 [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                                 NSDictionary* res = [[NetWorkConnect sharedInstance] reportUserByMsgId:currentMsg.message_id];
+                                 if (res) {
+                                     AlertContent(@"举报用户成功");
+                                 }
                              }
                          }];
     }
-    
 }
-
 
 @end

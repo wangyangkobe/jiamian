@@ -12,7 +12,8 @@
 #define kUserNameTFTag 9000
 #define kPassWordTFTag 8999
 @interface RegAndLoginViewController () <UITextFieldDelegate> {
-    BOOL validateRes;
+    BOOL userNameValidateRes;
+    BOOL passWordValidateRes;
 }
 
 @end
@@ -62,6 +63,8 @@
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(keyboardHide:)];
     tapGestureRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGestureRecognizer];
+    userNameValidateRes = NO;
+    passWordValidateRes = NO;
 }
 -(void)keyboardHide:(UITapGestureRecognizer*)tap{
     [self.view endEditing:YES];
@@ -86,23 +89,25 @@
         NSInteger userNameLength = _userNameTF.text.length;
         if (userNameLength <2 || userNameLength > 16) {
             _userNameHintLabel.text = @"请输入2-16位字符";
-            validateRes = NO;
+            userNameValidateRes = NO;
         } else {
             _userNameHintLabel.text = @"";
-            validateRes = YES;
+            userNameValidateRes = YES;
         }
     } else {
         if (_passWordTF.text.length < 6) {
-            validateRes = NO;
+            passWordValidateRes = NO;
             _passWordHintLabel.text = @"密码至少6位";
         } else {
-            validateRes = YES;
+            passWordValidateRes = YES;
             _passWordHintLabel.text = @"";
         }
     }
 }
 - (IBAction)handleBtnPressed:(id)sender {
-    if (!validateRes) return;
+    if (!userNameValidateRes || !passWordValidateRes) {
+        return;
+    }
     
     NSDictionary* result = nil;
     if (_isRegister) { //注册
