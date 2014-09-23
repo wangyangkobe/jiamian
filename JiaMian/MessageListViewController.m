@@ -505,8 +505,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 #pragma mark - Refresh and load more methods
 - (void)refreshTable
 {
-    if (0 == [messageArray count])
-        return;
+  //  if (0 == [messageArray count])
+  //      return;
     self.pullTableView.pullTableIsRefreshing = YES;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
