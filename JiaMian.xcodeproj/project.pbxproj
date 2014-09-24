@@ -256,7 +256,6 @@
 		CF9C271C19C3028700104D89 /* qqafter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C271B19C3028700104D89 /* qqafter@2x.png */; };
 		CF9C272619C31A4500104D89 /* loginbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C272519C31A4500104D89 /* loginbackground.png */; };
 		CF9C272819C31B3100104D89 /* loginbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C272719C31B3100104D89 /* loginbackground@2x.png */; };
-		CFA7A7C319D2602E00CC8DA4 /* ZDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */; };
 		CFB1CACA19CAD0FC0018F695 /* feiji-after.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB1CAC819CAD0FC0018F695 /* feiji-after.png */; };
 		CFB1CACB19CAD0FC0018F695 /* feiji-after@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB1CAC919CAD0FC0018F695 /* feiji-after@2x.png */; };
 		CFBF10B619C2C9FD002C4C73 /* ring.png in Resources */ = {isa = PBXBuildFile; fileRef = CFBF10B519C2C9FD002C4C73 /* ring.png */; };
