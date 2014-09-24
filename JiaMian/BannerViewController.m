@@ -38,7 +38,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
-    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -125,7 +125,7 @@
 #pragma mark UIScrollViewDelegate
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     self.pageControl.currentPage = floorf(scrollView.contentOffset.x / 320);
-    timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
+    timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
     NSString* titleStr = [self bannerTitleLabelText:self.pageControl];
     if (titleStr.length == 0) {
         [self.bannerTitleLabel setHidden:YES];
@@ -175,36 +175,58 @@
         [_scView1 addSubview:self.pageControl];
         
         UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
+        [scrollV setFrame:CGRectMake(0, 6, SCREEN_WIDTH, 144)];
         NSInteger banerCount = [bannerArr count];
-        CGSize scrollVSize =scrollV.bounds.size;
-        [scrollV setContentSize:CGSizeMake(scrollVSize.width * banerCount, scrollVSize.height)];
-        [scrollV setDelegate:self];
-        [scrollV setUserInteractionEnabled:YES];
-        scrollV.delaysContentTouches = NO;
-        [scrollV setCanCancelContentTouches:YES];
         
         for (int i = 0; i < banerCount; i++)
         {
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(scrollVSize.width * i, 6,
-                                                                                   scrollVSize.width, 144)];
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * i, 6,
+                                                                                   SCREEN_WIDTH, 144)];
             BannerModel* banner = (BannerModel*)[bannerArr objectAtIndex:i];
             [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
             [imageView setUserInteractionEnabled:YES];
+            //  imageView.exclusiveTouch = YES;
             
             UITapGestureRecognizer *singleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapBanner:)];
             singleTapGesture.numberOfTapsRequired = 1;
-          //  singleTapGesture.cancelsTouchesInView = YES;
+            //  singleTapGesture.cancelsTouchesInView = YES;
             [imageView addGestureRecognizer:singleTapGesture];
+            imageView.tag = 9000 + i;
             
             [scrollV addSubview:imageView];
         }
+        CGSize scrollVSize =scrollV.bounds.size;
+        [scrollV setContentSize:CGSizeMake(SCREEN_WIDTH * banerCount, scrollVSize.height)];
+        [scrollV setDelegate:self];
+        // [scrollV setUserInteractionEnabled:YES];
+        // scrollV.delaysContentTouches = NO;
+        // [scrollV setCanCancelContentTouches:YES];
+        
         return headerView;
     }
     return nil;
 }
 - (void)handleSingleTapBanner:(UITapGestureRecognizer*)gesture {
-    BannerModel* currBanner = (BannerModel*)[bannerArr objectAtIndex:_pageControl.currentPage];
-    NSLog(@"%@", currBanner);
+    NSInteger bannerIndex = gesture.view.tag - 9000;
+    BannerModel* currBanner = (BannerModel*)[bannerArr objectAtIndex:bannerIndex];
+    NSLog(@"%s, %d", __FUNCTION__, currBanner.banner_type);
+    
+    if (1 == currBanner.banner_type || 2 == currBanner.banner_type) { //messgae & vote
+        MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:[currBanner.key integerValue]];
+        MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+        msgDetailVC.selectedMsg = message;
+        [self.navigationController pushViewController:msgDetailVC animated:YES];
+    }
+    else if (3 == currBanner.banner_type) { //category
+        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        MessageListViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+        homeVC.hidesBottomBarWhenPushed = YES;
+        homeVC.categoryId = [currBanner.key integerValue];
+        [self.navigationController pushViewController:homeVC animated:YES];
+    }
+    else if (4 == currBanner.banner_type) { //topic
+        
+    }
 }
 - (UIPageControl*)pageControl
 {
