@@ -650,7 +650,6 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
 }
 
-
 - (UIView*)configureVoteView:(NSArray*)votes {
     NSInteger voteNumber = votes.count;
     UIView* voteView = [[UIView alloc] initWithFrame:CGRectMake(0, 320, 320, kVoteLabelHeight * voteNumber)];
@@ -658,81 +657,62 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [voteView setBackgroundColor:[UIColor whiteColor]];
     for (NSInteger k = 0; k < voteNumber; k++) {
         
-        VoteModel*vote= (VoteModel*)[votes objectAtIndex:k];
-        
-        
+        VoteModel* vote = (VoteModel*)[votes objectAtIndex:k];
         ZDProgressView*progressView=[[ZDProgressView alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight, 320, kVoteLabelHeight)];
-        progressView.prsColor=UIColorFromRGB(0x78c4fe);
-        progressView.progress=vote.pecentage/100.0;
-        progressView.borderWidth=0;
-        progressView.tag=vote.voteId;
-        progressView.text= vote.content;
-        UILabel*precentageLabel=[[UILabel alloc] initWithFrame:CGRectMake(250, 10, 60, 30)];
-        precentageLabel.text=[NSString stringWithFormat:@"%d%s",vote.pecentage,"%"];
-        precentageLabel.tag=k+99;
-        precentageLabel.textAlignment=NSTextAlignmentCenter;
-        precentageLabel.textColor=UIColorFromRGB(0x666666);
-        precentageLabel.backgroundColor=[UIColor clearColor];
+        progressView.prsColor = UIColorFromRGB(0x78c4fe);
+        progressView.progress = vote.pecentage/100.0;
+        progressView.borderWidth = 0;
+        progressView.tag = vote.voteId;
+        progressView.text = vote.content;
+        UILabel*precentageLabel = [[UILabel alloc] initWithFrame:CGRectMake(250, 10, 60, 30)];
+        precentageLabel.text = [NSString stringWithFormat:@"%d%s", vote.pecentage, "%"];
+        precentageLabel.tag = k+99;
+        precentageLabel.textAlignment = NSTextAlignmentCenter;
+        precentageLabel.textColor = UIColorFromRGB(0x666666);
+        precentageLabel.backgroundColor = [UIColor clearColor];
         [progressView addSubview:precentageLabel];
         [voteView addSubview:progressView];
         
         UIButton*but=[[UIButton alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight,320, kVoteLabelHeight)];
         [but addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
-        but.tag=vote.voteId;
-        but.backgroundColor=[UIColor clearColor];
+        but.tag = vote.voteId;
+        but.backgroundColor = [UIColor clearColor];
         [voteView addSubview:but];
-        
-        
     }
     return voteView;
 }
 
 -(void)buttonAction:(UIButton*)sender
 {
-    
-    UIView*vote= [sender superview];
-    
+    UIView* vote= [sender superview];
     if ([vote isKindOfClass:[UIView class]]!=YES ) {
         return;
     }
     NSLog(@"%@",vote);
     
-    
-    MsgTableViewCell *tableViewCell = (MsgTableViewCell*)vote.superview;
-    while (tableViewCell) {
-        if ([tableViewCell isKindOfClass:[MsgTableViewCell class]]) {
-            break;
-        }
-        tableViewCell = (MsgTableViewCell*)tableViewCell.superview;
-    }
+    UITableViewCell *tableViewCell = [UIView tableViewCellFromView:sender];
     NSIndexPath *indexPath = [_pullTableView indexPathForCell:tableViewCell];
     NSLog(@"%d",indexPath.row);
     MessageModel* currentMsg=[messageArray objectAtIndex:indexPath.row];
-    if (currentMsg.voted==1)
-    {
+    if (currentMsg.voted == 1) {
         NSLog(@"voted");
         
-    }else
-        
-    {
+    } else {
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             MessageModel* mesMode= [[NetWorkConnect sharedInstance] messageVote:sender.tag ];
             NSArray*voteArr=mesMode.votes;
             dispatch_sync(dispatch_get_main_queue(), ^{
-                for (int j=0; j<[voteArr count]; j++) {
+                for (int j = 0; j < [voteArr count]; j++) {
                     VoteModel*voteModal=[voteArr objectAtIndex:j];
                     ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
                     UILabel*label=(UILabel*)[vote viewWithTag:j+99];
                     if ([label isKindOfClass:[UILabel class]]==YES) {
                         label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
                     }
-                    progressView.progress=voteModal.pecentage/100.0;
-                    
-                    
+                    progressView.progress = voteModal.pecentage/100.0;
                 }
             });
         });
-        
     }
 }
 
@@ -773,12 +753,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             {
                 [self doRefreshAutomaticly];
             }
-            
+    
         });
     });
-    
-    
-    
 }
 - (IBAction)dePressed:(id)sender {
     [_deleteView removeFromSuperview];

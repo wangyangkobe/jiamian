@@ -12,7 +12,7 @@
 
 #define kUserNameTFTag 9000
 #define kPassWordTFTag 8999
-@interface RegAndLoginViewController () <UITextFieldDelegate,TencentSessionDelegate>
+@interface RegAndLoginViewController () <UITextFieldDelegate>
 {
     
     BOOL userNameValidateRes;
@@ -48,6 +48,16 @@
         [_actionBtn setTitle:@"登录" forState:UIControlStateNormal];
         self.title = @"登录";
     }
+    UIView *leftView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, _userNameTF.frame.size.height)];
+    leftView1.backgroundColor = _userNameTF.backgroundColor;
+    _userNameTF.leftView = leftView1;
+    _userNameTF.leftViewMode = UITextFieldViewModeAlways;
+    
+    UIView *leftView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, _passWordTF.frame.size.height)];
+    leftView2.backgroundColor = _passWordTF.backgroundColor;
+    _passWordTF.leftView = leftView2;
+    _passWordTF.leftViewMode = UITextFieldViewModeAlways;
+    
     [_userNameHintLabel setTextColor:UIColorFromRGB(0xff2d2d)];
     [_passWordHintLabel setTextColor:UIColorFromRGB(0xff2d2d)];
     
@@ -186,8 +196,6 @@
 }
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    NSLog(@"%s", __FUNCTION__);
-    NSLog(@"%@", _scrollView.subviews);
     [self.scrollView setContentOffset:CGPointMake(0, 50) animated:YES];
 }
 @end

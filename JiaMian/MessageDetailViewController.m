@@ -269,6 +269,7 @@
             progerssView.prsColor=UIColorFromRGB(0x78c4fe);
             [cell addSubview:progerssView];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         ZDProgressView*pregressVeiw=(ZDProgressView*)[cell viewWithTag:indexPath.row+200];
         UILabel*preLabel=(UILabel*)[pregressVeiw viewWithTag:indexPath.row+300];
         VoteModel* vote = (VoteModel*)[_selectedMsg.votes objectAtIndex:indexPath.row];
