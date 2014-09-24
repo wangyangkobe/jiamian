@@ -130,6 +130,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView resignFirstResponder];
 }
 - (void)handlePopToBack {
+    if (_textView.text.length!=0) {
     [UIAlertView showWithTitle:@"提示"
                        message:@"您已编辑了内容，是否放弃?"
              cancelButtonTitle:@"取消"
@@ -137,7 +138,11 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                       tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                           if (1 ==  buttonIndex)
                               [self.navigationController popViewControllerAnimated:NO];
-                      } ];
+                      } ];}else{
+                      
+                          [self.navigationController popViewControllerAnimated:NO];
+
+                      }
 }
 - (void)hiddenKeyBoard:(UISwipeGestureRecognizer*)gesture
 {
@@ -268,6 +273,19 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (void)sendMsgBtnPressed:(id)sender
 {
     NSLog(@"%@", selectZones);
+    if (_textView.text.length==0) {
+        [UIAlertView showWithTitle:@"提示"
+                           message:@"内容不能为空"
+                 cancelButtonTitle:@"确定"
+                 otherButtonTitles:nil
+                          tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                              if (buttonIndex == [selectZones count])
+                                  return ;
+                          } ];}
+    
+    
+    else{
+    
     [UIActionSheet showInView:self.textView
                     withTitle:@"请选择圈子"
             cancelButtonTitle:@"Cancel"
@@ -281,6 +299,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                          }
                          else
                          {
+                             
                              NSString* key = [actionSheet buttonTitleAtIndex:buttonIndex];
                              selectZoneId = [[indexMapZoneName valueForKey:key] integerValue];
                              
@@ -297,6 +316,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
                              }
                          }
                      }];
+    }
 }
 - (void)dealloc
 {

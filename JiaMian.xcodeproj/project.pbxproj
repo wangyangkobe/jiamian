@@ -108,7 +108,6 @@
 		1558CFD8190BBBE300E6B543 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFD7190BBBE300E6B543 /* CoreTelephony.framework */; };
 		1558CFDA190BBBED00E6B543 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFD9190BBBED00E6B543 /* libstdc++.dylib */; };
 		1558CFDC190BBBF400E6B543 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1558CFDB190BBBF400E6B543 /* libz.dylib */; };
-		1558CFDF190BF00600E6B543 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFDE190BF00600E6B543 /* MessageListViewController.m */; };
 		1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFE3190BF34300E6B543 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D00F190BF34300E6B543 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFE6190BF34300E6B543 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		1558D010190BF34300E6B543 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1558CFE8190BF34300E6B543 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -137,7 +136,6 @@
 		155AC494190C836400A8F252 /* ico-to-do-list.png in Resources */ = {isa = PBXBuildFile; fileRef = 155AC492190C836400A8F252 /* ico-to-do-list.png */; };
 		155AC495190C836400A8F252 /* ico-to-do-list@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 155AC493190C836400A8F252 /* ico-to-do-list@2x.png */; };
 		155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC497190C9D8800A8F252 /* PublishMsgViewController.m */; };
-		155AC49B190CC2B000A8F252 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC49A190CC2B000A8F252 /* MessageDetailViewController.m */; };
 		155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */; };
 		155AC4A4190CDD0F00A8F252 /* HeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 155AC4A3190CDD0F00A8F252 /* HeaderView.xib */; };
 		155AC4A7190CE07200A8F252 /* TableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 155AC4A6190CE07200A8F252 /* TableHeaderView.m */; };
@@ -184,6 +182,9 @@
 		CF357AE019CA7C7F003D25A5 /* bg_drawable_21@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF357ADF19CA7C7F003D25A5 /* bg_drawable_21@2x.jpg */; };
 		CF357AE219CA7C85003D25A5 /* bg_drawable_22@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF357AE119CA7C85003D25A5 /* bg_drawable_22@2x.jpg */; };
 		CF357AE419CA7C8D003D25A5 /* bg_drawable_23@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF357AE319CA7C8D003D25A5 /* bg_drawable_23@2x.jpg */; };
+		CF5845E319D28F0300539A40 /* MessageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5845E219D28F0300539A40 /* MessageListViewController.m */; };
+		CF5845E519D28F0E00539A40 /* MessageDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5845E419D28F0E00539A40 /* MessageDetailViewController.m */; };
+		CF5845E819D291C600539A40 /* ZDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5845E719D291C600539A40 /* ZDProgressView.m */; };
 		CF5FE5B919C564C5005D864B /* zhuceAfter.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5B819C564C5005D864B /* zhuceAfter.png */; };
 		CF5FE5BB19C564D0005D864B /* zhuceAfter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE5BA19C564D0005D864B /* zhuceAfter@2x.png */; };
 		CF5FE64A19C579B0005D864B /* bg_drawable_1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CF5FE61C19C579B0005D864B /* bg_drawable_1.jpg */; };
@@ -488,7 +489,6 @@
 		1558CFD9190BBBED00E6B543 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		1558CFDB190BBBF400E6B543 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1558CFDD190BF00600E6B543 /* MessageListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageListViewController.h; sourceTree = "<group>"; };
-		1558CFDE190BF00600E6B543 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
 		1558CFE2190BF34300E6B543 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		1558CFE3190BF34300E6B543 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		1558CFE4190BF34300E6B543 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -544,7 +544,6 @@
 		155AC496190C9D8800A8F252 /* PublishMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublishMsgViewController.h; sourceTree = "<group>"; };
 		155AC497190C9D8800A8F252 /* PublishMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublishMsgViewController.m; sourceTree = "<group>"; };
 		155AC499190CC2B000A8F252 /* MessageDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailViewController.h; sourceTree = "<group>"; };
-		155AC49A190CC2B000A8F252 /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
 		155AC4A0190CCFC400A8F252 /* NSString+Extenions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Extenions.h"; path = "../NSString+Extenions.h"; sourceTree = "<group>"; };
 		155AC4A1190CCFC400A8F252 /* NSString+Extenions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Extenions.m"; path = "../NSString+Extenions.m"; sourceTree = "<group>"; };
 		155AC4A3190CDD0F00A8F252 /* HeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderView.xib; sourceTree = "<group>"; };
@@ -602,6 +601,10 @@
 		CF357ADF19CA7C7F003D25A5 /* bg_drawable_21@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "bg_drawable_21@2x.jpg"; sourceTree = "<group>"; };
 		CF357AE119CA7C85003D25A5 /* bg_drawable_22@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "bg_drawable_22@2x.jpg"; sourceTree = "<group>"; };
 		CF357AE319CA7C8D003D25A5 /* bg_drawable_23@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "bg_drawable_23@2x.jpg"; sourceTree = "<group>"; };
+		CF5845E219D28F0300539A40 /* MessageListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageListViewController.m; sourceTree = "<group>"; };
+		CF5845E419D28F0E00539A40 /* MessageDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailViewController.m; sourceTree = "<group>"; };
+		CF5845E619D291C600539A40 /* ZDProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDProgressView.h; sourceTree = "<group>"; };
+		CF5845E719D291C600539A40 /* ZDProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDProgressView.m; sourceTree = "<group>"; };
 		CF5FE5B819C564C5005D864B /* zhuceAfter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhuceAfter.png; sourceTree = "<group>"; };
 		CF5FE5BA19C564D0005D864B /* zhuceAfter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zhuceAfter@2x.png"; sourceTree = "<group>"; };
 		CF5FE61C19C579B0005D864B /* bg_drawable_1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bg_drawable_1.jpg; sourceTree = "<group>"; };
@@ -674,8 +677,6 @@
 		CF9C271B19C3028700104D89 /* qqafter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qqafter@2x.png"; sourceTree = "<group>"; };
 		CF9C272519C31A4500104D89 /* loginbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbackground.png; sourceTree = "<group>"; };
 		CF9C272719C31B3100104D89 /* loginbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbackground@2x.png"; sourceTree = "<group>"; };
-		CFA7A7C119D2602E00CC8DA4 /* ZDProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDProgressView.h; sourceTree = "<group>"; };
-		CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDProgressView.m; sourceTree = "<group>"; };
 		CFB1CAC819CAD0FC0018F695 /* feiji-after.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feiji-after.png"; sourceTree = "<group>"; };
 		CFB1CAC919CAD0FC0018F695 /* feiji-after@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feiji-after@2x.png"; sourceTree = "<group>"; };
 		CFBF10B519C2C9FD002C4C73 /* ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ring.png; sourceTree = "<group>"; };
@@ -1133,7 +1134,9 @@
 				D317DB1319C5523000689F7F /* HuiFuViewController.h */,
 				D317DB1419C5523000689F7F /* HuiFuViewController.m */,
 				1558CFDD190BF00600E6B543 /* MessageListViewController.h */,
-				1558CFDE190BF00600E6B543 /* MessageListViewController.m */,
+				CF5845E219D28F0300539A40 /* MessageListViewController.m */,
+				155AC499190CC2B000A8F252 /* MessageDetailViewController.h */,
+				CF5845E419D28F0E00539A40 /* MessageDetailViewController.m */,
 				D313DB2F19A9AD9100AB08DB /* BannerViewController.h */,
 				D313DB3019A9AD9100AB08DB /* BannerViewController.m */,
 				1558CFCA190BAA0F00E6B543 /* CommonMarco.h */,
@@ -1158,8 +1161,6 @@
 				15F80F5A19509644008072AD /* ShowInfoViewController.m */,
 				152BFF2B193F4424000D8E1F /* RegisterViewController.h */,
 				152BFF2C193F4424000D8E1F /* RegisterViewController.m */,
-				155AC499190CC2B000A8F252 /* MessageDetailViewController.h */,
-				155AC49A190CC2B000A8F252 /* MessageDetailViewController.m */,
 				155AC496190C9D8800A8F252 /* PublishMsgViewController.h */,
 				155AC497190C9D8800A8F252 /* PublishMsgViewController.m */,
 				15E42904194412DB00641635 /* SelectZoneViewController.h */,
@@ -1207,8 +1208,8 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
-				CFA7A7C119D2602E00CC8DA4 /* ZDProgressView.h */,
-				CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */,
+				CF5845E619D291C600539A40 /* ZDProgressView.h */,
+				CF5845E719D291C600539A40 /* ZDProgressView.m */,
 				CF357AD819CA78A1003D25A5 /* RNBlurModalView.h */,
 				CF357AD919CA78A1003D25A5 /* RNBlurModalView.m */,
 				CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */,
@@ -2172,7 +2173,9 @@
 				1558CFBE190BA56700E6B543 /* LogInViewController.m in Sources */,
 				15503E10193784E200CD737D /* QiniuPutPolicy.m in Sources */,
 				D3F27D84197D477B00737A63 /* UIView+Extensions.m in Sources */,
+				CF5845E519D28F0E00539A40 /* MessageDetailViewController.m in Sources */,
 				D313DB3119A9AD9100AB08DB /* BannerViewController.m in Sources */,
+				CF5845E319D28F0300539A40 /* MessageListViewController.m in Sources */,
 				CF357ADA19CA78A1003D25A5 /* RNBlurModalView.m in Sources */,
 				D3F1942719A23381000829FD /* ChatViewController.m in Sources */,
 				1558D00E190BF34300E6B543 /* ASIAuthenticationDialog.m in Sources */,
@@ -2183,7 +2186,6 @@
 				15503E0F193784E200CD737D /* QiniuPutExtra.m in Sources */,
 				D3F1942319A23094000829FD /* UIBubbleTableViewCell.m in Sources */,
 				15503DF71937813100CD737D /* UIImage+Extensions.m in Sources */,
-				155AC49B190CC2B000A8F252 /* MessageDetailViewController.m in Sources */,
 				D3F1942119A23094000829FD /* UIBubbleHeaderTableViewCell.m in Sources */,
 				CF0B30DB19B950C2000B53DC /* HMSegmentedControl.m in Sources */,
 				D3F193FD19A222C7000829FD /* HxUserModel.m in Sources */,
@@ -2204,7 +2206,6 @@
 				1558D01A190BF34300E6B543 /* PullTableView.m in Sources */,
 				15503E0D193784E200CD737D /* GTMBase64.m in Sources */,
 				D3F1942419A23094000829FD /* UIBubbleTypingTableViewCell.m in Sources */,
-				1558CFDF190BF00600E6B543 /* MessageListViewController.m in Sources */,
 				15E4290B194413DF00641635 /* CustomCollectionCell.m in Sources */,
 				1558D013190BF34300E6B543 /* ASIHTTPRequest.m in Sources */,
 				15503E12193784E200CD737D /* QiniuUtils.m in Sources */,
@@ -2223,7 +2224,7 @@
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				D317DB1519C5523000689F7F /* HuiFuViewController.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
-				CFA7A7C319D2602E00CC8DA4 /* ZDProgressView.m in Sources */,
+				CF5845E819D291C600539A40 /* ZDProgressView.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
 				1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */,
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,
@@ -2330,6 +2331,7 @@
 				SDKROOT = iphoneos7.1;
 				SKIP_INSTALL = YES;
 				VALID_ARCHS = "armv7 armv7s";
+				"VALID_ARCHS[sdk=*]" = "armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -2383,6 +2385,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JiaMian/JiaMian-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/BBBadgeBarButtonItem\"",
+					"\"${PODS_ROOT}/Headers/HPGrowingTextView\"",
+					"\"${PODS_ROOT}/Headers/JSONModel\"",
+					"\"${PODS_ROOT}/Headers/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/UIActionSheet+Blocks\"",
+					"\"${PODS_ROOT}/Headers/ZDProgressView\"",
+				);
 				INFOPLIST_FILE = "JiaMian/JiaMian-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
@@ -2423,6 +2434,15 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "JiaMian/JiaMian-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"\"${PODS_ROOT}/Headers\"",
+					"\"${PODS_ROOT}/Headers/BBBadgeBarButtonItem\"",
+					"\"${PODS_ROOT}/Headers/HPGrowingTextView\"",
+					"\"${PODS_ROOT}/Headers/JSONModel\"",
+					"\"${PODS_ROOT}/Headers/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/UIActionSheet+Blocks\"",
+					"\"${PODS_ROOT}/Headers/ZDProgressView\"",
+				);
 				INFOPLIST_FILE = "JiaMian/JiaMian-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (

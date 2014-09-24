@@ -19,6 +19,8 @@
     BOOL passWordValidateRes;
     
 }
+
+
 @property (nonatomic, retain) TencentOAuth *tencentOAuth;
 @property (nonatomic, retain) NSArray* permissions;
 @end
@@ -70,6 +72,8 @@
     [self.view addGestureRecognizer:tapGestureRecognizer];
     userNameValidateRes = NO;
     passWordValidateRes = NO;
+    
+    
 }
 -(void)keyboardHide:(UITapGestureRecognizer*)tap{
     [self.view endEditing:YES];
@@ -128,6 +132,7 @@
                                                                            password:_passWordHintLabel.text];
     }
     UserModel* userSelf = [result objectForKey:@"userModel"];
+    NSLog(@"%@",userSelf);
     if (userSelf) //login successful
     {
         NSLog(@"user register log in successful!");

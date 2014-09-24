@@ -74,5 +74,6 @@
 
 - (id)deleteMessage:(long)messageId;
 
+- (CommentModel*)commentLike:(long)commId;
 
 @end

@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+
+@protocol passBackTheStr <NSObject>
+
+
+
+@end
 @interface MessageListViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;

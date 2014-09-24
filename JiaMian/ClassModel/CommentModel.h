@@ -20,6 +20,8 @@
 @property(nonatomic, copy) NSString<Optional>*      user_head;
 @property(nonatomic, copy) NSString*      text;
 @property (assign, nonatomic) BOOL        is_starter;
+@property(nonatomic,assign)long likes_count;
+@property(nonatomic)BOOL has_like;
 @property(nonatomic, strong) UserModel*   user;
 
 @end

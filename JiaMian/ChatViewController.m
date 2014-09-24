@@ -228,7 +228,7 @@
     // Convert the frame from window's coordinate system to our view's coordinate system.
     keyboardEndRect = [self.view convertRect:keyboardEndRect fromView:window];
     // get a rect for the textView frame
-	CGRect toolBarFrame = self.toolBar.frame;
+    CGRect toolBarFrame = self.toolBar.frame;
     toolBarFrame.origin.y = self.view.bounds.size.height - (keyboardEndRect.size.height + toolBarFrame.size.height);
     
     [UIView animateWithDuration:animationTime animations:^{
@@ -245,7 +245,7 @@
 - (void)inputKeyboardWillHide:(NSNotification *)notification {
     CGFloat animationTime = [[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue];
     // get a rect for the textView frame
-	CGRect toolBarFrame = self.toolBar.frame;
+    CGRect toolBarFrame = self.toolBar.frame;
     toolBarFrame.origin.y = self.view.bounds.size.height - toolBarFrame.size.height;
     
     [UIView animateWithDuration:animationTime animations:^{
@@ -262,10 +262,10 @@
 #pragma mark - HPGrowingTextViewDelegate
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height {
     float diff = (growingTextView.frame.size.height - height);
-	CGRect r = self.toolBar.frame;
+    CGRect r = self.toolBar.frame;
     r.size.height -= diff;
     r.origin.y += diff;
-	self.toolBar.frame = r;
+    self.toolBar.frame = r;
 }
 - (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
     if ( [text isEqualToString:@"\n"] )  //控制输入文本的长度
@@ -274,16 +274,16 @@
         return YES;
 }
 - (void)configureToolBar {
-    CGRect frame = CGRectMake(0, 0, 255, 44);
-    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectInset(frame, 8, 5)];
+    textView = [[HPGrowingTextView alloc] initWithFrame:CGRectMake(6, 4, 270, 40)];
     textView.isScrollable = NO;
     textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
-	textView.minNumberOfLines = 1;
-	textView.maxNumberOfLines = 6;
-	textView.returnKeyType = UIReturnKeySend; //just as an example
-	textView.font = [UIFont systemFontOfSize:15.0f];
-	textView.delegate = self;
+    textView.minNumberOfLines = 1;
+    textView.maxNumberOfLines = 6;
+    textView.returnKeyType = UIReturnKeySend; //just as an example
+    textView.font = [UIFont systemFontOfSize:15.0f];
+    textView.delegate = self;
     textView.backgroundColor = [UIColor whiteColor];
+    textView.placeholder = @"私信内容";
     
     UIImage *rawEntryBackground = [UIImage imageNamed:@"MessageEntryInputField.png"];
     UIImage *entryBackground = [rawEntryBackground stretchableImageWithLeftCapWidth:13 topCapHeight:22];
@@ -299,29 +299,23 @@
     
     textView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     
-    textView.layer.borderColor = [UIColor grayColor].CGColor;
-    textView.layer.borderWidth = 1.0;
-    textView.layer.cornerRadius = 5.0;
+//    textView.layer.borderColor = [UIColor grayColor].CGColor;
+//    textView.layer.borderWidth = 1.0;
+//    textView.layer.cornerRadius = 5.0;
     
     [self.toolBar addSubview:textView];
     
-    UIImage *sendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
-    UIImage *selectedSendBtnBackground = [[UIImage imageNamed:@"MessageEntrySendButton.png"] stretchableImageWithLeftCapWidth:13 topCapHeight:0];
+    UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
+    [sendBtn setImage:[UIImage imageNamed:@"feiji.png"] forState:UIControlStateNormal];
     
-	UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-	sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 69, 10, 63, 27);
     sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-	[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
+//    [sendBtn setTitle:@"评论" forState:UIControlStateNormal];
     
     [sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
-    sendBtn.titleLabel.shadowOffset = CGSizeMake (0.0, -1.0);
-    sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
-    
-    [sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[sendBtn addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
-    [sendBtn setBackgroundImage:sendBtnBackground forState:UIControlStateNormal];
-    [sendBtn setBackgroundImage:selectedSendBtnBackground forState:UIControlStateSelected];
-	[self.toolBar addSubview:sendBtn];
+
+    [sendBtn addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
+    [self.toolBar addSubview:sendBtn];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
 @end

@@ -151,8 +151,14 @@ static ASIDownloadCache* myCache;
     }
     else if(500 == request.responseStatusCode)
     {
-        NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
-        return @{@"error": errorDict[@"err_msg"]};
+        NSDictionary*errorDict;
+        errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        if ([[errorDict objectForKey:@"err_msg"]isEqualToString:@"无效token"]) {
+            return @{@"error":@"密码错误" };
+        }else
+        {
+        return @{@"error":[errorDict objectForKey:@"err_msg"] };
+        }
     }
     else
     {
@@ -904,6 +910,21 @@ static ASIDownloadCache* myCache;
     {
        
         return [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:nil];;
+    }
+    else
+        return nil;
+}
+- (CommentModel*)commentLike:(long)commId;
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/comments/like",  HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:commId] forKey:@"comment_id"];
+    [request startSynchronous];
+    NSLog(@"%@, %@", requestUrl, request.responseString);
+    if ( 200 == [request responseStatusCode] )
+    {
+        return [[CommentModel alloc] initWithString:[request responseString] error:nil];
     }
     else
         return nil;

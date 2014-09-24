@@ -18,4 +18,5 @@
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (assign, nonatomic) BOOL isTouPiao;
 @property (assign, nonatomic) int categoryId;
+@property(weak,nonatomic)id delegate;
 @end
