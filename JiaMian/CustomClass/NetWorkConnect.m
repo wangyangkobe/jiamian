@@ -892,4 +892,20 @@ static ASIDownloadCache* myCache;
     else
         return nil;
 }
+- (NSDictionary*)deleteMessage:(long)messageId
+{
+    NSString* requestUrl = [NSString stringWithFormat:@"%@/messages/delete",  HOME_PAGE];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:requestUrl]];
+    [request setRequestMethod:@"POST"];
+    [request setPostValue:[NSNumber numberWithLong:messageId] forKey:@"message_id"];
+    [request startSynchronous];
+    NSLog(@"%@, %@", requestUrl, request.responseString);
+    if ( 200 == [request responseStatusCode] )
+    {
+       
+        return [NSJSONSerialization JSONObjectWithData:[request responseData] options:0 error:nil];;
+    }
+    else
+        return nil;
+}
 @end

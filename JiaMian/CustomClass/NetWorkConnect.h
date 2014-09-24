@@ -72,4 +72,7 @@
 //投票
 - (MessageModel*)messageVote:(long)VoteId;
 
+- (id)deleteMessage:(long)messageId;
+
+
 @end

@@ -13,7 +13,7 @@
 #import "ChatViewController.h"
 #import "RNBlurModalView.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "ZDProgressView.h"
 #define kCommentCellHeadImage  6000
 #define kCommentCellTextLabel  6001
 #define kCommentCellTimeLabel  6002
@@ -259,10 +259,23 @@
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         if (nil == cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+            ZDProgressView*progerssView=[[ZDProgressView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
+            UILabel*precentageLabel=[[UILabel alloc] initWithFrame:CGRectMake(270, 10, 60, 30)];
+            precentageLabel.tag=indexPath.row+300;
+            [ progerssView addSubview:precentageLabel];
+            
+            progerssView.tag=indexPath.row+200;
+            progerssView.borderWidth=0;
+            progerssView.prsColor=UIColorFromRGB(0x78c4fe);
+            [cell addSubview:progerssView];
         }
+        ZDProgressView*pregressVeiw=(ZDProgressView*)[cell viewWithTag:indexPath.row+200];
+        UILabel*preLabel=(UILabel*)[pregressVeiw viewWithTag:indexPath.row+300];
         VoteModel* vote = (VoteModel*)[_selectedMsg.votes objectAtIndex:indexPath.row];
-        UILabel* voteLabel = (UILabel*)[cell.contentView viewWithTag:kVoteCellTextLabel];
-        [voteLabel setText:vote.content];
+        preLabel.text=[NSString stringWithFormat:@"%d%s",vote.pecentage,"%"];
+        
+        pregressVeiw.text=vote.content;
+        pregressVeiw.progress=vote.pecentage/100.0;
         return cell;
     }
     else
@@ -308,7 +321,7 @@
                              constrainedToSize:CGSizeMake(260, 9999)];
         
         if (IOS_NEWER_OR_EQUAL_TO_7)
-            return textHight + 23 + 7;
+            return textHight + 23 + 20;
         else
             return textHight + 23;
     }
@@ -615,4 +628,6 @@
                          }];
     }
 }
+
+
 @end
