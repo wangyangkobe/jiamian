@@ -705,14 +705,12 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             dispatch_sync(dispatch_get_main_queue(), ^{
                 for (int j = 0; j < [voteArr count]; j++) {
                     VoteModel*voteModal=[voteArr objectAtIndex:j];
-                        ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
-                        UILabel*label=(UILabel*)[vote viewWithTag:j+99];
-                        if ([label isKindOfClass:[UILabel class]]==YES) {
-                            label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
-                        }
-                        progressView.progress=voteModal.pecentage/100.0;
-                            
-                    
+                    ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
+                    UILabel*label=(UILabel*)[vote viewWithTag:j+99];
+                    if ([label isKindOfClass:[UILabel class]]==YES) {
+                        label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                    }
+                    progressView.progress = voteModal.pecentage/100.0;
                 }
             });
         });
