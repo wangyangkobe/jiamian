@@ -453,7 +453,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     
     [cell.deleteImageView setUserInteractionEnabled:YES];
     UITapGestureRecognizer *deleteImageTap =  [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                    action:@selector(deleteButton:)];
+                                                                                      action:@selector(deleteButton:)];
     [deleteImageTap setNumberOfTapsRequired:1];
     [cell.deleteImageView addGestureRecognizer:deleteImageTap];
     
@@ -521,8 +521,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 #pragma mark - Refresh and load more methods
 - (void)refreshTable
 {
-  //  if (0 == [messageArray count])
-  //      return;
+    if (0 == [messageArray count])
+        return;
     self.pullTableView.pullTableIsRefreshing = YES;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -721,13 +721,13 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             dispatch_sync(dispatch_get_main_queue(), ^{
                 for (int j=0; j<[voteArr count]; j++) {
                     VoteModel*voteModal=[voteArr objectAtIndex:j];
-                        ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
-                        UILabel*label=(UILabel*)[vote viewWithTag:j+99];
-                        if ([label isKindOfClass:[UILabel class]]==YES) {
-                            label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
-                        }
-                        progressView.progress=voteModal.pecentage/100.0;
-                            
+                    ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
+                    UILabel*label=(UILabel*)[vote viewWithTag:j+99];
+                    if ([label isKindOfClass:[UILabel class]]==YES) {
+                        label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                    }
+                    progressView.progress=voteModal.pecentage/100.0;
+                    
                     
                 }
             });
@@ -753,7 +753,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [button addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchUpInside];
     [button setTitle:@"不想在看到" forState:UIControlStateNormal];
     button.tag=indexPath.row;
-     [_deleteView addSubview:button];
+    [_deleteView addSubview:button];
     
     UIButton* deletbutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 25)];
     [deletbutton addTarget:self action:@selector(dePressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -764,9 +764,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MessageModel* currentMsg=[messageArray objectAtIndex:sender.tag];
         NSDictionary*result=[[NetWorkConnect sharedInstance] deleteMessage:currentMsg.message_id ];
-   
+        
         dispatch_sync(dispatch_get_main_queue(), ^{
-          
+            
             if (result==nil) {
                 NSLog(@"失败！");
             }else
@@ -776,7 +776,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
             
         });
     });
-
+    
     
     
 }

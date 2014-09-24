@@ -372,11 +372,11 @@
     textView.isScrollable = NO;
     textView.contentInset = UIEdgeInsetsMake(0, 5, 0, 5);
     
-	textView.minNumberOfLines = 1;
-	textView.maxNumberOfLines = 6;
-	textView.returnKeyType = UIReturnKeyGo; //just as an example
-	textView.font = [UIFont systemFontOfSize:15.0f];
-	textView.delegate = self;
+    textView.minNumberOfLines = 1;
+    textView.maxNumberOfLines = 6;
+    textView.returnKeyType = UIReturnKeyGo; //just as an example
+    textView.font = [UIFont systemFontOfSize:15.0f];
+    textView.delegate = self;
     textView.internalTextView.scrollIndicatorInsets = UIEdgeInsetsMake(5, 0, 5, 0);
     textView.backgroundColor = [UIColor whiteColor];
     textView.placeholder = @"匿名发表评论";
@@ -395,10 +395,10 @@
     
     [self.toolBar addSubview:textView];
     
-	_sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-	_sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
+    _sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
     _sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
-	//[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
+    //[sendBtn setTitle:@"评论" forState:UIControlStateNormal];
     [_sendBtn setImage:[UIImage imageNamed:@"feiji.png"] forState:UIControlStateNormal];
     
     [_sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
@@ -406,9 +406,9 @@
     _sendBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
     
     [_sendBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	[_sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_sendBtn addTarget:self action:@selector(sendBtnPressed:) forControlEvents:UIControlEventTouchUpInside];
     
-	[self.toolBar addSubview:_sendBtn];
+    [self.toolBar addSubview:_sendBtn];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     
     //给键盘注册通知
@@ -418,7 +418,7 @@
 #pragma mark 监听键盘的显示与隐藏
 - (void)keyboardWillShow:(NSNotification*)note {
     // get keyboard size and loctaion
-	CGRect keyboardBounds;
+    CGRect keyboardBounds;
     [[note.userInfo valueForKey:UIKeyboardFrameEndUserInfoKey] getValue: &keyboardBounds];
     NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
@@ -426,17 +426,17 @@
     // Need to translate the bounds to account for rotation.
     keyboardBounds = [self.view convertRect:keyboardBounds toView:nil];
     
-	// get a rect for the textView frame
-	CGRect containerFrame = self.toolBar.frame;
+    // get a rect for the textView frame
+    CGRect containerFrame = self.toolBar.frame;
     containerFrame.origin.y = self.view.bounds.size.height - (keyboardBounds.size.height + containerFrame.size.height);
-	// animations settings
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationBeginsFromCurrentState:YES];
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
-	
-	// set views with new info
-	self.toolBar.frame = containerFrame;
+    
+    // set views with new info
+    self.toolBar.frame = containerFrame;
     
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, keyboardBounds.size.height, 0.0);
     self.tableView.contentInset = contentInsets;
@@ -450,42 +450,42 @@
                               atScrollPosition:UITableViewScrollPositionBottom
                                       animated:YES];
     }
-	// commit animations
-	[UIView commitAnimations];
+    // commit animations
+    [UIView commitAnimations];
 }
 
 - (void)keyboardWillHide:(NSNotification *)note {
     NSNumber *duration = [note.userInfo objectForKey:UIKeyboardAnimationDurationUserInfoKey];
     NSNumber *curve = [note.userInfo objectForKey:UIKeyboardAnimationCurveUserInfoKey];
-	
-	// get a rect for the textView frame
-	CGRect containerFrame = self.toolBar.frame;
+    
+    // get a rect for the textView frame
+    CGRect containerFrame = self.toolBar.frame;
     containerFrame.origin.y = self.view.bounds.size.height - containerFrame.size.height;
-	
-	// animations settings
-	[UIView beginAnimations:nil context:NULL];
-	[UIView setAnimationBeginsFromCurrentState:YES];
+    
+    // animations settings
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDuration:[duration doubleValue]];
     [UIView setAnimationCurve:[curve intValue]];
     
-	// set views with new info
-	self.toolBar.frame = containerFrame;
-	
+    // set views with new info
+    self.toolBar.frame = containerFrame;
+    
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     self.tableView.contentInset = contentInsets;
     self.tableView.scrollIndicatorInsets = contentInsets;
-	// commit animations
-	[UIView commitAnimations];
+    // commit animations
+    [UIView commitAnimations];
 }
 
 - (void)growingTextView:(HPGrowingTextView *)growingTextView willChangeHeight:(float)height
 {
     float diff = (growingTextView.frame.size.height - height);
     
-	CGRect r = self.toolBar.frame;
+    CGRect r = self.toolBar.frame;
     r.size.height -= diff;
     r.origin.y += diff;
-	self.toolBar.frame = r;
+    self.toolBar.frame = r;
 }
 - (BOOL)growingTextView:(HPGrowingTextView *)growingTextView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -498,7 +498,7 @@
 {
     [_sendBtn setImage:[UIImage imageNamed:@"feiji-after.png"] forState:UIControlStateHighlighted];
     NSLog(@"call: %s", __FUNCTION__);
-	[textView resignFirstResponder];
+    [textView resignFirstResponder];
     
     if ([textView.text length] > 0)
     {
@@ -582,8 +582,8 @@
 
 - (void)handleMoreBtnAction:(UIButton*)sender
 {
-   // UITableViewCell* cell = [UIView tableViewCellFromView:sender];
-   // NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    // UITableViewCell* cell = [UIView tableViewCellFromView:sender];
+    // NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     NSString* btnTitle = sender.titleLabel.text;
     if ([btnTitle isEqual:@"分享"])
     {
