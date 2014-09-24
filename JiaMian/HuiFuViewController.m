@@ -16,7 +16,7 @@
     NSMutableArray* huiFuArr;
     NSMutableArray* messageArray;
 }
-
+@property (retain, nonatomic) UIView* hintView;
 @end
 static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 @implementation HuiFuViewController
@@ -34,6 +34,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.collectionView.backgroundColor = UIColorFromRGB(0x344c62);
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
@@ -48,12 +49,16 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
-            [self.collectionView reloadData];
+            if (requestRes.count == 0) {
+                [self.collectionView addSubview:self.hintView];
+            } else {
+                [self.collectionView reloadData];
+            }
         });
     });
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([HuiFuCollectionCell class]) bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCollectionViewCellIdentifier];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    // self.collectionView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,7 +66,17 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (UIView*)hintView {
+    if (_hintView == nil) {
+        _hintView = [[UIView alloc] initWithFrame:self.view.bounds];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 40)];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setText:@"暂未收到私信，试着向他人发起私信吧!"];
+        label.center = _hintView.center;
+        [_hintView addSubview:label];
+    }
+    return _hintView;
+}
 #pragma mark UICollectionViewDelegateFlowLayout
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
 {
@@ -96,7 +111,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
 {
     self.collectionView.backgroundColor=UIColorFromRGB(0x344c62);
     HuiFuCollectionCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCollectionViewCellIdentifier
-                                                                           forIndexPath:indexPath];
+                                                                          forIndexPath:indexPath];
     NotificationModel* notification = [huiFuArr objectAtIndex:indexPath.row];
     MessageModel* message = notification.message;
     
@@ -143,7 +158,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     notification.status = 2; //置为已读
     notification.unread_count = 0;
     [huiFuArr replaceObjectAtIndex:indexPath.row withObject:notification];
-  //  [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    //  [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     [self.collectionView reloadData];
-   }
+}
 @end

@@ -17,7 +17,7 @@
 
 @interface ChatListViewController () <UITableViewDelegate, UITableViewDataSource, IChatManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *dataSource;
-
+@property (retain, nonatomic) UIView* headerView;
 @end
 
 @implementation ChatListViewController
@@ -38,6 +38,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _dataSource = [NSMutableArray array];
+    self.tableView.backgroundColor = UIColorFromRGB(0x344c62);
 }
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -54,10 +55,25 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+- (UIView*)headerView {
+    if (_headerView == nil) {
+        _headerView = [[UIView alloc] initWithFrame:self.view.bounds];
+        UILabel* label = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 40)];
+        label.textAlignment = NSTextAlignmentCenter;
+        [label setText:@"暂未收到私信，试着向他人发起私信吧!"];
+        label.center = _headerView.center;
+        [_headerView addSubview:label];
+    }
+    return _headerView;
+}
 #pragma mark - public
 -(void)refreshDataSource {
     self.dataSource = [self loadDataSource];
+    if (self.dataSource.count == 0) {
+        self.tableView.tableHeaderView = self.headerView;
+    } else {
+        self.tableView.tableHeaderView = nil;
+    }
     [_tableView reloadData];
 }
 

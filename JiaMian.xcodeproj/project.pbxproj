@@ -335,6 +335,7 @@
 		D3F60E9B19AE93B700BA91BF /* MsgTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D3F60E9A19AE93B700BA91BF /* MsgTableViewCell.xib */; };
 		D3F60E9E19AE93EB00BA91BF /* MsgTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F60E9D19AE93EB00BA91BF /* MsgTableViewCell.m */; };
 		D3F709AA19ACC7150083D8F6 /* UtilityLib.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F709A919ACC7150083D8F6 /* UtilityLib.m */; };
+		D3FC44FC19D2ECBB009088CB /* ZDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2166,6 +2167,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3FC44FC19D2ECBB009088CB /* ZDProgressView.m in Sources */,
 				152031EC19693D0C006E8E88 /* NetWorkConnect.m in Sources */,
 				150ED9D619149EE500175728 /* Reachability.m in Sources */,
 				D388404E19A0EC8600823ACA /* ChatListViewController.m in Sources */,

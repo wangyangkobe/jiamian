@@ -24,7 +24,6 @@
     if (self) {
         [self zdInit];
         [self zdFrame:frame];
-
     }
     return self;
 }
