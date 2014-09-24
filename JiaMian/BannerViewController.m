@@ -53,15 +53,8 @@
     statusBarView.backgroundColor=UIColorFromRGB(0x293645);
     [self.view addSubview:statusBarView];
     
-    //透明View
-//    UIView* scView=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
-//    scView.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-//    [self.collectionView addSubview:scView];
-    
     //显示View
     _scView1=[[UIView alloc]initWithFrame:CGRectMake(0, 112, 320, 38)];
-    _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    [self.collectionView addSubview:_scView1];
     
     // Do any additional setup after loading the view.
     self.collectionView.dataSource = self;
@@ -91,7 +84,7 @@
 - (void)handleScrollByTime
 {
     UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
-    NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
+   NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
     [self.pageControl setCurrentPage:newPage];
     [scrollV setContentOffset:CGPointMake(320 * newPage, 0) animated:YES];
     NSString* titleStr = [self bannerTitleLabelText:self.pageControl];
@@ -102,14 +95,16 @@
         [_scView1 setHidden:NO];
         [self.bannerTitleLabel setHidden:NO];
         [self.bannerTitleLabel setText:titleStr];
+        _scView1.backgroundColor=[UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        [self.collectionView addSubview:_scView1];
     }
 }
 - (void)fetchDataFromServer:(UIRefreshControl*)object
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //首页板块数量
-        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:100];
-        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:100 orderId:0];
+        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:10];
+        NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:10 orderId:0];
         if (banners.count > 0) {
             [bannerArr removeAllObjects];
             [bannerArr addObjectsFromArray:banners];

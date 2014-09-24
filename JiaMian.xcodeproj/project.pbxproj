@@ -256,12 +256,15 @@
 		CF9C271C19C3028700104D89 /* qqafter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C271B19C3028700104D89 /* qqafter@2x.png */; };
 		CF9C272619C31A4500104D89 /* loginbackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C272519C31A4500104D89 /* loginbackground.png */; };
 		CF9C272819C31B3100104D89 /* loginbackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9C272719C31B3100104D89 /* loginbackground@2x.png */; };
+		CFA7A7C319D2602E00CC8DA4 /* ZDProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */; };
 		CFB1CACA19CAD0FC0018F695 /* feiji-after.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB1CAC819CAD0FC0018F695 /* feiji-after.png */; };
 		CFB1CACB19CAD0FC0018F695 /* feiji-after@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB1CAC919CAD0FC0018F695 /* feiji-after@2x.png */; };
 		CFBF10B619C2C9FD002C4C73 /* ring.png in Resources */ = {isa = PBXBuildFile; fileRef = CFBF10B519C2C9FD002C4C73 /* ring.png */; };
 		CFBF10B819C2CA09002C4C73 /* ring@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFBF10B719C2CA09002C4C73 /* ring@2x.png */; };
 		CFC8950319C01CB800A6F501 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC8950219C01CB800A6F501 /* logo.png */; };
 		CFC8950519C01CC900A6F501 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFC8950419C01CC900A6F501 /* logo@2x.png */; };
+		CFE31CAA19D13E3100D76B11 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE31CA819D13E3100D76B11 /* delete.png */; };
+		CFE31CAB19D13E3100D76B11 /* delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE31CA919D13E3100D76B11 /* delete@2x.png */; };
 		CFE4E3C519BED3BE00B0B099 /* set.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4E3C419BED3BE00B0B099 /* set.png */; };
 		CFE4E3C719BED3C700B0B099 /* set@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4E3C619BED3C700B0B099 /* set@2x.png */; };
 		CFE4E3C919BED3CD00B0B099 /* tiXing.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE4E3C819BED3CD00B0B099 /* tiXing.png */; };
@@ -672,12 +675,16 @@
 		CF9C271B19C3028700104D89 /* qqafter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "qqafter@2x.png"; sourceTree = "<group>"; };
 		CF9C272519C31A4500104D89 /* loginbackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginbackground.png; sourceTree = "<group>"; };
 		CF9C272719C31B3100104D89 /* loginbackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginbackground@2x.png"; sourceTree = "<group>"; };
+		CFA7A7C119D2602E00CC8DA4 /* ZDProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZDProgressView.h; sourceTree = "<group>"; };
+		CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZDProgressView.m; sourceTree = "<group>"; };
 		CFB1CAC819CAD0FC0018F695 /* feiji-after.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feiji-after.png"; sourceTree = "<group>"; };
 		CFB1CAC919CAD0FC0018F695 /* feiji-after@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feiji-after@2x.png"; sourceTree = "<group>"; };
 		CFBF10B519C2C9FD002C4C73 /* ring.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ring.png; sourceTree = "<group>"; };
 		CFBF10B719C2CA09002C4C73 /* ring@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring@2x.png"; sourceTree = "<group>"; };
 		CFC8950219C01CB800A6F501 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		CFC8950419C01CC900A6F501 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		CFE31CA819D13E3100D76B11 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
+		CFE31CA919D13E3100D76B11 /* delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "delete@2x.png"; sourceTree = "<group>"; };
 		CFE4E3C419BED3BE00B0B099 /* set.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = set.png; sourceTree = "<group>"; };
 		CFE4E3C619BED3C700B0B099 /* set@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set@2x.png"; sourceTree = "<group>"; };
 		CFE4E3C819BED3CD00B0B099 /* tiXing.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tiXing.png; sourceTree = "<group>"; };
@@ -1201,6 +1208,8 @@
 		1558CFE0190BF34300E6B543 /* ThirdLibary */ = {
 			isa = PBXGroup;
 			children = (
+				CFA7A7C119D2602E00CC8DA4 /* ZDProgressView.h */,
+				CFA7A7C219D2602E00CC8DA4 /* ZDProgressView.m */,
 				CF357AD819CA78A1003D25A5 /* RNBlurModalView.h */,
 				CF357AD919CA78A1003D25A5 /* RNBlurModalView.m */,
 				CF0B30D919B950BB000B53DC /* HMSegmentedControl.h */,
@@ -1449,6 +1458,8 @@
 				CF6FE89D19CA91F100666E5E /* feiji@2x.png */,
 				CFB1CAC819CAD0FC0018F695 /* feiji-after.png */,
 				CFB1CAC919CAD0FC0018F695 /* feiji-after@2x.png */,
+				CFE31CA819D13E3100D76B11 /* delete.png */,
+				CFE31CA919D13E3100D76B11 /* delete@2x.png */,
 				CFF07C8B19CC03B000EE2AED /* school.png */,
 				CFF07C8C19CC03B000EE2AED /* school@2x.png */,
 				CFF07C8F19CC060E00EE2AED /* business.png */,
@@ -2029,6 +2040,7 @@
 				CF5FE65219C579B0005D864B /* bg_drawable_5.jpg in Resources */,
 				1558D01B190BF34300E6B543 /* blackArrow.png in Resources */,
 				CF6039F019C6B53B007B7766 /* emai@2x.png in Resources */,
+				CFE31CAB19D13E3100D76B11 /* delete@2x.png in Resources */,
 				D3F1941D19A23094000829FD /* typingMine@2x.png in Resources */,
 				CFF07C8A19CAF25800EE2AED /* next-groupselect@2x.png in Resources */,
 				CF357AE219CA7C85003D25A5 /* bg_drawable_22@2x.jpg in Resources */,
@@ -2055,6 +2067,7 @@
 				CF357AE419CA7C8D003D25A5 /* bg_drawable_23@2x.jpg in Resources */,
 				15278135190D511000C15419 /* MessageEntryBackground@2x.png in Resources */,
 				CF5FE65F19C579B0005D864B /* bg_drawable_11@2x.jpg in Resources */,
+				CFE31CAA19D13E3100D76B11 /* delete.png in Resources */,
 				CF9C270019C2EC0800104D89 /* name@2x.png in Resources */,
 				CFB1CACB19CAD0FC0018F695 /* feiji-after@2x.png in Resources */,
 				153B34FB19769C20000EC30D /* publish_msg.png in Resources */,
@@ -2211,6 +2224,7 @@
 				15596713190E71BE00FB760A /* AreaModel.m in Sources */,
 				D317DB1519C5523000689F7F /* HuiFuViewController.m in Sources */,
 				155AC498190C9D8800A8F252 /* PublishMsgViewController.m in Sources */,
+				CFA7A7C319D2602E00CC8DA4 /* ZDProgressView.m in Sources */,
 				155AC4A2190CCFC400A8F252 /* NSString+Extenions.m in Sources */,
 				1558D015190BF34300E6B543 /* ASINetworkQueue.m in Sources */,
 				15596715190E71BE00FB760A /* MessageModel.m in Sources */,

@@ -43,8 +43,8 @@
         _progressBlock = [progressBlock copy];
         _completedBlock = [completedBlock copy];
         _cancelBlock = [cancelBlock copy];
-        _executing = NO;
-        _finished = NO;
+        //_executing = NO;
+        //_finished = NO;
         _expectedSize = 0;
         responseFromCached = YES; // Initially wrong until `connection:willCacheResponse:` is called or not called
     }
@@ -168,13 +168,13 @@
 
 - (void)setFinished:(BOOL)finished {
     [self willChangeValueForKey:@"isFinished"];
-    _finished = finished;
+    finished = finished;
     [self didChangeValueForKey:@"isFinished"];
 }
 
 - (void)setExecuting:(BOOL)executing {
     [self willChangeValueForKey:@"isExecuting"];
-    _executing = executing;
+    executing = executing;
     [self didChangeValueForKey:@"isExecuting"];
 }
 

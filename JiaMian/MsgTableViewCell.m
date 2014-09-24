@@ -40,6 +40,7 @@
     
     [self.likeImageView setUserInteractionEnabled:YES];
     [self.moreImageView setUserInteractionEnabled:YES];
+    [self.deleteImageView setUserInteractionEnabled:YES];
 }
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {

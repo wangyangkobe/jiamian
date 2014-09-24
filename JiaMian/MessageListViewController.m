@@ -15,6 +15,7 @@
 #import "MsgTableViewCell.h"
 #import "RNBlurModalView.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ZDProgressView.h"
 
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
@@ -48,6 +49,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 @property (strong, nonatomic) UIButton* toupiaoBtn;
 @property (strong, nonatomic) UIView* lineView1;
 @property (strong, nonatomic) UIView* lineView2;
+@property (strong, nonatomic) UIView* deleteView;
 
 
 @end
@@ -285,6 +287,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 //}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+    [self.deleteView removeFromSuperview];
     [self.moreBtnView removeFromSuperview];
     [UIView animateWithDuration:0.3 animations:^{
         plusImageView.transform = CGAffineTransformMakeRotation(0);
@@ -416,12 +419,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier
-                                                                                 forIndexPath:indexPath];
+    //    MsgTableViewCell* cell = (MsgTableViewCell *)[tableView dequeueReusableCellWithIdentifier:msgCellIdentifier forIndexPath:indexPath];
+    MsgTableViewCell*cell;
+    cell =[[[NSBundle mainBundle]loadNibNamed:@"MsgTableViewCell" owner:self options:nil]lastObject];
+    
     //cell颜色和去掉线
     cell.backgroundColor=UIColorFromRGB(0x344c62);
     tableView.separatorStyle = NO;
-    
+    NSLog(@"%d",indexPath.row);
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     cell.msgTextLabel.text = currentMsg.text;
     cell.areaLabel.text = currentMsg.area.area_name;
@@ -454,6 +459,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     return cell;
 }
+
+
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
@@ -634,17 +642,143 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
 }
 
+
 - (UIView*)configureVoteView:(NSArray*)votes {
     NSInteger voteNumber = votes.count;
     UIView* voteView = [[UIView alloc] initWithFrame:CGRectMake(10, 320 + 5, 300, kVoteLabelHeight * voteNumber + 5)];
     voteView.tag = kVoteViewTag;
     [voteView setBackgroundColor:[UIColor whiteColor]];
     for (NSInteger k = 0; k < voteNumber; k++) {
-        UILabel* voteLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight, 300, kVoteLabelHeight)];
-        voteLabel.textAlignment = NSTextAlignmentCenter;
-        voteLabel.text = ((VoteModel*)[votes objectAtIndex:k]).content;
-        [voteView addSubview:voteLabel];
+        
+        VoteModel*vote= (VoteModel*)[votes objectAtIndex:k];
+        
+        
+        ZDProgressView*progressView=[[ZDProgressView alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight, 300, kVoteLabelHeight)];
+        progressView.prsColor=UIColorFromRGB(0x78c4fe);
+        progressView.progress=vote.pecentage/100.0;
+        progressView.borderWidth=0;
+        progressView.tag=vote.voteId;
+        progressView.text= vote.content;
+        UILabel*precentageLabel=[[UILabel alloc] initWithFrame:CGRectMake(230, 10, 60, 30)];
+        precentageLabel.text=[NSString stringWithFormat:@"%d%s",vote.pecentage,"%"];
+        precentageLabel.tag=k+99;
+        precentageLabel.textAlignment=NSTextAlignmentCenter;
+        precentageLabel.textColor=UIColorFromRGB(0x666666);
+        precentageLabel.backgroundColor=[UIColor clearColor];
+        [progressView addSubview:precentageLabel];
+        [voteView addSubview:progressView];
+        
+        UIButton*but=[[UIButton alloc] initWithFrame:CGRectMake(0, k * kVoteLabelHeight, 300, kVoteLabelHeight)];
+        [but addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
+        but.tag=vote.voteId;
+        but.backgroundColor=[UIColor clearColor];
+        [voteView addSubview:but];
+        
+        
     }
     return voteView;
+}
+
+-(void)buttonAction:(UIButton*)sender
+{
+    
+    UIView*vote= [sender superview];
+    
+    if ([vote isKindOfClass:[UIView class]]!=YES ) {
+        return;
+    }
+    NSLog(@"%@",vote);
+    
+    
+    MsgTableViewCell *tableViewCell = (MsgTableViewCell*)vote.superview;
+    while (tableViewCell) {
+        if ([tableViewCell isKindOfClass:[MsgTableViewCell class]]) {
+            break;
+        }
+        tableViewCell = (MsgTableViewCell*)tableViewCell.superview;
+    }
+    NSIndexPath *indexPath = [_pullTableView indexPathForCell:tableViewCell];
+    NSLog(@"%d",indexPath.row);
+    MessageModel* currentMsg=[messageArray objectAtIndex:indexPath.row];
+    if (currentMsg.voted==1)
+    {
+        NSLog(@"voted");
+        
+    }else
+        
+    {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            MessageModel* mesMode= [[NetWorkConnect sharedInstance] messageVote:sender.tag ];
+            NSArray*voteArr=mesMode.votes;
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                for (int j=0; j<[voteArr count]; j++) {
+                    VoteModel*voteModal=[voteArr objectAtIndex:j];
+                    if (voteModal.voteId==sender.tag) {
+                        ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
+                        UILabel*label=(UILabel*)[vote viewWithTag:j+99];
+                        if ([label isKindOfClass:[UILabel class]]==YES) {
+                            label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                        }
+                        [UIView animateWithDuration:0.3 animations:^{
+                            
+                            progressView.progress=voteModal.pecentage/100.0;
+                            
+                        } completion:^(BOOL finished) {
+                            
+                        }];
+                        
+                    }
+                    
+                }
+            });
+        });
+        
+    }
+}
+
+- (IBAction)deleteButton:(UITapGestureRecognizer*)gestureRecognizer{
+    NSLog(@"delete");
+    _deleteView=[[UIView alloc]initWithFrame:CGRectMake(162, 13, 150, 25)];
+    _deleteView.backgroundColor=[UIColor greenColor];
+    CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
+    NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
+    UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
+    _deleteView.layer.masksToBounds = YES;
+    _deleteView.layer.cornerRadius = 10.0;
+    _deleteView.layer.borderWidth = 1.0;
+    [cell.contentView addSubview:_deleteView];
+    
+    UIButton* button=[[UIButton alloc]initWithFrame:CGRectMake(20, 0, 130, 25)];
+    button.backgroundColor=[UIColor blackColor];
+    [button addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"不想在看到" forState:UIControlStateNormal];
+     [_deleteView addSubview:button];
+    
+    UIButton* deletbutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 25)];
+    [deletbutton addTarget:self action:@selector(dePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [deletbutton setTitle:@"c" forState:UIControlStateNormal];
+    [_deleteView addSubview:deletbutton];
+}
+- (IBAction)deletePressed:(id)sender {
+    NSLog(@"不想看到");
+       __weak   ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString: [NSString stringWithFormat:@"%@/messages/delete?message_id=%d", HOME_PAGE, 1]]];
+    
+    
+        [request setTimeOutSeconds:10];
+        [request setCompletionBlock:^{
+        NSDictionary*dsd= [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        }];
+        [request setFailedBlock:^{
+            
+        }];
+        [request startSynchronous];
+        
+       
+    
+}
+- (IBAction)dePressed:(id)sender {
+    NSLog(@"不想看到2");
+    [_deleteView removeFromSuperview];
+    
 }
 @end

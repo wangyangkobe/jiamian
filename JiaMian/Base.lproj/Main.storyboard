@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="Ggv-VZ-HuV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" variant="6xAndEarlier" propertyAccessControl="none" initialViewController="Ggv-VZ-HuV">
     <dependencies>
-        <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
         <!--Setting View Controller-->
@@ -562,6 +561,16 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Yuq-qo-dqg">
+                                                    <rect key="frame" x="260" y="12" width="22" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="ic_like_grey.png">
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="buttonAction:" destination="dGC-g1-nnj" eventType="touchUpInside" id="pnD-Vf-fWF"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -678,7 +687,7 @@
             </objects>
             <point key="canvasLocation" x="488" y="-748"/>
         </scene>
-        <!--Navigation Controller - 设置-->
+        <!--设置-->
         <scene sceneID="Nq0-7i-LsD">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DlS-4U-Oih" sceneMemberID="viewController">
@@ -697,7 +706,7 @@
             </objects>
             <point key="canvasLocation" x="116" y="-169"/>
         </scene>
-        <!--Navigation Controller - 提醒-->
+        <!--提醒-->
         <scene sceneID="Bay-yh-0Ca">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="na4-pd-uXn" sceneMemberID="viewController">
@@ -734,7 +743,7 @@
             </objects>
             <point key="canvasLocation" x="1305" y="-1318"/>
         </scene>
-        <!--Navigation Controller - 首页-->
+        <!--首页-->
         <scene sceneID="csr-IJ-UUx">
             <objects>
                 <navigationController storyboardIdentifier="BannerVCIdentifier" automaticallyAdjustsScrollViewInsets="NO" id="EjY-P3-tP8" sceneMemberID="viewController">
@@ -830,6 +839,7 @@
     <resources>
         <image name="first.png" width="21" height="22"/>
         <image name="gengduodenglu.png" width="251" height="13"/>
+        <image name="ic_like_grey.png" width="22" height="22"/>
         <image name="iosNew.png" width="320" height="480"/>
         <image name="loading.png" width="296" height="42"/>
         <image name="mima.png" width="296" height="40"/>

@@ -3,7 +3,7 @@
 
 #define CustomErrorDomain @"com.jiamiantech"
 #define ErrorAlertView     dispatch_async(dispatch_get_main_queue(), ^{ \
-[[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"哔哔哔哔，你的网络不太稳定哦" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]; \
+[[[UIAlertView alloc] initWithTitle:@"系统提示" message:@"你的网络不太稳定哦" delegate:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil] show]; \
 }); \
 
 #define NoNetWorkAlertView dispatch_async(dispatch_get_main_queue(), ^{ \

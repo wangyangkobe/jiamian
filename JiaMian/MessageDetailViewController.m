@@ -531,6 +531,17 @@
 {
     [self.view endEditing:YES];
 }
+- (IBAction)buttonAction:(UIButton *)sender {
+    sender.layer.contents = (id)[UIImage imageNamed:(i%2==0?@"2":@"1")].CGImage;
+    CAKeyframeAnimation *k = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    k.values = @[@(0.1),@(1.0),@(1.5)];
+    k.keyTimes = @[@(0.0),@(0.5),@(0.8),@(1.0)];
+    k.calculationMode = kCAAnimationLinear;
+    
+    i++;
+    [sender.layer addAnimation:k forKey:@"SHOW"];
+    [sender setImage:[UIImage imageNamed:@"ic_liked.png"] forState:UIControlStateNormal];
+}
 
 - (IBAction)onDemoButton:(id)sender {
     RNBlurModalView *modal;
@@ -604,5 +615,4 @@
                          }];
     }
 }
-
 @end

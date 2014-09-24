@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1552" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -30,37 +30,41 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="TSB-RC-Qcx">
-                        <rect key="frame" x="20" y="281" width="110" height="17"/>
+                        <rect key="frame" x="20" y="292" width="110" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whiteheart.png" id="YV1-bK-7xS">
-                        <rect key="frame" x="179" y="277" width="25" height="25"/>
+                        <rect key="frame" x="179" y="288" width="25" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="W7r-50-OwG">
-                        <rect key="frame" x="207" y="282" width="25" height="15"/>
+                        <rect key="frame" x="207" y="292" width="25" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="message-a.png" id="43X-CH-yon">
-                        <rect key="frame" x="230" y="281" width="18" height="20"/>
+                        <rect key="frame" x="230" y="291" width="18" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                     </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MeN-v3-hxi">
-                        <rect key="frame" x="252" y="282" width="25" height="15"/>
+                        <rect key="frame" x="252" y="292" width="25" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more.png" id="Co4-Aj-7xR">
-                        <rect key="frame" x="273" y="278" width="24" height="24"/>
+                        <rect key="frame" x="273" y="288" width="24" height="24"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="delete.png" id="55j-PD-yol">
+                        <rect key="frame" x="280" y="13" width="25" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
             </tableViewCellContentView>
@@ -70,6 +74,7 @@
                 <outlet property="blackImageView" destination="o1m-NA-v8B" id="4uX-b6-Es3"/>
                 <outlet property="commentImageView" destination="43X-CH-yon" id="n3M-O1-Ix6"/>
                 <outlet property="commentNumLabel" destination="MeN-v3-hxi" id="Uhf-AX-fQQ"/>
+                <outlet property="deleteImageView" destination="55j-PD-yol" id="rfY-xh-RHe"/>
                 <outlet property="likeImageView" destination="YV1-bK-7xS" id="grD-IB-P6v"/>
                 <outlet property="likeNumLabel" destination="W7r-50-OwG" id="dIu-Uj-cJI"/>
                 <outlet property="moreImageView" destination="Co4-Aj-7xR" id="Tfr-mf-GQo"/>
@@ -78,8 +83,14 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="delete.png" width="22" height="22"/>
         <image name="message-a.png" width="13" height="13"/>
         <image name="more.png" width="13" height="13"/>
         <image name="whiteheart.png" width="13" height="13"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

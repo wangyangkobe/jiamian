@@ -9,13 +9,18 @@
 #import "RegAndLoginViewController.h"
 
 
+
 #define kUserNameTFTag 9000
 #define kPassWordTFTag 8999
-@interface RegAndLoginViewController () <UITextFieldDelegate> {
+@interface RegAndLoginViewController () <UITextFieldDelegate,TencentSessionDelegate>
+{
+    
     BOOL userNameValidateRes;
     BOOL passWordValidateRes;
+    
 }
-
+@property (nonatomic, retain) TencentOAuth *tencentOAuth;
+@property (nonatomic, retain) NSArray* permissions;
 @end
 
 @implementation RegAndLoginViewController
@@ -77,6 +82,7 @@
 }
 - (IBAction)QQdown:(id)sender {
     NSLog(@"QQ dengru ");
+    [_tencentOAuth authorize:_permissions];
 }
 
 - (void)didReceiveMemoryWarning

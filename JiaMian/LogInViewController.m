@@ -46,6 +46,8 @@
     [self.view addSubview:under];
     
     
+    if (self.view.frame.size.height==568.0) {
+        
     UIImageView*slower=[[UIImageView alloc]initWithFrame:CGRectMake(99, 138, 122,95)];
     [slower setImage:[UIImage imageNamed:@"logo.png"]];
     slower.alpha=1.0;
@@ -58,7 +60,23 @@
     UIImageView*logo=[[UIImageView alloc]initWithFrame:CGRectMake(99, 138, 122,95)];
     [logo setImage:[UIImage imageNamed:@"logo.png"]];
     [self.view addSubview:logo];
-   
+        
+    }else{
+        
+        UIImageView*slower=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+        [slower setImage:[UIImage imageNamed:@"logo.png"]];
+        slower.alpha=1.0;
+        [UIView beginAnimations:@"Fade in" context:nil];
+        [UIView setAnimationDuration:1.5];
+        slower.alpha=0;
+        [UIView commitAnimations];
+        [under addSubview:slower];
+        
+        UIImageView*logo=[[UIImageView alloc]initWithFrame:CGRectMake(99, 90, 122,95)];
+        [logo setImage:[UIImage imageNamed:@"logo.png"]];
+        [self.view addSubview:logo];
+    
+    }
     // Do any additional setup after loading the view.
     _tencentOAuth = [[TencentOAuth alloc] initWithAppId:kTencentQQAppKey andDelegate:self];
     //_tencentOAuth.redirectURI = kTencentQQRedirectURI;
