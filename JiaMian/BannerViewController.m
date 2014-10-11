@@ -8,12 +8,13 @@
 
 #import "BannerViewController.h"
 #import "CategoryCell.h"
+#import "XHYScrollingNavBarViewController.h"
 
 @interface BannerViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 {
     NSMutableArray* bannerArr;
     NSMutableArray* categroyArr;
-    
+    CategoryModel*circleModel;
     NSTimer* timer;
     UICollectionReusableView* headerView;
 }
@@ -37,17 +38,30 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES];
+    [self.navigationController setToolbarHidden:YES animated:YES];
     timer = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(handleScrollByTime) userInfo:nil repeats:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     [timer invalidate];
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+        
+    UILabel*titleLabel=[UILabel alloc];
+    titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 44)];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.font = [UIFont fontWithName:@"STHeitiSC-Light" size:18.0f];
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.text = @"首页";
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    self.navigationItem.titleView = titleLabel;
+    
+    [self followRollingScrollView:self.view];
+    
+    
     //改变状态栏颜色
     UIView *statusBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 20)];
     statusBarView.backgroundColor=UIColorFromRGB(0x293645);
@@ -84,7 +98,8 @@
 - (void)handleScrollByTime
 {
     UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
-   NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
+    NSInteger newPage = (self.pageControl.currentPage + 1) % bannerArr.count;
+   // NSLog(@"%d",newPage);
     [self.pageControl setCurrentPage:newPage];
     [scrollV setContentOffset:CGPointMake(320 * newPage, 0) animated:YES];
     NSString* titleStr = [self bannerTitleLabelText:self.pageControl];
@@ -103,7 +118,7 @@
 {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //首页板块数量
-        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:10];
+        NSArray* banners = [[NetWorkConnect sharedInstance] getBannersByCount:4];
         NSArray* categories = [[NetWorkConnect sharedInstance] getCategoriesByCount:10 orderId:0];
         if (banners.count > 0) {
             [bannerArr removeAllObjects];
@@ -111,7 +126,13 @@
         }
         if (categories.count > 0) {
             [categroyArr removeAllObjects];
+            for (CategoryModel*catgory in categories) {
+                if (catgory.category_id==3) {
+                    circleModel=catgory;
+                }
+            }
             [categroyArr addObjectsFromArray:categories];
+            [categroyArr removeObject:circleModel ];
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collectionView reloadData];
@@ -151,7 +172,8 @@
     CategoryModel* category = [categroyArr objectAtIndex:indexPath.row];
     [cell.titleLabel setText:category.title];
     [cell.descriptionLabel setText:category.description];
-    [cell.bgImageView setImageWithURL:[NSURL URLWithString:category.background_url] placeholderImage:nil];
+//    [cell.bgImageView setImageWithURL:[NSURL URLWithString:category.background_url] placeholderImage:nil];
+    [cell.bgImageView sd_setImageWithURL:[NSURL URLWithString:category.background_url]];
     return cell;
 }
 #pragma mark UICollectionViewDelegate
@@ -174,16 +196,18 @@
         [_scView1 addSubview:self.bannerTitleLabel];
         [_scView1 addSubview:self.pageControl];
         
+        if ([bannerArr count]>0) {
         UIScrollView* scrollV = (UIScrollView*)[headerView viewWithTag:kScrollViewTag];
         [scrollV setFrame:CGRectMake(0, 6, SCREEN_WIDTH, 144)];
         NSInteger banerCount = [bannerArr count];
         
         for (int i = 0; i < banerCount; i++)
         {
-            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * i, 6,
+            UIImageView* imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * i, 0,
                                                                                    SCREEN_WIDTH, 144)];
             BannerModel* banner = (BannerModel*)[bannerArr objectAtIndex:i];
-            [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
+         //   [imageView setImageWithURL:[NSURL URLWithString:banner.background_url] placeholderImage:nil];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:banner.background_url]];
             [imageView setUserInteractionEnabled:YES];
             //  imageView.exclusiveTouch = YES;
             
@@ -198,6 +222,8 @@
         CGSize scrollVSize =scrollV.bounds.size;
         [scrollV setContentSize:CGSizeMake(SCREEN_WIDTH * banerCount, scrollVSize.height)];
         [scrollV setDelegate:self];
+            
+        }
         // [scrollV setUserInteractionEnabled:YES];
         // scrollV.delaysContentTouches = NO;
         // [scrollV setCanCancelContentTouches:YES];
@@ -215,6 +241,7 @@
         MessageModel* message = [[NetWorkConnect sharedInstance] messageShowByMsgId:[currBanner.key integerValue]];
         MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
         msgDetailVC.selectedMsg = message;
+        msgDetailVC.hidesBottomBarWhenPushed=YES;
         [self.navigationController pushViewController:msgDetailVC animated:YES];
     }
     else if (3 == currBanner.banner_type) { //category
@@ -228,6 +255,22 @@
         
     }
 }
+- (IBAction)buttonAction:(UIButton *)sender {
+    
+    if (sender.tag==333) {
+        UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle: nil];
+        MessageListViewController* homeVC = [mainStoryboard instantiateViewControllerWithIdentifier:@"HomePageVcIdentifier"];
+        homeVC.hidesBottomBarWhenPushed = YES;
+        homeVC.categoryId = circleModel.category_id;
+        [self.navigationController pushViewController:homeVC animated:YES];
+    }else
+    {
+        
+    }
+}
+
+
+
 - (UIPageControl*)pageControl
 {
     if (_pageControl == nil) {
@@ -275,7 +318,7 @@
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
 {
-    return CGSizeMake(320, 151);
+    return CGSizeMake(320, 330);
 }
 
 - (void)didReceiveMemoryWarning

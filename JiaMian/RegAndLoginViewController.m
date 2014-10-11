@@ -50,6 +50,8 @@
         [_actionBtn setTitle:@"登录" forState:UIControlStateNormal];
         self.title = @"登录";
     }
+    
+    //光标靠右
     UIView *leftView1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, _userNameTF.frame.size.height)];
     leftView1.backgroundColor = _userNameTF.backgroundColor;
     _userNameTF.leftView = leftView1;
@@ -137,9 +139,11 @@
                                                                 gender:GenderTypeBoy
                                                                headImg:nil
                                                            description:nil];
+        
     } else { //登陆
-        result = [[NetWorkConnect sharedInstance] userLogInWithUserNameAndPassWord:_userNameHintLabel.text
-                                                                           password:_passWordHintLabel.text];
+
+        result= [[NetWorkConnect sharedInstance] userLogInWithToken:[NSString md5HexDigest:_passWordTF.text]
+ userType:UserTypeRegister userIdentity:_userNameTF.text];
     }
     UserModel* userSelf = [result objectForKey:@"userModel"];
     NSLog(@"%@",userSelf);

@@ -7,14 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MessageDetailViewController.h"
 
-
-@protocol passBackTheStr <NSObject>
-
-
-
-@end
-@interface MessageListViewController : UIViewController
+@interface MessageListViewController : UIViewController<refreshTableViewCell>
 
 @property (weak, nonatomic) IBOutlet PullTableView *pullTableView;
 - (IBAction)publishMessage:(id)sender;

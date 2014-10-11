@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XHYScrollingNavBarViewController.h"
 
-@interface BannerViewController : UIViewController
+@interface BannerViewController : XHYScrollingNavBarViewController
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @end

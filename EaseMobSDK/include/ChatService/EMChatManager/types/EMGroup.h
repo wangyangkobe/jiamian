@@ -8,6 +8,15 @@
 #import <Foundation/Foundation.h>
 
 #import "EMGroupStyleSetting.h"
+#import "EMChatServiceDefs.h"
+
+typedef enum{
+    eGroupOccupantListNone     = 0,    //全部成员（不包含黑名单）
+    eGroupOccupantListOwner,           //所有者
+    eGroupOccupantListAdmin,           //管理者
+    eGroupOccupantListMember,          //成员
+    eGroupOccupantListBan,             //黑名单
+}EMGroupOccupantListType;
 
 @class EMError;
 
@@ -34,6 +43,18 @@
  @brief 群组的描述
  */
 @property (nonatomic, strong, readonly) NSString *groupDescription;
+
+/*!
+ @property
+ @brief 群组的实际总人数
+ */
+@property (nonatomic, readonly) NSInteger groupOccupantsCount;
+
+/*!
+ @property
+ @brief 群组的在线人数
+ */
+@property (nonatomic, readonly) NSInteger groupOnlineOccupantsCount;
 
 /*!
  @property
@@ -65,9 +86,9 @@
 
 /*!
  @property
- @brief 此群组中的所有成员列表
+ @brief 此群组中的所有成员列表(owners, members, bans)
  */
-@property (nonatomic, strong, readonly) NSArray  *occupants;
+@property (nonatomic, strong, readonly) NSArray  *occupants EM_DEPRECATED_IOS(2_0_0, 2_0_8, "不再提供该属性");
 
 /*!
  @property
@@ -86,6 +107,18 @@
  @brief  群组属性配置
  */
 @property (nonatomic, strong, readonly) EMGroupStyleSetting *groupSetting;
+
+/*!
+ @property
+ @brief  此群组是否接收推送通知
+ */
+@property (nonatomic, readonly) BOOL isPushNotificationEnabled;
+
+/*!
+ @property
+ @brief  此群组是否被屏蔽
+ */
+@property (nonatomic, readonly) BOOL isBlocked;
 
 /*!
  @method

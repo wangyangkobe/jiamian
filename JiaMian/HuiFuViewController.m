@@ -9,10 +9,11 @@
 #import "HuiFuViewController.h"
 #import "HuiFuCollectionCell.h"
 #import "MessageModel.h"
-
+#import "MJRefresh.h"
 
 @interface HuiFuViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 {
+        NSInteger nextPage;
     NSMutableArray* huiFuArr;
     NSMutableArray* messageArray;
 }
@@ -37,28 +38,14 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     self.collectionView.backgroundColor = UIColorFromRGB(0x344c62);
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    
+    self.collectionView.alwaysBounceVertical=YES;
     huiFuArr = [NSMutableArray array];
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-    [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-    [SVProgressHUD showWithStatus:@"刷新中..."];
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
-        if (requestRes) {
-            [huiFuArr addObjectsFromArray:requestRes];
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [SVProgressHUD dismiss];
-            if (requestRes.count == 0) {
-                [self.collectionView addSubview:self.hintView];
-            } else {
-                [self.collectionView reloadData];
-            }
-        });
-    });
+
     UINib* nib = [UINib nibWithNibName:NSStringFromClass([HuiFuCollectionCell class]) bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:nib forCellWithReuseIdentifier:kCollectionViewCellIdentifier];
     // self.collectionView.backgroundColor = [UIColor whiteColor];
+    [self addHeader];
+    [self addFooter];
 }
 
 - (void)didReceiveMemoryWarning
@@ -129,7 +116,7 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     }
     if (message.background_url && message.background_url.length > 0)
     {
-        [cell.bgImageView setImageWithURL:[NSURL URLWithString:notification.message.background_url] placeholderImage:nil];
+        [cell.bgImageView sd_setImageWithURL:[NSURL URLWithString:notification.message.background_url]];
     }
     else
     {
@@ -160,5 +147,64 @@ static NSString* kCollectionViewCellIdentifier = @"HuiFuCell";
     [huiFuArr replaceObjectAtIndex:indexPath.row withObject:notification];
     //  [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
     [self.collectionView reloadData];
+}
+- (void)addHeader
+{
+    __unsafe_unretained typeof(self) vc = self;
+    // 添加下拉刷新头部控件
+    [self.collectionView addHeaderWithCallback:^{
+        // 进入刷新状态就会回调这个Block
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
+            NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:0 maxId:INT_MAX count:15];
+            if (requestRes) {
+                [huiFuArr removeAllObjects];
+                [huiFuArr addObjectsFromArray:requestRes];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //  [SVProgressHUD dismiss];
+                if (requestRes.count == 0) {
+                    [vc.collectionView headerEndRefreshing];
+
+                    [self.collectionView addSubview:self.hintView];
+                } else
+                {
+                    [self.collectionView reloadData];
+                    [vc.collectionView headerEndRefreshing];
+                }
+            });
+        });
+    }];
+    
+    // 自动刷新(一进入程序就下拉刷新)
+    [self.collectionView headerBeginRefreshing];
+}
+- (void)addFooter
+{
+    __unsafe_unretained typeof(self) vc = self;
+    // 添加上拉刷新尾部控件
+    [vc.collectionView addFooterWithCallback:^{
+        // 进入刷新状态就会回调这个Block
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            nextPage+=[huiFuArr count];
+            NSArray* requestRes = [[NetWorkConnect sharedInstance] notificationShow:nextPage maxId:INT_MAX count:15];
+            if (requestRes) {
+                [huiFuArr addObjectsFromArray:requestRes];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //  [SVProgressHUD dismiss];
+                if (requestRes.count == 0) {
+                    [self.collectionView addSubview:self.hintView];
+                    [vc.collectionView footerEndRefreshing];
+
+                } else
+                {
+                    [self.collectionView reloadData];
+                    [vc.collectionView footerEndRefreshing];
+                    
+                }
+            });
+        });
+    }];
 }
 @end

@@ -42,7 +42,7 @@
 
 /*!
  @method
- @brief 异步方法, 使用用户名密码登录聊天服务器
+ @brief 异步方法, 在聊天服务器上创建账号
  @discussion
  @param username 用户名
  @param password 密码
@@ -142,22 +142,5 @@
  */
 @property (nonatomic, readonly) BOOL isLoggedIn;
 
-/*!
- @property
- @brief 当前登陆用户的昵称, 默认为用户名
- */
-@property (nonatomic, strong) NSString *nickname;
-
-/*!
- @property 
- @brief 下次启动时是否用上次成功登陆的账号登陆
- @discussion
-        此属性如果被设置为YES, 会在以下几种情况下被重置为NO:
-        1. 用户发起的登出动作; 
-        2. 用户在别的设备上更改了密码, 导致此设备上自动登陆失败; 
-        3. 用户的账号被从服务器端删除; 
-        4. 用户从另一个设备把当前设备上登陆的用户踢出.
- */
-@property (nonatomic) BOOL isAutoLoginEnabled;
 
 @end

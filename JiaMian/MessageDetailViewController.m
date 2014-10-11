@@ -18,8 +18,7 @@
 #define kCommentCellTextLabel  6001
 #define kCommentCellTimeLabel  6002
 
-#define kVoteCellTextLabel     6003
-@interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, HPGrowingTextViewDelegate>
+@interface MessageDetailViewController () <UITableViewDelegate, UITableViewDataSource, HPGrowingTextViewDelegate,UMSocialUIDelegate>
 {
     CGFloat headerViewHeight;
     NSMutableArray* commentArr;
@@ -75,7 +74,6 @@
         long msgId = self.selectedMsg.message_id;
         NSArray* requestRes = [[NetWorkConnect sharedInstance] commentShowByMsgId:msgId sinceId:0 maxId:INT_MAX count:INT_MAX];
         [commentArr addObjectsFromArray:requestRes];
-        
         dispatch_async(dispatch_get_main_queue(), ^{
             [activityIndicator stopAnimating];
             if (commentArr.count == 0)
@@ -142,7 +140,8 @@
     
     if (_selectedMsg.background_url && _selectedMsg.background_url.length > 0)
     {
-        [myHeader.bgImageView setImageWithURL:[NSURL URLWithString:_selectedMsg.background_url] placeholderImage:nil];
+      //  [myHeader.bgImageView setImageWithURL:[NSURL URLWithString:_selectedMsg.background_url] placeholderImage:nil];
+        [myHeader.bgImageView sd_setImageWithURL: [NSURL URLWithString:_selectedMsg.background_url]];
     }
     else
     {
@@ -269,14 +268,21 @@
             progerssView.prsColor=UIColorFromRGB(0x78c4fe);
             [cell addSubview:progerssView];
         }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         ZDProgressView*pregressVeiw=(ZDProgressView*)[cell viewWithTag:indexPath.row+200];
         UILabel*preLabel=(UILabel*)[pregressVeiw viewWithTag:indexPath.row+300];
         VoteModel* vote = (VoteModel*)[_selectedMsg.votes objectAtIndex:indexPath.row];
         preLabel.text=[NSString stringWithFormat:@"%d%s",vote.pecentage,"%"];
-        
+        preLabel.textColor=UIColorFromRGB(0x666666);
         pregressVeiw.text=vote.content;
         pregressVeiw.progress=vote.pecentage/100.0;
+        if (self.selectedMsg.voted ) {
+            
+        }else
+        {
+            preLabel.hidden=YES;
+        }
         return cell;
     }
     else
@@ -288,28 +294,49 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
         UILabel*label=(UILabel*)[cell viewWithTag:33];
-        label.text=[NSString stringWithFormat:@"%ld",currentComment.likes_count];
+        if (currentComment.likes_count==0)
+        {
+            
+        }
+        else
+        {
+            label.text=[NSString stringWithFormat:@"%ld",currentComment.likes_count];
+        }
+        
         UIButton*but=(UIButton*)[cell viewWithTag:44];
         if (currentComment.has_like) {
             [but setImage:[UIImage imageNamed:@"ic_liked.png"]forState:UIControlStateNormal];
+        }else
+        {
+            [but setImage:[UIImage imageNamed:@"ic_like_grey.png"]forState:UIControlStateNormal];
+            
         }
         UIImageView* headImageView = (UIImageView*)[cell.contentView viewWithTag:kCommentCellHeadImage];
         UILabel* textLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTextLabel];
         UILabel* timeLabel = (UILabel*)[cell.contentView viewWithTag:kCommentCellTimeLabel];
+        textLabel.numberOfLines=0;
         textLabel.text = currentComment.text;
         [textLabel setTextColor:UIColorFromRGB(0x787B7E)];
         
         if(currentComment.is_starter) //楼主
         {
-            timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertTimeFormat:currentComment.create_at]];
+            timeLabel.text = [NSString stringWithFormat:@"楼主  %@", [NSString convertCommentTime:currentComment.create_at ]];
             [textLabel setTextColor:UIColorFromRGB(0xff9000)];
         }
         else
             timeLabel.text = [NSString stringWithFormat:@"%d楼  %@", (int)indexPath.row + 1,
-                              [NSString convertTimeFormat:currentComment.create_at]];
+                              [NSString convertCommentTime:currentComment.create_at]];
         
         [timeLabel setTextColor:UIColorFromRGB(0xAFB3B6)];
-        [headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
+        //[headImageView setImageWithURL:[NSURL URLWithString:currentComment.user_head] placeholderImage:nil];
+        [headImageView sd_setImageWithURL:[NSURL URLWithString:currentComment.user_head]];
+        if (currentComment.has_like  )
+        {
+            label.hidden=NO;
+        }else
+        {
+            label.hidden=YES;
+        }
         return cell;
     }
     
@@ -338,6 +365,40 @@
     if ( (indexPath.section == 0) && (_selectedMsg.votes.count != 0))
     {
         // TODO: 这里对点击投票选项做处理
+        if (self.selectedMsg.voted) {
+            NSLog(@"voted");
+            
+        }else
+        {
+            NSArray*voteArr=self.selectedMsg.votes;
+            VoteModel*selectedVote=[voteArr objectAtIndex:indexPath.row];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                MessageModel* mesMode= [[NetWorkConnect sharedInstance] messageVote:selectedVote.voteId];
+                NSArray*voteArr=mesMode.votes;
+                [self.delegate refreshTableViewCell:self.selectedPath withArray:voteArr withOther:mesMode];
+                self.selectedMsg=mesMode;
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    for (int j=0; j<[voteArr count]; j++) {
+                        UITableViewCell*cell=[tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:j inSection:0]];
+                        VoteModel*voteModal=[voteArr objectAtIndex:j];
+                        ZDProgressView*progressView= (ZDProgressView*)[cell viewWithTag:(j+200)];
+                        UILabel*label=(UILabel*)[progressView viewWithTag:(j+300)];
+                        if ([label isKindOfClass:[UILabel class]]==YES) {
+                            label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                            label.hidden=NO;
+                            label.textColor=UIColorFromRGB(0x666666);
+                        }
+                        [UIView animateWithDuration:0.3 animations:^{
+                            progressView.progress=voteModal.pecentage/100.0;
+                            NSLog(@"%@",progressView);
+                        } completion:^(BOOL finished) {
+                            
+                        }];
+                    }
+                });
+            });
+        }
+        
         return;
     }
     
@@ -564,7 +625,7 @@
     NSLog(@"%d",indexPath.row);
     CommentModel*lastModal=[commentArr objectAtIndex:indexPath.row];
     UILabel*nubLabel=(UILabel*)[tableViewCell viewWithTag:33];
-    
+    nubLabel.hidden=NO;
     if (lastModal.has_like) {
         
         NSLog(@"commented");
@@ -621,24 +682,22 @@
 
 - (void)handleMoreBtnAction:(UIButton*)sender
 {
-   // UITableViewCell* cell = [UIView tableViewCellFromView:sender];
-   // NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+   
     NSString* btnTitle = sender.titleLabel.text;
     if ([btnTitle isEqual:@"分享"])
     {
-        NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK",
-                               _selectedMsg.text, _selectedMsg.area.area_name];
+
         [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
-                                          shareText:shareText
+                                          shareText:nil
                                          shareImage:nil
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                           delegate:nil];
+                                           delegate:self];
     }
     else if ([btnTitle isEqual:@"私信"]) {
         HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:_selectedMsg.message_id];
         ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
-        
+        NSLog(@"%ld",self.selectedMsg.message_id );
         chatVC.chatter = hxUserInfo.user.easemob_name;
         chatVC.myHeadImage = hxUserInfo.my_head_image;
         chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
@@ -668,5 +727,42 @@
     }
 }
 
+-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{
+    
+    NSString* shareText = [NSString stringWithFormat:@"\"%@\"",self.selectedMsg.text];
+    if (platformName == UMShareToSina) {
+        if ([self.selectedMsg.topics count]>0) {
+            shareText=[shareText stringByAppendingString:[self.selectedMsg.topics lastObject]];
+        }else if([self.selectedMsg.area.area_name length]>0)
+        {
+            shareText=[shareText stringByAppendingString:self.selectedMsg.area.area_name];
+        }
+        
+    }else if (platformName==UMShareToWechatSession)
+    {
+        if ([self.selectedMsg.votes  count]>0) {
+            shareText=[shareText stringByAppendingString:@"我参与了匿名投票"];
+        }else
+        {
+            shareText=[shareText stringByAppendingString:@"分享一个匿名秘密给你"];
+        }
+        
+    }else if ( platformName==UMShareToWechatTimeline)
+    {
+        if ([self.selectedMsg.votes  count]>0) {
+            shareText=[shareText stringByAppendingString:@"我参与了匿名投票"];
+        }else
+        {
+            shareText=[shareText stringByAppendingString:@"分享一个匿名秘密给你"];
+        }
+    }
+    
+    shareText=[shareText stringByAppendingString:@"@假面app"];
+    shareText =  [shareText stringByAppendingString:[NSString stringWithFormat:@"http://www.jiamian.mobi/share/%ld",self.selectedMsg.message_id]];
+    NSLog(@"%@",shareText);
+    socialData.shareText = shareText;
+    
+}
 
 @end

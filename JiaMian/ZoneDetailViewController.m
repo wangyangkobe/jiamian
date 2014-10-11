@@ -64,6 +64,7 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.tableView reloadData];
+            
         });
     });
     
@@ -288,6 +289,7 @@
     [footerView addSubview:btn];
     [_tableView setTableFooterView:footerView];
     _tableView.tableFooterView.userInteractionEnabled = YES;
+    
 }
 - (void)loadMoreZones:(id)sender
 {
@@ -306,9 +308,19 @@
                                                        areaType:(int)_zoneType
                                                      filterType:0
                                                         keyWord:nil];
-    [zonesArr addObjectsFromArray:result];
     [SVProgressHUD dismiss];
-    [_tableView reloadData];
+
+    if ([result count]<1) {
+        
+        [UIAlertView showWithTitle:@"提示" message:@"以无更多!" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil  ];
+        [_tableView.tableFooterView setHidden:YES];
+    }else
+    {
+        [zonesArr addObjectsFromArray:result];
+        [_tableView reloadData];
+
+
+    }
 }
 
 // fix bug on ios7

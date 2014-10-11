@@ -114,30 +114,30 @@
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / aMinute);
             
             if(timeToDisplay == /* Singular*/ 1) {
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld minute ago",@"PullTableViewLan",@"Last uppdate in minutes singular"),(long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 分钟前",@"PullTableViewLan",@"Last uppdate in minutes singular"),(long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld minutes ago",@"PullTableViewLan",@"Last uppdate in minutes plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 分钟前",@"PullTableViewLan",@"Last uppdate in minutes plural"), (long)timeToDisplay];
                 
             }
             
         } else if (timeSinceLastUpdate < aDay) {
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / anHour);
             if(timeToDisplay == /* Singular*/ 1) {
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld hour ago",@"PullTableViewLan",@"Last uppdate in hours singular"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 小时前",@"PullTableViewLan",@"Last uppdate in hours singular"), (long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld hours ago",@"PullTableViewLan",@"Last uppdate in hours plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 小时前",@"PullTableViewLan",@"Last uppdate in hours plural"), (long)timeToDisplay];
                 
             }
             
         } else {
             timeToDisplay = (NSInteger) (timeSinceLastUpdate / aDay);
             if(timeToDisplay == /* Singular*/ 1) {
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld day ago",@"PullTableViewLan",@"Last uppdate in days singular"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 天前",@"PullTableViewLan",@"Last uppdate in days singular"), (long)timeToDisplay];
             } else {
                 /* Plural */
-                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"Updated %ld days ago",@"PullTableViewLan",@"Last uppdate in days plural"), (long)timeToDisplay];
+                _lastUpdatedLabel.text = [NSString stringWithFormat:NSLocalizedStringFromTable(@"更新 %ld 天前",@"PullTableViewLan",@"Last uppdate in days plural"), (long)timeToDisplay];
             }
             
         }
@@ -161,7 +161,7 @@
 	switch (aState) {
 		case EGOOPullPulling:
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Release to refresh...",@"PullTableViewLan", @"Release to refresh status");
+			_statusLabel.text = NSLocalizedStringFromTable(@"松开立即刷新...",@"PullTableViewLan", @"Release to refresh status");
 			[CATransaction begin];
 			[CATransaction setAnimationDuration:FLIP_ANIMATION_DURATION];
 			_arrowImage.transform = CATransform3DMakeRotation((M_PI / 180.0) * 180.0f, 0.0f, 0.0f, 1.0f);
@@ -177,7 +177,7 @@
 				[CATransaction commit];
 			}
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Pull down to refresh...",@"PullTableViewLan", @"Pull down to refresh status");
+			_statusLabel.text = NSLocalizedStringFromTable(@"向下拉刷新...",@"PullTableViewLan", @"Pull down to refresh status");
 			[_activityView stopAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
@@ -190,7 +190,7 @@
 			break;
 		case EGOOPullLoading:
 			
-			_statusLabel.text = NSLocalizedStringFromTable(@"Loading...",@"PullTableViewLan", @"Loading Status");
+			_statusLabel.text = NSLocalizedStringFromTable(@"刷新中...",@"PullTableViewLan", @"Loading Status");
 			[_activityView startAnimating];
 			[CATransaction begin];
 			[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];

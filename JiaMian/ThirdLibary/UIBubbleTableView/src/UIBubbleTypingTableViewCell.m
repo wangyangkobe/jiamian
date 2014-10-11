@@ -45,7 +45,7 @@
     }
     else
     {
-        bubbleImage = [UIImage imageNamed:@"typingSomeone.png"]; 
+        bubbleImage = [UIImage imageNamed:@"typingSomeone.png"];
         x = 0;
     }
     

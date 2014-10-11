@@ -193,8 +193,10 @@
     }
 }
 - (void)tencentDidNotLogin:(BOOL)cancelled {
+    
 }
 -( void)tencentDidNotNetWork {
+    
 }
 
 - (IBAction)logInWithForOldUser:(id)sender

@@ -46,7 +46,7 @@ static ASIDownloadCache* myCache;
     }
 }
 //////////////////////////////////////////////////////////////////
-- (UserModel*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type userIdentity:(NSString *)Identity
+- (NSDictionary*)userLogInWithToken:(NSString*)AccessToken userType:(int)Type userIdentity:(NSString *)Identity
 {
     if (NO == [self checkNetworkStatus])
         return nil;
@@ -62,31 +62,49 @@ static ASIDownloadCache* myCache;
     }
     [request setNumberOfTimesToRetryOnTimeout:2];
     [request startSynchronous];
-    
-    if (200 == request.responseStatusCode)
-    {
-        UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:nil];
-        if (userInfo)
-            return userInfo;
-        else
-        {
-            ErrorAlertView; return nil;
-        }
+    if ( 200 == [request responseStatusCode] ) {
+        UserModel* user = [[UserModel alloc] initWithString:[request responseString] error:nil];
+        return @{@"userModel": user};
     }
-    else if(500 == request.responseStatusCode)
+    else if(500 == [request responseStatusCode])
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
-            AlertContent(errorDict[@"err_msg"]);
-        });
-        return nil;
+        NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+        return @{@"error": errorDict[@"err_msg"]};
     }
     else
     {
         ErrorAlertView;
         return nil;
     }
+    
+    
+//    if (200 == request.responseStatusCode)
+//    {
+//      //  NSLog(@"%@",[request responseString]);
+//        UserModel* userInfo = [[UserModel alloc] initWithString:[request responseString] error:nil];
+//        if (userInfo)
+//            return @{@"userModel": userInfo};
+//        else
+//        {
+//            ErrorAlertView; return nil;
+//        }
+//    }
+//    else if(500 == request.responseStatusCode)
+//    {
+////        dispatch_async(dispatch_get_main_queue(), ^{
+////            AlertContent(errorDict[@"err_msg"]);
+////        });
+//        NSDictionary* errorDict = [NSJSONSerialization JSONObjectWithData:request.responseData options:0 error:nil];
+//
+//        return @{@"error": errorDict[@"err_msg"]};
+//    }
+//    else
+//    {
+//        ErrorAlertView;
+//        return nil;
+//    }
 }
+
 
 //////////////////////////////////////////////////////////////////
 - (BOOL)userLogOut
@@ -304,7 +322,9 @@ static ASIDownloadCache* myCache;
     [request setRequestMethod:@"POST"];
     [request setPostValue:Text forKey:@"text"];
     [request setPostValue:[NSNumber numberWithInt:MsgType]  forKey:@"message_type"];
+    if (CategoryId==3) {
     [request setPostValue:[NSNumber numberWithLong:AreaId]  forKey:@"area_id"];
+    }
     [request setPostValue:[NSNumber numberWithInt:BGType]   forKey:@"background_type"];
     [request setPostValue:[NSNumber numberWithInt:BGNumer]  forKey:@"background_no"];
     if (BGUrl)

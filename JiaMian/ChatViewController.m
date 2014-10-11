@@ -16,6 +16,7 @@
 }
 @property (strong, nonatomic) NSMutableArray* dataSource;   //tableView数据源
 @property (strong, nonatomic) EMConversation* conversation; //会话管理者
+@property (strong, nonatomic) UIButton* sendBtn;
 @end
 
 #define KPageCount 10
@@ -95,6 +96,7 @@
 }
 
 - (void)sendPrivateMessage {
+    [_sendBtn setImage:[UIImage imageNamed:@"feiji-after.png"] forState:UIControlStateHighlighted];
     if (0 == [textView.text length])
         return;
     
@@ -305,17 +307,17 @@
     
     [self.toolBar addSubview:textView];
     
-    UIButton *sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
-    [sendBtn setImage:[UIImage imageNamed:@"feiji.png"] forState:UIControlStateNormal];
+    _sendBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _sendBtn.frame = CGRectMake(self.toolBar.frame.size.width - 55, 0, 63, 40);
+    [_sendBtn setImage:[UIImage imageNamed:@"feiji.png"] forState:UIControlStateNormal];
     
-    sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
+    _sendBtn.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin;
 //    [sendBtn setTitle:@"评论" forState:UIControlStateNormal];
     
-    [sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
+    [_sendBtn setTitleShadowColor:[UIColor colorWithWhite:0 alpha:0.4] forState:UIControlStateNormal];
 
-    [sendBtn addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
-    [self.toolBar addSubview:sendBtn];
+    [_sendBtn addTarget:self action:@selector(sendPrivateMessage) forControlEvents:UIControlEventTouchUpInside];
+    [self.toolBar addSubview:_sendBtn];
     self.toolBar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
 }
 @end

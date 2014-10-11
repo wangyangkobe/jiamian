@@ -16,7 +16,7 @@
 @interface NetWorkConnect : NSObject
 
 +(id)sharedInstance;
-- (UserModel*)userLogInWithToken:(NSString*)access_token userType:(int)Type userIdentity:(NSString*)Identity;
+- (NSDictionary*)userLogInWithToken:(NSString*)access_token userType:(int)Type userIdentity:(NSString*)Identity;
 - (BOOL)userLogOut;
 - (UserModel*)userChangeArea:(long)AreaId;
 - (UserModel*)userChangeZone:(NSString*)zoneStr;

@@ -9,6 +9,7 @@
 #import "ChatListViewController.h"
 #import "ChatViewController.h"
 
+
 #define kHeadImageTag    6000
 #define kSiXinLabelTag   6001
 #define kMsgTextLabelTag 6002
@@ -37,6 +38,11 @@
     // Do any additional setup after loading the view.
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    
+    [[EaseMob sharedInstance].chatManager asyncLoginWithUsername:[USER_DEFAULT objectForKey:kSelfHuanXinId]
+                                                        password:[USER_DEFAULT objectForKey:kSelfHuanXinPW]
+                                                      completion:nil onQueue:nil];
+    
     _dataSource = [NSMutableArray array];
     self.tableView.backgroundColor = UIColorFromRGB(0x344c62);
 }
@@ -126,6 +132,7 @@
 }
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    tableView.separatorStyle = NO;
     static NSString* cellIdentifier = @"ChatListCellIdentifier";
     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
@@ -143,15 +150,18 @@
     NSDictionary *attribute = [latestMsg.ext objectForKey:@"attribute"];
     UIImageView* headImage = (UIImageView*)[cell.contentView viewWithTag:kHeadImageTag];
     if ([latestMsg.to isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:kSelfHuanXinId]]) //收到
-        [headImage setImageWithURL:attribute[@"myHeaderUrl"] placeholderImage:nil];
+      //  [headImage setImageWithURL:attribute[@"myHeaderUrl"] placeholderImage:nil];
+        [headImage sd_setImageWithURL:attribute[@"myHeaderUrl"]];
     else
-        [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
+       // [headImage setImageWithURL:attribute[@"headerUrl"] placeholderImage:nil];
+       [headImage sd_setImageWithURL:attribute[@"headerUrl"]];
     
     UIImageView* bgImageView = (UIImageView*)[cell.contentView viewWithTag:kBgImageViewTag];
     NSInteger backGroudType = [[attribute objectForKey:@"msgBackgroundType"] integerValue];
     if (2 == backGroudType) {
         NSString* background_url = [attribute objectForKey:@"msgBackgroundUrl"];
-        [bgImageView setImageWithURL:[NSURL URLWithString:background_url] placeholderImage:nil];
+      //  [bgImageView setImageWithURL:[NSURL URLWithString:background_url] placeholderImage:nil];
+        [bgImageView sd_setImageWithURL:[NSURL URLWithString:background_url] placeholderImage:nil];
     } else {
         NSInteger bgImageNo = [[attribute objectForKey:@"msgBackgroundNoNew"] integerValue];
         NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%ld@2x.jpg", (long)bgImageNo];

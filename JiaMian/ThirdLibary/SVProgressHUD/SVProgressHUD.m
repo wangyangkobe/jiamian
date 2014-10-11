@@ -29,9 +29,9 @@ static UIFont *SVProgressHUDFont;
 static UIImage *SVProgressHUDSuccessImage;
 static UIImage *SVProgressHUDErrorImage;
 
-static const CGFloat SVProgressHUDRingRadius = 18;
-static const CGFloat SVProgressHUDRingNoTextRadius = 24;
-static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
+static const CGFloat SVProgressHUDRingRadius = 15;
+static const CGFloat SVProgressHUDRingNoTextRadius = 20;
+static const CGFloat SVProgressHUDParallaxDepthPoints = 5;
 
 @interface SVProgressHUD ()
 
@@ -203,12 +203,12 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
         self.activityCount = 0;
         
-        SVProgressHUDBackgroundColor = [UIColor whiteColor];
-        SVProgressHUDForegroundColor = [UIColor blackColor];
+        SVProgressHUDBackgroundColor = [UIColor blackColor];
+        SVProgressHUDForegroundColor = [UIColor whiteColor];
         if ([UIFont respondsToSelector:@selector(preferredFontForTextStyle:)]) {
             SVProgressHUDFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         } else {
-            SVProgressHUDFont = [UIFont systemFontOfSize:16.0];
+            SVProgressHUDFont = [UIFont systemFontOfSize:10.0];
             SVProgressHUDBackgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
             SVProgressHUDForegroundColor = [UIColor whiteColor];
         }
@@ -260,8 +260,8 @@ static const CGFloat SVProgressHUDParallaxDepthPoints = 10;
 
 - (void)updatePosition {
 	
-    CGFloat hudWidth = 100;
-    CGFloat hudHeight = 100;
+    CGFloat hudWidth = 50;
+    CGFloat hudHeight = 50;
     CGFloat stringHeightBuffer = 20;
     CGFloat stringAndImageHeightBuffer = 80;
     

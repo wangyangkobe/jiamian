@@ -16,6 +16,9 @@
 #import "RNBlurModalView.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ZDProgressView.h"
+#import "MJRefresh.h"
+#import "TWSpringyFlowLayout.h"
+
 
 #define kTopicTextLabel   8999
 #define kTopicImageView   8994
@@ -26,9 +29,19 @@
 #define kVoteViewTag      8888
 #define kVoteLabelHeight  50
 
+// Strings
+NSString * const kTWMessageViewControllerCellIdentifier = @"kTWMessageViewControllerCellIdentifier";
+
+// Numerics
+CGFloat const kTWMessageViewControllerCellPadding = 10;
+CGFloat const kTWMessageViewControllerCellHeight = 50;
+
+
+
+
 static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
-@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface MessageListViewController () <PullTableViewDelegate, UITableViewDelegate, UITableViewDataSource,UMSocialUIDelegate>
 {
     NSMutableArray* messageArray;
     UIView* parentView;
@@ -43,6 +56,10 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     NSMutableArray* latestMsgArray;
     int i;//爱心点赞特效
     HMSegmentedControl* segmentedControl;
+    NSIndexPath*savePath;
+    NSArray*arr;
+    BOOL isTap;
+    NSInteger selectedRow;
 }
 @property (strong, nonatomic) UIView* moreBtnView;
 @property (strong, nonatomic) UIButton* fayanBtn;
@@ -56,6 +73,9 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 
 @implementation MessageListViewController
 
+
+
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -64,6 +84,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     }
     return self;
 }
+
 - (UIButton*)fayanBtn {
     if (_fayanBtn == nil) {
         _fayanBtn =[[UIButton alloc]initWithFrame:CGRectMake(45, 0, 60, 45)];
@@ -91,6 +112,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     return _toupiaoBtn;
 }
 - (void)handleBtnPressed:(UIButton*)sender {
+    
     [self handlePlusTapped];
     PublishMsgViewController* publishVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishMsgVCIdentifier"];
     publishVC.isTouPiao = (sender.tag == kTouPiaoBtnTag);
@@ -101,6 +123,24 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Parallax effect
+   /* UIInterpolatingMotionEffect *interpolationHorizontal = [[UIInterpolatingMotionEffect alloc]initWithKeyPath:@"center.x" type:UIInterpolatingMotionEffectTypeTiltAlongHorizontalAxis];
+    interpolationHorizontal.minimumRelativeValue = @-20.0;
+    interpolationHorizontal.maximumRelativeValue = @20.0;
+    
+    UIInterpolatingMotionEffect *interpolationVertical = [[UIInterpolatingMotionEffect alloc]initWithKeyPath:@"center.y" type:UIInterpolatingMotionEffectTypeTiltAlongVerticalAxis];
+    interpolationVertical.minimumRelativeValue = @-20.0;
+    interpolationVertical.maximumRelativeValue = @20.0;
+    
+    // Configurte collection view
+    self.pullTableView.backgroundColor = [UIColor clearColor];
+    [self.pullTableView registerClass:[MsgTableViewCell class] forCellWithReuseIdentifier:kTWMessageViewControllerCellIdentifier];
+    self.pullTableView.delegate = self;
+    self.pullTableView.dataSource = self;
+    
+    */
+    
+    //--------------------------------------
     self.pullTableView.backgroundColor=UIColorFromRGB(0x344c62);
     self.pullTableView.separatorStyle = NO;
     messageType = 1;
@@ -163,7 +203,36 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [plusImageView setUserInteractionEnabled:YES];
     [parentView addGestureRecognizer:plusTapGesture];
     
+    UITapGestureRecognizer*tap=[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap)];
+    tap. cancelsTouchesInView=NO;
+    [self.pullTableView addGestureRecognizer:tap];
+    
 }
+-(void)handleTap
+{
+  
+ //   _deleteView.transform=CGAffineTransformMakeTranslation(-30,0) ;
+    [self dismissDeletView];
+
+    
+}
+
+
+-(void)dismissDeletView
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        _deleteView.transform=CGAffineTransformMakeTranslation(100, 0);
+        _deleteView.alpha=0;
+        
+        
+    } completion:^(BOOL finished) {
+        
+        [_deleteView removeFromSuperview];
+        //[parentView removeFromSuperview];
+        
+    }];
+}
+
 - (void)doRefreshAutomaticly { //自动触发下拉刷新
     [self.pullTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1) animated:NO];
     if(!self.pullTableView.pullTableIsRefreshing) {
@@ -178,6 +247,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (void)handlePublishMsgSuccess {
     if (self.categoryId != 3) {
         messageType = 2; //最新
+        segmentedControl.selectedSegmentIndex=1;
     }
     [self doRefreshAutomaticly];
 }
@@ -193,7 +263,7 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                             [parentView addSubview:self.toupiaoBtn];
                         } completion:^(BOOL finish){
                             flag = YES;
-                            isMoreViewOpen = YES;
+                            
                         }];
         //画线的
         self.lineView1 = [[UIView alloc] initWithFrame:CGRectMake(45,8,1.0f,30.0f)];
@@ -226,21 +296,21 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     NSIndexPath *indexPath = [self.pullTableView indexPathForCell:cell];
     MessageModel* currentMsg = [messageArray objectAtIndex:indexPath.row];
     NSString* btnTitle = sender.titleLabel.text;
+    selectedRow=indexPath.row;
     if ([btnTitle isEqual:@"分享"])
     {
-        NSString* shareText = [NSString stringWithFormat:@"\"%@\", 分享自%@, @假面App http://t.cn/8sk83lK",
-                               currentMsg.text, currentMsg.area.area_name];
-        [UMSocialSnsService presentSnsIconSheetView:self
+           [UMSocialSnsService presentSnsIconSheetView:self
                                              appKey:kUMengAppKey
-                                          shareText:shareText
+                                          shareText:nil
                                          shareImage:nil
                                     shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina, UMShareToWechatSession, UMShareToWechatTimeline, nil]
-                                           delegate:nil];
+                                           delegate:self];
+        
     }
     else if ([btnTitle isEqual:@"私信"]) {
         HxUserModel* hxUserInfo = [[NetWorkConnect sharedInstance] userGetByMsgId:currentMsg.message_id];
         ChatViewController* chatVC = [self.storyboard instantiateViewControllerWithIdentifier:@"PublishSiXinVCIndentifier"];
-        
+        NSLog(@"%ld",currentMsg.message_id);
         chatVC.chatter = hxUserInfo.user.easemob_name;
         chatVC.myHeadImage = hxUserInfo.my_head_image;
         chatVC.chatterHeadImage = hxUserInfo.chat_head_image;
@@ -269,27 +339,51 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
                          }];
     }
     [_moreBtnView removeFromSuperview];
-    //    isMoreViewOpen = NO;
+   
 }
-//#pragma mark - MsgTableViewCellDelegate
-//- (void)removeMoreBtnViewFromCell
-//{
-//    [self.moreBtnView removeFromSuperview];
-//    [UIView animateWithDuration:0.3 animations:^{
-//        plusImageView.transform = CGAffineTransformMakeRotation(0);
-//        [self.fayanBtn removeFromSuperview];
-//        [self.toupiaoBtn removeFromSuperview];
-//        [self.lineView1 removeFromSuperview];
-//        [self.lineView2 removeFromSuperview];
-//        parentView.frame = CGRectMake(0,350,45,45);
-//    } completion:^(BOOL finished) {
-//        flag = NO;
-//    }];
-//
-//}
+
+-(void)didSelectSocialPlatform:(NSString *)platformName withSocialData:(UMSocialData *)socialData
+{
+    
+    MessageModel* currentMsg = [messageArray objectAtIndex:selectedRow];
+    NSString* shareText = [NSString stringWithFormat:@"\"%@\"",currentMsg.text];
+    if (platformName == UMShareToSina) {
+        if ([currentMsg.topics count]>0) {
+        shareText=[shareText stringByAppendingString:[currentMsg.topics lastObject]];
+         }else if([currentMsg.area.area_name length]>0)
+        {
+        shareText=[shareText stringByAppendingString:currentMsg.area.area_name];
+        }
+
+    }else if (platformName==UMShareToWechatSession)
+    {
+        if ([currentMsg.votes  count]>0) {
+            shareText=[shareText stringByAppendingString:@"我参与了匿名投票"];
+        }else
+        {
+            shareText=[shareText stringByAppendingString:@"分享一个匿名秘密给你"];
+        }
+ 
+    }else if ( platformName==UMShareToWechatTimeline)
+    {
+        if ([currentMsg.votes  count]>0) {
+            shareText=[shareText stringByAppendingString:@"我参与了匿名投票"];
+        }else
+        {
+            shareText=[shareText stringByAppendingString:@"分享一个匿名秘密给你"];
+        }
+    }
+    
+    shareText=[shareText stringByAppendingString:@"@假面app"];
+    shareText =  [shareText stringByAppendingString:[NSString stringWithFormat:@"http://www.jiamian.mobi/share/%ld",currentMsg.message_id]];
+    NSLog(@"%@",shareText);
+    socialData.shareText = shareText;
+    
+}
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    [self.deleteView removeFromSuperview];
+    //[self.deleteView removeFromSuperview];
+    [self dismissDeletView];
     [self.moreBtnView removeFromSuperview];
     [UIView animateWithDuration:0.3 animations:^{
         plusImageView.transform = CGAffineTransformMakeRotation(0);
@@ -302,6 +396,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         flag = NO;
     }];
 }
+
+
 - (void)handleRemoteNotification:(NSNotification*)notification
 {
     NSDictionary* userInfo = [notification userInfo];
@@ -331,18 +427,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         [self.pullTableView reloadData];
     });
 }
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageOne"];
-}
+
+
 - (void)fetchDataFromServer
 {
-    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 50)];
+    [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0,50)];
     [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
     [SVProgressHUD showWithStatus:@"加载中..."];
-    
-    messageArray = [NSMutableArray array];
+     messageArray = [NSMutableArray array];
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSArray* hotMsgs = [[NetWorkConnect sharedInstance] categoryMsgWithType:messageType // 1:热门
@@ -422,17 +514,49 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MsgTableViewCell*cell;
+   // cell = [tableView dequeueReusableCellWithIdentifier:msgCellIdentifier];
+
+    if (cell==nil) {
+        
     cell =[[[NSBundle mainBundle]loadNibNamed:@"MsgTableViewCell" owner:self options:nil]lastObject];
+      //  NSLog(@"!!!!!!!");
+    }else
+    {
+        //NSLog(@"????????");
+    }
+    //cell.tag=indexPath.row;
+    //NSLog(@"%d",cell.tag);
     
     //cell颜色和去掉线
     cell.backgroundColor=UIColorFromRGB(0x344c62);
     tableView.separatorStyle = NO;
-    NSLog(@"%d",indexPath.row);
+   // NSLog(@"%d",indexPath.row);
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+   
+    
     cell.msgTextLabel.text = currentMsg.text;
-    cell.areaLabel.text = currentMsg.area.area_name;
+    if ([currentMsg.topics count]>0) {
+        
+        NSString*str=[currentMsg.topics firstObject];
+        
+        if ([str length]>8) {
+            str=[str  substringToIndex:8];
+            str=[str  stringByAppendingString:@"..." ];
+            
+        cell.areaLabel.text=[NSString stringWithFormat:@"#%@#",str];
+        }else
+        {
+        
+        cell.areaLabel.text=[NSString stringWithFormat:@"#%@#",[currentMsg.topics firstObject]];
+        }
+    }else
+    {
+        cell.areaLabel.text = currentMsg.area.area_name;
+    }
     cell.commentNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.comments_count];
+   
     cell.likeNumLabel.text = [NSString stringWithFormat:@"%d", currentMsg.likes_count];
+   
     if (currentMsg.is_official)
     {
         cell.likeNumLabel.text = @"all";
@@ -459,13 +583,41 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [cell.deleteImageView addGestureRecognizer:deleteImageTap];
     
     cell.selectionStyle = UITableViewCellAccessoryNone;
-    
     if (currentMsg.votes.count != 0) {
         [cell.contentView addSubview:[self configureVoteView:currentMsg.votes]];
     } else {
         UIView* voteView = (UIView*)[cell.contentView viewWithTag:kVoteViewTag];
         [voteView removeFromSuperview];
     }
+   
+    if (currentMsg.voted) {
+
+
+    }else
+    {
+        UIView*vote=[cell viewWithTag:kVoteViewTag];
+        for (int j=0; j<[currentMsg.votes count]; j++) {
+            UILabel*label=(UILabel*)[vote viewWithTag:(j+99)];
+            label.hidden=YES;
+        }
+
+    }
+    
+    if (currentMsg.background_url && currentMsg.background_url.length > 0)
+    {
+        
+    [cell.bgImageView sd_setImageWithURL:[NSURL URLWithString: currentMsg.background_url ]];
+        
+    }
+    else
+    {
+        [cell.bgImageView setImage:nil];
+        int bgImageNo = currentMsg.background_no2;
+        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
+        [cell.bgImageView setImage:[UIImage imageNamed:imageName]];
+        
+    }
+    
     return cell;
 }
 
@@ -477,36 +629,14 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
     [cell.contentView setBackgroundColor:[UIColor clearColor]];
     MessageModel* currentMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
     MsgTableViewCell* msgCell = (MsgTableViewCell*)cell;
-    if (currentMsg.background_url && currentMsg.background_url.length > 0)
-    {
-        [msgCell.bgImageView setImageWithURL:[NSURL URLWithString:currentMsg.background_url] placeholderImage:nil];
-    }
-    else
-    {
-        [msgCell.bgImageView setImage:nil];
-        int bgImageNo = currentMsg.background_no2;
-        NSString* imageName = [NSString stringWithFormat:@"bg_drawable_%d@2x.jpg", bgImageNo];
-        [msgCell.bgImageView setImage:[UIImage imageNamed:imageName]];
-    }
-    
+
     [msgCell.commentImageView setImage:[UIImage imageNamed:@"comment_white"]];
     [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_like"]];
     if (currentMsg.has_like)
     {
         [msgCell.likeImageView setImage:[UIImage imageNamed:@"ic_liked"]];
     }
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(isMoreViewOpen) {
-        [_moreBtnView removeFromSuperview];
-        isMoreViewOpen = NO;
-        return;
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
-    msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
-    [self.navigationController pushViewController:msgDetailVC animated:YES];
+    
 }
 #pragma mark - PullTableViewDelegate
 - (void)pullTableViewDidTriggerRefresh:(PullTableView *)pullTableView
@@ -522,8 +652,8 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
 #pragma mark - Refresh and load more methods
 - (void)refreshTable
 {
-    if (0 == [messageArray count])
-        return;
+//    if (0 == [messageArray count])
+//        return;
     self.pullTableView.pullTableIsRefreshing = YES;
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -679,86 +809,200 @@ static NSString* msgCellIdentifier = @"MsgTableViewCellIdentifier";
         but.tag = vote.voteId;
         but.backgroundColor = [UIColor clearColor];
         [voteView addSubview:but];
+        
     }
     return voteView;
 }
 
--(void)buttonAction:(UIButton*)sender
-{
-    UIView* vote= [sender superview];
-    if ([vote isKindOfClass:[UIView class]]!=YES ) {
-        return;
-    }
-    NSLog(@"%@",vote);
-    
-    UITableViewCell *tableViewCell = [UIView tableViewCellFromView:sender];
-    NSIndexPath *indexPath = [_pullTableView indexPathForCell:tableViewCell];
-    NSLog(@"%d",indexPath.row);
-    MessageModel* currentMsg=[messageArray objectAtIndex:indexPath.row];
-    if (currentMsg.voted == 1) {
-        NSLog(@"voted");
-        
-    } else {
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            MessageModel* mesMode= [[NetWorkConnect sharedInstance] messageVote:sender.tag ];
-            NSArray*voteArr=mesMode.votes;
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                for (int j = 0; j < [voteArr count]; j++) {
-                    VoteModel*voteModal=[voteArr objectAtIndex:j];
-                    ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:sender.tag];
-                    UILabel*label=(UILabel*)[vote viewWithTag:j+99];
-                    if ([label isKindOfClass:[UILabel class]]==YES) {
-                        label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
-                    }
-                    progressView.progress = voteModal.pecentage/100.0;
-                }
-            });
-        });
-    }
-}
 
 - (IBAction)deleteButton:(UITapGestureRecognizer*)gestureRecognizer{
     NSLog(@"delete");
-    _deleteView=[[UIView alloc]initWithFrame:CGRectMake(162, 13, 150, 25)];
-    _deleteView.backgroundColor=[UIColor greenColor];
+    _deleteView=[[UIView alloc]initWithFrame:CGRectMake(170, 13, 140, 28)];
+    _deleteView.backgroundColor=[UIColor whiteColor];
     CGPoint location = [gestureRecognizer locationInView:self.pullTableView];
     NSIndexPath *indexPath = [self.pullTableView indexPathForRowAtPoint:location];
     UITableViewCell *cell = [self.pullTableView cellForRowAtIndexPath:indexPath];
     _deleteView.layer.masksToBounds = YES;
     _deleteView.layer.cornerRadius = 10.0;
     _deleteView.layer.borderWidth = 1.0;
+    _deleteView.alpha=0;
+    _deleteView.transform=CGAffineTransformMakeScale(0, 0);
+    _deleteView.transform=CGAffineTransformMakeTranslation(30, 0);
     [cell.contentView addSubview:_deleteView];
     
-    UIButton* button=[[UIButton alloc]initWithFrame:CGRectMake(20, 0, 130, 25)];
-    button.backgroundColor=[UIColor blackColor];
-    [button addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [button setTitle:@"不想在看到" forState:UIControlStateNormal];
-    button.tag=indexPath.row;
-     [_deleteView addSubview:button];
     
-    UIButton* deletbutton=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 20, 25)];
-    [deletbutton addTarget:self action:@selector(dePressed:) forControlEvents:UIControlEventTouchUpInside];
-    [deletbutton setTitle:@"c" forState:UIControlStateNormal];
-    [_deleteView addSubview:deletbutton];
+    UIButton* button=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 140, 28)];
+    button.backgroundColor=[UIColor clearColor];
+    [button addTarget:self action:@selector(deletePressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button setTitle:@"     不想在看到" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    button.tag=indexPath.row;
+    [_deleteView addSubview:button];
+    
+    UIImageView* image=[[UIImageView alloc]initWithFrame:CGRectMake(10, 1.5, 25, 25)];
+    [image setImage:[UIImage imageNamed:@"delete_after.png"]];
+    [_deleteView addSubview:image];
+    
+  
+    [UIView animateWithDuration:0.4 animations:^{
+        _deleteView.transform=CGAffineTransformMakeScale(1, 1);
+        _deleteView.alpha=1;
+        _deleteView.transform=CGAffineTransformMakeTranslation(0, 0);
+        
+    } completion:^(BOOL finished) {
+        _deleteView.transform=CGAffineTransformIdentity;
+    }];
+    
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(isMoreViewOpen) {
+        [_moreBtnView removeFromSuperview];
+        isMoreViewOpen = NO;
+        return;
+    }
+    savePath=indexPath;
+    
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    MessageDetailViewController* msgDetailVC = [self.storyboard instantiateViewControllerWithIdentifier:@"MessageDetailVCIdentifier"];
+    msgDetailVC.delegate=self;
+    msgDetailVC.selectedPath=indexPath;
+    msgDetailVC.selectedMsg = (MessageModel*)[messageArray objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:msgDetailVC animated:YES];
+}
+
+-(void)refreshTableViewCell:(NSIndexPath*)indexPath withArray:(NSArray*)voteArr withOther:(MessageModel*)othArr
+{
+    
+    arr=voteArr;
+    savePath=indexPath;
+    isTap=YES;
+    [messageArray replaceObjectAtIndex:indexPath.row withObject:othArr];
+    
+}
+
+-(void)buttonAction:(UIButton*)sender
+{
+    
+    UIView*vote= [sender superview];
+    if ([vote isKindOfClass:[UIView class]]!=YES ) {
+        return;
+    }
+    NSLog(@"%@",vote);
+    MsgTableViewCell *tableViewCell = (MsgTableViewCell*)vote.superview;
+    while (tableViewCell) {
+        if ([tableViewCell isKindOfClass:[MsgTableViewCell class]]) {
+            break;
+        }
+        tableViewCell = (MsgTableViewCell*)tableViewCell.superview;
+    }
+    NSIndexPath *indexPath = [_pullTableView indexPathForCell:tableViewCell];
+    NSLog(@"%d",indexPath.row);
+    MessageModel* currentMsg=[messageArray objectAtIndex:indexPath.row];
+    if (currentMsg.voted==1)
+    {
+        NSLog(@"voted");
+    }else
+    {
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            MessageModel* mesMode= [[NetWorkConnect sharedInstance] messageVote:sender.tag ];
+            NSArray*voteArr=mesMode.votes;
+            [messageArray replaceObjectAtIndex:indexPath.row withObject:mesMode];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                
+                
+                for (int j=0; j<[voteArr count]; j++) {
+                    
+                    VoteModel*voteModal=[voteArr objectAtIndex:j];
+                    ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:voteModal.voteId];
+                    UILabel*label=(UILabel*)[vote viewWithTag:j+99];
+                    if ([label isKindOfClass:[UILabel class]]==YES) {
+                        label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                        label.hidden=NO;
+                    }
+                    
+                    
+                    
+                    [UIView animateWithDuration:0.3 animations:^{
+                        
+                        progressView.progress=voteModal.pecentage/100.0;
+                        
+                    } completion:^(BOOL finished) {
+                        
+                    }];
+                }
+            });
+        });
+        
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageOne"];
+    if ( savePath&&isTap) {
+        
+        UITableViewCell*cell=[self.pullTableView cellForRowAtIndexPath:savePath];
+        UIView*vote=[cell viewWithTag:kVoteViewTag];
+        for (int j=0; j<[arr count]; j++) {
+            
+            VoteModel*voteModal=[arr objectAtIndex:j];
+            ZDProgressView*progressView= (ZDProgressView*)[vote viewWithTag:voteModal.voteId];
+            UILabel*label=(UILabel*)[vote viewWithTag:j+99];
+            if ([label isKindOfClass:[UILabel class]]==YES) {
+                label.text=[NSString stringWithFormat:@"%d%s",voteModal.pecentage,"%"];
+                label.hidden=NO;
+            }
+            progressView.progress=voteModal.pecentage/100.0;
+            NSLog(@"%@",progressView);
+            
+        }
+        savePath=nil;
+        isTap=NO;
+        
+    }
+}
+
 - (void)deletePressed:(UIButton*)sender {
+    
+    MessageModel* currentMsg=[messageArray objectAtIndex:sender.tag];
+    if (currentMsg.is_owner) {
+        [UIAlertView showWithTitle:@"提示" message:@"是否要删除自已发送的消息" style:UIAlertViewStyleDefault cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex==0) {
+                
+            }else
+            {
+                [self deleteMes:currentMsg.message_id messageIndex:sender.tag];
+            }
+        }];
+        
+    }else
+    {
+        [self deleteMes:currentMsg.message_id messageIndex:sender.tag];
+    }
+    
+}
+
+
+-(void)deleteMes:(NSInteger)messageId messageIndex:(NSInteger)tag
+{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        MessageModel* currentMsg=[messageArray objectAtIndex:sender.tag];
-        NSDictionary*result=[[NetWorkConnect sharedInstance] deleteMessage:currentMsg.message_id ];
-   
+        NSDictionary*result=[[NetWorkConnect sharedInstance] deleteMessage:messageId ];
         dispatch_sync(dispatch_get_main_queue(), ^{
-          
             if (result==nil) {
                 NSLog(@"失败！");
             }else
             {
-                [self doRefreshAutomaticly];
+                [messageArray removeObjectAtIndex:tag];
+                
+                [self.pullTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:tag inSection:0]] withRowAnimation:UITableViewRowAnimationFade ];
             }
-    
+            
         });
     });
-}
-- (IBAction)dePressed:(id)sender {
-    [_deleteView removeFromSuperview];
 }
 @end

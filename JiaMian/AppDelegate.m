@@ -85,6 +85,14 @@
 	[[EaseMob sharedInstance] enableBackgroundReceiveMessage];
 	[[EaseMob sharedInstance] application:application didFinishLaunchingWithOptions:launchOptions];
     
+    
+//    if ([application respondsToSelector:@selector(registerForRemoteNotifications)]) {
+//        [application registerForRemoteNotifications];
+//        UIUserNotificationType notificationTypes = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:notificationTypes categories:nil];
+//        [application registerUserNotificationSettings:settings];
+//    }
+    
     return YES;
 }
 - (void)tagsAliasCallback:(int)iResCode tags:(NSSet*)tags alias:(NSString*)alias

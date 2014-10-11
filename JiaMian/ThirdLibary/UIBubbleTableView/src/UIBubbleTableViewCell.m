@@ -96,8 +96,10 @@
         self.avatarImage.frame = CGRectMake(avatarX, avatarY, 50, 50);
         if (self.data.avatarUrl)
         {
-            [self.avatarImage setImageWithURL:[NSURL URLWithString:self.data.avatarUrl]
-                             placeholderImage:[UIImage imageNamed:@"missingAvatar.png"]];
+//            [self.avatarImage setImageWithURL:[NSURL URLWithString:self.data.avatarUrl]
+//                             placeholderImage:[UIImage imageNamed:@"missingAvatar.png"]];
+            
+            [self.avatarImage sd_setImageWithURL:[NSURL URLWithString:self.data.avatarUrl] placeholderImage:[UIImage imageNamed:@"missingAvatar.png"]];
         }
         [self addSubview:self.avatarImage];
         

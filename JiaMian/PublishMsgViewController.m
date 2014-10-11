@@ -61,7 +61,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 - (NSArray*)getRealVotes {
     NSMutableArray* realVotes = [NSMutableArray array];
     for (NSString* vote in fakeVotes) {
-        if ( [vote isEqual:@"选项一(点击可编辑)"] || [vote isEqual:@"选项二(点击可编辑)"] || [vote isEqual:@"添加一个选项"] )
+        if ( [vote isEqual:@"A.选项(点击可编辑)"] || [vote isEqual:@"B.选项(点击可编辑)"] || [vote isEqual:@"添加一个选项"] )
         {}
         else
             [realVotes addObject:vote];
@@ -84,7 +84,7 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self configureToolBar];
     
     fakeVotes = [NSMutableArray array];
-    [fakeVotes addObjectsFromArray:@[@"选项一(点击可编辑)", @"选项二(点击可编辑)", @"添加一个选项"]];
+    [fakeVotes addObjectsFromArray:@[@"A.选项(点击可编辑)", @"B.选项(点击可编辑)", @"添加一个选项"]];
     
     if (!_isTouPiao)
         self.tableView.scrollEnabled = NO;
@@ -272,11 +272,13 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
 }
 - (void)sendMsgBtnPressed:(id)sender
 {
-    NSLog(@"%@", selectZones);
+    //NSLog(@"%@", selectZones);
+    //   NSLog(@"##############%d",self.categoryId);
     if (_textView.text.length==0) {
         [UIAlertView showWithTitle:@"提示"
                            message:@"内容不能为空"
                  cancelButtonTitle:@"确定"
+         
                  otherButtonTitles:nil
                           tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                               if (buttonIndex == [selectZones count])
@@ -285,39 +287,64 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     
     
     else{
-    
-    [UIActionSheet showInView:self.textView
-                    withTitle:@"请选择圈子"
-            cancelButtonTitle:@"Cancel"
-       destructiveButtonTitle:nil
-            otherButtonTitles:[indexMapZoneName allKeys]
-                     tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-                         
-                         if (buttonIndex == [selectZones count])
-                         {
-                             return ;
-                         }
-                         else
-                         {
-                             
-                             NSString* key = [actionSheet buttonTitleAtIndex:buttonIndex];
-                             selectZoneId = [[indexMapZoneName valueForKey:key] integerValue];
-                             
-                             [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
-                             [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
-                             [SVProgressHUD showWithStatus:@"消息发送中..."];
-                             if (imagePath)
-                             {
-                                 [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
-                             }
-                             else
-                             {
-                                 [self publishMessageToServer];
-                             }
-                         }
-                     }];
+        
+        if (self.categoryId!=3) {
+            
+            //            NSString* key = [actionSheet buttonTitleAtIndex:buttonIndex];
+            //            selectZoneId = [[indexMapZoneName valueForKey:key] integerValue];
+            //selectZoneId=1;
+            [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+            [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+            [SVProgressHUD showWithStatus:@"消息发送中..."];
+            if (imagePath)
+            {
+                [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+            }
+            else
+            {
+                [self publishMessageToServer];
+            }
+            
+        }else
+        {
+            
+            [UIActionSheet showInView:self.textView
+                            withTitle:@"请选择圈子"
+                    cancelButtonTitle:@"Cancel"
+               destructiveButtonTitle:nil
+                    otherButtonTitles:[indexMapZoneName allKeys]
+                             tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+                                 
+                                 if (buttonIndex == [selectZones count])
+                                 {
+                                     return ;
+                                 }
+                                 else
+                                 {
+                                     NSString* key = [actionSheet buttonTitleAtIndex:buttonIndex];
+                                     selectZoneId = [[indexMapZoneName valueForKey:key] integerValue];
+                                     
+                                     [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, 35)];
+                                     [SVProgressHUD setFont:[UIFont systemFontOfSize:16]];
+                                     [SVProgressHUD showWithStatus:@"消息发送中..."];
+                                     if (imagePath)
+                                     {
+                                         [self uploadFile:imagePath bucket:QiniuBucketName key:[NSString generateQiNiuFileName]];
+                                     }
+                                     else
+                                     {
+                                         [self publishMessageToServer];
+                                     }
+                                 }
+                             }];
+            
+            
+        }
+        
     }
 }
+
+
 - (void)dealloc
 {
     [self.textView removeObserver:self forKeyPath:@"contentSize"];
@@ -366,9 +393,41 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [alertView show];
 }
 - (void)textFieldDidChange:(UITextField*)textField {
-    if (textField.text.length > 8) {
-        textField.text = [textField.text substringToIndex:8];
+    bool isChinese;//判断当前输入法是否是中文
+    if ([[[UITextInputMode currentInputMode] primaryLanguage] isEqualToString: @"en-US"]) {
+        isChinese = false;
     }
+    else
+    {
+        isChinese = true;
+    }
+        // 8位
+        NSString *str = [[textField text] stringByReplacingOccurrencesOfString:@"?" withString:@""];
+        if (isChinese) { //中文输入法下
+            UITextRange *selectedRange = [textField markedTextRange];
+            //获取高亮部分
+            UITextPosition *position = [textField positionFromPosition:selectedRange.start offset:0];
+            // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+            if (!position) {
+                NSLog(@"汉字");
+                if ( str.length>=9) {
+                    NSString *strNew = [NSString stringWithString:str];
+                    [textField setText:[strNew substringToIndex:8]];
+                }
+            }
+            else
+            {
+                NSLog(@"输入的英文还没有转化为汉字的状态");
+                
+            }
+        }else{
+            NSLog(@"str=%@; 本次长度=%d",str,[str length]);
+            if ([str length]>=9) {
+                NSString *strNew = [NSString stringWithString:str];
+                [textField setText:[strNew substringToIndex:8]];
+            }
+        }
+
 }
 - (void)cameraBtnPressed:(id)sender
 {
@@ -529,9 +588,9 @@ static NSString* placeHolderText = @"匿名发表心中所想吧";
     [self.textView resignFirstResponder];
     
     NSArray* realVotes = [self getRealVotes];
-    if ( _isTouPiao && (realVotes.count <= 0) ) {
+    if ( _isTouPiao && (realVotes.count <= 1) ) {
         [SVProgressHUD dismiss];
-        AlertContent(@"亲，至少要有一个投票项!");
+        AlertContent(@"亲，至少要有两个投票项!");
         return;
     }
     NSInteger msgType;
